@@ -19,7 +19,7 @@ import {appearanceControls} from '../components/appearance.js';
 
 const S = {b: 42, c: 1, v: 1};
 let el, D = {}, chapterText = {}, requested = '', selA = null, selB = null, pendingScroll = true, leave = null;
-let jumpV = null, scrollTimer, lastY = 0, flashIds = new Set(), freshBm = null, suppressClick = false, readObserver = null;
+let jumpV = null, scrollTimer, lastY = 0, quietUntil = 0, flashIds = new Set(), freshBm = null, suppressClick = false, readObserver = null;
 
 const vk = n => [S.b, S.c, n].join('.');
 const loaded = () => Object.keys(chapterText).length > 0;
@@ -106,15 +106,18 @@ function renderText() {
 }
 function refresh() { if (!isVisible()) return; renderHeader(); renderChapHead(); renderText(); renderFooter(); }
 
+/* Uno scorrimento deciso dal programma (salto a un versetto) non deve nascondere le barre */
+function quiet(ms = 500) { quietUntil = Date.now() + ms; bars.show(); }
+
 /* ---------- Posizione: scorrimento e «Riprendi» preciso ---------- */
 function doScroll() {
   if (!pendingScroll || !isVisible()) return;
   const ready = loaded() || !api.isConfigured();
-  if (S.v <= 1) { window.scrollTo(0, 0); if (ready) pendingScroll = false; return; }
+  if (S.v <= 1) { quiet(); window.scrollTo(0, 0); if (ready) pendingScroll = false; return; }
   if (!ready) return;
   /* se il versetto non esiste (testo con lacune) si resta all'inizio ma si riprende a registrare la posizione */
   const v = document.getElementById('v' + S.v);
-  if (v) { v.scrollIntoView({block: 'start'}); jumpV = S.v; }
+  if (v) { quiet(); v.scrollIntoView({block: 'start'}); jumpV = S.v; }
   pendingScroll = false;
 }
 /* Dopo un salto in fondo al capitolo il versetto scelto può non arrivare in cima: finché lo si vede e non si scorre a mano, la posizione resta quella */
@@ -305,6 +308,7 @@ const bars = {hide: () => document.body.classList.add('immersive'), show: () => 
 addEventListener('scroll', () => {
   const y = scrollY, dy = y - lastY; lastY = y;
   if (!isVisible()) return;
+  if (Date.now() < quietUntil) { lastY = y; return; }
   if (y <= 80) bars.show();
   else if (dy > 6 && selA === null) bars.hide();
   else if (dy < -6) bars.show();
@@ -331,7 +335,7 @@ function openVerseSheet() {
 function jumpVerse(n) {
   setSelection(null, null); S.v = n; pendingScroll = false; savePos(); renderHeader(); renderText();
   const v = document.getElementById('v' + n);
-  if (v) { v.scrollIntoView({block: 'start', behavior: reduceMotion() ? 'auto' : 'smooth'}); jumpV = n; }
+  if (v) { quiet(1000); v.scrollIntoView({block: 'start', behavior: reduceMotion() ? 'auto' : 'smooth'}); jumpV = n; }
 }
 function openTypoSheet() {
   ui.sheet({title: 'Aspetto della lettura', build(body) {
@@ -398,7 +402,7 @@ export default {
     renderHeader(); renderChapHead(); paletteSel();
     if (requested !== S.b + '.' + S.c) { chapterText = {}; loadChapter(); }
     renderText(); renderFooter();
-    if (restoreY !== null) window.scrollTo(0, restoreY);
+    if (restoreY !== null) { quiet(); window.scrollTo(0, restoreY); }
     lastY = scrollY;
   },
   hide() {

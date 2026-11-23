@@ -5,7 +5,7 @@ import {emit} from './bus.js';
 
 export const themeNames = {light: 'Chiaro', paper: 'Carta', dark: 'Scuro'};
 export const THEMES = ['light', 'paper', 'dark'];
-export const sizes = [20, 23, 26, 30], sizeNames = ['Piccolo', 'Medio', 'Grande', 'Molto grande'];
+export const sizes = [20, 23, 26, 30], sizeNames = ['Piccolo', 'Medio', 'Grande', 'Enorme'];
 /* indici 0 e 1 come nell'app precedente (Normale, Ampia); 2 = Stretta è nuova */
 export const leads = [1.65, 1.9, 1.45], leadNames = ['Normale', 'Ampia', 'Stretta'];
 const clampIdx = (v, n) => Math.min(Math.max(Math.trunc(Number(v)) || 0, 0), n - 1);

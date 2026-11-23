@@ -1,0 +1,15 @@
+from harness import *
+@test('phone')
+def smoke(env, dev):
+    pg = env.new(dev, storage={'margine.theme': 'paper'})
+    open_ref(pg, 42, 3, 16)
+    pg.wait_for_timeout(500)
+    shot(pg, 'smoke_leggi')
+    tap_verse(pg, 18); shot(pg, 'smoke_sel')
+    pg.click('.abtn[data-action=nota]'); pg.wait_for_timeout(400)
+    pg.fill('#note', "L'amore di Dio è un dono, non un premio."); pg.wait_for_timeout(200); shot(pg, 'smoke_nota')
+    pg.click('#wDone'); pg.wait_for_timeout(300)
+    tab(pg, 'quaderno'); shot(pg, 'smoke_quaderno')
+    tab(pg, 'cerca'); pg.fill('#word', 'gv 3,16'); pg.wait_for_timeout(200); shot(pg, 'smoke_cerca')
+    tab(pg, 'libreria'); pg.click('.book[data-book="42"]'); pg.wait_for_timeout(400); shot(pg, 'smoke_libro')
+    pg.goto('http://app.test/'); pg.wait_for_selector('#greet'); pg.click('#settingsBtn'); pg.wait_for_timeout(400); shot(pg, 'smoke_impostazioni')
