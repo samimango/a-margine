@@ -49,6 +49,26 @@ class Srv:
     def close(s): s.host.close()
 
 
+class View:
+    """Un «collegamento di rete» di un dispositivo verso lo stesso servizio: ha i propri guasti e il proprio registro"""
+    def __init__(s, parent):
+        s.parent = parent; s.key = parent.key; s.fail = False; s.chapter_fail = False; s.reqs = []; s.delay = {}; s.sync_hook = None; s.bad_key_calls = 0
+    calls = Srv.calls; chapters = Srv.chapters; syncs = Srv.syncs
+    def user_props(s): return s.parent.user_props()
+    def handle(s, body):
+        try: req = json.loads(body)
+        except Exception: req = {}
+        s.reqs.append(req); m = req.get('method')
+        if s.fail or (m == 'chapter' and s.chapter_fail): return None
+        if s.delay.get(m): time.sleep(s.delay[m])
+        if m == 'sync' and s.sync_hook: s.sync_hook()
+        r = s.parent.host.call(cmd='post', body=body)
+        if '"code":"auth"' in r['text']: s.bad_key_calls += 1
+        return r['text']
+    def close(s): pass
+Srv.view = lambda s: View(s)
+
+
 def cors(status=200, body='', ctype='application/json'):
     return dict(status=status, body=body, content_type=ctype + '; charset=utf-8', headers={'Access-Control-Allow-Origin': '*'})
 

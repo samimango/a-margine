@@ -20,5 +20,6 @@ export function renderConflicts(box) {
 export function liveConflicts(box) {
   renderConflicts(box);
   on('sync:state', () => { if (box.isConnected && !box.closest('[hidden]')) renderConflicts(box); });
-  on('data:changed', () => { if (box.isConnected) renderConflicts(box); });
+  on('data:changed', () => { if (box.isConnected && !box.closest('[hidden]')) renderConflicts(box); });
+  on('screen:show', () => { if (box.isConnected && !box.closest('[hidden]')) renderConflicts(box); });
 }

@@ -11,7 +11,7 @@ import {names, counts, bmRef, ref, sectionOf, bookStyle} from '../core/bible.js'
 import * as chapters from '../core/chapters.js';
 import {openRef, openNote} from '../core/nav.js';
 import {on} from '../core/bus.js';
-import {liveConflicts} from '../components/conflicts.js';
+import {liveConflicts, renderConflicts} from '../components/conflicts.js';
 
 let el, parts = {};
 
@@ -99,7 +99,7 @@ function renderHint() {
 export function render() {
   if (!el || el.hidden) return;
   parts.greet.textContent = greeting(); parts.date.textContent = dateEyebrow();
-  renderHero(); renderStats(); renderCards(); renderRecents(); renderBookmarks(); renderLastMed(); renderHint();
+  renderHero(); renderStats(); renderCards(); renderRecents(); renderBookmarks(); renderLastMed(); renderHint(); renderConflicts(parts.conflicts);
 }
 
 export default {
