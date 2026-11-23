@@ -1,0 +1,2941 @@
+[
+ {
+  "id": "gerusalemme",
+  "nome_it": "Gerusalemme",
+  "lat": 31.7767,
+  "lon": 35.2342,
+  "tipo": "città",
+  "descrizione": "Capitale di Davide dopo la conquista di Gebus e sede del tempio di Salomone. Nel Nuovo Testamento è il luogo del ministero finale, della morte e della risurrezione di Gesù e della nascita della chiesa.",
+  "riferimenti_chiave": [
+   "2Sam 5,6",
+   "1Re 8,1",
+   "Lc 19,41",
+   "At 2,5"
+  ],
+  "forme": [
+   "Gerusalemme",
+   "Gerosolima",
+   "Gerosolimitani"
+  ]
+ },
+ {
+  "id": "sion",
+  "nome_it": "Sion",
+  "lat": 31.7717,
+  "lon": 35.2286,
+  "tipo": "monte",
+  "descrizione": "Il colle di Gerusalemme conquistato da Davide (la «fortezza di Sion»), poi nome poetico e religioso della città e del suo popolo. Nel Nuovo Testamento indica anche la città celeste.",
+  "riferimenti_chiave": [
+   "2Sam 5,7",
+   "Sal 48,2",
+   "Eb 12,22"
+  ],
+  "forme": [
+   "Sion",
+   "monte Sion"
+  ]
+ },
+ {
+  "id": "moria",
+  "nome_it": "Moria",
+  "lat": 31.7778,
+  "lon": 35.2356,
+  "tipo": "monte",
+  "descrizione": "Luogo indicato in Genesi per il sacrificio di Isacco e, in 2 Cronache, per la costruzione del tempio di Salomone. La tradizione lo identifica con l'altura del tempio a Gerusalemme.",
+  "riferimenti_chiave": [
+   "Gn 22,2",
+   "2Cr 3,1"
+  ],
+  "forme": [
+   "Moria"
+  ]
+ },
+ {
+  "id": "monte-degli-ulivi",
+  "nome_it": "Monte degli Ulivi",
+  "lat": 31.7779,
+  "lon": 35.2457,
+  "tipo": "monte",
+  "descrizione": "Altura a est di Gerusalemme, al di là della valle del Chidron. Gesù vi insegnò, vi pregò prima dell'arresto e da lì salì al cielo.",
+  "riferimenti_chiave": [
+   "2Sam 15,30",
+   "Mt 24,3",
+   "Lc 22,39",
+   "At 1,12"
+  ],
+  "forme": [
+   "monte degli Ulivi",
+   "monte Oliveto",
+   "Oliveto"
+  ]
+ },
+ {
+  "id": "getsemani",
+  "nome_it": "Getsemani",
+  "lat": 31.7794,
+  "lon": 35.2394,
+  "tipo": "luogo",
+  "descrizione": "Giardino ai piedi del monte degli Ulivi dove Gesù pregò la notte prima di essere arrestato.",
+  "riferimenti_chiave": [
+   "Mt 26,36",
+   "Mc 14,32",
+   "Gv 18,1"
+  ],
+  "forme": [
+   "Getsemani",
+   "Getsemane"
+  ]
+ },
+ {
+  "id": "valle-del-chidron",
+  "nome_it": "Valle del Chidron",
+  "lat": 31.7803,
+  "lon": 35.24,
+  "tipo": "valle",
+  "descrizione": "Torrente e valle tra Gerusalemme e il monte degli Ulivi. Davide la attraversò fuggendo da Absalom; Gesù la attraversò con i discepoli la notte dell'arresto.",
+  "riferimenti_chiave": [
+   "2Sam 15,23",
+   "1Re 15,13",
+   "Gv 18,1"
+  ],
+  "forme": [
+   "Chidron",
+   "torrente Chidron",
+   "Cedron"
+  ]
+ },
+ {
+  "id": "valle-di-hinnom",
+  "nome_it": "Valle di Hinnom",
+  "lat": 31.7692,
+  "lon": 35.2281,
+  "tipo": "valle",
+  "descrizione": "Valle a sud di Gerusalemme, legata a culti idolatrici con sacrifici di bambini. Dal nome ebraico «Ge-Hinnom» deriva la «geenna» del Nuovo Testamento.",
+  "riferimenti_chiave": [
+   "Gs 15,8",
+   "2Cr 28,3",
+   "Ger 7,31",
+   "Mt 5,22"
+  ],
+  "forme": [
+   "valle di Hinnom",
+   "Geenna",
+   "Ghehenna"
+  ]
+ },
+ {
+  "id": "siloe",
+  "nome_it": "Siloe",
+  "lat": 31.7706,
+  "lon": 35.235,
+  "tipo": "acqua",
+  "descrizione": "Cisterna e canale di Gerusalemme, alimentata dalla sorgente di Ghihon. Qui Gesù mandò il cieco nato a lavarsi.",
+  "riferimenti_chiave": [
+   "Is 8,6",
+   "Lc 13,4",
+   "Gv 9,7"
+  ],
+  "forme": [
+   "Siloe",
+   "Siloam"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "ghihon",
+  "nome_it": "Ghihon",
+  "lat": 31.7729,
+  "lon": 35.2364,
+  "tipo": "acqua",
+  "descrizione": "Sorgente principale di Gerusalemme, ai piedi della città di Davide. Qui Salomone fu unto re.",
+  "riferimenti_chiave": [
+   "1Re 1,33",
+   "2Cr 32,30"
+  ],
+  "forme": [
+   "Ghihon",
+   "Gihon"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "betesda",
+  "nome_it": "Betesda",
+  "lat": 31.7814,
+  "lon": 35.2358,
+  "tipo": "acqua",
+  "descrizione": "Vasca a Gerusalemme, vicino alla porta delle Pecore, dove Gesù guarì un uomo paralitico da trentotto anni.",
+  "riferimenti_chiave": [
+   "Gv 5,2"
+  ],
+  "forme": [
+   "Betesda",
+   "Bethesda"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "golgota",
+  "nome_it": "Golgota",
+  "lat": 31.7784,
+  "lon": 35.2298,
+  "tipo": "luogo",
+  "descrizione": "Il luogo fuori dalle mura di Gerusalemme dove Gesù fu crocifisso. Il nome aramaico significa «luogo del teschio».",
+  "riferimenti_chiave": [
+   "Mt 27,33",
+   "Mc 15,22",
+   "Gv 19,17"
+  ],
+  "forme": [
+   "Golgota",
+   "luogo del Teschio",
+   "Calvario"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "betania",
+  "nome_it": "Betania",
+  "lat": 31.7717,
+  "lon": 35.2559,
+  "tipo": "città",
+  "descrizione": "Villaggio sul pendio orientale del monte degli Ulivi, a circa tre chilometri da Gerusalemme. Qui abitavano Lazzaro, Marta e Maria.",
+  "riferimenti_chiave": [
+   "Mc 11,1",
+   "Gv 11,1",
+   "Gv 12,1"
+  ],
+  "forme": [
+   "Betania"
+  ]
+ },
+ {
+  "id": "betfage",
+  "nome_it": "Betfage",
+  "lat": 31.7776,
+  "lon": 35.2508,
+  "tipo": "città",
+  "descrizione": "Villaggio presso il monte degli Ulivi, da cui Gesù mandò due discepoli a prendere l'asina per l'ingresso a Gerusalemme.",
+  "riferimenti_chiave": [
+   "Mt 21,1",
+   "Mc 11,1"
+  ],
+  "forme": [
+   "Betfage"
+  ]
+ },
+ {
+  "id": "betlemme",
+  "nome_it": "Betlemme",
+  "lat": 31.7043,
+  "lon": 35.2076,
+  "tipo": "città",
+  "descrizione": "Cittadina di Giuda a sud di Gerusalemme, patria di Davide. Secondo i vangeli di Matteo e Luca vi nacque Gesù.",
+  "riferimenti_chiave": [
+   "Rt 1,1",
+   "1Sam 16,1",
+   "Mi 5,2",
+   "Lc 2,4"
+  ],
+  "forme": [
+   "Betlemme",
+   "Efrata"
+  ]
+ },
+ {
+  "id": "anatot",
+  "nome_it": "Anatot",
+  "lat": 31.8075,
+  "lon": 35.2576,
+  "tipo": "città",
+  "descrizione": "Villaggio a nord-est di Gerusalemme, in territorio di Beniamino, città sacerdotale e patria di Geremia.",
+  "riferimenti_chiave": [
+   "Gs 21,18",
+   "Ger 1,1"
+  ],
+  "forme": [
+   "Anatot"
+  ]
+ },
+ {
+  "id": "ebron",
+  "nome_it": "Ebron",
+  "lat": 31.5251,
+  "lon": 35.1022,
+  "tipo": "città",
+  "descrizione": "Città di Giuda tra le più antiche; vi abitò Abraamo e vi si trova la grotta di Macpela. Davide vi fu unto re di Giuda e vi regnò sette anni.",
+  "riferimenti_chiave": [
+   "Gn 13,18",
+   "2Sam 2,1",
+   "2Sam 5,5"
+  ],
+  "forme": [
+   "Ebron",
+   "Chebron"
+  ]
+ },
+ {
+  "id": "macpela",
+  "nome_it": "Macpela",
+  "lat": 31.5247,
+  "lon": 35.1108,
+  "tipo": "luogo",
+  "descrizione": "Campo con grotta presso Ebron, acquistato da Abraamo come tomba di famiglia per Sara. Vi furono sepolti anche Abraamo, Isacco, Giacobbe e i loro coniugi.",
+  "riferimenti_chiave": [
+   "Gn 23,9",
+   "Gn 25,9",
+   "Gn 49,30"
+  ],
+  "forme": [
+   "Macpela"
+  ]
+ },
+ {
+  "id": "bersabea",
+  "nome_it": "Bersabea",
+  "lat": 31.2447,
+  "lon": 34.8408,
+  "tipo": "città",
+  "descrizione": "Città all'estremo sud di Giuda; «da Dan a Bersabea» indica l'intero paese. Qui Abraamo e Isacco scavarono pozzi e fecero patti.",
+  "riferimenti_chiave": [
+   "Gn 21,31",
+   "Gn 26,33",
+   "1Re 19,3"
+  ],
+  "forme": [
+   "Bersabea",
+   "Beer-Seba"
+  ]
+ },
+ {
+  "id": "gerar",
+  "nome_it": "Gerar",
+  "lat": 31.3821,
+  "lon": 34.6065,
+  "tipo": "città",
+  "descrizione": "Città filistea nel sud, dove Abraamo e Isacco soggiornarono.",
+  "riferimenti_chiave": [
+   "Gn 20,1",
+   "Gn 26,1"
+  ],
+  "forme": [
+   "Gerar"
+  ]
+ },
+ {
+  "id": "sodoma",
+  "nome_it": "Sodoma",
+  "lat": 31.2085,
+  "lon": 35.4492,
+  "tipo": "città",
+  "descrizione": "Città della valle del Giordano (vicino al mar Morto), distrutta da Dio insieme a Gomorra per la grande malvagità dei suoi abitanti.",
+  "riferimenti_chiave": [
+   "Gn 13,13",
+   "Gn 19,24",
+   "Mt 10,15"
+  ],
+  "forme": [
+   "Sodoma",
+   "Sodomiti"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "gomorra",
+  "nome_it": "Gomorra",
+  "lat": 31.2085,
+  "lon": 35.4492,
+  "tipo": "città",
+  "descrizione": "Città vicina a Sodoma, distrutta con essa. La sua posizione esatta è sconosciuta.",
+  "riferimenti_chiave": [
+   "Gn 18,20",
+   "Gn 19,24",
+   "Rm 9,29"
+  ],
+  "forme": [
+   "Gomorra"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "zoar",
+  "nome_it": "Zoar",
+  "lat": 31.2085,
+  "lon": 35.4492,
+  "tipo": "città",
+  "descrizione": "Piccola città vicino a Sodoma, dove Lot trovò rifugio dalla distruzione.",
+  "riferimenti_chiave": [
+   "Gn 19,22"
+  ],
+  "forme": [
+   "Zoar"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "en-ghedi",
+  "nome_it": "En-Ghedi",
+  "lat": 31.45,
+  "lon": 35.3833,
+  "tipo": "luogo",
+  "descrizione": "Oasi sulla riva occidentale del mar Morto, con acque dolci. Davide vi si nascose da Saul.",
+  "riferimenti_chiave": [
+   "1Sam 24,1",
+   "Ct 1,14"
+  ],
+  "forme": [
+   "En-Ghedi",
+   "Engedi"
+  ]
+ },
+ {
+  "id": "betel",
+  "nome_it": "Betel",
+  "lat": 31.9228,
+  "lon": 35.2414,
+  "tipo": "città",
+  "descrizione": "Antica città di Efraim/Beniamino, dove Giacobbe ebbe il sogno della scala. In seguito diventò un santuario del regno del Nord.",
+  "riferimenti_chiave": [
+   "Gn 28,19",
+   "1Re 12,29",
+   "Am 7,13"
+  ],
+  "forme": [
+   "Betel",
+   "Luz"
+  ]
+ },
+ {
+  "id": "ai",
+  "nome_it": "Ai",
+  "lat": 31.9169,
+  "lon": 35.2611,
+  "tipo": "città",
+  "descrizione": "Città di Canaan presa da Giosuè dopo la sconfitta iniziale causata dal peccato di Acan.",
+  "riferimenti_chiave": [
+   "Gs 7,2",
+   "Gs 8,1"
+  ],
+  "forme": [
+   "Ai"
+  ]
+ },
+ {
+  "id": "ghilgal",
+  "nome_it": "Ghilgal",
+  "lat": 31.8819,
+  "lon": 35.46,
+  "tipo": "città",
+  "descrizione": "Luogo presso il Giordano, primo accampamento di Israele dopo l'ingresso in Canaan. Vi si trovavano le dodici pietre.",
+  "riferimenti_chiave": [
+   "Gs 4,19",
+   "1Sam 11,15"
+  ],
+  "forme": [
+   "Ghilgal",
+   "Gilgal"
+  ]
+ },
+ {
+  "id": "gerico",
+  "nome_it": "Gerico",
+  "lat": 31.8717,
+  "lon": 35.4446,
+  "tipo": "città",
+  "descrizione": "Antica città vicino al Giordano, nella valle del mar Morto, la prima conquistata da Giosuè. Nel Nuovo Testamento vi Gesù incontra Zaccheo e guarisce un cieco.",
+  "riferimenti_chiave": [
+   "Gs 6,1",
+   "Lc 10,30",
+   "Lc 19,1"
+  ],
+  "forme": [
+   "Gerico"
+  ]
+ },
+ {
+  "id": "gabaon",
+  "nome_it": "Gabaon",
+  "lat": 31.8475,
+  "lon": 35.1834,
+  "tipo": "città",
+  "descrizione": "Città di Beniamino a nord-ovest di Gerusalemme; i suoi abitanti ingannarono Giosuè con un patto. Vi si trovava un importante luogo di culto al tempo di Salomone.",
+  "riferimenti_chiave": [
+   "Gs 9,3",
+   "1Re 3,4"
+  ],
+  "forme": [
+   "Gabaon",
+   "Gibeon"
+  ]
+ },
+ {
+  "id": "ghibea",
+  "nome_it": "Ghibea",
+  "lat": 31.8231,
+  "lon": 35.2307,
+  "tipo": "città",
+  "descrizione": "Città di Beniamino, patria e residenza di Saul, a nord di Gerusalemme. Vi avvenne il grave fatto raccontato in Giudici 19-21.",
+  "riferimenti_chiave": [
+   "Gdc 19,12",
+   "1Sam 10,26",
+   "1Sam 15,34"
+  ],
+  "forme": [
+   "Ghibea",
+   "Gabaa"
+  ]
+ },
+ {
+  "id": "mispa",
+  "nome_it": "Mispa",
+  "lat": 31.8851,
+  "lon": 35.2164,
+  "tipo": "città",
+  "descrizione": "Città di Beniamino dove Samuele radunò il popolo. Dopo la caduta di Gerusalemme fu sede del governatore Ghedalia.",
+  "riferimenti_chiave": [
+   "1Sam 7,5",
+   "Ger 40,6"
+  ],
+  "forme": [
+   "Mispa",
+   "Mizpa"
+  ]
+ },
+ {
+  "id": "silo",
+  "nome_it": "Silo",
+  "lat": 32.0557,
+  "lon": 35.2895,
+  "tipo": "città",
+  "descrizione": "Centro religioso di Israele dopo la conquista: vi fu collocato il tabernacolo. Qui Anna pregò per avere Samuele.",
+  "riferimenti_chiave": [
+   "Gs 18,1",
+   "1Sam 1,3",
+   "Ger 7,12"
+  ],
+  "forme": [
+   "Silo"
+  ]
+ },
+ {
+  "id": "sichem",
+  "nome_it": "Sichem",
+  "lat": 32.2136,
+  "lon": 35.2819,
+  "tipo": "città",
+  "descrizione": "Città strategica tra i monti Ebal e Gherizim; vi Abraamo costruì un altare, vi furono sepolte le ossa di Giuseppe e vi fu rinnovata l'alleanza.",
+  "riferimenti_chiave": [
+   "Gn 12,6",
+   "Gs 24,1",
+   "Gv 4,5"
+  ],
+  "forme": [
+   "Sichem",
+   "Sicar"
+  ]
+ },
+ {
+  "id": "sicar",
+  "nome_it": "Sicar",
+  "lat": 32.2178,
+  "lon": 35.289,
+  "tipo": "città",
+  "descrizione": "Città della Samaria presso il pozzo di Giacobbe, dove Gesù parlò con la donna samaritana.",
+  "riferimenti_chiave": [
+   "Gv 4,5"
+  ],
+  "forme": [
+   "Sicar"
+  ]
+ },
+ {
+  "id": "monte-gherizim",
+  "nome_it": "Monte Gherizim",
+  "lat": 32.1994,
+  "lon": 35.2728,
+  "tipo": "monte",
+  "descrizione": "Monte presso Sichem, dove nell'AT veniva pronunciata la benedizione. Per i Samaritani è il luogo del culto.",
+  "riferimenti_chiave": [
+   "Dt 11,29",
+   "Gv 4,20"
+  ],
+  "forme": [
+   "Gherizim",
+   "Garizim"
+  ]
+ },
+ {
+  "id": "monte-ebal",
+  "nome_it": "Monte Ebal",
+  "lat": 32.234,
+  "lon": 35.2733,
+  "tipo": "monte",
+  "descrizione": "Monte di fronte al Gherizim, dove Giosuè eresse un altare e vennero pronunciate le maledizioni dell'alleanza.",
+  "riferimenti_chiave": [
+   "Dt 11,29",
+   "Gs 8,30"
+  ],
+  "forme": [
+   "Ebal"
+  ]
+ },
+ {
+  "id": "samaria-citta",
+  "nome_it": "Samaria (città)",
+  "lat": 32.2761,
+  "lon": 35.195,
+  "tipo": "città",
+  "descrizione": "Capitale del regno del Nord (Israele) fondata dal re Omri. Fu conquistata dagli Assiri nel 722 a.C.",
+  "riferimenti_chiave": [
+   "1Re 16,24",
+   "2Re 17,6"
+  ],
+  "forme": [
+   "Samaria"
+  ]
+ },
+ {
+  "id": "samaria-regione",
+  "nome_it": "Samaria (regione)",
+  "lat": 32.2761,
+  "lon": 35.195,
+  "tipo": "regione",
+  "descrizione": "Regione centrale della Palestina, tra Giudea e Galilea. Nel Nuovo Testamento è abitata dai Samaritani, con cui i giudei non avevano buoni rapporti.",
+  "riferimenti_chiave": [
+   "Lc 17,11",
+   "Gv 4,4",
+   "At 1,8"
+  ],
+  "forme": [
+   "Samaria",
+   "Samaritani"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "izreel",
+  "nome_it": "Izreel",
+  "lat": 32.5579,
+  "lon": 35.328,
+  "tipo": "città",
+  "descrizione": "Città della valle omonima, residenza dei re Acab e Ieu. Vi si trovava la vigna di Nabot.",
+  "riferimenti_chiave": [
+   "1Re 21,1",
+   "2Re 9,30"
+  ],
+  "forme": [
+   "Izreel",
+   "Jezreel"
+  ]
+ },
+ {
+  "id": "valle-di-izreel",
+  "nome_it": "Valle di Izreel",
+  "lat": 32.5964,
+  "lon": 35.2419,
+  "tipo": "valle",
+  "descrizione": "Ampia pianura fertile tra Galilea e Samaria, teatro di molte battaglie.",
+  "riferimenti_chiave": [
+   "Gdc 6,33",
+   "Os 1,5"
+  ],
+  "forme": [
+   "valle di Izreel",
+   "pianura di Izreel"
+  ]
+ },
+ {
+  "id": "meghiddo",
+  "nome_it": "Meghiddo",
+  "lat": 32.5853,
+  "lon": 35.1844,
+  "tipo": "città",
+  "descrizione": "Città fortificata che controllava una via commerciale; il suo nome è all'origine di «Armaghedon».",
+  "riferimenti_chiave": [
+   "Gdc 5,19",
+   "2Re 23,29",
+   "Ap 16,16"
+  ],
+  "forme": [
+   "Meghiddo",
+   "Armaghedon"
+  ]
+ },
+ {
+  "id": "monte-ghilboa",
+  "nome_it": "Monte Ghilboa",
+  "lat": 32.4339,
+  "lon": 35.4144,
+  "tipo": "monte",
+  "descrizione": "Monte dove Saul e Gionatan morirono in battaglia contro i Filistei.",
+  "riferimenti_chiave": [
+   "1Sam 31,1",
+   "2Sam 1,21"
+  ],
+  "forme": [
+   "Ghilboa"
+  ]
+ },
+ {
+  "id": "monte-carmelo",
+  "nome_it": "Monte Carmelo",
+  "lat": 32.6725,
+  "lon": 35.0233,
+  "tipo": "monte",
+  "descrizione": "Catena montuosa vicina al Mediterraneo, dove Elia sfidò i profeti di Baal.",
+  "riferimenti_chiave": [
+   "1Re 18,19",
+   "1Re 18,42",
+   "Am 1,2"
+  ],
+  "forme": [
+   "Carmelo"
+  ]
+ },
+ {
+  "id": "torrente-chison",
+  "nome_it": "Torrente Chison",
+  "lat": 32.8167,
+  "lon": 35.0333,
+  "tipo": "acqua",
+  "descrizione": "Torrente della pianura di Izreel; vicino ad esso Debora e Barac sconfissero Sisera, e Elia vi fece uccidere i profeti di Baal.",
+  "riferimenti_chiave": [
+   "Gdc 4,7",
+   "Gdc 5,21",
+   "1Re 18,40"
+  ],
+  "forme": [
+   "Chison"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "monte-tabor",
+  "nome_it": "Monte Tabor",
+  "lat": 32.6863,
+  "lon": 35.3929,
+  "tipo": "monte",
+  "descrizione": "Monte isolato nella Bassa Galilea. Qui Barac radunò l'esercito; la tradizione cristiana vi colloca la trasfigurazione, ma le fonti non lo dicono.",
+  "riferimenti_chiave": [
+   "Gdc 4,6",
+   "Sal 89,12"
+  ],
+  "forme": [
+   "Tabor"
+  ]
+ },
+ {
+  "id": "asor",
+  "nome_it": "Asor",
+  "lat": 33.0183,
+  "lon": 35.5692,
+  "tipo": "città",
+  "descrizione": "Grande città fortificata della Galilea settentrionale, distrutta da Giosuè e poi ricostruita da Salomone.",
+  "riferimenti_chiave": [
+   "Gs 11,10",
+   "Gdc 4,2",
+   "1Re 9,15"
+  ],
+  "forme": [
+   "Asor",
+   "Hazor"
+  ]
+ },
+ {
+  "id": "dan",
+  "nome_it": "Dan",
+  "lat": 33.249,
+  "lon": 35.652,
+  "tipo": "città",
+  "descrizione": "Città all'estremo nord d'Israele, con un santuario del regno del Nord. «Da Dan a Bersabea» indica tutto il paese.",
+  "riferimenti_chiave": [
+   "Gdc 18,29",
+   "1Re 12,29",
+   "2Sam 24,2"
+  ],
+  "forme": [
+   "Dan",
+   "Lais",
+   "Lesem"
+  ]
+ },
+ {
+  "id": "monte-ermon",
+  "nome_it": "Monte Ermon",
+  "lat": 33.4,
+  "lon": 35.85,
+  "tipo": "monte",
+  "descrizione": "Montagna più alta della regione, al confine settentrionale della terra promessa.",
+  "riferimenti_chiave": [
+   "Dt 3,8",
+   "Sal 133,3"
+  ],
+  "forme": [
+   "Ermon",
+   "Sirion",
+   "Senir"
+  ]
+ },
+ {
+  "id": "cesarea-di-filippo",
+  "nome_it": "Cesarea di Filippo",
+  "lat": 33.2461,
+  "lon": 35.6933,
+  "tipo": "città",
+  "descrizione": "Città ai piedi del monte Ermon, dove Pietro confessò che Gesù è il Cristo.",
+  "riferimenti_chiave": [
+   "Mt 16,13",
+   "Mc 8,27"
+  ],
+  "forme": [
+   "Cesarea di Filippo"
+  ]
+ },
+ {
+  "id": "galilea",
+  "nome_it": "Galilea",
+  "lat": 32.76,
+  "lon": 35.527,
+  "tipo": "regione",
+  "descrizione": "Regione settentrionale della Palestina, dove Gesù trascorse la maggior parte della vita pubblica.",
+  "riferimenti_chiave": [
+   "Is 9,1",
+   "Mt 4,23",
+   "Lc 4,14"
+  ],
+  "forme": [
+   "Galilea",
+   "galilei"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "nazaret",
+  "nome_it": "Nazaret",
+  "lat": 32.7021,
+  "lon": 35.2977,
+  "tipo": "città",
+  "descrizione": "Villaggio della Bassa Galilea, dove Gesù trascorse l'infanzia e la giovinezza.",
+  "riferimenti_chiave": [
+   "Lc 1,26",
+   "Mt 2,23",
+   "Lc 4,16"
+  ],
+  "forme": [
+   "Nazaret",
+   "Nazareth",
+   "nazareno"
+  ]
+ },
+ {
+  "id": "cana",
+  "nome_it": "Cana",
+  "lat": 32.8222,
+  "lon": 35.3027,
+  "tipo": "città",
+  "descrizione": "Villaggio della Galilea. Gesù vi compì il suo primo segno, cambiando l'acqua in vino a una festa di nozze.",
+  "riferimenti_chiave": [
+   "Gv 2,1",
+   "Gv 4,46",
+   "Gv 21,2"
+  ],
+  "forme": [
+   "Cana"
+  ]
+ },
+ {
+  "id": "nain",
+  "nome_it": "Nain",
+  "lat": 32.6307,
+  "lon": 35.3501,
+  "tipo": "città",
+  "descrizione": "Villaggio della Galilea. Gesù vi risuscitò il figlio unico di una vedova.",
+  "riferimenti_chiave": [
+   "Lc 7,11"
+  ],
+  "forme": [
+   "Nain"
+  ]
+ },
+ {
+  "id": "cafarnao",
+  "nome_it": "Cafarnao",
+  "lat": 32.8811,
+  "lon": 35.575,
+  "tipo": "città",
+  "descrizione": "Città sulla riva nord-occidentale del lago di Galilea, centro del ministero di Gesù in Galilea.",
+  "riferimenti_chiave": [
+   "Mt 4,13",
+   "Mc 2,1",
+   "Gv 6,59"
+  ],
+  "forme": [
+   "Cafarnao"
+  ]
+ },
+ {
+  "id": "betsaida",
+  "nome_it": "Betsaida",
+  "lat": 32.9104,
+  "lon": 35.631,
+  "tipo": "città",
+  "descrizione": "Località presso il lago di Galilea, patria di Pietro, Andrea e Filippo. Gesù vi guarì un cieco.",
+  "riferimenti_chiave": [
+   "Mc 6,45",
+   "Mc 8,22",
+   "Gv 1,44"
+  ],
+  "forme": [
+   "Betsaida"
+  ]
+ },
+ {
+  "id": "corazin",
+  "nome_it": "Corazin",
+  "lat": 32.9114,
+  "lon": 35.5639,
+  "tipo": "città",
+  "descrizione": "Città vicino al lago di Galilea, dove Gesù fece miracoli e che rimproverò per l'incredulità.",
+  "riferimenti_chiave": [
+   "Mt 11,21",
+   "Lc 10,13"
+  ],
+  "forme": [
+   "Corazin"
+  ]
+ },
+ {
+  "id": "magdala",
+  "nome_it": "Magdala",
+  "lat": 32.8271,
+  "lon": 35.5136,
+  "tipo": "città",
+  "descrizione": "Località sulla riva occidentale del lago di Galilea, da cui proveniva Maria Maddalena.",
+  "riferimenti_chiave": [
+   "Mt 15,39",
+   "Lc 8,2"
+  ],
+  "forme": [
+   "Magdala",
+   "Magadan",
+   "Dalmanuta"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "tiberiade",
+  "nome_it": "Tiberiade",
+  "lat": 32.7736,
+  "lon": 35.5442,
+  "tipo": "città",
+  "descrizione": "Città sul lago di Galilea fondata da Erode Antipa in onore dell'imperatore Tiberio.",
+  "riferimenti_chiave": [
+   "Gv 6,1",
+   "Gv 6,23",
+   "Gv 21,1"
+  ],
+  "forme": [
+   "Tiberiade"
+  ]
+ },
+ {
+  "id": "mar-di-galilea",
+  "nome_it": "Mar di Galilea",
+  "lat": 32.8189,
+  "lon": 35.59,
+  "tipo": "acqua",
+  "descrizione": "Lago di acqua dolce nel nord, chiamato anche lago di Gennesaret e mare di Tiberiade. Gesù vi camminò sulle acque e vi chiamò i primi discepoli.",
+  "riferimenti_chiave": [
+   "Mt 4,18",
+   "Mc 1,16",
+   "Gv 21,1"
+  ],
+  "forme": [
+   "mare di Galilea",
+   "lago di Gennesaret",
+   "Gennesaret",
+   "mare di Tiberiade",
+   "mare di Chinneret"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "gerasa",
+  "nome_it": "Gerasa",
+  "lat": 32.2723,
+  "lon": 35.8914,
+  "tipo": "città",
+  "descrizione": "Città della Decapoli a est del Giordano. La «regione dei Geraseni» è il luogo della guarigione dell'indemoniato; l'esatta località evangelica è discussa.",
+  "riferimenti_chiave": [
+   "Mc 5,1",
+   "Lc 8,26"
+  ],
+  "forme": [
+   "Gerasa",
+   "Geraseni"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "gadara",
+  "nome_it": "Gadara",
+  "lat": 32.656,
+  "lon": 35.6794,
+  "tipo": "città",
+  "descrizione": "Città della Decapoli a sud-est del lago di Galilea. Mt 8,28 parla della regione dei Gadareni.",
+  "riferimenti_chiave": [
+   "Mt 8,28"
+  ],
+  "forme": [
+   "Gadara",
+   "Gadareni"
+  ]
+ },
+ {
+  "id": "decapoli",
+  "nome_it": "Decapoli",
+  "lat": 32.7167,
+  "lon": 35.8,
+  "tipo": "regione",
+  "descrizione": "Lega di dieci città, a est del Giordano e sud-est del lago di Galilea, di cultura ellenistica.",
+  "riferimenti_chiave": [
+   "Mt 4,25",
+   "Mc 5,20",
+   "Mc 7,31"
+  ],
+  "forme": [
+   "Decapoli"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "giordano",
+  "nome_it": "Giordano",
+  "lat": 31.7614,
+  "lon": 35.5583,
+  "tipo": "acqua",
+  "descrizione": "Il fiume principale della terra promessa; nasce dal monte Ermon e sfocia nel mar Morto. Vi Giovanni battezzava e vi fu battezzato Gesù.",
+  "riferimenti_chiave": [
+   "Gs 3,17",
+   "2Re 5,14",
+   "Mt 3,13"
+  ],
+  "forme": [
+   "Giordano"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "mar-morto",
+  "nome_it": "Mar Morto",
+  "lat": 31.5,
+  "lon": 35.5,
+  "tipo": "acqua",
+  "descrizione": "Lago salatissimo alla foce del Giordano, il punto più basso della terra; la Bibbia lo chiama anche mar Salato o mare dell'Arabah.",
+  "riferimenti_chiave": [
+   "Gn 14,3",
+   "Nm 34,3",
+   "Ez 47,8"
+  ],
+  "forme": [
+   "mar Morto",
+   "mar Salato",
+   "mare dell'Arabah"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "mar-mediterraneo",
+  "nome_it": "Mar Mediterraneo",
+  "lat": 31.8048,
+  "lon": 34.1703,
+  "tipo": "acqua",
+  "descrizione": "Il «mare grande», confine occidentale della terra promessa.",
+  "riferimenti_chiave": [
+   "Nm 34,6",
+   "Gs 1,4",
+   "Gs 23,4"
+  ],
+  "forme": [
+   "mare grande",
+   "Mediterraneo",
+   "mare"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "mar-rosso",
+  "nome_it": "Mar Rosso",
+  "lat": 30.3383,
+  "lon": 32.3778,
+  "tipo": "acqua",
+  "descrizione": "Il mare attraversato da Israele nell'esodo; la Bibbia lo chiama «Yam Suf», cioè «mare delle canne»; la sua esatta posizione è discussa.",
+  "riferimenti_chiave": [
+   "Es 13,18",
+   "Es 15,4",
+   "Nm 33,10",
+   "At 7,36"
+  ],
+  "forme": [
+   "mar Rosso",
+   "mar Suf"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "torrente-arnon",
+  "nome_it": "Torrente Arnon",
+  "lat": 31.4658,
+  "lon": 35.5733,
+  "tipo": "acqua",
+  "descrizione": "Torrente che sfocia nel mar Morto da est; confine tra Moab e gli Amorei.",
+  "riferimenti_chiave": [
+   "Nm 21,13",
+   "Dt 2,24"
+  ],
+  "forme": [
+   "Arnon"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "torrente-iabboc",
+  "nome_it": "Torrente Iabboc",
+  "lat": 32.1153,
+  "lon": 35.5431,
+  "tipo": "acqua",
+  "descrizione": "Affluente del Giordano da est; vi Giacobbe lottò con un uomo e fu chiamato Israele.",
+  "riferimenti_chiave": [
+   "Gn 32,22",
+   "Dt 3,16"
+  ],
+  "forme": [
+   "Iabboc",
+   "Jabbok"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "mahanaim",
+  "nome_it": "Mahanaim",
+  "lat": 32.1857,
+  "lon": 35.6867,
+  "tipo": "città",
+  "descrizione": "Città a est del Giordano; Giacobbe vi vide gli angeli. Davide vi trovò rifugio durante la rivolta di Absalom.",
+  "riferimenti_chiave": [
+   "Gn 32,2",
+   "2Sam 2,8",
+   "2Sam 17,24"
+  ],
+  "forme": [
+   "Mahanaim"
+  ]
+ },
+ {
+  "id": "penuel",
+  "nome_it": "Penuel",
+  "lat": 32.187,
+  "lon": 35.6921,
+  "tipo": "città",
+  "descrizione": "Luogo vicino al torrente Iabboc, dove Giacobbe lottò con Dio.",
+  "riferimenti_chiave": [
+   "Gn 32,30"
+  ],
+  "forme": [
+   "Penuel",
+   "Peniel"
+  ]
+ },
+ {
+  "id": "iabes-di-galaad",
+  "nome_it": "Iabes di Galaad",
+  "lat": 32.4024,
+  "lon": 35.6823,
+  "tipo": "città",
+  "descrizione": "Città di Galaad. Gli abitanti recuperarono i corpi di Saul e dei suoi figli.",
+  "riferimenti_chiave": [
+   "1Sam 11,1",
+   "1Sam 31,11"
+  ],
+  "forme": [
+   "Iabes di Galaad",
+   "Iabes"
+  ]
+ },
+ {
+  "id": "ramot-di-galaad",
+  "nome_it": "Ramot di Galaad",
+  "lat": 32.4999,
+  "lon": 36.015,
+  "tipo": "città",
+  "descrizione": "Città fortificata di Galaad, dove morì Acab, e dove Ieu fu unto re.",
+  "riferimenti_chiave": [
+   "1Re 22,3",
+   "2Re 9,1"
+  ],
+  "forme": [
+   "Ramot di Galaad",
+   "Ramot"
+  ]
+ },
+ {
+  "id": "rabba-degli-ammoniti",
+  "nome_it": "Rabba degli Ammoniti",
+  "lat": 31.9547,
+  "lon": 35.9343,
+  "tipo": "città",
+  "descrizione": "Capitale degli Ammoniti. Qui Davide assediò e Uria fu ucciso.",
+  "riferimenti_chiave": [
+   "2Sam 11,1",
+   "2Sam 12,26"
+  ],
+  "forme": [
+   "Rabba",
+   "Rabba degli Ammoniti"
+  ]
+ },
+ {
+  "id": "galaad",
+  "nome_it": "Galaad",
+  "lat": 32.187,
+  "lon": 35.6921,
+  "tipo": "regione",
+  "descrizione": "Regione montuosa a est del Giordano, nota per il suo balsamo.",
+  "riferimenti_chiave": [
+   "Nm 32,1",
+   "Ger 8,22"
+  ],
+  "forme": [
+   "Galaad"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "basan",
+  "nome_it": "Basan",
+  "lat": 32.7811,
+  "lon": 35.9347,
+  "tipo": "regione",
+  "descrizione": "Regione fertile a nord-est del Giordano, nota per il bestiame; vi regnava il re Og.",
+  "riferimenti_chiave": [
+   "Dt 3,1",
+   "Sal 22,12"
+  ],
+  "forme": [
+   "Basan"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "chesbon",
+  "nome_it": "Chesbon",
+  "lat": 31.8008,
+  "lon": 35.8091,
+  "tipo": "città",
+  "descrizione": "Capitale del re amorreo Sicon, conquistata da Israele.",
+  "riferimenti_chiave": [
+   "Nm 21,25",
+   "Dt 2,26"
+  ],
+  "forme": [
+   "Chesbon",
+   "Hesbon"
+  ]
+ },
+ {
+  "id": "monte-nebo-pisga",
+  "nome_it": "Monte Nebo (Pisga)",
+  "lat": 31.7678,
+  "lon": 35.7256,
+  "tipo": "monte",
+  "descrizione": "Monte della catena degli Abarim, da dove Mosè vide la terra promessa prima di morire.",
+  "riferimenti_chiave": [
+   "Nm 27,12",
+   "Dt 34,1"
+  ],
+  "forme": [
+   "Nebo",
+   "Pisga",
+   "Abarim"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "moab",
+  "nome_it": "Moab",
+  "lat": 31.1806,
+  "lon": 35.7014,
+  "tipo": "regione",
+  "descrizione": "Regione a est del mar Morto, abitata dai Moabiti, discendenti di Lot. Qui visse Rut.",
+  "riferimenti_chiave": [
+   "Gn 19,37",
+   "Rt 1,1",
+   "Nm 22,1"
+  ],
+  "forme": [
+   "Moab",
+   "Moabiti"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "ammon",
+  "nome_it": "Ammon",
+  "lat": 31.9547,
+  "lon": 35.9343,
+  "tipo": "regione",
+  "descrizione": "Regione degli Ammoniti, discendenti di Lot, a est del Giordano.",
+  "riferimenti_chiave": [
+   "Gn 19,38",
+   "Gdc 11,4"
+  ],
+  "forme": [
+   "Ammon",
+   "Ammoniti"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "edom",
+  "nome_it": "Edom",
+  "lat": 30.7458,
+  "lon": 35.6039,
+  "tipo": "regione",
+  "descrizione": "Regione a sud-est del mar Morto, abitata dagli Edomiti, discendenti di Esaù.",
+  "riferimenti_chiave": [
+   "Gn 36,1",
+   "Nm 20,14",
+   "Abd 1,1"
+  ],
+  "forme": [
+   "Edom",
+   "Idumea",
+   "Idumei"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "madian",
+  "nome_it": "Madian",
+  "lat": 28.4947,
+  "lon": 35.0122,
+  "tipo": "regione",
+  "descrizione": "Regione a sud-est, a est del golfo di Aqaba, abitata dai Madianiti. Qui Mosè trovò rifugio.",
+  "riferimenti_chiave": [
+   "Es 2,15",
+   "Gdc 6,1"
+  ],
+  "forme": [
+   "Madian",
+   "Madianiti"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "sinai",
+  "nome_it": "Sinai",
+  "lat": 28.5397,
+  "lon": 33.9733,
+  "tipo": "monte",
+  "descrizione": "Monte (chiamato anche Oreb) dove Dio diede la legge a Mosè. L'identificazione tradizionale è con Gebel Musa; altre ipotesi sono state avanzate.",
+  "riferimenti_chiave": [
+   "Es 19,20",
+   "Es 3,1",
+   "Dt 5,2"
+  ],
+  "forme": [
+   "Sinai",
+   "Oreb",
+   "Horeb"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "cades-barnea",
+  "nome_it": "Cades-Barnea",
+  "lat": 30.6483,
+  "lon": 34.4222,
+  "tipo": "luogo",
+  "descrizione": "Oasi nel deserto a sud di Canaan, dove Israele rimase a lungo.",
+  "riferimenti_chiave": [
+   "Nm 13,26",
+   "Nm 20,1",
+   "Dt 1,46"
+  ],
+  "forme": [
+   "Cades",
+   "Cades-Barnea",
+   "Meriba di Cades"
+  ]
+ },
+ {
+  "id": "refidim",
+  "nome_it": "Refidim",
+  "lat": 28.6231,
+  "lon": 33.8803,
+  "tipo": "luogo",
+  "descrizione": "Luogo nel deserto dove Israele combatté contro Amalec e Mosè ebbe l'acqua dalla roccia.",
+  "riferimenti_chiave": [
+   "Es 17,1",
+   "Es 17,8"
+  ],
+  "forme": [
+   "Refidim"
+  ]
+ },
+ {
+  "id": "monte-hor",
+  "nome_it": "Monte Hor",
+  "lat": 30.8321,
+  "lon": 35.0569,
+  "tipo": "monte",
+  "descrizione": "Monte dove morì Aronne.",
+  "riferimenti_chiave": [
+   "Nm 20,22",
+   "Nm 33,38"
+  ],
+  "forme": [
+   "Hor"
+  ]
+ },
+ {
+  "id": "esion-gheber",
+  "nome_it": "Esion-Gheber",
+  "lat": 29.5472,
+  "lon": 34.9803,
+  "tipo": "città",
+  "descrizione": "Porto sul golfo di Aqaba, usato da Salomone per le sue navi.",
+  "riferimenti_chiave": [
+   "Nm 33,35",
+   "1Re 9,26"
+  ],
+  "forme": [
+   "Esion-Gheber"
+  ]
+ },
+ {
+  "id": "elat",
+  "nome_it": "Elat",
+  "lat": 29.5307,
+  "lon": 35.0,
+  "tipo": "città",
+  "descrizione": "Porto vicino a Esion-Gheber, sul mar Rosso.",
+  "riferimenti_chiave": [
+   "Dt 2,8",
+   "2Re 14,22"
+  ],
+  "forme": [
+   "Elat"
+  ]
+ },
+ {
+  "id": "amalec",
+  "nome_it": "Amalec",
+  "lat": 30.6483,
+  "lon": 34.4222,
+  "tipo": "regione",
+  "descrizione": "Territorio degli Amalechiti, popolo nomade del sud, nemico d'Israele.",
+  "riferimenti_chiave": [
+   "Es 17,8",
+   "1Sam 15,2"
+  ],
+  "forme": [
+   "Amalec",
+   "Amalechiti"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "negheb",
+  "nome_it": "Negheb",
+  "lat": 31.2447,
+  "lon": 34.8408,
+  "tipo": "regione",
+  "descrizione": "Regione arida a sud di Giuda.",
+  "riferimenti_chiave": [
+   "Gn 12,9",
+   "Gn 24,62"
+  ],
+  "forme": [
+   "Negheb",
+   "mezzogiorno"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "filistia",
+  "nome_it": "Filistia",
+  "lat": 31.6639,
+  "lon": 34.5458,
+  "tipo": "regione",
+  "descrizione": "Territorio dei Filistei, sulla costa sud-occidentale, con le cinque città di Gaza, Asdod, Ascalon, Gat ed Ecron.",
+  "riferimenti_chiave": [
+   "Es 15,14",
+   "Sal 60,8"
+  ],
+  "forme": [
+   "Filistia",
+   "Filistei"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "gaza",
+  "nome_it": "Gaza",
+  "lat": 31.504,
+  "lon": 34.4644,
+  "tipo": "città",
+  "descrizione": "Città filistea della costa, vicino al confine meridionale. Qui Sansone morì.",
+  "riferimenti_chiave": [
+   "Gdc 16,21",
+   "At 8,26"
+  ],
+  "forme": [
+   "Gaza"
+  ]
+ },
+ {
+  "id": "asdod",
+  "nome_it": "Asdod",
+  "lat": 31.7572,
+  "lon": 34.6578,
+  "tipo": "città",
+  "descrizione": "Una delle cinque città filistee, dove fu portata l'arca e dove sorgeva il tempio di Dagon.",
+  "riferimenti_chiave": [
+   "1Sam 5,1",
+   "At 8,40"
+  ],
+  "forme": [
+   "Asdod",
+   "Azoto"
+  ]
+ },
+ {
+  "id": "ascalon",
+  "nome_it": "Ascalon",
+  "lat": 31.6639,
+  "lon": 34.5458,
+  "tipo": "città",
+  "descrizione": "Città portuale filistea.",
+  "riferimenti_chiave": [
+   "Gdc 14,19",
+   "1Sam 6,17"
+  ],
+  "forme": [
+   "Ascalon"
+  ]
+ },
+ {
+  "id": "gat",
+  "nome_it": "Gat",
+  "lat": 31.6997,
+  "lon": 34.8469,
+  "tipo": "città",
+  "descrizione": "Città filistea, patria di Golia.",
+  "riferimenti_chiave": [
+   "1Sam 17,4",
+   "1Sam 21,10"
+  ],
+  "forme": [
+   "Gat"
+  ]
+ },
+ {
+  "id": "ecron",
+  "nome_it": "Ecron",
+  "lat": 31.7775,
+  "lon": 34.8519,
+  "tipo": "città",
+  "descrizione": "Città filistea al confine con Giuda.",
+  "riferimenti_chiave": [
+   "1Sam 5,10",
+   "2Re 1,2"
+  ],
+  "forme": [
+   "Ecron"
+  ]
+ },
+ {
+  "id": "lachis",
+  "nome_it": "Lachis",
+  "lat": 31.5653,
+  "lon": 34.8492,
+  "tipo": "città",
+  "descrizione": "Città fortificata di Giuda, assediata da Sennacherib nel 701 a.C.",
+  "riferimenti_chiave": [
+   "Gs 10,3",
+   "2Re 18,14",
+   "Mi 1,13"
+  ],
+  "forme": [
+   "Lachis"
+  ]
+ },
+ {
+  "id": "siclag",
+  "nome_it": "Siclag",
+  "lat": 31.3912,
+  "lon": 34.6816,
+  "tipo": "città",
+  "descrizione": "Città di Giuda al confine, dove Davide visse sotto la protezione dei Filistei.",
+  "riferimenti_chiave": [
+   "1Sam 27,6",
+   "2Sam 1,1"
+  ],
+  "forme": [
+   "Siclag"
+  ]
+ },
+ {
+  "id": "saron",
+  "nome_it": "Saron",
+  "lat": 32.4,
+  "lon": 34.883,
+  "tipo": "regione",
+  "descrizione": "Pianura costiera tra il Carmelo e Giaffa.",
+  "riferimenti_chiave": [
+   "Is 35,2",
+   "Ct 2,1",
+   "At 9,35"
+  ],
+  "forme": [
+   "Saron"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "giaffa",
+  "nome_it": "Giaffa",
+  "lat": 32.0545,
+  "lon": 34.753,
+  "tipo": "città",
+  "descrizione": "Porto sulla costa mediterranea. Giona vi s'imbarcò; Pietro vi risuscitò Tabita e vi ebbe la visione del telo.",
+  "riferimenti_chiave": [
+   "Gio 1,3",
+   "At 9,36",
+   "At 10,9"
+  ],
+  "forme": [
+   "Giaffa",
+   "Ioppe"
+  ]
+ },
+ {
+  "id": "lidda",
+  "nome_it": "Lidda",
+  "lat": 31.95,
+  "lon": 34.9,
+  "tipo": "città",
+  "descrizione": "Città vicino a Giaffa, dove Pietro guarì Enea.",
+  "riferimenti_chiave": [
+   "At 9,32",
+   "Esd 2,33"
+  ],
+  "forme": [
+   "Lidda",
+   "Lod"
+  ]
+ },
+ {
+  "id": "cesarea",
+  "nome_it": "Cesarea",
+  "lat": 32.5,
+  "lon": 34.8917,
+  "tipo": "città",
+  "descrizione": "Porto sul Mediterraneo fondato da Erode il Grande; residenza del governatore romano. Vi vissero Filippo e Cornelio, e Paolo vi fu prigioniero.",
+  "riferimenti_chiave": [
+   "At 8,40",
+   "At 10,1",
+   "At 23,33"
+  ],
+  "forme": [
+   "Cesarea"
+  ]
+ },
+ {
+  "id": "tiro",
+  "nome_it": "Tiro",
+  "lat": 33.2708,
+  "lon": 35.1961,
+  "tipo": "città",
+  "descrizione": "Importante città fenicia, porto e centro commerciale, alleata di Davide e di Salomone.",
+  "riferimenti_chiave": [
+   "2Sam 5,11",
+   "Ez 26,2",
+   "Mt 11,21"
+  ],
+  "forme": [
+   "Tiro",
+   "Tiri"
+  ]
+ },
+ {
+  "id": "sidone",
+  "nome_it": "Sidone",
+  "lat": 33.561,
+  "lon": 35.3719,
+  "tipo": "città",
+  "descrizione": "Antica città fenicia sulla costa; Gesù vi si recò nella regione.",
+  "riferimenti_chiave": [
+   "Gs 19,28",
+   "Mt 15,21",
+   "Lc 10,13"
+  ],
+  "forme": [
+   "Sidone",
+   "Sidoni"
+  ]
+ },
+ {
+  "id": "sarepta",
+  "nome_it": "Sarepta",
+  "lat": 33.4642,
+  "lon": 35.2951,
+  "tipo": "città",
+  "descrizione": "Città fenicia vicino a Sidone, dove Elia fu ospitato da una vedova.",
+  "riferimenti_chiave": [
+   "1Re 17,9",
+   "Lc 4,26"
+  ],
+  "forme": [
+   "Sarepta"
+  ]
+ },
+ {
+  "id": "libano",
+  "nome_it": "Libano",
+  "lat": 33.54,
+  "lon": 35.5836,
+  "tipo": "regione",
+  "descrizione": "Catena montuosa del nord, famosa per i suoi cedri, usati nella costruzione del tempio.",
+  "riferimenti_chiave": [
+   "1Re 5,6",
+   "Sal 92,12",
+   "Is 35,2"
+  ],
+  "forme": [
+   "Libano"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "fenicia",
+  "nome_it": "Fenicia",
+  "lat": 33.2708,
+  "lon": 35.1961,
+  "tipo": "regione",
+  "descrizione": "Fascia costiera a nord della Galilea, con città come Tiro e Sidone.",
+  "riferimenti_chiave": [
+   "At 11,19",
+   "At 15,3"
+  ],
+  "forme": [
+   "Fenicia",
+   "fenici"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "canaan",
+  "nome_it": "Canaan",
+  "lat": 32.7667,
+  "lon": 35.3333,
+  "tipo": "regione",
+  "descrizione": "Il paese promesso ad Abraamo, a ovest del Giordano.",
+  "riferimenti_chiave": [
+   "Gn 12,5",
+   "Es 6,4",
+   "Gs 14,1"
+  ],
+  "forme": [
+   "Canaan",
+   "cananei"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "giudea",
+  "nome_it": "Giudea",
+  "lat": 31.7767,
+  "lon": 35.2342,
+  "tipo": "regione",
+  "descrizione": "Regione meridionale di Palestina, con Gerusalemme; nome romano della provincia nel Nuovo Testamento.",
+  "riferimenti_chiave": [
+   "Mt 2,1",
+   "Lc 3,1",
+   "At 1,8"
+  ],
+  "forme": [
+   "Giudea",
+   "Giuda",
+   "giudei"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "egitto",
+  "nome_it": "Egitto",
+  "lat": 30.1294,
+  "lon": 31.3075,
+  "tipo": "regione",
+  "descrizione": "Paese della valle del Nilo, dove Giacobbe e i suoi si stabilirono e dove Israele fu schiavo prima dell'esodo.",
+  "riferimenti_chiave": [
+   "Gn 12,10",
+   "Es 1,8",
+   "Mt 2,13"
+  ],
+  "forme": [
+   "Egitto",
+   "egiziani"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "gosen",
+  "nome_it": "Gosen",
+  "lat": 30.7994,
+  "lon": 31.8342,
+  "tipo": "regione",
+  "descrizione": "Regione del delta orientale del Nilo, dove si stabilirono Giacobbe e la sua famiglia.",
+  "riferimenti_chiave": [
+   "Gn 45,10",
+   "Es 8,22"
+  ],
+  "forme": [
+   "Gosen",
+   "Goscen"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "ramses",
+  "nome_it": "Ramses",
+  "lat": 30.7994,
+  "lon": 31.8342,
+  "tipo": "città",
+  "descrizione": "Città del delta orientale del Nilo, costruita dagli Israeliti schiavi, da cui partì l'esodo.",
+  "riferimenti_chiave": [
+   "Es 1,11",
+   "Es 12,37"
+  ],
+  "forme": [
+   "Ramses",
+   "Raamses"
+  ]
+ },
+ {
+  "id": "menfi",
+  "nome_it": "Menfi",
+  "lat": 29.8488,
+  "lon": 31.253,
+  "tipo": "città",
+  "descrizione": "Antica capitale d'Egitto, nell'area del Cairo.",
+  "riferimenti_chiave": [
+   "Is 19,13",
+   "Ger 44,1",
+   "Os 9,6"
+  ],
+  "forme": [
+   "Menfi",
+   "Nof"
+  ]
+ },
+ {
+  "id": "on",
+  "nome_it": "On",
+  "lat": 30.1294,
+  "lon": 31.3075,
+  "tipo": "città",
+  "descrizione": "Antica città sacra del dio Sole, presso il Cairo; vi visse Asenat, moglie di Giuseppe.",
+  "riferimenti_chiave": [
+   "Gn 41,45",
+   "Ez 30,17"
+  ],
+  "forme": [
+   "On",
+   "Eliopoli"
+  ]
+ },
+ {
+  "id": "nilo",
+  "nome_it": "Nilo",
+  "lat": 30.0,
+  "lon": 31.2,
+  "tipo": "acqua",
+  "descrizione": "Il grande fiume d'Egitto, nel Pentateuco chiamato semplicemente «il fiume».",
+  "riferimenti_chiave": [
+   "Es 2,3",
+   "Es 7,17",
+   "Is 19,5"
+  ],
+  "forme": [
+   "Nilo",
+   "fiume"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "cus",
+  "nome_it": "Cus",
+  "lat": 16.9351,
+  "lon": 33.7507,
+  "tipo": "regione",
+  "descrizione": "Regione a sud dell'Egitto, corrispondente alla Nubia (Etiopia) .",
+  "riferimenti_chiave": [
+   "Gn 2,13",
+   "Is 18,1",
+   "At 8,27"
+  ],
+  "forme": [
+   "Cus",
+   "Etiopia",
+   "etiopi"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "alessandria",
+  "nome_it": "Alessandria",
+  "lat": 31.1825,
+  "lon": 29.8965,
+  "tipo": "città",
+  "descrizione": "Grande città dell'Egitto, con la più numerosa comunità giudaica fuori della Palestina.",
+  "riferimenti_chiave": [
+   "At 6,9",
+   "At 18,24"
+  ],
+  "forme": [
+   "Alessandria",
+   "alessandrini"
+  ]
+ },
+ {
+  "id": "cirene",
+  "nome_it": "Cirene",
+  "lat": 32.8209,
+  "lon": 21.8512,
+  "tipo": "città",
+  "descrizione": "Città della costa libica con una comunità giudaica; Simone che portò la croce era di qui.",
+  "riferimenti_chiave": [
+   "Mt 27,32",
+   "At 2,10",
+   "At 13,1"
+  ],
+  "forme": [
+   "Cirene",
+   "cirenei"
+  ]
+ },
+ {
+  "id": "assiria",
+  "nome_it": "Assiria",
+  "lat": 36.3594,
+  "lon": 43.1528,
+  "tipo": "regione",
+  "descrizione": "Impero della Mesopotamia settentrionale, con capitale Ninive, che distrusse il regno del Nord.",
+  "riferimenti_chiave": [
+   "2Re 17,6",
+   "Is 10,5"
+  ],
+  "forme": [
+   "Assiria",
+   "assiri"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "ninive",
+  "nome_it": "Ninive",
+  "lat": 36.3594,
+  "lon": 43.1528,
+  "tipo": "città",
+  "descrizione": "Capitale dell'Assiria, sulle rive del Tigri. Ci andò Giona; Naum ne annunciò la caduta.",
+  "riferimenti_chiave": [
+   "Gn 10,11",
+   "Gio 1,2",
+   "Na 1,1"
+  ],
+  "forme": [
+   "Ninive",
+   "niniviti"
+  ]
+ },
+ {
+  "id": "babilonia",
+  "nome_it": "Babilonia",
+  "lat": 32.5433,
+  "lon": 44.4222,
+  "tipo": "città",
+  "descrizione": "Capitale dell'impero babilonese, sull'Eufrate. Nabucodonosor deportò qui il popolo di Giuda. Nel NT il nome indica per estensione l'impero oppressore.",
+  "riferimenti_chiave": [
+   "2Re 25,1",
+   "Sal 137,1",
+   "Ap 18,2"
+  ],
+  "forme": [
+   "Babilonia",
+   "babilonesi"
+  ]
+ },
+ {
+  "id": "caldea",
+  "nome_it": "Caldea",
+  "lat": 30.9622,
+  "lon": 46.1044,
+  "tipo": "regione",
+  "descrizione": "Regione della Mesopotamia meridionale, patria di Abraamo; poi nome dell'impero neo-babilonese.",
+  "riferimenti_chiave": [
+   "Gn 11,28",
+   "Ger 50,1",
+   "At 7,4"
+  ],
+  "forme": [
+   "Caldea",
+   "caldei"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "ur-dei-caldei",
+  "nome_it": "Ur dei Caldei",
+  "lat": 30.9622,
+  "lon": 46.1044,
+  "tipo": "città",
+  "descrizione": "Città della Mesopotamia meridionale, da cui partì Abraamo con la famiglia.",
+  "riferimenti_chiave": [
+   "Gn 11,28",
+   "Gn 15,7",
+   "Ne 9,7"
+  ],
+  "forme": [
+   "Ur dei Caldei",
+   "Ur"
+  ]
+ },
+ {
+  "id": "caran",
+  "nome_it": "Caran",
+  "lat": 36.8644,
+  "lon": 39.0328,
+  "tipo": "città",
+  "descrizione": "Città della Mesopotamia settentrionale, dove Abraamo si fermò. Poi Giacobbe vi trovò rifugio presso Labano.",
+  "riferimenti_chiave": [
+   "Gn 11,31",
+   "Gn 28,10",
+   "At 7,2"
+  ],
+  "forme": [
+   "Caran",
+   "Charan",
+   "Aran",
+   "Haran"
+  ]
+ },
+ {
+  "id": "mesopotamia",
+  "nome_it": "Mesopotamia",
+  "lat": 36.8644,
+  "lon": 39.0328,
+  "tipo": "regione",
+  "descrizione": "La regione tra i fiumi Tigri ed Eufrate; Abraamo vi nacque e vi visse in gran parte.",
+  "riferimenti_chiave": [
+   "Gn 24,10",
+   "At 7,2"
+  ],
+  "forme": [
+   "Mesopotamia",
+   "Aram-Naharaim",
+   "Paddan-Aram"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "eufrate",
+  "nome_it": "Eufrate",
+  "lat": 36.5,
+  "lon": 38.0,
+  "tipo": "acqua",
+  "descrizione": "Il fiume più lungo dell'Asia occidentale, confine settentrionale ideale della terra promessa.",
+  "riferimenti_chiave": [
+   "Gn 2,14",
+   "Gn 15,18",
+   "Ap 16,12"
+  ],
+  "forme": [
+   "Eufrate"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "tigri",
+  "nome_it": "Tigri",
+  "lat": 36.35,
+  "lon": 43.15,
+  "tipo": "acqua",
+  "descrizione": "Fiume della Mesopotamia, sulle cui rive sorgeva Ninive.",
+  "riferimenti_chiave": [
+   "Gn 2,14",
+   "Dn 10,4"
+  ],
+  "forme": [
+   "Tigri",
+   "Chiddechel",
+   "Hiddekel"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "fiume-chebar",
+  "nome_it": "Fiume Chebar",
+  "lat": 32.1269,
+  "lon": 45.2308,
+  "tipo": "acqua",
+  "descrizione": "Canale in Babilonia, dove Ezechiele ebbe le sue visioni.",
+  "riferimenti_chiave": [
+   "Ez 1,1",
+   "Ez 3,15"
+  ],
+  "forme": [
+   "Chebar"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "sennaar",
+  "nome_it": "Sennaar",
+  "lat": 32.5433,
+  "lon": 44.4222,
+  "tipo": "regione",
+  "descrizione": "Pianura della Babilonia, dove sorse Babele.",
+  "riferimenti_chiave": [
+   "Gn 10,10",
+   "Gn 11,2",
+   "Dn 1,2"
+  ],
+  "forme": [
+   "Sennaar"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "ararat",
+  "nome_it": "Ararat",
+  "lat": 39.7028,
+  "lon": 44.3004,
+  "tipo": "regione",
+  "descrizione": "Regione dell'Armenia; l'arca di Noè si fermò «sui monti di Ararat».",
+  "riferimenti_chiave": [
+   "Gn 8,4",
+   "2Re 19,37"
+  ],
+  "forme": [
+   "Ararat"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "persia",
+  "nome_it": "Persia",
+  "lat": 34.8065,
+  "lon": 48.5162,
+  "tipo": "regione",
+  "descrizione": "Impero a est di Babilonia, che permise il ritorno degli esuli. Ciro, Dario e Artaserse ne furono re.",
+  "riferimenti_chiave": [
+   "2Cr 36,22",
+   "Esd 1,1",
+   "Est 1,3"
+  ],
+  "forme": [
+   "Persia",
+   "persiani"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "susa",
+  "nome_it": "Susa",
+  "lat": 32.1892,
+  "lon": 48.2578,
+  "tipo": "città",
+  "descrizione": "Capitale invernale dei re persiani; vi si svolgono le vicende di Ester e di Neemia.",
+  "riferimenti_chiave": [
+   "Ne 1,1",
+   "Est 1,2",
+   "Dn 8,2"
+  ],
+  "forme": [
+   "Susa",
+   "Susan"
+  ]
+ },
+ {
+  "id": "elam",
+  "nome_it": "Elam",
+  "lat": 32.1892,
+  "lon": 48.2578,
+  "tipo": "regione",
+  "descrizione": "Regione a est della Mesopotamia, corrispondente all'area di Susa.",
+  "riferimenti_chiave": [
+   "Gn 14,1",
+   "Is 21,2",
+   "At 2,9"
+  ],
+  "forme": [
+   "Elam",
+   "elamiti"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "media",
+  "nome_it": "Media",
+  "lat": 34.8065,
+  "lon": 48.5162,
+  "tipo": "regione",
+  "descrizione": "Regione a nord-est della Mesopotamia; i Medi si unirono ai Persiani.",
+  "riferimenti_chiave": [
+   "2Re 17,6",
+   "Dn 5,28",
+   "Est 1,3"
+  ],
+  "forme": [
+   "Media",
+   "medi"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "damasco",
+  "nome_it": "Damasco",
+  "lat": 33.5111,
+  "lon": 36.3064,
+  "tipo": "città",
+  "descrizione": "Antica capitale degli Aramei (Siria). Sulla via di Damasco Saulo incontrò il Signore risorto.",
+  "riferimenti_chiave": [
+   "1Re 11,24",
+   "Is 7,8",
+   "At 9,3"
+  ],
+  "forme": [
+   "Damasco"
+  ]
+ },
+ {
+  "id": "siria",
+  "nome_it": "Siria",
+  "lat": 33.5111,
+  "lon": 36.3064,
+  "tipo": "regione",
+  "descrizione": "Regione a nord-est di Israele, con Damasco; ai tempi del NT è una provincia romana.",
+  "riferimenti_chiave": [
+   "2Sam 8,6",
+   "Mt 4,24",
+   "At 15,41"
+  ],
+  "forme": [
+   "Siria",
+   "siri",
+   "Aram"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "antiochia-di-siria",
+  "nome_it": "Antiochia di Siria",
+  "lat": 36.2267,
+  "lon": 36.1717,
+  "tipo": "città",
+  "descrizione": "Capitale della provincia romana di Siria; qui i discepoli furono chiamati «cristiani» per la prima volta. Da qui partirono i viaggi missionari di Paolo.",
+  "riferimenti_chiave": [
+   "At 11,26",
+   "At 13,1",
+   "At 14,26"
+  ],
+  "forme": [
+   "Antiochia"
+  ]
+ },
+ {
+  "id": "tarso",
+  "nome_it": "Tarso",
+  "lat": 36.913,
+  "lon": 34.8921,
+  "tipo": "città",
+  "descrizione": "Città della Cilicia, patria di Paolo.",
+  "riferimenti_chiave": [
+   "At 9,11",
+   "At 21,39",
+   "At 22,3"
+  ],
+  "forme": [
+   "Tarso"
+  ]
+ },
+ {
+  "id": "cilicia",
+  "nome_it": "Cilicia",
+  "lat": 36.913,
+  "lon": 34.8921,
+  "tipo": "regione",
+  "descrizione": "Provincia romana dell'Asia Minore sud-orientale, con Tarso.",
+  "riferimenti_chiave": [
+   "At 15,41",
+   "Gal 1,21"
+  ],
+  "forme": [
+   "Cilicia"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "cipro",
+  "nome_it": "Cipro",
+  "lat": 35.0,
+  "lon": 33.0,
+  "tipo": "isola",
+  "descrizione": "Grande isola del Mediterraneo orientale. Barnaba era cipriota; vi Paolo iniziò il primo viaggio missionario.",
+  "riferimenti_chiave": [
+   "At 4,36",
+   "At 13,4",
+   "At 27,4"
+  ],
+  "forme": [
+   "Cipro",
+   "ciprioti"
+  ]
+ },
+ {
+  "id": "salamina",
+  "nome_it": "Salamina",
+  "lat": 35.1849,
+  "lon": 33.9019,
+  "tipo": "città",
+  "descrizione": "Città della costa orientale di Cipro, dove Paolo e Barnaba iniziarono ad annunciare il vangelo.",
+  "riferimenti_chiave": [
+   "At 13,5"
+  ],
+  "forme": [
+   "Salamina"
+  ]
+ },
+ {
+  "id": "pafo",
+  "nome_it": "Pafo",
+  "lat": 34.7557,
+  "lon": 32.4042,
+  "tipo": "città",
+  "descrizione": "Città sul lato occidentale di Cipro, dove Paolo incontrò il proconsole Sergio Paolo.",
+  "riferimenti_chiave": [
+   "At 13,6",
+   "At 13,13"
+  ],
+  "forme": [
+   "Pafo"
+  ]
+ },
+ {
+  "id": "antiochia-di-pisidia",
+  "nome_it": "Antiochia di Pisidia",
+  "lat": 38.3061,
+  "lon": 31.1892,
+  "tipo": "città",
+  "descrizione": "Città dell'Asia Minore, dove Paolo predicò nella sinagoga.",
+  "riferimenti_chiave": [
+   "At 13,14",
+   "2Tm 3,11"
+  ],
+  "forme": [
+   "Antiochia di Pisidia"
+  ]
+ },
+ {
+  "id": "iconio",
+  "nome_it": "Iconio",
+  "lat": 37.8722,
+  "lon": 32.4923,
+  "tipo": "città",
+  "descrizione": "Città della Licaonia; Paolo e Barnaba vi predicarono.",
+  "riferimenti_chiave": [
+   "At 13,51",
+   "At 14,1",
+   "2Tm 3,11"
+  ],
+  "forme": [
+   "Iconio"
+  ]
+ },
+ {
+  "id": "listra",
+  "nome_it": "Listra",
+  "lat": 37.6017,
+  "lon": 32.3384,
+  "tipo": "città",
+  "descrizione": "Città della Licaonia, dove Paolo guarì uno zoppo e fu lapidato. Patria di Timoteo.",
+  "riferimenti_chiave": [
+   "At 14,8",
+   "At 16,1"
+  ],
+  "forme": [
+   "Listra"
+  ]
+ },
+ {
+  "id": "derba",
+  "nome_it": "Derba",
+  "lat": 37.3486,
+  "lon": 33.3615,
+  "tipo": "città",
+  "descrizione": "Città della Licaonia, ultima tappa del primo viaggio missionario.",
+  "riferimenti_chiave": [
+   "At 14,20",
+   "At 20,4"
+  ],
+  "forme": [
+   "Derba"
+  ]
+ },
+ {
+  "id": "galazia",
+  "nome_it": "Galazia",
+  "lat": 39.2667,
+  "lon": 32.9833,
+  "tipo": "regione",
+  "descrizione": "Regione dell'Asia Minore, dove Paolo fondò chiese e a cui scrisse una lettera.",
+  "riferimenti_chiave": [
+   "At 16,6",
+   "Gal 1,2",
+   "1Pt 1,1"
+  ],
+  "forme": [
+   "Galazia",
+   "galati"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "asia",
+  "nome_it": "Asia",
+  "lat": 38.4,
+  "lon": 28.3,
+  "tipo": "regione",
+  "descrizione": "Provincia romana dell'Asia occidentale, con Efeso come capitale.",
+  "riferimenti_chiave": [
+   "At 2,9",
+   "At 19,10",
+   "Ap 1,4"
+  ],
+  "forme": [
+   "Asia"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "troas",
+  "nome_it": "Troas",
+  "lat": 39.7519,
+  "lon": 26.1586,
+  "tipo": "città",
+  "descrizione": "Porto della costa nord-occidentale dell'Asia Minore, dove Paolo ebbe la visione dell'uomo macedone.",
+  "riferimenti_chiave": [
+   "At 16,8",
+   "At 20,6",
+   "2Cor 2,12"
+  ],
+  "forme": [
+   "Troas"
+  ]
+ },
+ {
+  "id": "efeso",
+  "nome_it": "Efeso",
+  "lat": 37.9391,
+  "lon": 27.3407,
+  "tipo": "città",
+  "descrizione": "Capitale della provincia d'Asia, con il tempio di Artemide. Paolo vi si fermò circa tre anni; è la prima delle sette chiese dell'Apocalisse.",
+  "riferimenti_chiave": [
+   "At 19,1",
+   "Ef 1,1",
+   "Ap 2,1"
+  ],
+  "forme": [
+   "Efeso"
+  ]
+ },
+ {
+  "id": "smirne",
+  "nome_it": "Smirne",
+  "lat": 38.4189,
+  "lon": 27.1378,
+  "tipo": "città",
+  "descrizione": "Città portuale dell'Asia, seconda chiesa dell'Apocalisse.",
+  "riferimenti_chiave": [
+   "Ap 1,11",
+   "Ap 2,8"
+  ],
+  "forme": [
+   "Smirne"
+  ]
+ },
+ {
+  "id": "pergamo",
+  "nome_it": "Pergamo",
+  "lat": 39.1322,
+  "lon": 27.1842,
+  "tipo": "città",
+  "descrizione": "Città dell'Asia con importanti santuari; terza chiesa dell'Apocalisse.",
+  "riferimenti_chiave": [
+   "Ap 2,12"
+  ],
+  "forme": [
+   "Pergamo"
+  ]
+ },
+ {
+  "id": "tiatiri",
+  "nome_it": "Tiatiri",
+  "lat": 38.9202,
+  "lon": 27.8365,
+  "tipo": "città",
+  "descrizione": "Città commerciale dell'Asia, patria di Lidia. Quarta chiesa dell'Apocalisse.",
+  "riferimenti_chiave": [
+   "At 16,14",
+   "Ap 2,18"
+  ],
+  "forme": [
+   "Tiatiri"
+  ]
+ },
+ {
+  "id": "sardi",
+  "nome_it": "Sardi",
+  "lat": 38.4883,
+  "lon": 28.0403,
+  "tipo": "città",
+  "descrizione": "Antica capitale della Lidia, quinta chiesa dell'Apocalisse.",
+  "riferimenti_chiave": [
+   "Ap 3,1"
+  ],
+  "forme": [
+   "Sardi"
+  ]
+ },
+ {
+  "id": "filadelfia",
+  "nome_it": "Filadelfia",
+  "lat": 38.35,
+  "lon": 28.5167,
+  "tipo": "città",
+  "descrizione": "Città dell'Asia, sesta chiesa dell'Apocalisse.",
+  "riferimenti_chiave": [
+   "Ap 3,7"
+  ],
+  "forme": [
+   "Filadelfia"
+  ]
+ },
+ {
+  "id": "laodicea",
+  "nome_it": "Laodicea",
+  "lat": 37.8358,
+  "lon": 29.1075,
+  "tipo": "città",
+  "descrizione": "Città nella valle del Lico, settima chiesa dell'Apocalisse; menzionata anche da Paolo.",
+  "riferimenti_chiave": [
+   "Col 2,1",
+   "Col 4,16",
+   "Ap 3,14"
+  ],
+  "forme": [
+   "Laodicea"
+  ]
+ },
+ {
+  "id": "colosse",
+  "nome_it": "Colosse",
+  "lat": 37.7866,
+  "lon": 29.2599,
+  "tipo": "città",
+  "descrizione": "Città della Frigia, nella valle del Lico, a cui Paolo scrisse.",
+  "riferimenti_chiave": [
+   "Col 1,2",
+   "Col 4,13"
+  ],
+  "forme": [
+   "Colosse"
+  ]
+ },
+ {
+  "id": "mileto",
+  "nome_it": "Mileto",
+  "lat": 37.5311,
+  "lon": 27.2756,
+  "tipo": "città",
+  "descrizione": "Porto della costa d'Asia, dove Paolo salutò gli anziani di Efeso.",
+  "riferimenti_chiave": [
+   "At 20,15",
+   "At 20,17",
+   "2Tm 4,20"
+  ],
+  "forme": [
+   "Mileto"
+  ]
+ },
+ {
+  "id": "patmos",
+  "nome_it": "Patmos",
+  "lat": 37.325,
+  "lon": 26.5417,
+  "tipo": "isola",
+  "descrizione": "Piccola isola dell'Egeo, dove Giovanni ricevette la rivelazione dell'Apocalisse.",
+  "riferimenti_chiave": [
+   "Ap 1,9"
+  ],
+  "forme": [
+   "Patmos"
+  ]
+ },
+ {
+  "id": "filippi",
+  "nome_it": "Filippi",
+  "lat": 41.0121,
+  "lon": 24.2846,
+  "tipo": "città",
+  "descrizione": "Colonia romana in Macedonia, prima città europea evangelizzata da Paolo. A essa Paolo scrisse la lettera ai Filippesi.",
+  "riferimenti_chiave": [
+   "At 16,12",
+   "Fil 1,1"
+  ],
+  "forme": [
+   "Filippi"
+  ]
+ },
+ {
+  "id": "neapoli",
+  "nome_it": "Neapoli",
+  "lat": 40.935,
+  "lon": 24.415,
+  "tipo": "città",
+  "descrizione": "Porto della Macedonia, dove Paolo sbarcò arrivando in Europa.",
+  "riferimenti_chiave": [
+   "At 16,11"
+  ],
+  "forme": [
+   "Neapoli"
+  ]
+ },
+ {
+  "id": "tessalonica",
+  "nome_it": "Tessalonica",
+  "lat": 40.6378,
+  "lon": 22.9458,
+  "tipo": "città",
+  "descrizione": "Capitale della Macedonia; Paolo vi fondò una chiesa e scrisse due lettere ai Tessalonicesi.",
+  "riferimenti_chiave": [
+   "At 17,1",
+   "1Ts 1,1"
+  ],
+  "forme": [
+   "Tessalonica"
+  ]
+ },
+ {
+  "id": "berea",
+  "nome_it": "Berea",
+  "lat": 40.5183,
+  "lon": 22.2,
+  "tipo": "città",
+  "descrizione": "Città della Macedonia; i suoi abitanti esaminavano ogni giorno le Scritture.",
+  "riferimenti_chiave": [
+   "At 17,10",
+   "At 20,4"
+  ],
+  "forme": [
+   "Berea"
+  ]
+ },
+ {
+  "id": "atene",
+  "nome_it": "Atene",
+  "lat": 37.9719,
+  "lon": 23.7267,
+  "tipo": "città",
+  "descrizione": "Capitale culturale della Grecia, dove Paolo parlò sull'Areopago.",
+  "riferimenti_chiave": [
+   "At 17,15",
+   "1Ts 3,1"
+  ],
+  "forme": [
+   "Atene",
+   "ateniesi"
+  ]
+ },
+ {
+  "id": "areopago",
+  "nome_it": "Areopago",
+  "lat": 37.9722,
+  "lon": 23.7236,
+  "tipo": "luogo",
+  "descrizione": "Colle di Atene dove Paolo tenne il suo discorso.",
+  "riferimenti_chiave": [
+   "At 17,19",
+   "At 17,22"
+  ],
+  "forme": [
+   "Areopago"
+  ]
+ },
+ {
+  "id": "corinto",
+  "nome_it": "Corinto",
+  "lat": 37.9058,
+  "lon": 22.8787,
+  "tipo": "città",
+  "descrizione": "Grande porto commerciale della Grecia. Paolo vi fondò una chiesa e vi si trattenne circa un anno e mezzo.",
+  "riferimenti_chiave": [
+   "At 18,1",
+   "1Cor 1,2",
+   "2Cor 1,1"
+  ],
+  "forme": [
+   "Corinto",
+   "corinzi"
+  ]
+ },
+ {
+  "id": "macedonia",
+  "nome_it": "Macedonia",
+  "lat": 41.6,
+  "lon": 22.54,
+  "tipo": "regione",
+  "descrizione": "Regione della Grecia settentrionale, dove Paolo fondò chiese a Filippi, Tessalonica e Berea.",
+  "riferimenti_chiave": [
+   "At 16,9",
+   "2Cor 8,1",
+   "Fil 4,15"
+  ],
+  "forme": [
+   "Macedonia",
+   "macedoni"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "acaia",
+  "nome_it": "Acaia",
+  "lat": 38.72,
+  "lon": 22.54,
+  "tipo": "regione",
+  "descrizione": "Provincia romana della Grecia centrale e meridionale, con Corinto e Atene.",
+  "riferimenti_chiave": [
+   "At 18,12",
+   "Rm 15,26",
+   "2Cor 1,1"
+  ],
+  "forme": [
+   "Acaia"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "creta",
+  "nome_it": "Creta",
+  "lat": 35.3097,
+  "lon": 24.8933,
+  "tipo": "isola",
+  "descrizione": "Grande isola greca del Mediterraneo; vi Tito fu lasciato da Paolo.",
+  "riferimenti_chiave": [
+   "At 27,12",
+   "Tt 1,5"
+  ],
+  "forme": [
+   "Creta",
+   "cretesi"
+  ]
+ },
+ {
+  "id": "buoni-porti",
+  "nome_it": "Buoni Porti",
+  "lat": 34.9297,
+  "lon": 24.8003,
+  "tipo": "luogo",
+  "descrizione": "Baia sulla costa meridionale di Creta, dove la nave di Paolo trovò riparo.",
+  "riferimenti_chiave": [
+   "At 27,8"
+  ],
+  "forme": [
+   "Buoni Porti"
+  ]
+ },
+ {
+  "id": "malta",
+  "nome_it": "Malta",
+  "lat": 35.9335,
+  "lon": 14.4117,
+  "tipo": "isola",
+  "descrizione": "Isola dove Paolo naufragò e trascorse tre mesi.",
+  "riferimenti_chiave": [
+   "At 28,1"
+  ],
+  "forme": [
+   "Malta",
+   "Melita"
+  ]
+ },
+ {
+  "id": "siracusa",
+  "nome_it": "Siracusa",
+  "lat": 37.0639,
+  "lon": 15.2931,
+  "tipo": "città",
+  "descrizione": "Città della Sicilia, dove la nave di Paolo si fermò tre giorni.",
+  "riferimenti_chiave": [
+   "At 28,12"
+  ],
+  "forme": [
+   "Siracusa"
+  ]
+ },
+ {
+  "id": "reggio",
+  "nome_it": "Reggio",
+  "lat": 38.1088,
+  "lon": 15.6441,
+  "tipo": "città",
+  "descrizione": "Città dell'Italia meridionale, tappa del viaggio di Paolo verso Roma.",
+  "riferimenti_chiave": [
+   "At 28,13"
+  ],
+  "forme": [
+   "Reggio"
+  ]
+ },
+ {
+  "id": "pozzuoli",
+  "nome_it": "Pozzuoli",
+  "lat": 40.8261,
+  "lon": 14.1206,
+  "tipo": "città",
+  "descrizione": "Porto della Campania, dove Paolo trovò dei fratelli e rimase sette giorni.",
+  "riferimenti_chiave": [
+   "At 28,13"
+  ],
+  "forme": [
+   "Pozzuoli"
+  ]
+ },
+ {
+  "id": "roma",
+  "nome_it": "Roma",
+  "lat": 41.8922,
+  "lon": 12.4852,
+  "tipo": "città",
+  "descrizione": "Capitale dell'impero romano. Paolo vi giunse come prigioniero e vi rimase; a questa chiesa scrisse la lettera ai Romani.",
+  "riferimenti_chiave": [
+   "At 28,16",
+   "Rm 1,7",
+   "2Tm 1,17"
+  ],
+  "forme": [
+   "Roma",
+   "romani"
+  ]
+ },
+ {
+  "id": "spagna",
+  "nome_it": "Spagna",
+  "lat": 40.21,
+  "lon": -4.35,
+  "tipo": "regione",
+  "descrizione": "Meta della missione che Paolo si proponeva di compiere.",
+  "riferimenti_chiave": [
+   "Rm 15,24",
+   "Rm 15,28"
+  ],
+  "forme": [
+   "Spagna"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "saba",
+  "nome_it": "Saba",
+  "lat": 15.3483,
+  "lon": 44.2064,
+  "tipo": "regione",
+  "descrizione": "Regno dell'Arabia meridionale, da cui venne la regina di Saba a visitare Salomone.",
+  "riferimenti_chiave": [
+   "1Re 10,1",
+   "Sal 72,10"
+  ],
+  "forme": [
+   "Saba",
+   "Seba",
+   "Sceba"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "eden",
+  "nome_it": "Eden",
+  "lat": 36.7,
+  "lon": 38.1,
+  "tipo": "regione",
+  "descrizione": "Il giardino dove Dio pose Adamo ed Eva. La posizione è sconosciuta; le fonti la mettono a «oriente».",
+  "riferimenti_chiave": [
+   "Gn 2,8",
+   "Gn 3,24"
+  ],
+  "forme": [
+   "Eden"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "babele",
+  "nome_it": "Babele",
+  "lat": 32.5433,
+  "lon": 44.4222,
+  "tipo": "città",
+  "descrizione": "Città con la torre costruita dagli uomini in Sennaar; Dio confuse le loro lingue.",
+  "riferimenti_chiave": [
+   "Gn 11,4",
+   "Gn 11,9"
+  ],
+  "forme": [
+   "Babele",
+   "Babel"
+  ]
+ },
+ {
+  "id": "tarsis",
+  "nome_it": "Tarsis",
+  "lat": 37.2719,
+  "lon": -6.9442,
+  "tipo": "regione",
+  "descrizione": "Terra lontana, verso occidente, nota per i suoi metalli; Giona cercò di fuggire là. La posizione (forse in Spagna) è discussa.",
+  "riferimenti_chiave": [
+   "1Re 10,22",
+   "Gio 1,3"
+  ],
+  "forme": [
+   "Tarsis",
+   "Tarsi"
+  ],
+  "posizione_approssimata": true
+ },
+ {
+  "id": "citta-di-davide",
+  "nome_it": "Città di Davide",
+  "lat": 31.7736,
+  "lon": 35.2356,
+  "tipo": "città",
+  "descrizione": "Nome della fortezza di Gebus conquistata da Davide, il nucleo più antico di Gerusalemme.",
+  "riferimenti_chiave": [
+   "2Sam 5,7",
+   "1Re 8,1"
+  ],
+  "forme": [
+   "città di Davide"
+  ]
+ }
+]

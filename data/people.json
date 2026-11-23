@@ -1,0 +1,1524 @@
+[
+ {
+  "id": "adamo",
+  "nome": "Adamo",
+  "forme": [
+   "Adamo"
+  ],
+  "ruolo": "Primo uomo",
+  "periodo": "Origini dell'umanità (non datato)",
+  "sintesi": "Secondo Genesi, Dio lo formò dalla polvere e lo pose nel giardino di Eden. Dopo la disobbedienza fu allontanato dal giardino.",
+  "passi_chiave": [
+   "Gn 1,26-28",
+   "Gn 2,7",
+   "Gn 3,6",
+   "Rm 5,12"
+  ],
+  "famiglia": "Moglie: Eva. Figli: Caino, Abele, Set."
+ },
+ {
+  "id": "eva",
+  "nome": "Eva",
+  "forme": [
+   "Eva"
+  ],
+  "ruolo": "Prima donna",
+  "periodo": "Origini dell'umanità (non datato)",
+  "sintesi": "Fu creata come aiuto per Adamo e fu la madre di tutti i viventi. Insieme ad Adamo disobbedì al comando di Dio.",
+  "passi_chiave": [
+   "Gn 2,22",
+   "Gn 3,6",
+   "Gn 3,20",
+   "Gn 4,1"
+  ],
+  "famiglia": "Marito: Adamo. Figli: Caino, Abele, Set."
+ },
+ {
+  "id": "caino",
+  "nome": "Caino",
+  "forme": [
+   "Caino"
+  ],
+  "ruolo": "Primogenito di Adamo",
+  "periodo": "Origini dell'umanità (non datato)",
+  "sintesi": "Agricoltore, uccise il fratello Abele per gelosia e fu mandato a vivere lontano. Gli fu messo un segno per proteggerlo.",
+  "passi_chiave": [
+   "Gn 4,1-16",
+   "Eb 11,4",
+   "1Gv 3,12"
+  ],
+  "famiglia": "Genitori: Adamo ed Eva. Fratelli: Abele, Set."
+ },
+ {
+  "id": "abele",
+  "nome": "Abele",
+  "forme": [
+   "Abele"
+  ],
+  "ruolo": "Secondo figlio di Adamo",
+  "periodo": "Origini dell'umanità (non datato)",
+  "sintesi": "Pastore, offrì a Dio un sacrificio gradito e fu ucciso dal fratello Caino. Il Nuovo Testamento lo ricorda come uomo di fede.",
+  "passi_chiave": [
+   "Gn 4,2-8",
+   "Mt 23,35",
+   "Eb 11,4"
+  ],
+  "famiglia": "Genitori: Adamo ed Eva. Fratello: Caino."
+ },
+ {
+  "id": "noe",
+  "nome": "Noè",
+  "forme": [
+   "Noè"
+  ],
+  "ruolo": "Costruttore dell'arca",
+  "periodo": "Epoca antidiluviana (non datato)",
+  "sintesi": "Uomo giusto ai tempi del diluvio; per ordine di Dio costruì l'arca e salvò la sua famiglia e gli animali. Dopo il diluvio Dio stabilì con lui un'alleanza.",
+  "passi_chiave": [
+   "Gn 6,9-22",
+   "Gn 9,8-17",
+   "Eb 11,7"
+  ],
+  "famiglia": "Moglie non nominata. Figli: Sem, Cam, Iafet."
+ },
+ {
+  "id": "abraamo",
+  "nome": "Abraamo",
+  "forme": [
+   "Abraamo",
+   "Abramo",
+   "Abrahamo"
+  ],
+  "ruolo": "Patriarca, padre dei credenti",
+  "periodo": "circa 2000-1800 a.C.",
+  "sintesi": "Chiamato da Dio a lasciare Ur e Caran, ricevette la promessa di una discendenza e di una terra. Il Nuovo Testamento lo presenta come esempio di fede.",
+  "passi_chiave": [
+   "Gn 12,1-4",
+   "Gn 15,6",
+   "Gn 22,1-18",
+   "Rm 4,3"
+  ],
+  "famiglia": "Moglie: Sara; concubina: Agar. Figli: Ismaele, Isacco."
+ },
+ {
+  "id": "sara",
+  "nome": "Sara",
+  "forme": [
+   "Sara",
+   "Sarai"
+  ],
+  "ruolo": "Moglie di Abraamo",
+  "periodo": "circa 2000-1800 a.C.",
+  "sintesi": "Sterile fino alla vecchiaia, partorì Isacco secondo la promessa di Dio. Il Nuovo Testamento la ricorda come esempio di fede.",
+  "passi_chiave": [
+   "Gn 17,15-16",
+   "Gn 21,1-3",
+   "Eb 11,11"
+  ],
+  "famiglia": "Marito: Abraamo. Figlio: Isacco."
+ },
+ {
+  "id": "agar",
+  "nome": "Agar",
+  "forme": [
+   "Agar"
+  ],
+  "ruolo": "Serva di Sara, madre di Ismaele",
+  "periodo": "circa 2000-1800 a.C.",
+  "sintesi": "Serva egiziana di Sara, partorì Ismaele ad Abraamo. Dio la soccorse nel deserto.",
+  "passi_chiave": [
+   "Gn 16,1-16",
+   "Gn 21,9-21"
+  ],
+  "famiglia": "Figlio: Ismaele (con Abraamo)."
+ },
+ {
+  "id": "lot",
+  "nome": "Lot",
+  "forme": [
+   "Lot"
+  ],
+  "ruolo": "Nipote di Abraamo",
+  "periodo": "circa 2000-1800 a.C.",
+  "sintesi": "Si separò da Abraamo e si stabilì a Sodoma; fu salvato da Dio alla distruzione della città. Fu antenato dei Moabiti e degli Ammoniti.",
+  "passi_chiave": [
+   "Gn 13,10-12",
+   "Gn 19,1-29",
+   "2Pt 2,7"
+  ],
+  "famiglia": "Zio: Abraamo. Figlie: due; discendenti: Moab e Ammon."
+ },
+ {
+  "id": "isacco",
+  "nome": "Isacco",
+  "forme": [
+   "Isacco"
+  ],
+  "ruolo": "Figlio di Abraamo",
+  "periodo": "circa 2000-1800 a.C.",
+  "sintesi": "Figlio della promessa, nato da Sara in vecchiaia; fu offerto in sacrificio ma Dio provvide un montone. Padre di Esaù e Giacobbe.",
+  "passi_chiave": [
+   "Gn 21,1-3",
+   "Gn 22,1-14",
+   "Gn 26,1-5"
+  ],
+  "famiglia": "Genitori: Abraamo e Sara. Moglie: Rebecca. Figli: Esaù e Giacobbe."
+ },
+ {
+  "id": "rebecca",
+  "nome": "Rebecca",
+  "forme": [
+   "Rebecca"
+  ],
+  "ruolo": "Moglie di Isacco",
+  "periodo": "circa 2000-1800 a.C.",
+  "sintesi": "Scelta come moglie di Isacco al pozzo di Nahor, fu madre di Esaù e Giacobbe.",
+  "passi_chiave": [
+   "Gn 24,15-67",
+   "Gn 25,21-28"
+  ],
+  "famiglia": "Marito: Isacco. Figli: Esaù e Giacobbe."
+ },
+ {
+  "id": "giacobbe",
+  "nome": "Giacobbe",
+  "forme": [
+   "Giacobbe",
+   "Israele"
+  ],
+  "ruolo": "Patriarca, padre delle dodici tribù",
+  "periodo": "circa 1900-1700 a.C.",
+  "sintesi": "Figlio di Isacco, ricevette il nome Israele dopo la lotta a Penuel. Dai suoi dodici figli nacquero le tribù d'Israele.",
+  "passi_chiave": [
+   "Gn 28,10-22",
+   "Gn 32,22-32",
+   "Gn 35,9-12"
+  ],
+  "famiglia": "Genitori: Isacco e Rebecca. Mogli: Lea, Rachele. Figli: dodici, tra cui Giuseppe e Giuda."
+ },
+ {
+  "id": "esau",
+  "nome": "Esaù",
+  "forme": [
+   "Esaù"
+  ],
+  "ruolo": "Fratello gemello di Giacobbe",
+  "periodo": "circa 1900-1700 a.C.",
+  "sintesi": "Primogenito di Isacco, cedette la primogenitura a Giacobbe per un piatto di lenticchie. Fu antenato degli Edomiti.",
+  "passi_chiave": [
+   "Gn 25,29-34",
+   "Gn 27,1-40",
+   "Gn 33,1-11"
+  ],
+  "famiglia": "Genitori: Isacco e Rebecca. Fratello: Giacobbe."
+ },
+ {
+  "id": "rachele",
+  "nome": "Rachele",
+  "forme": [
+   "Rachele"
+  ],
+  "ruolo": "Moglie preferita di Giacobbe",
+  "periodo": "circa 1900-1700 a.C.",
+  "sintesi": "Figlia di Labano, fu amata da Giacobbe, che lavorò sette anni per sposarla. Madre di Giuseppe e Beniamino.",
+  "passi_chiave": [
+   "Gn 29,16-30",
+   "Gn 30,22-24",
+   "Gn 35,16-20"
+  ],
+  "famiglia": "Marito: Giacobbe. Figli: Giuseppe e Beniamino."
+ },
+ {
+  "id": "giuseppe-figlio-di-giacobbe",
+  "nome": "Giuseppe, figlio di Giacobbe",
+  "forme": [
+   "Giuseppe"
+  ],
+  "ruolo": "Figlio di Giacobbe, governatore d'Egitto",
+  "periodo": "circa 1900-1800 a.C.",
+  "sintesi": "Venduto dai fratelli, divenne alto funzionario del faraone e salvò l'Egitto e la sua famiglia dalla carestia. Fu il padre di Efraim e Manasse.",
+  "passi_chiave": [
+   "Gn 37,1-28",
+   "Gn 41,37-46",
+   "Gn 45,4-8",
+   "Gn 50,20"
+  ],
+  "famiglia": "Genitori: Giacobbe e Rachele. Moglie: Asenat. Figli: Manasse ed Efraim."
+ },
+ {
+  "id": "mose",
+  "nome": "Mosè",
+  "forme": [
+   "Mosè"
+  ],
+  "ruolo": "Profeta e legislatore d'Israele",
+  "periodo": "circa XV o XIII secolo a.C.",
+  "sintesi": "Salvato dalle acque, fu chiamato da Dio al roveto ardente per liberare Israele dall'Egitto. Ricevette la legge al Sinai e guidò il popolo nel deserto.",
+  "passi_chiave": [
+   "Es 2,1-10",
+   "Es 3,1-10",
+   "Es 20,1-17",
+   "Dt 34,1-12"
+  ],
+  "famiglia": "Genitori: Amram e Iochebed. Fratelli: Aaronne e Miriam. Moglie: Sipporà."
+ },
+ {
+  "id": "aaronne",
+  "nome": "Aaronne",
+  "forme": [
+   "Aaronne"
+  ],
+  "ruolo": "Primo sommo sacerdote",
+  "periodo": "circa XV o XIII secolo a.C.",
+  "sintesi": "Fratello di Mosè, fu il suo portavoce davanti al faraone e il primo sommo sacerdote d'Israele. Fece il vitello d'oro nel deserto.",
+  "passi_chiave": [
+   "Es 4,14-16",
+   "Es 28,1",
+   "Es 32,1-6",
+   "Nm 20,22-29"
+  ],
+  "famiglia": "Fratelli: Mosè e Miriam. Figli: Nadab, Abiu, Eleazaro, Itamar."
+ },
+ {
+  "id": "miriam",
+  "nome": "Miriam",
+  "forme": [
+   "Miriam",
+   "Maria (sorella di Mosè)"
+  ],
+  "ruolo": "Sorella di Mosè, profetessa",
+  "periodo": "circa XV o XIII secolo a.C.",
+  "sintesi": "Sorella di Mosè, vegliò su di lui da bambino e guidò il canto di vittoria dopo il passaggio del mar Rosso. Fu colpita da lebbra per aver criticato Mosè.",
+  "passi_chiave": [
+   "Es 2,4-8",
+   "Es 15,20-21",
+   "Nm 12,1-15"
+  ],
+  "famiglia": "Fratelli: Mosè e Aaronne."
+ },
+ {
+  "id": "giosue",
+  "nome": "Giosuè",
+  "forme": [
+   "Giosuè"
+  ],
+  "ruolo": "Successore di Mosè",
+  "periodo": "circa XV-XIII secolo a.C.",
+  "sintesi": "Servitore di Mosè, ne prese il posto alla guida d'Israele. Guidò la conquista di Canaan e divise la terra tra le tribù.",
+  "passi_chiave": [
+   "Nm 27,18-23",
+   "Gs 1,1-9",
+   "Gs 6,1-20",
+   "Gs 24,15"
+  ],
+  "famiglia": "Figlio di Nun, della tribù di Efraim."
+ },
+ {
+  "id": "raab",
+  "nome": "Raab",
+  "forme": [
+   "Raab"
+  ],
+  "ruolo": "Donna di Gerico che aiutò Israele",
+  "periodo": "circa XV-XIII secolo a.C.",
+  "sintesi": "Nascose le spie israelite a Gerico e fu salvata con la sua famiglia quando la città cadde. Nel Nuovo Testamento è citata come esempio di fede.",
+  "passi_chiave": [
+   "Gs 2,1-21",
+   "Gs 6,22-25",
+   "Eb 11,31",
+   "Mt 1,5"
+  ],
+  "famiglia": "Nella genealogia di Gesù è madre di Boaz (Mt 1,5)."
+ },
+ {
+  "id": "debora",
+  "nome": "Debora",
+  "forme": [
+   "Debora"
+  ],
+  "ruolo": "Giudice e profetessa",
+  "periodo": "circa XII secolo a.C.",
+  "sintesi": "Giudice e profetessa, giudicava Israele sotto una palma. Con Barac guidò la vittoria sull'esercito di Sisera.",
+  "passi_chiave": [
+   "Gdc 4,4-16",
+   "Gdc 5,1-31"
+  ],
+  "famiglia": "Marito: Lappidot."
+ },
+ {
+  "id": "gedeone",
+  "nome": "Gedeone",
+  "forme": [
+   "Gedeone",
+   "Ierubbaal"
+  ],
+  "ruolo": "Giudice d'Israele",
+  "periodo": "circa XII secolo a.C.",
+  "sintesi": "Chiamato dall'angelo del Signore, sconfisse i Madianiti con soli trecento uomini. Rifiutò di diventare re.",
+  "passi_chiave": [
+   "Gdc 6,11-24",
+   "Gdc 7,1-22",
+   "Gdc 8,22-23"
+  ],
+  "famiglia": "Del clan di Abiezer, tribù di Manasse; figlio di Ioas."
+ },
+ {
+  "id": "sansone",
+  "nome": "Sansone",
+  "forme": [
+   "Sansone"
+  ],
+  "ruolo": "Giudice, nazireo",
+  "periodo": "circa XII-XI secolo a.C.",
+  "sintesi": "Nazireo di grande forza, combatté i Filistei. Tradito da Dalila, fu catturato e morì abbattendo il tempio di Dagon.",
+  "passi_chiave": [
+   "Gdc 13,24-25",
+   "Gdc 16,4-22",
+   "Gdc 16,28-30"
+  ],
+  "famiglia": "Genitori: Manoa e sua moglie. Moglie: una donna di Timna."
+ },
+ {
+  "id": "naomi",
+  "nome": "Naomi",
+  "forme": [
+   "Naomi"
+  ],
+  "ruolo": "Suocera di Rut",
+  "periodo": "circa XII secolo a.C.",
+  "sintesi": "Di Betlemme, andò a Moab con la famiglia durante una carestia. Rimasta vedova, tornò a Betlemme con la nuora Rut.",
+  "passi_chiave": [
+   "Rt 1,1-22",
+   "Rt 4,13-17"
+  ],
+  "famiglia": "Marito: Elimelec. Figli: Malon e Chilion. Nuora: Rut."
+ },
+ {
+  "id": "rut",
+  "nome": "Rut",
+  "forme": [
+   "Rut"
+  ],
+  "ruolo": "Moabita, antenata di Davide",
+  "periodo": "circa XII secolo a.C.",
+  "sintesi": "Moabita, rimasta vedova, seguì Naomi a Betlemme e sposò Boaz. Fu bisnonna del re Davide.",
+  "passi_chiave": [
+   "Rt 1,16-17",
+   "Rt 4,13-17",
+   "Mt 1,5"
+  ],
+  "famiglia": "Marito: Boaz. Figlio: Obed. Nipote: Iesse; pronipote: Davide."
+ },
+ {
+  "id": "anna",
+  "nome": "Anna",
+  "forme": [
+   "Anna"
+  ],
+  "ruolo": "Madre di Samuele",
+  "periodo": "circa XI secolo a.C.",
+  "sintesi": "Sterile, pregò a Silo per un figlio e, esaudita, consacrò Samuele al Signore. Il suo cantico (1Sam 2) ha affinità con il Magnificat di Maria (Lc 1).",
+  "passi_chiave": [
+   "1Sam 1,9-20",
+   "1Sam 2,1-10"
+  ],
+  "famiglia": "Marito: Elcana. Figlio: Samuele."
+ },
+ {
+  "id": "samuele",
+  "nome": "Samuele",
+  "forme": [
+   "Samuele"
+  ],
+  "ruolo": "Profeta e giudice",
+  "periodo": "circa 1100-1020 a.C.",
+  "sintesi": "Cresciuto nel santuario di Silo, fu l'ultimo dei giudici e un profeta. Unse Saul e poi Davide come re.",
+  "passi_chiave": [
+   "1Sam 3,1-21",
+   "1Sam 8,4-22",
+   "1Sam 10,1",
+   "1Sam 16,1-13"
+  ],
+  "famiglia": "Genitori: Elcana e Anna."
+ },
+ {
+  "id": "saul",
+  "nome": "Saul",
+  "forme": [
+   "Saul"
+  ],
+  "ruolo": "Primo re d'Israele",
+  "periodo": "circa 1050-1010 a.C.",
+  "sintesi": "Della tribù di Beniamino, fu unto da Samuele. Dopo atti di disobbedienza fu rifiutato da Dio e morì sul monte Ghilboa.",
+  "passi_chiave": [
+   "1Sam 9,1-2",
+   "1Sam 10,1",
+   "1Sam 15,10-23",
+   "1Sam 31,1-6"
+  ],
+  "famiglia": "Padre: Chis. Figli: Gionatan e altri. Figlie: Merab e Mical."
+ },
+ {
+  "id": "gionatan",
+  "nome": "Gionatan",
+  "forme": [
+   "Gionatan"
+  ],
+  "ruolo": "Figlio di Saul, amico di Davide",
+  "periodo": "circa 1050-1010 a.C.",
+  "sintesi": "Figlio di Saul, strinse un patto di amicizia con Davide e lo protesse. Morì in battaglia con il padre.",
+  "passi_chiave": [
+   "1Sam 14,1-15",
+   "1Sam 18,1-4",
+   "1Sam 20,1-42",
+   "2Sam 1,25-27"
+  ],
+  "famiglia": "Padre: Saul. Figlio: Mefiboset."
+ },
+ {
+  "id": "davide",
+  "nome": "Davide",
+  "forme": [
+   "Davide"
+  ],
+  "ruolo": "Re d'Israele",
+  "periodo": "circa 1010-970 a.C.",
+  "sintesi": "Pastore di Betlemme, fu unto da Samuele, sconfisse Golia e divenne re. Conquistò Gerusalemme e ricevette la promessa di una dinastia eterna.",
+  "passi_chiave": [
+   "1Sam 16,1-13",
+   "1Sam 17,45-50",
+   "2Sam 5,1-12",
+   "2Sam 7,12-16"
+  ],
+  "famiglia": "Padre: Iesse. Mogli tra cui Mical, Abigail, Bat-Sceba. Figli: Amnon, Absalom, Salomone e altri."
+ },
+ {
+  "id": "bat-sceba",
+  "nome": "Bat-Sceba",
+  "forme": [
+   "Bat-Sceba"
+  ],
+  "ruolo": "Moglie di Davide, madre di Salomone",
+  "periodo": "circa 1000-960 a.C.",
+  "sintesi": "Moglie di Uria, ebbe una relazione con Davide, che fece uccidere Uria. Divenne la moglie di Davide e madre di Salomone.",
+  "passi_chiave": [
+   "2Sam 11,2-27",
+   "2Sam 12,24",
+   "1Re 1,11-31"
+  ],
+  "famiglia": "Mariti: Uria, poi Davide. Figlio: Salomone."
+ },
+ {
+  "id": "natan",
+  "nome": "Natan",
+  "forme": [
+   "Natan"
+  ],
+  "ruolo": "Profeta di Davide",
+  "periodo": "circa 1000-960 a.C.",
+  "sintesi": "Profeta alla corte di Davide, trasmise la promessa dinastica e rimproverò il re per il peccato con Bat-Sceba.",
+  "passi_chiave": [
+   "2Sam 7,1-17",
+   "2Sam 12,1-14",
+   "1Re 1,22-27"
+  ],
+  "famiglia": ""
+ },
+ {
+  "id": "salomone",
+  "nome": "Salomone",
+  "forme": [
+   "Salomone"
+  ],
+  "ruolo": "Re d'Israele, costruttore del tempio",
+  "periodo": "circa 970-930 a.C.",
+  "sintesi": "Figlio di Davide e Bat-Sceba, chiese a Dio la sapienza. Costruì il tempio a Gerusalemme; negli ultimi anni si allontanò dal Signore.",
+  "passi_chiave": [
+   "1Re 3,5-14",
+   "1Re 6,1",
+   "1Re 8,22-30",
+   "1Re 11,1-13"
+  ],
+  "famiglia": "Genitori: Davide e Bat-Sceba. Figlio: Roboamo."
+ },
+ {
+  "id": "elia",
+  "nome": "Elia",
+  "forme": [
+   "Elia"
+  ],
+  "ruolo": "Profeta del regno del Nord",
+  "periodo": "circa 870-850 a.C.",
+  "sintesi": "Profeta ai tempi di Acab e di Izebel, sfidò i profeti di Baal sul Carmelo. Fu portato in cielo su un carro di fuoco.",
+  "passi_chiave": [
+   "1Re 17,1",
+   "1Re 18,20-39",
+   "1Re 19,1-18",
+   "2Re 2,11"
+  ],
+  "famiglia": "Originario di Tisbe, in Galaad. Successore: Eliseo."
+ },
+ {
+  "id": "eliseo",
+  "nome": "Eliseo",
+  "forme": [
+   "Eliseo"
+  ],
+  "ruolo": "Profeta, successore di Elia",
+  "periodo": "circa 850-800 a.C.",
+  "sintesi": "Discepolo di Elia, ricevette una doppia porzione del suo spirito. Compì molti miracoli, tra cui la guarigione di Naaman.",
+  "passi_chiave": [
+   "1Re 19,19-21",
+   "2Re 2,9-15",
+   "2Re 4,32-37",
+   "2Re 5,1-14"
+  ],
+  "famiglia": "Figlio di Safat, di Abel-Mecola."
+ },
+ {
+  "id": "acab",
+  "nome": "Acab",
+  "forme": [
+   "Acab"
+  ],
+  "ruolo": "Re d'Israele (Nord)",
+  "periodo": "circa 874-853 a.C.",
+  "sintesi": "Re d'Israele, sposò Izebel e promosse il culto di Baal. Fu rimproverato da Elia e morì in battaglia.",
+  "passi_chiave": [
+   "1Re 16,29-33",
+   "1Re 21,1-29",
+   "1Re 22,29-40"
+  ],
+  "famiglia": "Padre: Omri. Moglie: Izebel."
+ },
+ {
+  "id": "izebel",
+  "nome": "Izebel",
+  "forme": [
+   "Izebel",
+   "Gezabele",
+   "Jezebel"
+  ],
+  "ruolo": "Regina d'Israele, moglie di Acab",
+  "periodo": "circa IX secolo a.C.",
+  "sintesi": "Figlia del re di Sidone, introdusse il culto di Baal in Israele e perseguitò i profeti del Signore. Fu uccisa per ordine di Ieu.",
+  "passi_chiave": [
+   "1Re 16,31",
+   "1Re 18,4",
+   "1Re 21,5-15",
+   "2Re 9,30-37"
+  ],
+  "famiglia": "Marito: Acab. Figli tra cui Acazia, Ioram."
+ },
+ {
+  "id": "ezechia",
+  "nome": "Ezechia",
+  "forme": [
+   "Ezechia"
+  ],
+  "ruolo": "Re di Giuda",
+  "periodo": "circa 715-686 a.C.",
+  "sintesi": "Re riformatore, rimosse gli idoli e restaurò il culto del tempio. Fu liberato da Dio dall'assedio assiro di Sennacherib.",
+  "passi_chiave": [
+   "2Re 18,1-8",
+   "2Re 19,14-37",
+   "2Re 20,1-11",
+   "Is 38,1-8"
+  ],
+  "famiglia": "Padre: Acaz. Figlio: Manasse."
+ },
+ {
+  "id": "giosia",
+  "nome": "Giosia",
+  "forme": [
+   "Giosia"
+  ],
+  "ruolo": "Re di Giuda",
+  "periodo": "circa 640-609 a.C.",
+  "sintesi": "Salito al trono ancora bambino, riformò il culto dopo il ritrovamento del libro della legge nel tempio. Morì a Meghiddo.",
+  "passi_chiave": [
+   "2Re 22,1-13",
+   "2Re 23,1-25",
+   "2Cr 34,1-33"
+  ],
+  "famiglia": "Padre: Amon."
+ },
+ {
+  "id": "isaia",
+  "nome": "Isaia",
+  "forme": [
+   "Isaia"
+  ],
+  "ruolo": "Profeta di Giuda",
+  "periodo": "circa 740-690 a.C.",
+  "sintesi": "Profeta a Gerusalemme, consigliere dei re di Giuda. Annunciò il giudizio e la speranza di un re giusto e del servo del Signore.",
+  "passi_chiave": [
+   "Is 6,1-8",
+   "Is 7,14",
+   "Is 9,5-6",
+   "Is 53,1-12"
+  ],
+  "famiglia": "Figlio di Amots."
+ },
+ {
+  "id": "geremia",
+  "nome": "Geremia",
+  "forme": [
+   "Geremia"
+  ],
+  "ruolo": "Profeta di Giuda",
+  "periodo": "circa 627-580 a.C.",
+  "sintesi": "Sacerdote di Anatot, chiamato giovane a profetizzare. Annunciò la caduta di Gerusalemme e un nuovo patto.",
+  "passi_chiave": [
+   "Ger 1,4-10",
+   "Ger 20,7-9",
+   "Ger 31,31-34",
+   "Ger 38,1-13"
+  ],
+  "famiglia": "Figlio di Chilchia. Segretario: Baruc."
+ },
+ {
+  "id": "ezechiele",
+  "nome": "Ezechiele",
+  "forme": [
+   "Ezechiele"
+  ],
+  "ruolo": "Profeta dell'esilio",
+  "periodo": "circa 593-571 a.C.",
+  "sintesi": "Sacerdote deportato a Babilonia, ebbe visioni della gloria di Dio. Annunciò la restaurazione del popolo e del tempio.",
+  "passi_chiave": [
+   "Ez 1,1-3",
+   "Ez 37,1-14",
+   "Ez 40,1-4"
+  ],
+  "famiglia": "Figlio di Buzi, sacerdote."
+ },
+ {
+  "id": "daniele",
+  "nome": "Daniele",
+  "forme": [
+   "Daniele",
+   "Beltsasar"
+  ],
+  "ruolo": "Profeta alla corte di Babilonia",
+  "periodo": "circa 605-530 a.C.",
+  "sintesi": "Deportato a Babilonia da giovane, fu consigliere dei re babilonesi e persiani. Fu gettato nella fossa dei leoni per la sua fedeltà a Dio.",
+  "passi_chiave": [
+   "Dn 1,1-21",
+   "Dn 3,16-30",
+   "Dn 6,1-28",
+   "Dn 7,13-14"
+  ],
+  "famiglia": "Compagni: Sadrac, Mesac, Abed-Nego."
+ },
+ {
+  "id": "nabucodonosor",
+  "nome": "Nabucodonosor",
+  "forme": [
+   "Nabucodonosor"
+  ],
+  "ruolo": "Re di Babilonia",
+  "periodo": "604-562 a.C.",
+  "sintesi": "Re babilonese che conquistò Gerusalemme, distrusse il tempio (586 a.C.) e deportò il popolo di Giuda.",
+  "passi_chiave": [
+   "2Re 24,10-17",
+   "2Re 25,8-12",
+   "Dn 2,1-48",
+   "Dn 4,28-37"
+  ],
+  "famiglia": "Padre: Nabopolassar."
+ },
+ {
+  "id": "ciro",
+  "nome": "Ciro",
+  "forme": [
+   "Ciro"
+  ],
+  "ruolo": "Re di Persia",
+  "periodo": "circa 559-530 a.C.",
+  "sintesi": "Conquistò Babilonia (539 a.C.) e permise agli esuli di tornare a Gerusalemme e ricostruire il tempio. Isaia lo chiama «unto» del Signore.",
+  "passi_chiave": [
+   "2Cr 36,22-23",
+   "Esd 1,1-4",
+   "Is 44,28",
+   "Is 45,1"
+  ],
+  "famiglia": ""
+ },
+ {
+  "id": "esdra",
+  "nome": "Esdra",
+  "forme": [
+   "Esdra"
+  ],
+  "ruolo": "Sacerdote e scriba",
+  "periodo": "circa 458 a.C.",
+  "sintesi": "Sacerdote e scriba esperto della legge, guidò un gruppo di esuli a Gerusalemme sotto Artaserse. Insegnò la legge al popolo.",
+  "passi_chiave": [
+   "Esd 7,1-10",
+   "Esd 7,25-26",
+   "Ne 8,1-8"
+  ],
+  "famiglia": "Discendente di Aaronne."
+ },
+ {
+  "id": "neemia",
+  "nome": "Neemia",
+  "forme": [
+   "Neemia"
+  ],
+  "ruolo": "Governatore di Giuda",
+  "periodo": "circa 445-430 a.C.",
+  "sintesi": "Coppiere del re Artaserse, tornò a Gerusalemme come governatore e ricostruì le mura in cinquantadue giorni.",
+  "passi_chiave": [
+   "Ne 1,1-11",
+   "Ne 2,11-18",
+   "Ne 6,15",
+   "Ne 13,10-14"
+  ],
+  "famiglia": "Figlio di Acalia."
+ },
+ {
+  "id": "ester",
+  "nome": "Ester",
+  "forme": [
+   "Ester",
+   "Hadassa"
+  ],
+  "ruolo": "Regina di Persia",
+  "periodo": "circa 483-473 a.C.",
+  "sintesi": "Giovane giudea divenuta regina, rischiò la vita per intercedere presso il re e salvare il suo popolo dal piano di Aman.",
+  "passi_chiave": [
+   "Est 2,7-17",
+   "Est 4,13-16",
+   "Est 7,1-10",
+   "Est 9,26-28"
+  ],
+  "famiglia": "Marito: Assuero. Cugino e tutore: Mardocheo."
+ },
+ {
+  "id": "mardocheo",
+  "nome": "Mardocheo",
+  "forme": [
+   "Mardocheo"
+  ],
+  "ruolo": "Giudeo, cugino di Ester",
+  "periodo": "circa V secolo a.C.",
+  "sintesi": "Giudeo che allevò la cugina Ester e scoprì un complotto contro il re. Rifiutò di inchinarsi ad Aman e poi fu innalzato dal re.",
+  "passi_chiave": [
+   "Est 2,5-7",
+   "Est 2,21-23",
+   "Est 6,1-11",
+   "Est 8,15"
+  ],
+  "famiglia": "Cugino e tutore di Ester."
+ },
+ {
+  "id": "giobbe",
+  "nome": "Giobbe",
+  "forme": [
+   "Giobbe"
+  ],
+  "ruolo": "Uomo giusto messo alla prova",
+  "periodo": "epoca patriarcale (non datato con certezza)",
+  "sintesi": "Uomo giusto e ricco, perse beni e figli e fu colpito da malattia, ma non rinnegò Dio. Alla fine Dio lo restaurò.",
+  "passi_chiave": [
+   "Gb 1,1-22",
+   "Gb 19,25-27",
+   "Gb 38,1-7",
+   "Gb 42,10-17",
+   "Gc 5,11"
+  ],
+  "famiglia": "Moglie e dieci figli; dopo la prova ne ebbe altri dieci."
+ },
+ {
+  "id": "giona",
+  "nome": "Giona",
+  "forme": [
+   "Giona"
+  ],
+  "ruolo": "Profeta mandato a Ninive",
+  "periodo": "circa VIII secolo a.C.",
+  "sintesi": "Mandato a predicare a Ninive, tentò di fuggire e fu inghiottito da un grosso pesce. Poi predicò e la città si pentì.",
+  "passi_chiave": [
+   "Gio 1,1-17",
+   "Gio 2,1-10",
+   "Gio 3,1-10",
+   "Mt 12,39-41"
+  ],
+  "famiglia": "Figlio di Amittai."
+ },
+ {
+  "id": "giovanni-battista",
+  "nome": "Giovanni Battista",
+  "forme": [
+   "Giovanni Battista",
+   "Giovanni il battista",
+   "il Battista",
+   "Giovanni"
+  ],
+  "ruolo": "Precursore di Gesù",
+  "periodo": "circa 6 a.C. - 29 d.C.",
+  "sintesi": "Figlio di Zaccaria ed Elisabetta, predicò il battesimo di ravvedimento nel Giordano. Battezzò Gesù e fu decapitato per ordine di Erode Antipa.",
+  "passi_chiave": [
+   "Lc 1,57-80",
+   "Mt 3,1-17",
+   "Gv 1,19-34",
+   "Mc 6,17-29"
+  ],
+  "famiglia": "Genitori: Zaccaria ed Elisabetta (parente di Maria)."
+ },
+ {
+  "id": "maria-madre-di-gesu",
+  "nome": "Maria, madre di Gesù",
+  "forme": [
+   "Maria"
+  ],
+  "ruolo": "Madre di Gesù",
+  "periodo": "I secolo a.C. - I secolo d.C.",
+  "sintesi": "Giovane di Nazaret, promessa sposa di Giuseppe, ricevette l'annuncio dell'angelo e diede alla luce Gesù. Fu presente alla croce e con i discepoli dopo la risurrezione.",
+  "passi_chiave": [
+   "Lc 1,26-38",
+   "Lc 2,1-7",
+   "Gv 19,25-27",
+   "At 1,14"
+  ],
+  "famiglia": "Marito: Giuseppe. Figli: Gesù e altri (Giacomo, Giuseppe, Simone, Giuda)."
+ },
+ {
+  "id": "giuseppe-di-nazaret",
+  "nome": "Giuseppe di Nazaret",
+  "forme": [
+   "Giuseppe"
+  ],
+  "ruolo": "Sposo di Maria",
+  "periodo": "I secolo a.C. - I secolo d.C.",
+  "sintesi": "Falegname di Nazaret, discendente di Davide, accolse Maria e Gesù. Portò la famiglia in Egitto e poi a Nazaret.",
+  "passi_chiave": [
+   "Mt 1,18-25",
+   "Mt 2,13-23",
+   "Lc 2,4-7",
+   "Lc 2,41-52"
+  ],
+  "famiglia": "Moglie: Maria. Figlio (adottivo): Gesù."
+ },
+ {
+  "id": "gesu",
+  "nome": "Gesù",
+  "forme": [
+   "Gesù",
+   "Gesù di Nazaret",
+   "Cristo",
+   "Messia"
+  ],
+  "ruolo": "Messia, Figlio di Dio",
+  "periodo": "circa 5 a.C. - 30 o 33 d.C.",
+  "sintesi": "Nato a Betlemme e cresciuto a Nazaret, predicò il regno di Dio, fu crocifisso sotto Ponzio Pilato e risuscitò il terzo giorno. I cristiani lo riconoscono come Signore e Salvatore.",
+  "passi_chiave": [
+   "Lc 2,1-20",
+   "Mt 5,1-12",
+   "Mt 28,1-10",
+   "Gv 3,16"
+  ],
+  "famiglia": "Madre: Maria. Padre adottivo: Giuseppe. Fratelli: Giacomo, Giuseppe, Simone, Giuda."
+ },
+ {
+  "id": "pietro",
+  "nome": "Pietro",
+  "forme": [
+   "Pietro",
+   "Simone",
+   "Simon Pietro",
+   "Cefa"
+  ],
+  "ruolo": "Apostolo, pescatore",
+  "periodo": "I secolo d.C. (morto circa 64-67)",
+  "sintesi": "Pescatore di Betsaida, fu chiamato da Gesù e fu tra i dodici apostoli. Confessò Gesù come Cristo, lo rinnegò tre volte, poi guidò la chiesa nascente.",
+  "passi_chiave": [
+   "Mt 4,18-20",
+   "Mt 16,13-19",
+   "Gv 21,15-19",
+   "At 2,14-41"
+  ],
+  "famiglia": "Fratello: Andrea. Suocera guarita (Mc 1,30)."
+ },
+ {
+  "id": "andrea",
+  "nome": "Andrea",
+  "forme": [
+   "Andrea"
+  ],
+  "ruolo": "Apostolo, fratello di Pietro",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Discepolo di Giovanni Battista, fu tra i primi a seguire Gesù e condusse a lui il fratello Pietro.",
+  "passi_chiave": [
+   "Gv 1,35-42",
+   "Mt 4,18-20",
+   "Gv 6,8-9"
+  ],
+  "famiglia": "Fratello: Pietro."
+ },
+ {
+  "id": "giacomo-figlio-di-zebedeo",
+  "nome": "Giacomo, figlio di Zebedeo",
+  "forme": [
+   "Giacomo",
+   "Giacomo di Zebedeo"
+  ],
+  "ruolo": "Apostolo, pescatore",
+  "periodo": "I secolo d.C. (morto circa 44)",
+  "sintesi": "Fratello di Giovanni e uno dei tre discepoli più vicini a Gesù. Fu messo a morte da Erode Agrippa I.",
+  "passi_chiave": [
+   "Mc 1,19-20",
+   "Mc 5,37",
+   "Mc 9,2",
+   "At 12,1-2"
+  ],
+  "famiglia": "Padre: Zebedeo. Fratello: Giovanni."
+ },
+ {
+  "id": "giovanni-apostolo",
+  "nome": "Giovanni, apostolo",
+  "forme": [
+   "Giovanni",
+   "Giovanni apostolo"
+  ],
+  "ruolo": "Apostolo, discepolo prediletto",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Pescatore, fratello di Giacomo, tra i discepoli più vicini a Gesù. La tradizione gli attribuisce il quarto vangelo, tre lettere e l'Apocalisse.",
+  "passi_chiave": [
+   "Mc 1,19-20",
+   "Gv 13,23",
+   "Gv 19,26-27",
+   "Ap 1,9"
+  ],
+  "famiglia": "Padre: Zebedeo. Fratello: Giacomo."
+ },
+ {
+  "id": "filippo-apostolo",
+  "nome": "Filippo, apostolo",
+  "forme": [
+   "Filippo"
+  ],
+  "ruolo": "Apostolo originario di Betsaida",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Chiamato da Gesù a Betsaida, condusse Natanaele a lui. Chiese a Gesù di mostrare il Padre.",
+  "passi_chiave": [
+   "Gv 1,43-46",
+   "Gv 6,5-7",
+   "Gv 14,8-9"
+  ],
+  "famiglia": ""
+ },
+ {
+  "id": "matteo",
+  "nome": "Matteo",
+  "forme": [
+   "Matteo",
+   "Levi"
+  ],
+  "ruolo": "Apostolo, già pubblicano",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Pubblicano a Cafarnao, lasciò il banco delle imposte per seguire Gesù. La tradizione gli attribuisce il primo vangelo.",
+  "passi_chiave": [
+   "Mt 9,9-13",
+   "Mc 2,14",
+   "Lc 5,27-28"
+  ],
+  "famiglia": "Levi, figlio di Alfeo (Mc 2,14), è tradizionalmente identificato con Matteo."
+ },
+ {
+  "id": "tommaso",
+  "nome": "Tommaso",
+  "forme": [
+   "Tommaso",
+   "Didimo"
+  ],
+  "ruolo": "Apostolo detto Didimo",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Dubitò della risurrezione finché non vide Gesù risorto, poi lo confessò «Signor mio e Dio mio».",
+  "passi_chiave": [
+   "Gv 11,16",
+   "Gv 14,5",
+   "Gv 20,24-29"
+  ],
+  "famiglia": ""
+ },
+ {
+  "id": "giuda-iscariota",
+  "nome": "Giuda Iscariota",
+  "forme": [
+   "Giuda Iscariota",
+   "Giuda"
+  ],
+  "ruolo": "Apostolo che tradì Gesù",
+  "periodo": "I secolo d.C. (morto circa 30-33)",
+  "sintesi": "Uno dei dodici, tradì Gesù per trenta monete d'argento. Poi si pentì e si tolse la vita.",
+  "passi_chiave": [
+   "Mt 26,14-16",
+   "Mt 26,47-50",
+   "Mt 27,3-10",
+   "At 1,16-20"
+  ],
+  "famiglia": "Figlio di Simone Iscariota."
+ },
+ {
+  "id": "maria-maddalena",
+  "nome": "Maria Maddalena",
+  "forme": [
+   "Maria Maddalena",
+   "Maria di Magdala"
+  ],
+  "ruolo": "Discepola di Gesù",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Da lei Gesù aveva scacciato sette demoni. Fu presente alla crocifissione e fu la prima a vedere Gesù risorto.",
+  "passi_chiave": [
+   "Lc 8,1-3",
+   "Gv 19,25",
+   "Gv 20,1-18"
+  ],
+  "famiglia": ""
+ },
+ {
+  "id": "marta",
+  "nome": "Marta",
+  "forme": [
+   "Marta"
+  ],
+  "ruolo": "Sorella di Maria e Lazzaro",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Di Betania, accolse Gesù in casa. Dopo la morte del fratello Lazzaro fece una confessione di fede in Gesù.",
+  "passi_chiave": [
+   "Lc 10,38-42",
+   "Gv 11,17-27",
+   "Gv 12,2"
+  ],
+  "famiglia": "Sorella: Maria. Fratello: Lazzaro."
+ },
+ {
+  "id": "maria-di-betania",
+  "nome": "Maria di Betania",
+  "forme": [
+   "Maria"
+  ],
+  "ruolo": "Sorella di Marta e Lazzaro",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Ascoltava Gesù ai suoi piedi e unse Gesù con olio di nardo. Fu presente alla risurrezione del fratello.",
+  "passi_chiave": [
+   "Lc 10,38-42",
+   "Gv 11,28-32",
+   "Gv 12,1-8"
+  ],
+  "famiglia": "Sorella: Marta. Fratello: Lazzaro."
+ },
+ {
+  "id": "lazzaro",
+  "nome": "Lazzaro",
+  "forme": [
+   "Lazzaro"
+  ],
+  "ruolo": "Amico di Gesù, risuscitato",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Abitante di Betania, fu risuscitato da Gesù dopo quattro giorni nella tomba. Questo segno portò molti a credere.",
+  "passi_chiave": [
+   "Gv 11,1-44",
+   "Gv 12,1-2",
+   "Gv 12,9-11"
+  ],
+  "famiglia": "Sorelle: Marta e Maria."
+ },
+ {
+  "id": "nicodemo",
+  "nome": "Nicodemo",
+  "forme": [
+   "Nicodemo"
+  ],
+  "ruolo": "Fariseo, membro del sinedrio",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Fariseo che incontrò Gesù di notte e udì le parole sulla nuova nascita. Più tardi contribuì alla sepoltura di Gesù.",
+  "passi_chiave": [
+   "Gv 3,1-21",
+   "Gv 7,50-52",
+   "Gv 19,38-42"
+  ],
+  "famiglia": ""
+ },
+ {
+  "id": "giuseppe-d-arimatea",
+  "nome": "Giuseppe d'Arimatea",
+  "forme": [
+   "Giuseppe d'Arimatea"
+  ],
+  "ruolo": "Membro del sinedrio, discepolo",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Ricco membro del sinedrio, discepolo segreto di Gesù. Chiese a Pilato il corpo e lo seppellì nella propria tomba.",
+  "passi_chiave": [
+   "Mt 27,57-60",
+   "Mc 15,42-46",
+   "Gv 19,38-42"
+  ],
+  "famiglia": ""
+ },
+ {
+  "id": "zaccheo",
+  "nome": "Zaccheo",
+  "forme": [
+   "Zaccheo"
+  ],
+  "ruolo": "Capo dei pubblicani a Gerico",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Capo dei pubblicani, salì su un sicomoro per vedere Gesù. Accolse Gesù in casa e promise di restituire quattro volte il mal tolto.",
+  "passi_chiave": [
+   "Lc 19,1-10"
+  ],
+  "famiglia": ""
+ },
+ {
+  "id": "ponzio-pilato",
+  "nome": "Ponzio Pilato",
+  "forme": [
+   "Ponzio Pilato",
+   "Pilato"
+  ],
+  "ruolo": "Governatore romano della Giudea",
+  "periodo": "governatore 26-36 d.C.",
+  "sintesi": "Prefetto romano, condannò Gesù alla crocifissione dopo averlo interrogato. È ricordato nel Credo apostolico.",
+  "passi_chiave": [
+   "Mt 27,1-26",
+   "Lc 23,1-25",
+   "Gv 18,28-19,16"
+  ],
+  "famiglia": "Moglie: ricordata in Mt 27,19."
+ },
+ {
+  "id": "erode-il-grande",
+  "nome": "Erode il Grande",
+  "forme": [
+   "Erode",
+   "Erode il Grande"
+  ],
+  "ruolo": "Re della Giudea",
+  "periodo": "circa 73-4 a.C.",
+  "sintesi": "Re della Giudea, ricostruì il tempio. Secondo Matteo, tentò di uccidere il bambino Gesù e fece uccidere i bambini di Betlemme.",
+  "passi_chiave": [
+   "Mt 2,1-18",
+   "Lc 1,5"
+  ],
+  "famiglia": "Figli tra cui Erode Antipa, Archelao e Filippo."
+ },
+ {
+  "id": "erode-antipa",
+  "nome": "Erode Antipa",
+  "forme": [
+   "Erode",
+   "Erode il tetrarca",
+   "Antipa"
+  ],
+  "ruolo": "Tetrarca di Galilea e Perea",
+  "periodo": "circa 20 a.C. - 39 d.C.",
+  "sintesi": "Fece decapitare Giovanni Battista e interrogò Gesù prima della condanna.",
+  "passi_chiave": [
+   "Mc 6,17-29",
+   "Lc 3,1",
+   "Lc 13,31-32",
+   "Lc 23,6-12"
+  ],
+  "famiglia": "Padre: Erode il Grande. Moglie: Erodiade."
+ },
+ {
+  "id": "caifa",
+  "nome": "Caifa",
+  "forme": [
+   "Caifa"
+  ],
+  "ruolo": "Sommo sacerdote",
+  "periodo": "sommo sacerdote circa 18-36 d.C.",
+  "sintesi": "Sommo sacerdote al tempo di Gesù, presiedette il processo davanti al sinedrio che lo consegnò a Pilato.",
+  "passi_chiave": [
+   "Mt 26,3-4",
+   "Mt 26,57-68",
+   "Gv 11,49-50"
+  ],
+  "famiglia": "Genero di Anna."
+ },
+ {
+  "id": "stefano",
+  "nome": "Stefano",
+  "forme": [
+   "Stefano"
+  ],
+  "ruolo": "Primo martire cristiano",
+  "periodo": "circa 34 d.C.",
+  "sintesi": "Uno dei sette diaconi, pieno di Spirito Santo. Accusato di bestemmia, pronunciò un discorso davanti al sinedrio e fu lapidato.",
+  "passi_chiave": [
+   "At 6,1-7",
+   "At 7,1-60",
+   "At 8,1-2"
+  ],
+  "famiglia": ""
+ },
+ {
+  "id": "filippo-evangelista",
+  "nome": "Filippo, evangelista",
+  "forme": [
+   "Filippo"
+  ],
+  "ruolo": "Diacono ed evangelista",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Uno dei sette diaconi, portò il vangelo in Samaria e battezzò un funzionario etiope. Abitò poi a Cesarea.",
+  "passi_chiave": [
+   "At 6,5",
+   "At 8,4-40",
+   "At 21,8-9"
+  ],
+  "famiglia": "Quattro figlie profetesse (At 21,9)."
+ },
+ {
+  "id": "barnaba",
+  "nome": "Barnaba",
+  "forme": [
+   "Barnaba"
+  ],
+  "ruolo": "Apostolo, collaboratore di Paolo",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Levita di Cipro, presentò Paolo agli apostoli e lo accompagnò nel primo viaggio missionario. Si separò da lui per Giovanni Marco.",
+  "passi_chiave": [
+   "At 4,36-37",
+   "At 9,26-27",
+   "At 13,1-3",
+   "At 15,36-39"
+  ],
+  "famiglia": "Cugino di Giovanni Marco (Col 4,10)."
+ },
+ {
+  "id": "paolo",
+  "nome": "Paolo",
+  "forme": [
+   "Paolo",
+   "Saulo",
+   "Saulo di Tarso"
+  ],
+  "ruolo": "Apostolo dei non ebrei",
+  "periodo": "circa 5-64/67 d.C.",
+  "sintesi": "Fariseo di Tarso, persecutore dei cristiani, fu chiamato da Cristo sulla via di Damasco. Compì tre viaggi missionari e scrisse numerose lettere del Nuovo Testamento.",
+  "passi_chiave": [
+   "At 9,1-19",
+   "At 13,1-3",
+   "At 22,3-21",
+   "Fil 3,4-11"
+  ],
+  "famiglia": "Nato a Tarso di Cilicia, della tribù di Beniamino. Cittadino romano."
+ },
+ {
+  "id": "timoteo",
+  "nome": "Timoteo",
+  "forme": [
+   "Timoteo"
+  ],
+  "ruolo": "Collaboratore di Paolo",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Giovane di Listra, figlio di una giudea credente e di un padre greco. Accompagnò Paolo e ricevette due lettere a lui indirizzate.",
+  "passi_chiave": [
+   "At 16,1-3",
+   "Fil 2,19-22",
+   "1Tm 1,1-2",
+   "2Tm 1,5"
+  ],
+  "famiglia": "Madre: Eunice. Nonna: Loide."
+ },
+ {
+  "id": "tito",
+  "nome": "Tito",
+  "forme": [
+   "Tito"
+  ],
+  "ruolo": "Collaboratore di Paolo",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Greco non circonciso, collaborò con Paolo e fu da lui lasciato a Creta. Gli è indirizzata una lettera.",
+  "passi_chiave": [
+   "Gal 2,1-3",
+   "2Cor 8,16-23",
+   "Tt 1,4-5"
+  ],
+  "famiglia": ""
+ },
+ {
+  "id": "luca",
+  "nome": "Luca",
+  "forme": [
+   "Luca"
+  ],
+  "ruolo": "Medico, autore del terzo vangelo",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Medico e compagno di Paolo. La tradizione gli attribuisce il vangelo e gli Atti.",
+  "passi_chiave": [
+   "Col 4,14",
+   "2Tm 4,11",
+   "Fm 1,24",
+   "Lc 1,1-4"
+  ],
+  "famiglia": ""
+ },
+ {
+  "id": "giovanni-marco",
+  "nome": "Giovanni Marco",
+  "forme": [
+   "Marco",
+   "Giovanni Marco",
+   "Giovanni detto Marco"
+  ],
+  "ruolo": "Evangelista, collaboratore",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Cugino di Barnaba, accompagnò Paolo e Barnaba, poi fu collaboratore di Pietro. La tradizione gli attribuisce il secondo vangelo.",
+  "passi_chiave": [
+   "At 12,12",
+   "At 13,5",
+   "At 15,37-39",
+   "1Pt 5,13"
+  ],
+  "famiglia": "Madre: Maria di Gerusalemme (At 12,12). Cugino: Barnaba."
+ },
+ {
+  "id": "sila",
+  "nome": "Sila",
+  "forme": [
+   "Sila",
+   "Silvano"
+  ],
+  "ruolo": "Collaboratore di Paolo",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Profeta di Gerusalemme, accompagnò Paolo nel secondo viaggio e fu in prigione con lui a Filippi.",
+  "passi_chiave": [
+   "At 15,22",
+   "At 15,40",
+   "At 16,19-34"
+  ],
+  "famiglia": ""
+ },
+ {
+  "id": "priscilla",
+  "nome": "Priscilla",
+  "forme": [
+   "Priscilla",
+   "Prisca"
+  ],
+  "ruolo": "Collaboratrice di Paolo",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Coniugata con Aquila, fabbricante di tende come Paolo; lo ospitò a Corinto. Con il marito istruì Apollo.",
+  "passi_chiave": [
+   "At 18,1-3",
+   "At 18,24-26",
+   "Rm 16,3-5"
+  ],
+  "famiglia": "Marito: Aquila."
+ },
+ {
+  "id": "aquila",
+  "nome": "Aquila",
+  "forme": [
+   "Aquila"
+  ],
+  "ruolo": "Collaboratore di Paolo",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Giudeo originario del Ponto, con la moglie Priscilla fu espulso da Roma. Fu collaboratore di Paolo a Corinto ed Efeso.",
+  "passi_chiave": [
+   "At 18,1-3",
+   "At 18,24-26",
+   "1Cor 16,19"
+  ],
+  "famiglia": "Moglie: Priscilla."
+ },
+ {
+  "id": "apollo",
+  "nome": "Apollo",
+  "forme": [
+   "Apollo"
+  ],
+  "ruolo": "Predicatore di Alessandria",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Giudeo di Alessandria, eloquente conoscitore delle Scritture, istruito meglio da Priscilla e Aquila. Predicò a Corinto.",
+  "passi_chiave": [
+   "At 18,24-28",
+   "1Cor 3,4-6",
+   "Tt 3,13"
+  ],
+  "famiglia": ""
+ },
+ {
+  "id": "lidia",
+  "nome": "Lidia",
+  "forme": [
+   "Lidia"
+  ],
+  "ruolo": "Commerciante di porpora a Filippi",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Commerciante di porpora originaria di Tiatiri, fu tra i primi convertiti in Europa, a Filippi. Ospitò Paolo e i suoi compagni.",
+  "passi_chiave": [
+   "At 16,13-15",
+   "At 16,40"
+  ],
+  "famiglia": ""
+ },
+ {
+  "id": "cornelio",
+  "nome": "Cornelio",
+  "forme": [
+   "Cornelio"
+  ],
+  "ruolo": "Centurione di Cesarea",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Centurione romano timorato di Dio, ebbe una visione e chiamò Pietro. Fu tra i primi non ebrei battezzati.",
+  "passi_chiave": [
+   "At 10,1-8",
+   "At 10,34-48",
+   "At 11,1-18"
+  ],
+  "famiglia": ""
+ },
+ {
+  "id": "giacomo-fratello-del-signore",
+  "nome": "Giacomo, fratello del Signore",
+  "forme": [
+   "Giacomo"
+  ],
+  "ruolo": "Capo della chiesa di Gerusalemme",
+  "periodo": "I secolo d.C. (morto circa 62)",
+  "sintesi": "Fratello di Gesù, divenne un capo della chiesa di Gerusalemme e presiedette il concilio. La tradizione gli attribuisce la lettera di Giacomo.",
+  "passi_chiave": [
+   "Gal 1,19",
+   "At 15,13-21",
+   "1Cor 15,7",
+   "Gc 1,1"
+  ],
+  "famiglia": "Fratello di Gesù e di Giuda."
+ },
+ {
+  "id": "filemone",
+  "nome": "Filemone",
+  "forme": [
+   "Filemone"
+  ],
+  "ruolo": "Credente di Colosse",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Credente a Colosse a cui Paolo scrisse a favore dello schiavo Onesimo.",
+  "passi_chiave": [
+   "Fm 1,1-25"
+  ],
+  "famiglia": "Moglie: forse Appia (Fm 1,2)."
+ },
+ {
+  "id": "onesimo",
+  "nome": "Onesimo",
+  "forme": [
+   "Onesimo"
+  ],
+  "ruolo": "Schiavo di Filemone",
+  "periodo": "I secolo d.C.",
+  "sintesi": "Schiavo fuggito, incontrò Paolo e divenne cristiano. Paolo lo rimandò a Filemone come fratello.",
+  "passi_chiave": [
+   "Fm 1,10-16",
+   "Col 4,9"
+  ],
+  "famiglia": "Padrone: Filemone."
+ }
+]

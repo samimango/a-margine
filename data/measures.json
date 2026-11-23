@@ -1,0 +1,994 @@
+[
+ {
+  "id": "talento",
+  "parole": [
+   "talento",
+   "talenti"
+  ],
+  "categoria": "peso",
+  "valore": "circa 34 kg (talento ebraico di 3.000 sicli)",
+  "intervallo": "30–34 kg",
+  "equivalenze": "1 talento = 60 mine = 3.000 sicli (AT); 1 talento = 6.000 denari/dracme (NT, come unità di conto)",
+  "oggi": "Come somma d'argento nel NT: circa 6.000 giornate di paga di un bracciante, cioè circa 20 anni di lavoro (6.000 denari, ciascuno paga di un giorno, con circa 300 giorni lavorativi all'anno).",
+  "riferimenti": [
+   "Es 38,25",
+   "Mt 18,24",
+   "Mt 25,15"
+  ],
+  "nota": "Nel NT il talento è una grande somma di denaro, non un peso preciso; il valore dipende dal metallo (oro o argento). In Mt 18,24 i «diecimila talenti» indicano una somma enorme, quasi inestimabile (circa 200.000 anni di lavoro)."
+ },
+ {
+  "id": "mina",
+  "parole": [
+   "mina",
+   "mine"
+  ],
+  "categoria": "peso",
+  "valore": "circa 570 g (mina ebraica di 50 sicli)",
+  "intervallo": "500–600 g (60 sicli in Ez 45,12, circa 680 g)",
+  "equivalenze": "1 mina = 50 sicli (norma comune); 60 mine = 1 talento; nel NT 1 mina = 100 denari/dracme",
+  "oggi": "Nel NT (mina greca): circa 100 giornate di paga, cioè circa tre-quattro mesi di lavoro di un bracciante.",
+  "riferimenti": [
+   "1Re 10,17",
+   "Lc 19,13",
+   "Ez 45,12"
+  ],
+  "nota": "Ez 45,12 indica una mina di 60 sicli (20+25+15): il valore preciso della mina ebraica è incerto. In Lc 19 la mina è una somma di denaro."
+ },
+ {
+  "id": "siclo",
+  "parole": [
+   "siclo",
+   "sicli"
+  ],
+  "categoria": "moneta",
+  "valore": "circa 11,4 g d'argento",
+  "intervallo": "10–12 g",
+  "equivalenze": "1 siclo = 2 bekà = 20 ghera; 50 sicli = 1 mina; 3.000 sicli = 1 talento; 1 siclo ≈ 4 denari (età del NT, come statere)",
+  "oggi": "Circa quattro giornate di paga di un bracciante (se si assume l'equivalenza con lo statere di 4 denari, età del NT). Per i tempi dell'AT il paragone è meno sicuro.",
+  "riferimenti": [
+   "Gn 23,16",
+   "Es 21,32",
+   "Zc 11,12"
+  ],
+  "nota": "Il siclo è anzitutto un peso (circa 11,4 g), poi diventa moneta. Il «siclo del santuario» (Es 30,13) è lo standard del culto; trenta sicli sono il prezzo di uno schiavo ucciso da un bue (Es 21,32). Il peso è soggetto a stime diverse."
+ },
+ {
+  "id": "beka",
+  "parole": [
+   "beka",
+   "bekà"
+  ],
+  "categoria": "moneta",
+  "valore": "circa 5,7 g (mezzo siclo)",
+  "intervallo": "5–6 g",
+  "equivalenze": "1 beka = ½ siclo = 10 ghera",
+  "oggi": "Circa due giornate di paga di un bracciante (metà del siclo).",
+  "riferimenti": [
+   "Gn 24,22",
+   "Es 38,26"
+  ],
+  "nota": "Il beka è la tassa a testa del censimento in Es 38,26. Il termine ebraico significa «metà»."
+ },
+ {
+  "id": "gera",
+  "parole": [
+   "gera",
+   "ghera"
+  ],
+  "categoria": "peso",
+  "valore": "circa 0,57 g (1/20 di siclo)",
+  "intervallo": "0,5–0,6 g",
+  "equivalenze": "1 gera = 1/20 siclo; 10 gera = 1 beka",
+  "oggi": "Circa un quinto di giornata di lavoro (poche ore di paga); è il più piccolo peso dell'AT.",
+  "riferimenti": [
+   "Es 30,13",
+   "Lv 27,25",
+   "Ez 45,12"
+  ],
+  "nota": "Nome tradotto anche «gheràh»; indica propriamente un «granello» di peso."
+ },
+ {
+  "id": "libbra",
+  "parole": [
+   "libbra",
+   "libbre"
+  ],
+  "categoria": "peso",
+  "valore": "circa 327 g (libbra romana)",
+  "intervallo": "320–330 g",
+  "equivalenze": "1 libbra = 12 once; cento libbre ≈ 33 kg",
+  "oggi": "Una libbra di nardo costava circa trecento denari, cioè circa un anno di paga di un bracciante (Gv 12,5).",
+  "riferimenti": [
+   "Gv 12,3",
+   "Gv 19,39"
+  ],
+  "nota": "Nel testo greco è la «litra». Gv 19,39 parla di circa cento libbre di mirra e aloè (circa 33 kg)."
+ },
+ {
+  "id": "darico",
+  "parole": [
+   "darico",
+   "dariche"
+  ],
+  "categoria": "moneta",
+  "valore": "circa 8,4 g d'oro",
+  "intervallo": "8–8,5 g",
+  "equivalenze": "1 darico d'oro ≈ 20 sigli d'argento persiani (rapporto oro/argento di circa 13:1)",
+  "oggi": "Moneta d'oro persiana; secondo una stima, circa un mese di paga di un soldato persiano.",
+  "riferimenti": [
+   "1Cr 29,7",
+   "Esd 2,69",
+   "Ne 7,70"
+  ],
+  "nota": "Moneta d'oro persiana dell'epoca postesilica. Il parallelo con l'argento è solo indicativo."
+ },
+ {
+  "id": "denaro",
+  "parole": [
+   "denaro",
+   "denari",
+   "danaro",
+   "danari"
+  ],
+  "categoria": "moneta",
+  "valore": "circa 3,9 g d'argento (moneta romana)",
+  "intervallo": "3,4–4,0 g",
+  "equivalenze": "1 denaro = 16 assi = 64 quadranti = 128 lepta; 1 denaro ≈ 1 dracma",
+  "oggi": "La paga giornaliera di un bracciante o di un soldato: una giornata di lavoro (Mt 20,2).",
+  "riferimenti": [
+   "Mt 20,2",
+   "Mc 12,15",
+   "Ap 6,6"
+  ],
+  "nota": "È la moneta d'argento del tributo a Cesare (Mc 12,15). Trecento denari equivalgono a circa un anno di paga (Mc 14,5). Il potere d'acquisto reale variava secondo le epoche e i luoghi."
+ },
+ {
+  "id": "dracma",
+  "parole": [
+   "dramma",
+   "dracma",
+   "dramme",
+   "dracme"
+  ],
+  "categoria": "moneta",
+  "valore": "circa 3,4 g d'argento (moneta greca)",
+  "intervallo": "3,4–4,3 g",
+  "equivalenze": "1 dracma ≈ 1 denaro; 100 dracme = 1 mina greca; 6.000 dracme = 1 talento",
+  "oggi": "Circa una giornata di paga (analoga al denaro). La donna di Lc 15,8-9 cerca una moneta pari a una paga giornaliera.",
+  "riferimenti": [
+   "Lc 15,8",
+   "Mt 17,24"
+  ],
+  "nota": "In Mt 17,24 la «didramma» (due dracme) è la tassa annuale per il tempio."
+ },
+ {
+  "id": "statere",
+  "parole": [
+   "statere",
+   "stateri"
+  ],
+  "categoria": "moneta",
+  "valore": "circa 14 g d'argento (4 dracme, tetradracma)",
+  "intervallo": "13–14,5 g",
+  "equivalenze": "1 statere = 4 dracme ≈ 4 denari ≈ 1 siclo; 1 statere = due didramme",
+  "oggi": "Circa quattro giornate di paga di un bracciante.",
+  "riferimenti": [
+   "Mt 17,27"
+  ],
+  "nota": "Lo statere trovato nella bocca del pesce basta per la tassa del tempio di due persone (Gesù e Pietro)."
+ },
+ {
+  "id": "asse",
+  "parole": [
+   "asse",
+   "assi",
+   "soldo"
+  ],
+  "categoria": "moneta",
+  "valore": "moneta di bronzo, circa 1/16 di denaro",
+  "intervallo": "",
+  "equivalenze": "16 assi = 1 denaro; 1 asse = 4 quadranti",
+  "oggi": "Circa tre quarti d'ora di lavoro giornaliero (1/16 di una paga giornaliera di dodici ore).",
+  "riferimenti": [
+   "Mt 10,29",
+   "Lc 12,6"
+  ],
+  "nota": "Due passeri si vendono per un asse (Mt 10,29), cinque passeri per due assi (Lc 12,6): il prezzo di un cibo molto povero. La traduzione italiana varia («soldo», «asse»)."
+ },
+ {
+  "id": "quadrante",
+  "parole": [
+   "quadrante",
+   "quadranti"
+  ],
+  "categoria": "moneta",
+  "valore": "moneta di bronzo, circa 1/64 di denaro",
+  "intervallo": "",
+  "equivalenze": "1 quadrante = 2 lepta = ¼ di asse = 1/64 denaro",
+  "oggi": "Circa un decimo d'ora di lavoro (circa undici minuti di paga giornaliera).",
+  "riferimenti": [
+   "Mt 5,26",
+   "Mc 12,42"
+  ],
+  "nota": "L'ultimo quadrante da pagare (Mt 5,26) indica un debito da saldare fino all'ultima moneta."
+ },
+ {
+  "id": "lepton",
+  "parole": [
+   "lepton",
+   "lepta",
+   "spicciolo",
+   "spiccioli"
+  ],
+  "categoria": "moneta",
+  "valore": "la più piccola moneta di bronzo, circa 1/128 di denaro",
+  "intervallo": "",
+  "equivalenze": "1 lepton = ½ quadrante = 1/128 denaro; 2 lepta = 1 quadrante",
+  "oggi": "Circa cinque minuti di paga giornaliera: due «spiccioli» sono il dono della vedova, tutto ciò che ha per vivere.",
+  "riferimenti": [
+   "Mc 12,42",
+   "Lc 12,59",
+   "Lc 21,2"
+  ],
+  "nota": "Il testo greco dice «lepta» (piccole monete); le versioni italiane usano «spiccioli» o «centesimi»."
+ },
+ {
+  "id": "cubito",
+  "parole": [
+   "cubito",
+   "cubiti"
+  ],
+  "categoria": "lunghezza",
+  "valore": "circa 45 cm (cubito comune); circa 52 cm (cubito «lungo»)",
+  "intervallo": "44–52 cm",
+  "equivalenze": "1 cubito = 2 spanne = 6 palmi = 24 dita; 1 canna = 6 cubiti (Ez 40,5)",
+  "oggi": "La lunghezza dell'avambraccio, dal gomito alla punta del dito medio: poco meno del braccio di un adulto.",
+  "riferimenti": [
+   "Gn 6,15",
+   "Dt 3,11",
+   "Gv 21,8"
+  ],
+  "nota": "Il cubito egiziano e quello ebraico variano; Ez 40,5 distingue un cubito «lungo» (cubito + un palmo). L'arca: 300 cubiti ≈ 135-156 m di lunghezza. Il valore è un'approssimazione."
+ },
+ {
+  "id": "palmo",
+  "parole": [
+   "palmo",
+   "palmi"
+  ],
+  "categoria": "lunghezza",
+  "valore": "circa 7,5 cm (larghezza della mano, 4 dita)",
+  "intervallo": "7–8 cm",
+  "equivalenze": "1 palmo = 4 dita; 6 palmi = 1 cubito; 3 palmi = 1 spanna",
+  "oggi": "La larghezza di una mano a dita unite, senza il pollice.",
+  "riferimenti": [
+   "Es 25,25",
+   "1Re 7,26",
+   "Sal 39,5"
+  ],
+  "nota": "In Sal 39,5 i giorni dell'uomo sono «larghi un palmo»: immagine della brevità della vita."
+ },
+ {
+  "id": "spanna",
+  "parole": [
+   "spanna",
+   "spanne"
+  ],
+  "categoria": "lunghezza",
+  "valore": "circa 22 cm (mano aperta, dal pollice al mignolo)",
+  "intervallo": "22–23 cm",
+  "equivalenze": "1 spanna = ½ cubito = 3 palmi = 12 dita",
+  "oggi": "La distanza tra pollice e mignolo a mano aperta; poco meno di un foglio A5 in lunghezza.",
+  "riferimenti": [
+   "Es 28,16",
+   "1Sam 17,4",
+   "Is 40,12"
+  ],
+  "nota": "Golia è alto «sei cubiti e una spanna» (1Sam 17,4: circa 2,9 m); altre fonti antiche (greca, Qumran) hanno «quattro cubiti e una spanna» (circa 2 m)."
+ },
+ {
+  "id": "dito",
+  "parole": [
+   "dito",
+   "dita"
+  ],
+  "categoria": "lunghezza",
+  "valore": "circa 1,9 cm (larghezza di un dito)",
+  "intervallo": "1,8–2 cm",
+  "equivalenze": "1 dito = ¼ palmo = 1/24 cubito",
+  "oggi": "La larghezza di un dito (indice).",
+  "riferimenti": [
+   "Ger 52,21"
+  ],
+  "nota": "Misura minima, nel testo biblico compare di rado come misura vera e propria (Ger 52,21: «spessore di quattro dita» di una colonna)."
+ },
+ {
+  "id": "canna",
+  "parole": [
+   "canna",
+   "canne"
+  ],
+  "categoria": "lunghezza",
+  "valore": "circa 3 m (6 cubiti)",
+  "intervallo": "2,7–3,1 m",
+  "equivalenze": "1 canna = 6 cubiti",
+  "oggi": "Poco meno dell'altezza di una stanza di un piano a soffitto alto.",
+  "riferimenti": [
+   "Ez 40,5",
+   "Ap 11,1",
+   "Ap 21,15"
+  ],
+  "nota": "In Ap 21,15 l'angelo misura la città con una «canna d'oro»: la parola indica sia la pianta sia lo strumento di misura."
+ },
+ {
+  "id": "braccio",
+  "parole": [
+   "braccio",
+   "braccia",
+   "tesa",
+   "tese",
+   "orgia"
+  ],
+  "categoria": "lunghezza",
+  "valore": "circa 1,8 m (l'estensione delle braccia aperte)",
+  "intervallo": "1,7–1,9 m",
+  "equivalenze": "1 braccio (orgìa) ≈ 4 cubiti",
+  "oggi": "Più o meno l'altezza di una persona alta, o la distanza tra le dita delle mani a braccia spalancate.",
+  "riferimenti": [
+   "At 27,28"
+  ],
+  "nota": "Usata dai marinai per misurare la profondità del mare: venti poi quindici braccia (circa 36 e 27 m)."
+ },
+ {
+  "id": "stadio",
+  "parole": [
+   "stadio",
+   "stadi"
+  ],
+  "categoria": "lunghezza",
+  "valore": "circa 185 m",
+  "intervallo": "175–195 m",
+  "equivalenze": "1 stadio = 400 cubiti; 8 stadi ≈ 1 miglio romano",
+  "oggi": "Circa due campi da calcio in lunghezza; circa mezzo giro di una pista di atletica da 400 m.",
+  "riferimenti": [
+   "Lc 24,13",
+   "Gv 6,19",
+   "Gv 11,18"
+  ],
+  "nota": "Emmaus dista «sessanta stadi» da Gerusalemme (circa 11 km, Lc 24,13). Betania è a quindici stadi (circa 2,8 km, Gv 11,18). Alcuni manoscritti di Lc 24,13 hanno 160 stadi."
+ },
+ {
+  "id": "miglio",
+  "parole": [
+   "miglio",
+   "miglia"
+  ],
+  "categoria": "lunghezza",
+  "valore": "circa 1,48 km (miglio romano, mille passi)",
+  "intervallo": "1,45–1,5 km",
+  "equivalenze": "1 miglio = 1.000 passi = 8 stadi",
+  "oggi": "Circa un quarto d'ora di cammino a passo normale.",
+  "riferimenti": [
+   "Mt 5,41"
+  ],
+  "nota": "Il soldato romano poteva costringere un civile a portare il suo carico per un miglio: Gesù invita ad andare per due."
+ },
+ {
+  "id": "cammino-di-un-sabato",
+  "parole": [
+   "cammino di un sabato",
+   "un cammino di sabato",
+   "cammino di sabato"
+  ],
+  "categoria": "lunghezza",
+  "valore": "circa 900 m (2.000 cubiti)",
+  "intervallo": "800–1.000 m",
+  "equivalenze": "1 cammino di un sabato ≈ 2.000 cubiti",
+  "oggi": "Poco meno di un chilometro: dieci minuti di cammino.",
+  "riferimenti": [
+   "At 1,12",
+   "Es 16,29",
+   "Gs 3,4"
+  ],
+  "nota": "Il limite di spostamento permesso il sabato, derivato dalla tradizione rabbinica (Es 16,29; Nm 35,5). Il monte degli Ulivi dista da Gerusalemme «un cammino di un sabato» (At 1,12)."
+ },
+ {
+  "id": "efa",
+  "parole": [
+   "efa"
+  ],
+  "categoria": "capacità",
+  "valore": "circa 22 litri (aridi)",
+  "intervallo": "20–45 litri (le stime variano)",
+  "equivalenze": "1 efa = 10 omer = 3 seah = 1 bat; 10 efa = 1 cor",
+  "oggi": "Circa due secchi da 10 litri: la quantità di grano per il pane di una famiglia per qualche giorno.",
+  "riferimenti": [
+   "Es 16,36",
+   "Lv 5,11",
+   "Rt 2,17"
+  ],
+  "nota": "Il valore dell'efa è incerto; le stime più usate sono circa 22 litri, ma alcuni studiosi propongono valori più alti. L'efa è la misura base dei cereali."
+ },
+ {
+  "id": "omer",
+  "parole": [
+   "omer",
+   "gomor"
+  ],
+  "categoria": "capacità",
+  "valore": "circa 2,2 litri (aridi)",
+  "intervallo": "2,0–4,5 litri",
+  "equivalenze": "1 omer = 1/10 efa = 1/100 cor",
+  "oggi": "Circa due litri di grano: la razione di manna di una persona per un giorno (Es 16,16).",
+  "riferimenti": [
+   "Es 16,16",
+   "Es 16,36",
+   "Lv 23,10"
+  ],
+  "nota": "In Es 16,36 si spiega che l'omer è la decima parte dell'efa. Attenzione: nelle versioni italiane «omer» può rendere anche l'ebraico «homer» (=cor, circa 220 litri), come in Os 3,2 (un homer e un letech di orzo, circa 330 litri, più quindici sicli d'argento): il contesto decide."
+ },
+ {
+  "id": "bat",
+  "parole": [
+   "bat",
+   "bati"
+  ],
+  "categoria": "capacità",
+  "valore": "circa 22 litri (liquidi)",
+  "intervallo": "20–45 litri",
+  "equivalenze": "1 bat = 1 efa = 6 hin = 72 log; 10 bat = 1 omer-cor (homer)",
+  "oggi": "Circa 22 litri: due grandi taniche d'olio d'oliva.",
+  "riferimenti": [
+   "1Re 7,26",
+   "Is 5,10",
+   "Lc 16,6"
+  ],
+  "nota": "Il bat è l'equivalente dell'efa per i liquidi (vino, olio). In Lc 16,6 il fattore dice «cento bati d'olio» (circa 2.200 litri)."
+ },
+ {
+  "id": "cor",
+  "parole": [
+   "coro",
+   "cori",
+   "omer-cor",
+   "homer"
+  ],
+  "categoria": "capacità",
+  "valore": "circa 220 litri (aridi)",
+  "intervallo": "200–450 litri",
+  "equivalenze": "1 cor = 1 homer = 10 efa = 30 seah",
+  "oggi": "Circa un barile grande da 200 litri: il carico di un asino.",
+  "riferimenti": [
+   "1Re 5,11",
+   "Ez 45,14",
+   "Lc 16,7"
+  ],
+  "nota": "In Lc 16,7 il fattore falsifica la ricevuta da «cento cori di grano» a ottanta. Il cor è la misura grande dei cereali. Valore soggetto alla stessa incertezza dell'efa."
+ },
+ {
+  "id": "seah",
+  "parole": [
+   "seah",
+   "sea",
+   "staio",
+   "staia",
+   "sata",
+   "misura di farina"
+  ],
+  "categoria": "capacità",
+  "valore": "circa 7,3 litri (un terzo di efa)",
+  "intervallo": "7–13 litri",
+  "equivalenze": "1 seah = 1/3 efa = 6 cab",
+  "oggi": "Circa un secchio d'acqua; tre seah di farina (circa 22 litri, 12-13 kg) fanno una grande panificazione.",
+  "riferimenti": [
+   "Gn 18,6",
+   "Mt 13,33",
+   "Lc 13,21"
+  ],
+  "nota": "Nel NT il testo greco usa «saton» («staio» in italiano), che per alcune fonti antiche vale circa 13 litri. Il valore esatto resta incerto."
+ },
+ {
+  "id": "hin",
+  "parole": [
+   "hin"
+  ],
+  "categoria": "capacità",
+  "valore": "circa 3,7 litri (liquidi)",
+  "intervallo": "3,6–6 litri",
+  "equivalenze": "1 hin = 1/6 bat = 12 log",
+  "oggi": "Circa quattro litri: un bidone da quattro litri d'olio o vino.",
+  "riferimenti": [
+   "Es 29,40",
+   "Lv 19,36",
+   "Ez 4,11"
+  ],
+  "nota": "Misura dei liquidi per i sacrifici. Un quarto di hin = circa 0,9 litri (Es 29,40)."
+ },
+ {
+  "id": "log",
+  "parole": [
+   "log"
+  ],
+  "categoria": "capacità",
+  "valore": "circa 0,3 litri (liquidi)",
+  "intervallo": "0,3–0,5 litri",
+  "equivalenze": "1 log = 1/12 hin = 1/72 bat; 4 log = 1 cab",
+  "oggi": "Circa tre decilitri: una tazza grande.",
+  "riferimenti": [
+   "Lv 14,10",
+   "Lv 14,12"
+  ],
+  "nota": "Misura piccola di olio nel rito della purificazione del lebbroso (Lv 14,10)."
+ },
+ {
+  "id": "cab",
+  "parole": [
+   "cab",
+   "cabo"
+  ],
+  "categoria": "capacità",
+  "valore": "circa 1,2 litri",
+  "intervallo": "1,2–2 litri",
+  "equivalenze": "1 cab = 4 log = 1/18 bat",
+  "oggi": "Poco più di un litro: una piccola bottiglia di vino.",
+  "riferimenti": [
+   "2Re 6,25"
+  ],
+  "nota": "In 2Re 6,25, durante l'assedio di Samaria, un «quarto di cab» di sterco di colombi costa cinque sicli: segno della fame estrema."
+ },
+ {
+  "id": "misura",
+  "parole": [
+   "misura",
+   "misure",
+   "metreta",
+   "metrete",
+   "moggio",
+   "chenice"
+  ],
+  "categoria": "capacità",
+  "valore": "valore variabile: nel NT, metreta circa 39 litri (Gv 2,6), moggio circa 8,7 litri, chenice circa 1 litro (Ap 6,6)",
+  "intervallo": "",
+  "equivalenze": "1 metreta ≈ 39 litri; 1 moggio ≈ 8,7 litri; 1 chenice ≈ 1 litro (razione giornaliera)",
+  "oggi": "Il moggio (Mt 5,15) è circa un secchio piccolo; la chenice (circa 1 litro) è la razione giornaliera di grano di un uomo.",
+  "riferimenti": [
+   "Gv 2,6",
+   "Mt 5,15",
+   "Ap 6,6"
+  ],
+  "nota": "«Misura» traduce parole diverse nell'originale (hebr. «seah», gr. «metretes», «modios», «choinix»). In Ap 6,6 una chenice di grano costa un denaro, cioè il salario di una giornata per il pane di una persona."
+ },
+ {
+  "id": "ora-prima",
+  "parole": [
+   "ora prima",
+   "prima ora"
+  ],
+  "categoria": "tempo",
+  "valore": "circa le 6-7 del mattino (inizio del giorno)",
+  "intervallo": "6–7",
+  "equivalenze": "Il giorno va dal sorgere al tramonto, diviso in 12 ore; le ore sono più corte d'inverno e più lunghe d'estate",
+  "oggi": "Circa le sette del mattino.",
+  "riferimenti": [
+   "Mt 20,1"
+  ],
+  "nota": "Nella parabola dei lavoratori della vigna, il padrone esce «la mattina presto» e poi alla terza, sesta, nona e undicesima ora (Mt 20,1-6)."
+ },
+ {
+  "id": "ora-terza",
+  "parole": [
+   "ora terza",
+   "terza ora"
+  ],
+  "categoria": "tempo",
+  "valore": "circa le 9 del mattino",
+  "intervallo": "8–10",
+  "equivalenze": "ora terza = circa 9; sesta = circa 12; nona = circa 15",
+  "oggi": "Circa le nove del mattino.",
+  "riferimenti": [
+   "At 2,15",
+   "Mc 15,25"
+  ],
+  "nota": "Alla Pentecoste «è soltanto l'ora terza del giorno» (At 2,15). In Mc 15,25 Gesù è crocifisso alla terza ora."
+ },
+ {
+  "id": "ora-sesta",
+  "parole": [
+   "ora sesta",
+   "sesta ora",
+   "mezzogiorno"
+  ],
+  "categoria": "tempo",
+  "valore": "circa le 12 (mezzogiorno)",
+  "intervallo": "11–13",
+  "equivalenze": "ora sesta = circa 12",
+  "oggi": "Circa le dodici, a metà del giorno.",
+  "riferimenti": [
+   "Mt 27,45",
+   "Gv 4,6",
+   "At 10,9"
+  ],
+  "nota": "Sul Golgota, dalla sesta ora fino alla nona ci furono tenebre (Mt 27,45). In Gv 19,14 la «sesta ora» è discussa: forse conta dall'alba romana (circa le 6), oppure dal mezzogiorno ebraico."
+ },
+ {
+  "id": "ora-nona",
+  "parole": [
+   "ora nona",
+   "nona ora"
+  ],
+  "categoria": "tempo",
+  "valore": "circa le 15 (tre del pomeriggio)",
+  "intervallo": "14–16",
+  "equivalenze": "ora nona = circa 15",
+  "oggi": "Circa le tre del pomeriggio: l'ora della preghiera nel tempio.",
+  "riferimenti": [
+   "Mt 27,46",
+   "At 3,1",
+   "At 10,3"
+  ],
+  "nota": "Era l'ora del sacrificio della sera e della preghiera (At 3,1). Gesù muore all'ora nona (Mt 27,46)."
+ },
+ {
+  "id": "ora-undicesima",
+  "parole": [
+   "undicesima ora",
+   "ora undicesima"
+  ],
+  "categoria": "tempo",
+  "valore": "circa le 17 (ultima ora di lavoro)",
+  "intervallo": "16–18",
+  "equivalenze": "ora undicesima = circa 17; il giorno finisce alla dodicesima ora (tramonto)",
+  "oggi": "Circa le cinque del pomeriggio, pochi attimi prima del tramonto.",
+  "riferimenti": [
+   "Mt 20,6",
+   "Mt 20,9"
+  ],
+  "nota": "Nella parabola, i lavoratori dell'undicesima ora ricevono lo stesso salario di quelli della prima."
+ },
+ {
+  "id": "vigilie",
+  "parole": [
+   "vigilia",
+   "vigilie",
+   "quarta vigilia",
+   "terza vigilia",
+   "seconda vigilia",
+   "prima vigilia"
+  ],
+  "categoria": "tempo",
+  "valore": "la notte è divisa in 3 vigilie (ebrei) o 4 (romani)",
+  "intervallo": "",
+  "equivalenze": "Romani: prima (circa 18–21), seconda (21–24), terza (24–3, «canto del gallo»), quarta (3–6)",
+  "oggi": "Quarta vigilia = circa dalle tre alle sei del mattino.",
+  "riferimenti": [
+   "Gdc 7,19",
+   "Mt 14,25",
+   "Mc 13,35"
+  ],
+  "nota": "Il sistema ebraico di tre vigilie (sera, mezzanotte, mattino) è documentato nell'AT; nel NT prevale quello romano di quattro. Mt 14,25 parla della quarta vigilia."
+ },
+ {
+  "id": "giorno-sabato",
+  "parole": [
+   "sabato",
+   "sabati"
+  ],
+  "categoria": "tempo",
+  "valore": "settimo giorno della settimana, da un tramonto al successivo (venerdì sera – sabato sera)",
+  "intervallo": "",
+  "equivalenze": "Il giorno biblico va da sera a sera; 1 settimana = 7 giorni",
+  "oggi": "Dal tramonto del venerdì al tramonto del sabato.",
+  "riferimenti": [
+   "Es 20,8",
+   "Mc 2,27",
+   "Lc 4,16"
+  ],
+  "nota": "Giorno di riposo previsto dai comandamenti. Il «cammino di un sabato» è una misura derivata (vedi sopra)."
+ },
+ {
+  "id": "mese-nisan",
+  "parole": [
+   "Abib",
+   "Nisan",
+   "mese di Abib"
+  ],
+  "categoria": "tempo",
+  "valore": "primo mese; circa marzo-aprile",
+  "intervallo": "",
+  "equivalenze": "Abib = Nisan",
+  "oggi": "Marzo-aprile.",
+  "riferimenti": [
+   "Es 13,4",
+   "Ne 2,1",
+   "Est 3,7"
+  ],
+  "nota": "Nome antico: Abib (Es 13,4); il nome Nisan appare dopo l'esilio. La Pasqua si celebra al 14 del mese."
+ },
+ {
+  "id": "mese-iyyar",
+  "parole": [
+   "Ziv",
+   "Iyyar"
+  ],
+  "categoria": "tempo",
+  "valore": "secondo mese; circa aprile-maggio",
+  "intervallo": "",
+  "equivalenze": "Ziv = Iyyar",
+  "oggi": "Aprile-maggio.",
+  "riferimenti": [
+   "1Re 6,1",
+   "1Re 6,37"
+  ],
+  "nota": "Nome biblico: Ziv (1Re 6,1). È il mese in cui Salomone inizia a costruire il tempio."
+ },
+ {
+  "id": "mese-sivan",
+  "parole": [
+   "Sivan"
+  ],
+  "categoria": "tempo",
+  "valore": "terzo mese; circa maggio-giugno",
+  "intervallo": "",
+  "equivalenze": "—",
+  "oggi": "Maggio-giugno.",
+  "riferimenti": [
+   "Est 8,9"
+  ],
+  "nota": "Mese della festa delle Settimane (Pentecoste)."
+ },
+ {
+  "id": "mese-tishri",
+  "parole": [
+   "Etanim",
+   "Tishri"
+  ],
+  "categoria": "tempo",
+  "valore": "settimo mese; circa settembre-ottobre",
+  "intervallo": "",
+  "equivalenze": "Etanim = Tishri",
+  "oggi": "Settembre-ottobre.",
+  "riferimenti": [
+   "1Re 8,2",
+   "Lv 23,24"
+  ],
+  "nota": "Mese delle feste delle Trombe, del giorno dell'espiazione e delle Capanne. Il nome Etanim è biblico."
+ },
+ {
+  "id": "mese-bul",
+  "parole": [
+   "Bul",
+   "Cheshvan"
+  ],
+  "categoria": "tempo",
+  "valore": "ottavo mese; circa ottobre-novembre",
+  "intervallo": "",
+  "equivalenze": "Bul = Cheshvan",
+  "oggi": "Ottobre-novembre.",
+  "riferimenti": [
+   "1Re 6,38"
+  ],
+  "nota": "Il nome Bul compare in 1Re 6,38."
+ },
+ {
+  "id": "mese-kislev",
+  "parole": [
+   "Chislev",
+   "Kislev"
+  ],
+  "categoria": "tempo",
+  "valore": "nono mese; circa novembre-dicembre",
+  "intervallo": "",
+  "equivalenze": "—",
+  "oggi": "Novembre-dicembre.",
+  "riferimenti": [
+   "Ne 1,1",
+   "Zc 7,1"
+  ],
+  "nota": "Mese della Dedicazione (Hanukkah)."
+ },
+ {
+  "id": "mese-tevet",
+  "parole": [
+   "Tebet",
+   "Tevet"
+  ],
+  "categoria": "tempo",
+  "valore": "decimo mese; circa dicembre-gennaio",
+  "intervallo": "",
+  "equivalenze": "—",
+  "oggi": "Dicembre-gennaio.",
+  "riferimenti": [
+   "Est 2,16"
+  ],
+  "nota": "Ester viene portata al re nel decimo mese, Tebet."
+ },
+ {
+  "id": "mese-shevat",
+  "parole": [
+   "Sebat",
+   "Shevat"
+  ],
+  "categoria": "tempo",
+  "valore": "undicesimo mese; circa gennaio-febbraio",
+  "intervallo": "",
+  "equivalenze": "—",
+  "oggi": "Gennaio-febbraio.",
+  "riferimenti": [
+   "Zc 1,7"
+  ],
+  "nota": "Compare una volta (Zc 1,7)."
+ },
+ {
+  "id": "mese-adar",
+  "parole": [
+   "Adar"
+  ],
+  "categoria": "tempo",
+  "valore": "dodicesimo mese; circa febbraio-marzo",
+  "intervallo": "",
+  "equivalenze": "—",
+  "oggi": "Febbraio-marzo.",
+  "riferimenti": [
+   "Est 3,7",
+   "Est 9,1",
+   "Esd 6,15"
+  ],
+  "nota": "Mese della festa di Purim (14-15 Adar)."
+ },
+ {
+  "id": "mese-elul",
+  "parole": [
+   "Elul"
+  ],
+  "categoria": "tempo",
+  "valore": "sesto mese; circa agosto-settembre",
+  "intervallo": "",
+  "equivalenze": "—",
+  "oggi": "Agosto-settembre.",
+  "riferimenti": [
+   "Ne 6,15"
+  ],
+  "nota": "Le mura di Gerusalemme sono terminate il 25 Elul (Ne 6,15)."
+ },
+ {
+  "id": "pasqua",
+  "parole": [
+   "Pasqua",
+   "Azzimi",
+   "pane azzimo"
+  ],
+  "categoria": "tempo",
+  "valore": "14 Nisan (Pasqua) e 15-21 Nisan (Azzimi); marzo-aprile",
+  "intervallo": "",
+  "equivalenze": "Pasqua = 14 Nisan; Azzimi = 15-21 Nisan",
+  "oggi": "Marzo-aprile: ricordo della liberazione dall'Egitto.",
+  "riferimenti": [
+   "Es 12,1-14",
+   "Lv 23,5",
+   "Gv 13,1"
+  ],
+  "nota": "La Pasqua ricorda l'uscita dall'Egitto. Gesù viene crocifisso al tempo della Pasqua; la cronologia esatta (giorno 14 o 15) è discussa tra gli studiosi."
+ },
+ {
+  "id": "pentecoste",
+  "parole": [
+   "Pentecoste",
+   "festa delle Settimane",
+   "festa della mietitura"
+  ],
+  "categoria": "tempo",
+  "valore": "50 giorni dopo la Pasqua; maggio-giugno (6 Sivan)",
+  "intervallo": "",
+  "equivalenze": "50 giorni dopo l'omer di orzo (Lv 23,15-16)",
+  "oggi": "Maggio-giugno: festa del raccolto del grano.",
+  "riferimenti": [
+   "Lv 23,15-21",
+   "At 2,1"
+  ],
+  "nota": "Nel NT è il giorno della discesa dello Spirito Santo (At 2,1). «Pentecoste» significa «cinquantesimo»."
+ },
+ {
+  "id": "capanne",
+  "parole": [
+   "festa delle Capanne",
+   "Capanne",
+   "festa dei Tabernacoli"
+  ],
+  "categoria": "tempo",
+  "valore": "15-21 Tishri; settembre-ottobre",
+  "intervallo": "",
+  "equivalenze": "Segue di cinque giorni il giorno dell'espiazione",
+  "oggi": "Settembre-ottobre: festa del raccolto, per ricordare il vagabondaggio nel deserto.",
+  "riferimenti": [
+   "Lv 23,33-43",
+   "Gv 7,2"
+  ],
+  "nota": "Si abita in capanne di rami per sette giorni. In Gv 7 Gesù va a Gerusalemme per questa festa."
+ },
+ {
+  "id": "purim",
+  "parole": [
+   "Purim"
+  ],
+  "categoria": "tempo",
+  "valore": "14-15 Adar; febbraio-marzo",
+  "intervallo": "",
+  "equivalenze": "—",
+  "oggi": "Febbraio-marzo: festa della salvezza del popolo ai tempi di Ester.",
+  "riferimenti": [
+   "Est 9,26-28"
+  ],
+  "nota": "Purim ricorda il libro di Ester. Il nome deriva da «pur», la sorte tirata da Aman."
+ },
+ {
+  "id": "dedicazione",
+  "parole": [
+   "Dedicazione",
+   "festa della Dedicazione",
+   "Hanukkah"
+  ],
+  "categoria": "tempo",
+  "valore": "dal 25 Kislev per otto giorni; novembre-dicembre",
+  "intervallo": "",
+  "equivalenze": "—",
+  "oggi": "Novembre-dicembre: festa delle luci, in ricordo della purificazione del tempio (164 a.C.).",
+  "riferimenti": [
+   "Gv 10,22"
+  ],
+  "nota": "Nel NT compare solo in Gv 10,22 («era l'inverno»). L'origine storica è nel libro dei Maccabei, non incluso nel canone protestante."
+ },
+ {
+  "id": "espiazione",
+  "parole": [
+   "giorno dell'espiazione",
+   "espiazione",
+   "Yom Kippur"
+  ],
+  "categoria": "tempo",
+  "valore": "10 Tishri; settembre-ottobre",
+  "intervallo": "",
+  "equivalenze": "Cade dieci giorni dopo la festa delle Trombe",
+  "oggi": "Settembre-ottobre: unico giorno dell'anno in cui il sommo sacerdote entra nel luogo santissimo.",
+  "riferimenti": [
+   "Lv 16,29-34",
+   "Lv 23,27",
+   "Eb 9,7"
+  ],
+  "nota": "Giorno di digiuno e di espiazione dei peccati del popolo (Lv 16)."
+ },
+ {
+  "id": "trombe",
+  "parole": [
+   "festa delle Trombe",
+   "Trombe"
+  ],
+  "categoria": "tempo",
+  "valore": "1 Tishri; settembre-ottobre",
+  "intervallo": "",
+  "equivalenze": "—",
+  "oggi": "Settembre-ottobre: inizio del settimo mese.",
+  "riferimenti": [
+   "Lv 23,24",
+   "Nm 29,1"
+  ],
+  "nota": "Giorno di riposo annunciato dal suono delle trombe."
+ },
+ {
+  "id": "anno-giubileo",
+  "parole": [
+   "anno sabbatico",
+   "giubileo"
+  ],
+  "categoria": "tempo",
+  "valore": "ogni sette anni (sabbatico); ogni cinquanta (giubileo)",
+  "intervallo": "",
+  "equivalenze": "7 × 7 = 49 anni; il giubileo è il cinquantesimo",
+  "oggi": "Un anno di riposo della terra (sabbatico) e di liberazione e restituzione (giubileo).",
+  "riferimenti": [
+   "Lv 25,1-12",
+   "Lv 25,8-10"
+  ],
+  "nota": "Il giubileo prevede la restituzione delle terre e la liberazione degli schiavi; non vi sono prove certe che sia stato applicato."
+ }
+]

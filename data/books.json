@@ -1,0 +1,1388 @@
+[
+ {
+  "i": 0,
+  "nome": "Genesi",
+  "sigla": "Gn",
+  "capitoli": 50,
+  "sezione": "Pentateuco",
+  "sottotitolo": "Le origini del mondo e d'Israele",
+  "intro": "Racconta la creazione, la caduta, il diluvio e la dispersione dei popoli, poi la storia dei patriarchi Abraamo, Isacco, Giacobbe e Giuseppe fino all'insediamento in Egitto.",
+  "autore": {
+   "tradizione": "Mosè",
+   "studiosi": "Molti studiosi ritengono che il libro sia stato composto da fonti diverse e rifinito in fase redazionale (ipotesi documentaria e sue varianti); altri difendono l'unità mosaica con ritocchi successivi."
+  },
+  "periodo": {
+   "tradizione": "Composizione circa nel XV secolo a.C., al tempo dell'esodo (circa 1446 a.C.); le vicende narrate risalgono a epoche anteriori.",
+   "studiosi": "Redazione finale tra il VI e il V secolo a.C.; i racconti patriarcali sono collocati circa tra il 2000 e il 1700 a.C."
+  },
+  "destinatari": "Il popolo d'Israele, uscito dall'Egitto",
+  "luoghi": "Mesopotamia, Canaan, Egitto",
+  "tema": "Dio crea, sceglie Abraamo e prepara un popolo per le sue promesse.",
+  "versetto_chiave": "12,3"
+ },
+ {
+  "i": 1,
+  "nome": "Esodo",
+  "sigla": "Es",
+  "capitoli": 40,
+  "sezione": "Pentateuco",
+  "sottotitolo": "Liberazione e alleanza al Sinai",
+  "intro": "Narra la schiavitù in Egitto, la chiamata di Mosè, le piaghe, la Pasqua e il passaggio del mar Rosso. Segue il patto del Sinai con i dieci comandamenti e la costruzione del tabernacolo.",
+  "autore": {
+   "tradizione": "Mosè",
+   "studiosi": "Gli studiosi critici vi riconoscono più fonti; la forma attuale è attribuita a una redazione tardiva."
+  },
+  "periodo": {
+   "tradizione": "Composizione circa nel XV-XIII secolo a.C.; l'esodo è datato circa 1446 a.C. (data alta).",
+   "studiosi": "Esodo datato circa 1260-1250 a.C. (data bassa) da molti studiosi; redazione finale circa VI-V secolo a.C."
+  },
+  "destinatari": "Israele nel deserto",
+  "luoghi": "Egitto, Sinai",
+  "tema": "Dio libera il suo popolo e stabilisce con lui un'alleanza.",
+  "versetto_chiave": "20,2"
+ },
+ {
+  "i": 2,
+  "nome": "Levitico",
+  "sigla": "Lv",
+  "capitoli": 27,
+  "sezione": "Pentateuco",
+  "sottotitolo": "Santità, sacrifici e culto",
+  "intro": "Raccoglie le norme sui sacrifici, sul sacerdozio, sul puro e l'impuro, sul giorno dell'espiazione e sulla vita santa del popolo. Il tema ricorrente è la santità di Dio.",
+  "autore": {
+   "tradizione": "Mosè",
+   "studiosi": "Molti studiosi attribuiscono gran parte del testo a ambienti sacerdotali (fonte «P») e al cosiddetto «codice di santità» (cap. 17-26)."
+  },
+  "periodo": {
+   "tradizione": "Circa 1445 a.C., durante la sosta al Sinai.",
+   "studiosi": "Composizione sacerdotale circa VI-V secolo a.C., con materiali più antichi."
+  },
+  "destinatari": "Israele e i suoi sacerdoti",
+  "luoghi": "Monte Sinai",
+  "tema": "Dio chiama il suo popolo alla santità e all'espiazione.",
+  "versetto_chiave": "19,2"
+ },
+ {
+  "i": 3,
+  "nome": "Numeri",
+  "sigla": "Nm",
+  "capitoli": 36,
+  "sezione": "Pentateuco",
+  "sottotitolo": "Quarant'anni nel deserto",
+  "intro": "Racconta i due censimenti e la marcia di Israele dal Sinai alle pianure di Moab, con ribellioni, giudizi e nuove disposizioni. Una generazione muore nel deserto, un'altra si prepara a entrare in Canaan.",
+  "autore": {
+   "tradizione": "Mosè",
+   "studiosi": "Gli studiosi critici vedono una compilazione di fonti diverse, riunite in epoca successiva."
+  },
+  "periodo": {
+   "tradizione": "Circa 1445-1405 a.C. (periodo degli eventi e redazione).",
+   "studiosi": "Redazione finale circa VI-V secolo a.C."
+  },
+  "destinatari": "Israele",
+  "luoghi": "Sinai, Cades, pianure di Moab",
+  "tema": "Dio guida e corregge il suo popolo, fedele alla promessa nonostante l'incredulità.",
+  "versetto_chiave": "14,18"
+ },
+ {
+  "i": 4,
+  "nome": "Deuteronomio",
+  "sigla": "Dt",
+  "capitoli": 34,
+  "sezione": "Pentateuco",
+  "sottotitolo": "Gli ultimi discorsi di Mosè",
+  "intro": "Contiene i discorsi di congedo di Mosè nelle pianure di Moab: richiamo della storia, ripetizione della legge e rinnovo dell'alleanza. Si chiude con la benedizione e la morte di Mosè.",
+  "autore": {
+   "tradizione": "Mosè; l'ultimo capitolo (la sua morte) è attribuito a un redattore successivo, spesso identificato con Giosuè.",
+   "studiosi": "Molti studiosi lo collegano alla riforma di Giosia (circa 622 a.C.) e alla tradizione «deuteronomistica»."
+  },
+  "periodo": {
+   "tradizione": "Circa 1406 a.C., alla vigilia dell'ingresso in Canaan.",
+   "studiosi": "Redazione circa VII-VI secolo a.C."
+  },
+  "destinatari": "Israele alle soglie di Canaan",
+  "luoghi": "Pianure di Moab, oltre il Giordano",
+  "tema": "Ama il Signore, ricorda la sua alleanza e ubbidisci alla sua parola.",
+  "versetto_chiave": "6,5"
+ },
+ {
+  "i": 5,
+  "nome": "Giosuè",
+  "sigla": "Gs",
+  "capitoli": 24,
+  "sezione": "Libri storici",
+  "sottotitolo": "La conquista della terra",
+  "intro": "Descrive il passaggio del Giordano, la presa di Gerico e di altre città e la divisione del paese tra le tribù. Termina con il rinnovo dell'alleanza a Sichem.",
+  "autore": {
+   "tradizione": "Giosuè, con aggiunte di un redattore successivo (per esempio il racconto della sua morte).",
+   "studiosi": "Studiosi la collegano alla storia «deuteronomistica» (Giosuè-2 Re), composta in epoca successiva."
+  },
+  "periodo": {
+   "tradizione": "Circa 1400-1380 a.C. (periodo narrato; data della conquista discussa).",
+   "studiosi": "Redazione circa VII-VI secolo a.C.; la datazione archeologica della conquista è discussa."
+  },
+  "destinatari": "Israele",
+  "luoghi": "Canaan, Gerico, Sichem",
+  "tema": "Dio dà al suo popolo la terra promessa.",
+  "versetto_chiave": "24,15"
+ },
+ {
+  "i": 6,
+  "nome": "Giudici",
+  "sigla": "Gdc",
+  "capitoli": 21,
+  "sezione": "Libri storici",
+  "sottotitolo": "Cicli di peccato e liberazione",
+  "intro": "Narra i secoli tra Giosuè e la monarchia: il popolo si allontana da Dio, subisce oppressione, grida e Dio suscita un liberatore. Tra i giudici figurano Debora, Gedeone e Sansone.",
+  "autore": {
+   "tradizione": "Tradizione ebraica: Samuele.",
+   "studiosi": "Studiosi: opera redazionale deuteronomistica con materiali più antichi."
+  },
+  "periodo": {
+   "tradizione": "Eventi circa 1380-1050 a.C.; scritto all'inizio della monarchia.",
+   "studiosi": "Redazione circa VII-VI secolo a.C."
+  },
+  "destinatari": "Israele",
+  "luoghi": "Canaan",
+  "tema": "Quando il popolo abbandona Dio, cade nel disordine; Dio resta fedele e salva.",
+  "versetto_chiave": "21,25"
+ },
+ {
+  "i": 7,
+  "nome": "Rut",
+  "sigla": "Rt",
+  "capitoli": 4,
+  "sezione": "Libri storici",
+  "sottotitolo": "Fedeltà di una straniera",
+  "intro": "Racconta di Naomi e della nuora moabita Rut, che la segue a Betlemme e sposa Boaz. Il libro mostra la fedeltà di Dio e l'origine della famiglia di Davide.",
+  "autore": {
+   "tradizione": "Non dichiarato; la tradizione ebraica indica Samuele.",
+   "studiosi": "Studiosi: autore ignoto; datazione discussa tra l'epoca monarchica e quella postesilica."
+  },
+  "periodo": {
+   "tradizione": "Eventi al tempo dei giudici (circa XII secolo a.C.); scritto circa X secolo a.C.",
+   "studiosi": "Redazione circa X-V secolo a.C."
+  },
+  "destinatari": "Israele",
+  "luoghi": "Moab, Betlemme",
+  "tema": "Dio provvede a chi gli è fedele e include lo straniero nel suo piano.",
+  "versetto_chiave": "1,16"
+ },
+ {
+  "i": 8,
+  "nome": "1 Samuele",
+  "sigla": "1Sam",
+  "capitoli": 31,
+  "sezione": "Libri storici",
+  "sottotitolo": "Samuele, Saul e Davide",
+  "intro": "Narra la nascita di Samuele, il passaggio dai giudici al re, la regalità e il rifiuto di Saul, e l'ascesa di Davide. Termina con la morte di Saul sul monte Ghilboa.",
+  "autore": {
+   "tradizione": "Non dichiarato; la tradizione ebraica indica Samuele, con proseguimento di Natan e Gad (1 Cr 29,29).",
+   "studiosi": "Studiosi: opera della storia «deuteronomistica» con fonti antiche."
+  },
+  "periodo": {
+   "tradizione": "Eventi circa 1100-1010 a.C.; scritto dopo la divisione del regno (dopo il 930 a.C.).",
+   "studiosi": "Redazione circa VII-VI secolo a.C."
+  },
+  "destinatari": "Israele",
+  "luoghi": "Silo, Rama, Ghibea, Betlemme",
+  "tema": "Dio sceglie e innalza chi gli è fedele; la regalità appartiene a lui.",
+  "versetto_chiave": "16,7"
+ },
+ {
+  "i": 9,
+  "nome": "2 Samuele",
+  "sigla": "2Sam",
+  "capitoli": 24,
+  "sezione": "Libri storici",
+  "sottotitolo": "Il regno di Davide",
+  "intro": "Racconta il regno di Davide, prima su Giuda e poi su tutto Israele, la conquista di Gerusalemme, la promessa dinastica, il peccato con Bat-Sceba e le rivolte che ne seguono.",
+  "autore": {
+   "tradizione": "Non dichiarato; la tradizione ebraica indica Natan e Gad.",
+   "studiosi": "Studiosi: stesso ambiente redazionale di 1 Samuele."
+  },
+  "periodo": {
+   "tradizione": "Eventi circa 1010-970 a.C.; scritto dopo la divisione del regno.",
+   "studiosi": "Redazione circa VII-VI secolo a.C."
+  },
+  "destinatari": "Israele",
+  "luoghi": "Ebron, Gerusalemme",
+  "tema": "Dio stabilisce con Davide un'alleanza per una dinastia eterna.",
+  "versetto_chiave": "7,16"
+ },
+ {
+  "i": 10,
+  "nome": "1 Re",
+  "sigla": "1Re",
+  "capitoli": 22,
+  "sezione": "Libri storici",
+  "sottotitolo": "Salomone e il regno diviso",
+  "intro": "Narra la fine del regno di Davide, la gloria di Salomone e la costruzione del tempio, poi la divisione tra Israele e Giuda. Include il ministero di Elia.",
+  "autore": {
+   "tradizione": "Non dichiarato; la tradizione ebraica indica Geremia.",
+   "studiosi": "Studiosi: opera deuteronomistica; redazione durante o dopo l'esilio."
+  },
+  "periodo": {
+   "tradizione": "Eventi circa 970-853 a.C.; scritto circa 560-540 a.C.",
+   "studiosi": "Redazione circa VII-VI secolo a.C., con aggiornamenti."
+  },
+  "destinatari": "Israele in esilio o in epoca postesilica",
+  "luoghi": "Gerusalemme, Samaria, monte Carmelo",
+  "tema": "La fedeltà al Signore determina il destino dei re e del popolo.",
+  "versetto_chiave": "18,21"
+ },
+ {
+  "i": 11,
+  "nome": "2 Re",
+  "sigla": "2Re",
+  "capitoli": 25,
+  "sezione": "Libri storici",
+  "sottotitolo": "Dalla divisione all'esilio",
+  "intro": "Segue le storie parallele dei regni di Israele e di Giuda, il ministero di Eliseo, la caduta di Samaria (722 a.C.) e di Gerusalemme (586 a.C.). Si chiude con la liberazione del re Ioiachin.",
+  "autore": {
+   "tradizione": "Non dichiarato; la tradizione ebraica indica Geremia.",
+   "studiosi": "Studiosi: opera deuteronomistica."
+  },
+  "periodo": {
+   "tradizione": "Eventi circa 853-561 a.C.; scritto durante l'esilio.",
+   "studiosi": "Redazione circa 560-540 a.C. o poco dopo."
+  },
+  "destinatari": "Israele in esilio",
+  "luoghi": "Samaria, Gerusalemme, Babilonia",
+  "tema": "L'infedeltà all'alleanza conduce al giudizio, ma resta una speranza.",
+  "versetto_chiave": "17,7"
+ },
+ {
+  "i": 12,
+  "nome": "1 Cronache",
+  "sigla": "1Cr",
+  "capitoli": 29,
+  "sezione": "Libri storici",
+  "sottotitolo": "Genealogie e regno di Davide",
+  "intro": "Parte da genealogie da Adamo e ripercorre il regno di Davide con attenzione al culto, all'arca e ai preparativi per il tempio.",
+  "autore": {
+   "tradizione": "Tradizione: Esdra.",
+   "studiosi": "Studiosi: opera di un «cronista» anonimo, di ambiente levitico."
+  },
+  "periodo": {
+   "tradizione": "Circa 450-400 a.C., dopo il ritorno dall'esilio.",
+   "studiosi": "Circa V-IV secolo a.C."
+  },
+  "destinatari": "Giudei tornati dall'esilio",
+  "luoghi": "Gerusalemme",
+  "tema": "Il popolo ritrova la propria identità attorno a Davide, al tempio e al culto.",
+  "versetto_chiave": "16,34"
+ },
+ {
+  "i": 13,
+  "nome": "2 Cronache",
+  "sigla": "2Cr",
+  "capitoli": 36,
+  "sezione": "Libri storici",
+  "sottotitolo": "Salomone e i re di Giuda",
+  "intro": "Narra la costruzione del tempio sotto Salomone e la storia dei re di Giuda fino all'esilio. Si conclude con l'editto di Ciro che permette il ritorno.",
+  "autore": {
+   "tradizione": "Tradizione: Esdra.",
+   "studiosi": "Studiosi: lo stesso cronista di 1 Cronache."
+  },
+  "periodo": {
+   "tradizione": "Circa 450-400 a.C.",
+   "studiosi": "Circa V-IV secolo a.C."
+  },
+  "destinatari": "Giudei tornati dall'esilio",
+  "luoghi": "Gerusalemme, il tempio",
+  "tema": "Se il popolo si umilia e cerca il Signore, egli ascolta e guarisce il paese.",
+  "versetto_chiave": "7,14"
+ },
+ {
+  "i": 14,
+  "nome": "Esdra",
+  "sigla": "Esd",
+  "capitoli": 10,
+  "sezione": "Libri storici",
+  "sottotitolo": "Il ritorno e il tempio",
+  "intro": "Racconta il ritorno dei primi esuli sotto Zorobabele, la ricostruzione del tempio e, più tardi, la missione di Esdra per riformare la comunità secondo la legge.",
+  "autore": {
+   "tradizione": "Esdra, per le parti in prima persona; la tradizione ebraica gli attribuisce l'insieme.",
+   "studiosi": "Studiosi: opera del cronista o di redattori successivi."
+  },
+  "periodo": {
+   "tradizione": "Eventi circa 538-458 a.C.; scritto circa 450-430 a.C.",
+   "studiosi": "Circa V-IV secolo a.C."
+  },
+  "destinatari": "Giudei tornati dall'esilio",
+  "luoghi": "Babilonia, Gerusalemme",
+  "tema": "Dio muove i cuori per ricostruire il tempio e riportare il popolo alla legge.",
+  "versetto_chiave": "7,10"
+ },
+ {
+  "i": 15,
+  "nome": "Neemia",
+  "sigla": "Ne",
+  "capitoli": 13,
+  "sezione": "Libri storici",
+  "sottotitolo": "Le mura di Gerusalemme",
+  "intro": "Racconta come Neemia, coppiere del re, ottiene di tornare a Gerusalemme, ne ricostruisce le mura in cinquantadue giorni e guida il rinnovamento della comunità.",
+  "autore": {
+   "tradizione": "Neemia, con la sua memoria personale.",
+   "studiosi": "Studiosi: memorie di Neemia inserite in un'opera più ampia."
+  },
+  "periodo": {
+   "tradizione": "Eventi circa 445-430 a.C.",
+   "studiosi": "Circa V-IV secolo a.C."
+  },
+  "destinatari": "Giudei di Gerusalemme",
+  "luoghi": "Susa, Gerusalemme",
+  "tema": "Dio sostiene chi si dedica alla ricostruzione e alla riforma del suo popolo.",
+  "versetto_chiave": "8,10"
+ },
+ {
+  "i": 16,
+  "nome": "Ester",
+  "sigla": "Est",
+  "capitoli": 10,
+  "sezione": "Libri storici",
+  "sottotitolo": "La regina e il popolo salvato",
+  "intro": "Ambientato nella Persia, narra come Ester, divenuta regina, e suo cugino Mardocheo sventano il piano di Aman di sterminare i giudei. Spiega l'origine della festa di Purim.",
+  "autore": {
+   "tradizione": "Non dichiarato; la tradizione ebraica indica Mardocheo.",
+   "studiosi": "Studiosi: autore ignoto, forse un giudeo della diaspora."
+  },
+  "periodo": {
+   "tradizione": "Eventi circa 483-473 a.C. (regno di Assuero/Serse I); scritto circa V secolo a.C.",
+   "studiosi": "Circa V-III secolo a.C."
+  },
+  "destinatari": "Giudei della diaspora",
+  "luoghi": "Susa, Persia",
+  "tema": "Dio protegge il suo popolo anche quando il suo nome non è menzionato.",
+  "versetto_chiave": "4,14"
+ },
+ {
+  "i": 17,
+  "nome": "Giobbe",
+  "sigla": "Gb",
+  "capitoli": 42,
+  "sezione": "Libri poetici e sapienziali",
+  "sottotitolo": "La sofferenza del giusto",
+  "intro": "Un uomo giusto perde figli, beni e salute. Dialoga con tre amici e poi ascolta Dio rispondere dalla tempesta. Il libro affronta il senso della sofferenza e la sovranità di Dio.",
+  "autore": {
+   "tradizione": "Non dichiarato; tradizioni diverse indicano Giobbe, Mosè o Salomone.",
+   "studiosi": "Studiosi: autore ignoto."
+  },
+  "periodo": {
+   "tradizione": "Ambientato nell'epoca patriarcale (circa 2000-1800 a.C.).",
+   "studiosi": "Composizione discussa, circa VII-V secolo a.C."
+  },
+  "destinatari": "Chi soffre e si interroga su Dio",
+  "luoghi": "Paese di Uz",
+  "tema": "Dio è sovrano e si può confidare in lui anche nella sofferenza senza comprenderla.",
+  "versetto_chiave": "19,25"
+ },
+ {
+  "i": 18,
+  "nome": "Salmi",
+  "sigla": "Sal",
+  "capitoli": 150,
+  "sezione": "Libri poetici e sapienziali",
+  "sottotitolo": "Preghiere e canti d'Israele",
+  "intro": "Raccolta di 150 preghiere e canti in cinque libri: lode, lamento, ringraziamento, sapienza e profezia. Molti sono attribuiti a Davide.",
+  "autore": {
+   "tradizione": "Davide per circa metà dei salmi; altri a Asaf, ai figli di Core, a Salomone, a Mosè (Sal 90).",
+   "studiosi": "Studiosi: raccolta composta da molti autori in secoli diversi e riunita in epoca postesilica."
+  },
+  "periodo": {
+   "tradizione": "Dal tempo di Mosè (circa XV secolo a.C.) fino al dopo l'esilio.",
+   "studiosi": "Composizione tra circa X e III secolo a.C."
+  },
+  "destinatari": "Il popolo di Dio nel culto e nella vita",
+  "luoghi": "Gerusalemme, il tempio",
+  "tema": "Il Signore è degno di lode, rifugio e re del suo popolo.",
+  "versetto_chiave": "119,105"
+ },
+ {
+  "i": 19,
+  "nome": "Proverbi",
+  "sigla": "Pr",
+  "capitoli": 31,
+  "sezione": "Libri poetici e sapienziali",
+  "sottotitolo": "La sapienza per la vita",
+  "intro": "Raccolta di detti sapienziali su saggezza e stoltezza, lavoro, parole, famiglia e giustizia. Il principio guida è che il timore del Signore è l'inizio della conoscenza.",
+  "autore": {
+   "tradizione": "Salomone per gran parte; altri contributi attribuiti a Agur, Lemuel e ai «saggi».",
+   "studiosi": "Studiosi: raccolta composta da più mani e completata in epoca postesilica."
+  },
+  "periodo": {
+   "tradizione": "Circa 970-930 a.C. (Salomone); Ezechia ne raccolse parti (circa 700 a.C., cfr. 25,1).",
+   "studiosi": "Redazione finale circa V-III secolo a.C."
+  },
+  "destinatari": "Giovani e chiunque cerchi sapienza",
+  "luoghi": "Israele",
+  "tema": "La sapienza vera comincia con il timore del Signore.",
+  "versetto_chiave": "1,7"
+ },
+ {
+  "i": 20,
+  "nome": "Ecclesiaste",
+  "sigla": "Ec",
+  "capitoli": 12,
+  "sezione": "Libri poetici e sapienziali",
+  "sottotitolo": "La ricerca di un senso",
+  "intro": "Il «Predicatore» riflette sulla vanità delle ricerche umane sotto il sole. Conclude invitando a temere Dio, a godere dei suoi doni e a osservare i suoi comandamenti.",
+  "autore": {
+   "tradizione": "Salomone (il «figlio di Davide, re a Gerusalemme»).",
+   "studiosi": "Molti studiosi lo datano più tardi, per ragioni di lingua e di contenuto, circa IV-III secolo a.C."
+  },
+  "periodo": {
+   "tradizione": "Circa 935 a.C.",
+   "studiosi": "Circa 450-200 a.C."
+  },
+  "destinatari": "Chi cerca il senso della vita",
+  "luoghi": "Gerusalemme",
+  "tema": "Senza Dio la vita sembra vana; con lui ha senso e misura.",
+  "versetto_chiave": "12,13"
+ },
+ {
+  "i": 21,
+  "nome": "Cantico dei Cantici",
+  "sigla": "Ct",
+  "capitoli": 8,
+  "sezione": "Libri poetici e sapienziali",
+  "sottotitolo": "Il canto dell'amore",
+  "intro": "Poema d'amore tra due innamorati, con dialoghi e immagini poetiche. Nella tradizione è letto sia come lode dell'amore umano sia come immagine dell'amore di Dio per il suo popolo.",
+  "autore": {
+   "tradizione": "Salomone (cfr. 1,1).",
+   "studiosi": "Studiosi: attribuzione discussa; datazione dal X al III secolo a.C."
+  },
+  "periodo": {
+   "tradizione": "Circa 960 a.C.",
+   "studiosi": "Circa X-III secolo a.C."
+  },
+  "destinatari": "Israele",
+  "luoghi": "Gerusalemme, campagne d'Israele",
+  "tema": "Il valore e la forza dell'amore fedele.",
+  "versetto_chiave": "8,6"
+ },
+ {
+  "i": 22,
+  "nome": "Isaia",
+  "sigla": "Is",
+  "capitoli": 66,
+  "sezione": "Profeti maggiori",
+  "sottotitolo": "Giudizio e consolazione",
+  "intro": "Profezia di Isaia a Gerusalemme: giudizio per l'infedeltà, promesse di un re e di un servo del Signore, speranza di liberazione e di nuovi cieli e nuova terra.",
+  "autore": {
+   "tradizione": "Isaia, figlio di Amots, per tutto il libro.",
+   "studiosi": "Molti studiosi distinguono almeno due o tre sezioni (cap. 1-39; 40-55; 56-66) di epoche diverse, attribuite a Isaia e a suoi successori."
+  },
+  "periodo": {
+   "tradizione": "Circa 740-680 a.C.",
+   "studiosi": "Cap. 1-39 circa VIII secolo; cap. 40-55 circa VI secolo (esilio); cap. 56-66 dopo il ritorno."
+  },
+  "destinatari": "Giuda e Gerusalemme",
+  "luoghi": "Gerusalemme",
+  "tema": "Il Signore giudica e salva; il servo del Signore porta la salvezza.",
+  "versetto_chiave": "53,5"
+ },
+ {
+  "i": 23,
+  "nome": "Geremia",
+  "sigla": "Ger",
+  "capitoli": 52,
+  "sezione": "Profeti maggiori",
+  "sottotitolo": "Il profeta delle lacrime",
+  "intro": "Raccoglie le profezie di Geremia in anni di crisi: l'annuncio del giudizio su Giuda, la caduta di Gerusalemme e la promessa di un nuovo patto.",
+  "autore": {
+   "tradizione": "Geremia, con l'aiuto dello scriba Baruc.",
+   "studiosi": "Studiosi: raccolta con aggiunte redazionali, tra cui il cap. 52."
+  },
+  "periodo": {
+   "tradizione": "Circa 627-580 a.C.",
+   "studiosi": "Redazione circa VI secolo a.C."
+  },
+  "destinatari": "Giuda alla vigilia e dopo la caduta di Gerusalemme",
+  "luoghi": "Gerusalemme, Anatot, Egitto",
+  "tema": "Dio chiama a tornare a lui e promette un nuovo patto scritto nel cuore.",
+  "versetto_chiave": "31,33"
+ },
+ {
+  "i": 24,
+  "nome": "Lamentazioni",
+  "sigla": "Lam",
+  "capitoli": 5,
+  "sezione": "Profeti maggiori",
+  "sottotitolo": "Il lutto per Gerusalemme",
+  "intro": "Cinque poemi in forma di lamento per la distruzione di Gerusalemme nel 586 a.C. Tra il dolore emerge la fiducia nella fedeltà del Signore.",
+  "autore": {
+   "tradizione": "Geremia, secondo la tradizione ebraica e cristiana.",
+   "studiosi": "Studiosi: autore anonimo, contemporaneo agli eventi."
+  },
+  "periodo": {
+   "tradizione": "Circa 586 a.C.",
+   "studiosi": "Circa 586-540 a.C."
+  },
+  "destinatari": "Il popolo sopravvissuto",
+  "luoghi": "Gerusalemme in rovina",
+  "tema": "Nel dolore si può sperare nella fedeltà del Signore.",
+  "versetto_chiave": "3,22"
+ },
+ {
+  "i": 25,
+  "nome": "Ezechiele",
+  "sigla": "Ez",
+  "capitoli": 48,
+  "sezione": "Profeti maggiori",
+  "sottotitolo": "Visioni dall'esilio",
+  "intro": "Il sacerdote Ezechiele, deportato a Babilonia, riceve visioni della gloria di Dio, annuncia il giudizio su Gerusalemme e la restaurazione, con la visione del nuovo tempio.",
+  "autore": {
+   "tradizione": "Ezechiele.",
+   "studiosi": "Studiosi: opera in buona parte di Ezechiele, rielaborata da discepoli."
+  },
+  "periodo": {
+   "tradizione": "Circa 593-571 a.C.",
+   "studiosi": "Circa 593-570 a.C., con rielaborazioni."
+  },
+  "destinatari": "Gli esuli a Babilonia",
+  "luoghi": "Babilonia (fiume Chebar), Gerusalemme in visione",
+  "tema": "Il Signore ristabilisce il suo popolo e la sua gloria dimora tra loro.",
+  "versetto_chiave": "36,26"
+ },
+ {
+  "i": 26,
+  "nome": "Daniele",
+  "sigla": "Dn",
+  "capitoli": 12,
+  "sezione": "Profeti maggiori",
+  "sottotitolo": "Fedeltà in terra straniera",
+  "intro": "Racconta Daniele e i suoi compagni alla corte di Babilonia e di Persia, con episodi di fedeltà a Dio, e visioni sul succedersi dei regni e sul regno eterno di Dio.",
+  "autore": {
+   "tradizione": "Daniele.",
+   "studiosi": "Molti studiosi datano il libro al II secolo a.C. (circa 165 a.C.), al tempo della persecuzione di Antioco IV, ritenendo le visioni scritte in seguito."
+  },
+  "periodo": {
+   "tradizione": "Circa 605-530 a.C.",
+   "studiosi": "Circa 165 a.C. per la redazione finale (parere diffuso tra gli studiosi critici)."
+  },
+  "destinatari": "Gli esuli e i fedeli sotto persecuzione",
+  "luoghi": "Babilonia, Persia",
+  "tema": "Il Dio altissimo governa i regni e salva i suoi fedeli.",
+  "versetto_chiave": "2,44"
+ },
+ {
+  "i": 27,
+  "nome": "Osea",
+  "sigla": "Os",
+  "capitoli": 14,
+  "sezione": "Profeti minori",
+  "sottotitolo": "L'amore fedele di Dio",
+  "intro": "Il profeta, con la propria storia matrimoniale, rappresenta l'amore fedele di Dio per Israele infedele. Annuncia il giudizio e invita al ritorno.",
+  "autore": {
+   "tradizione": "Osea.",
+   "studiosi": null
+  },
+  "periodo": {
+   "tradizione": "Circa 755-715 a.C., nel regno del Nord.",
+   "studiosi": null
+  },
+  "destinatari": "Il regno d'Israele (Nord)",
+  "luoghi": "Regno del Nord (Samaria)",
+  "tema": "Dio ama il suo popolo infedele e lo chiama a tornare.",
+  "versetto_chiave": "6,6"
+ },
+ {
+  "i": 28,
+  "nome": "Gioele",
+  "sigla": "Gl",
+  "capitoli": 3,
+  "sezione": "Profeti minori",
+  "sottotitolo": "Il giorno del Signore",
+  "intro": "Dopo una calamità di locuste, il profeta invita al pentimento e annuncia il giorno del Signore e l'effusione dello Spirito su ogni persona.",
+  "autore": {
+   "tradizione": "Gioele.",
+   "studiosi": "Studiosi: datazione incerta, dal IX al IV secolo a.C.; molti propongono un periodo postesilico."
+  },
+  "periodo": {
+   "tradizione": "Circa 835 a.C. oppure circa 800 a.C. (discussa).",
+   "studiosi": "Circa 500-400 a.C. (discussa)."
+  },
+  "destinatari": "Giuda",
+  "luoghi": "Gerusalemme",
+  "tema": "Il pentimento prepara l'effusione dello Spirito e il giorno del Signore.",
+  "versetto_chiave": "2,28"
+ },
+ {
+  "i": 29,
+  "nome": "Amos",
+  "sigla": "Am",
+  "capitoli": 9,
+  "sezione": "Profeti minori",
+  "sottotitolo": "Giustizia per i poveri",
+  "intro": "Il pastore di Tecoa annuncia il giudizio di Dio su Israele e sulle nazioni vicine per ingiustizia sociale e falsa religiosità, con una promessa finale di restaurazione.",
+  "autore": {
+   "tradizione": "Amos.",
+   "studiosi": null
+  },
+  "periodo": {
+   "tradizione": "Circa 760-750 a.C.",
+   "studiosi": null
+  },
+  "destinatari": "Il regno d'Israele (Nord)",
+  "luoghi": "Betel, Samaria",
+  "tema": "Dio esige giustizia e fedeltà, non solo riti.",
+  "versetto_chiave": "5,24"
+ },
+ {
+  "i": 30,
+  "nome": "Abdia",
+  "sigla": "Abd",
+  "capitoli": 1,
+  "sezione": "Profeti minori",
+  "sottotitolo": "Giudizio su Edom",
+  "intro": "Il più breve libro dell'Antico Testamento: annuncia il giudizio su Edom per l'ostilità verso Giuda e la restaurazione del popolo di Dio.",
+  "autore": {
+   "tradizione": "Abdia.",
+   "studiosi": "Studiosi: datazione incerta."
+  },
+  "periodo": {
+   "tradizione": "Circa 585 a.C. (dopo la caduta di Gerusalemme), secondo molti; alcuni propongono circa 845 a.C.",
+   "studiosi": "Circa 586-500 a.C."
+  },
+  "destinatari": "Giuda ed Edom",
+  "luoghi": "Edom, Gerusalemme",
+  "tema": "Dio giudica l'orgoglio e protegge il suo popolo.",
+  "versetto_chiave": "1,15"
+ },
+ {
+  "i": 31,
+  "nome": "Giona",
+  "sigla": "Gio",
+  "capitoli": 4,
+  "sezione": "Profeti minori",
+  "sottotitolo": "Il profeta che fugge",
+  "intro": "Giona riceve l'ordine di andare a Ninive, fugge per mare, è inghiottito da un grosso pesce, poi predica e la città si pente. Il libro mette in luce la compassione di Dio.",
+  "autore": {
+   "tradizione": "Giona (secondo la tradizione).",
+   "studiosi": "Studiosi: autore ignoto; il genere (storia, parabola) è discusso e la datazione è postesilica per molti."
+  },
+  "periodo": {
+   "tradizione": "Circa 780-760 a.C.",
+   "studiosi": "Circa V-III secolo a.C."
+  },
+  "destinatari": "Israele",
+  "luoghi": "Giaffa, Tarsis, Ninive",
+  "tema": "Dio ha compassione anche dei popoli stranieri che si pentono.",
+  "versetto_chiave": "4,11"
+ },
+ {
+  "i": 32,
+  "nome": "Michea",
+  "sigla": "Mi",
+  "capitoli": 7,
+  "sezione": "Profeti minori",
+  "sottotitolo": "Giustizia, pace e Betlemme",
+  "intro": "Michea denuncia l'ingiustizia di governanti e profeti in Giuda e Israele, annuncia il giudizio su Samaria e Gerusalemme e la nascita di un re a Betlemme.",
+  "autore": {
+   "tradizione": "Michea di Moresheth.",
+   "studiosi": null
+  },
+  "periodo": {
+   "tradizione": "Circa 740-690 a.C.",
+   "studiosi": null
+  },
+  "destinatari": "Giuda e Israele",
+  "luoghi": "Moresheth, Gerusalemme, Samaria",
+  "tema": "Dio chiede giustizia, bontà e umiltà e promette un re da Betlemme.",
+  "versetto_chiave": "6,8"
+ },
+ {
+  "i": 33,
+  "nome": "Naum",
+  "sigla": "Na",
+  "capitoli": 3,
+  "sezione": "Profeti minori",
+  "sottotitolo": "La caduta di Ninive",
+  "intro": "Annuncia la caduta di Ninive, capitale dell'Assiria, come giudizio di Dio sulla violenza. Per Giuda è un messaggio di consolazione.",
+  "autore": {
+   "tradizione": "Naum di Elcos.",
+   "studiosi": null
+  },
+  "periodo": {
+   "tradizione": "Circa 663-612 a.C. (tra la caduta di Tebe e quella di Ninive).",
+   "studiosi": null
+  },
+  "destinatari": "Giuda",
+  "luoghi": "Ninive",
+  "tema": "Dio giudica l'oppressione e protegge chi si rifugia in lui.",
+  "versetto_chiave": "1,7"
+ },
+ {
+  "i": 34,
+  "nome": "Abacuc",
+  "sigla": "Ab",
+  "capitoli": 3,
+  "sezione": "Profeti minori",
+  "sottotitolo": "Dubbi e fiducia in Dio",
+  "intro": "Il profeta pone a Dio domande sull'ingiustizia e riceve risposte. Il libro culmina in una preghiera di fiducia anche in tempo di carestia.",
+  "autore": {
+   "tradizione": "Abacuc.",
+   "studiosi": null
+  },
+  "periodo": {
+   "tradizione": "Circa 610-598 a.C.",
+   "studiosi": "Circa 609-597 a.C."
+  },
+  "destinatari": "Giuda",
+  "luoghi": "Giuda, Babilonia in vista",
+  "tema": "Il giusto vivrà per la sua fede.",
+  "versetto_chiave": "2,4"
+ },
+ {
+  "i": 35,
+  "nome": "Sofonia",
+  "sigla": "Sof",
+  "capitoli": 3,
+  "sezione": "Profeti minori",
+  "sottotitolo": "Il grande giorno del Signore",
+  "intro": "Annuncia il giorno del Signore come giudizio su Giuda e sulle nazioni, con una promessa di purificazione e di gioia per il resto fedele.",
+  "autore": {
+   "tradizione": "Sofonia.",
+   "studiosi": null
+  },
+  "periodo": {
+   "tradizione": "Circa 640-609 a.C., sotto Giosia.",
+   "studiosi": null
+  },
+  "destinatari": "Giuda",
+  "luoghi": "Gerusalemme",
+  "tema": "Dio giudica e poi purifica e rallegra il suo popolo.",
+  "versetto_chiave": "3,17"
+ },
+ {
+  "i": 36,
+  "nome": "Aggeo",
+  "sigla": "Ag",
+  "capitoli": 2,
+  "sezione": "Profeti minori",
+  "sottotitolo": "Ricostruire il tempio",
+  "intro": "Dopo il ritorno dall'esilio Aggeo esorta il popolo a riprendere la ricostruzione del tempio, interrotta, e promette la presenza e la benedizione di Dio.",
+  "autore": {
+   "tradizione": "Aggeo.",
+   "studiosi": null
+  },
+  "periodo": {
+   "tradizione": "520 a.C. (secondo anno di Dario).",
+   "studiosi": null
+  },
+  "destinatari": "I giudei tornati, con Zorobabele e Giosuè",
+  "luoghi": "Gerusalemme",
+  "tema": "Mettere Dio al primo posto porta benedizione.",
+  "versetto_chiave": "2,9"
+ },
+ {
+  "i": 37,
+  "nome": "Zaccaria",
+  "sigla": "Zc",
+  "capitoli": 14,
+  "sezione": "Profeti minori",
+  "sottotitolo": "Visioni e speranza",
+  "intro": "Zaccaria, contemporaneo di Aggeo, riceve visioni notturne e profezie sulla restaurazione di Gerusalemme e sull'arrivo di un re umile e di un pastore ferito.",
+  "autore": {
+   "tradizione": "Zaccaria.",
+   "studiosi": "Molti studiosi attribuiscono i cap. 9-14 a un autore o ambiente diverso, più tardo."
+  },
+  "periodo": {
+   "tradizione": "Circa 520-480 a.C.",
+   "studiosi": "Cap. 1-8 circa 520-518 a.C.; cap. 9-14 forse IV secolo a.C."
+  },
+  "destinatari": "I giudei tornati",
+  "luoghi": "Gerusalemme",
+  "tema": "Dio abita di nuovo con il suo popolo e invia un re umile.",
+  "versetto_chiave": "9,9"
+ },
+ {
+  "i": 38,
+  "nome": "Malachia",
+  "sigla": "Ml",
+  "capitoli": 4,
+  "sezione": "Profeti minori",
+  "sottotitolo": "L'ultima voce profetica",
+  "intro": "Ultimo libro profetico dell'Antico Testamento: richiama i sacerdoti e il popolo alla fedeltà nel culto e nella vita e annuncia l'arrivo del messaggero del Signore.",
+  "autore": {
+   "tradizione": "Malachia.",
+   "studiosi": "Studiosi: «Malachia» può essere un titolo («mio messaggero»)."
+  },
+  "periodo": {
+   "tradizione": "Circa 430 a.C.",
+   "studiosi": "Circa 500-450 a.C."
+  },
+  "destinatari": "I giudei di Gerusalemme dopo l'esilio",
+  "luoghi": "Gerusalemme",
+  "tema": "Dio chiama a tornare a lui e promette di mandare un messaggero.",
+  "versetto_chiave": "3,1"
+ },
+ {
+  "i": 39,
+  "nome": "Matteo",
+  "sigla": "Mt",
+  "capitoli": 28,
+  "sezione": "Vangeli",
+  "sottotitolo": "Il Messia promesso a Israele",
+  "intro": "Presenta Gesù come il Messia atteso, figlio di Davide e di Abraamo. Contiene il Sermone sul monte, molte parabole e l'incarico finale di fare discepoli tutte le nazioni.",
+  "autore": {
+   "tradizione": "L'apostolo Matteo (Levi), pubblicano.",
+   "studiosi": "Molti studiosi ritengono che l'autore sia anonimo e che dipenda da Marco e da una fonte comune."
+  },
+  "periodo": {
+   "tradizione": "Circa 50-70 d.C.",
+   "studiosi": "Circa 70-90 d.C."
+  },
+  "destinatari": "Lettori di origine ebraica",
+  "luoghi": "Galilea, Giudea, Gerusalemme",
+  "tema": "Gesù è il re promesso e porta il regno dei cieli.",
+  "versetto_chiave": "28,19"
+ },
+ {
+  "i": 40,
+  "nome": "Marco",
+  "sigla": "Mc",
+  "capitoli": 16,
+  "sezione": "Vangeli",
+  "sottotitolo": "Il Servo che dà la vita",
+  "intro": "Il vangelo più breve e rapido: presenta Gesù nella sua azione, nei miracoli e nel cammino verso la croce. Si può leggere come il «Figlio di Dio» che serve e dà la propria vita.",
+  "autore": {
+   "tradizione": "Giovanni detto Marco, collaboratore di Pietro e di Paolo.",
+   "studiosi": "Studiosi: attribuzione tradizionale in genere accettata, con autore anonimo per alcuni."
+  },
+  "periodo": {
+   "tradizione": "Circa 55-65 d.C.",
+   "studiosi": "Circa 65-70 d.C. (probabilmente il primo vangelo scritto)."
+  },
+  "destinatari": "Lettori romani, non ebrei",
+  "luoghi": "Galilea, Giudea, Gerusalemme",
+  "tema": "Gesù è il Figlio di Dio che serve e dà la vita in riscatto.",
+  "versetto_chiave": "10,45"
+ },
+ {
+  "i": 41,
+  "nome": "Luca",
+  "sigla": "Lc",
+  "capitoli": 24,
+  "sezione": "Vangeli",
+  "sottotitolo": "Il Salvatore per tutti",
+  "intro": "Racconta la vita di Gesù con attenzione ai poveri, ai peccatori, alle donne e agli stranieri. Contiene molte parabole proprie, come il buon samaritano e il figliol prodigo.",
+  "autore": {
+   "tradizione": "Luca, medico e collaboratore di Paolo.",
+   "studiosi": "Studiosi: attribuzione in genere accettata; la datazione è discussa."
+  },
+  "periodo": {
+   "tradizione": "Circa 60 d.C.",
+   "studiosi": "Circa 80-90 d.C."
+  },
+  "destinatari": "Teofilo e lettori non ebrei",
+  "luoghi": "Galilea, Samaria, Giudea, Gerusalemme",
+  "tema": "Gesù viene a cercare e salvare ciò che era perduto.",
+  "versetto_chiave": "19,10"
+ },
+ {
+  "i": 42,
+  "nome": "Giovanni",
+  "sigla": "Gv",
+  "capitoli": 21,
+  "sezione": "Vangeli",
+  "sottotitolo": "Il quarto Vangelo",
+  "intro": "Presenta Gesù come Parola fatta carne, con sette «segni» e discorsi come il «Io sono». Dedica ampio spazio all'ultima sera e alla passione, e dichiara lo scopo: credere e avere vita.",
+  "autore": {
+   "tradizione": "L'apostolo Giovanni, il discepolo che Gesù amava.",
+   "studiosi": "Alcuni studiosi attribuiscono il testo a un discepolo o a una scuola giovannea."
+  },
+  "periodo": {
+   "tradizione": "Circa 85-95 d.C.",
+   "studiosi": "Circa 90-100 d.C."
+  },
+  "destinatari": "Lettori di cultura giudaica ed ellenistica",
+  "luoghi": "Giudea, Galilea, Gerusalemme",
+  "tema": "Gesù è il Figlio di Dio, e chi crede in lui ha la vita.",
+  "versetto_chiave": "20,31"
+ },
+ {
+  "i": 43,
+  "nome": "Atti degli Apostoli",
+  "sigla": "At",
+  "capitoli": 28,
+  "sezione": "Storia della chiesa",
+  "sottotitolo": "Dalla Pentecoste a Roma",
+  "intro": "Seguito del vangelo di Luca: racconta la nascita della chiesa a Gerusalemme, la discesa dello Spirito e la diffusione del vangelo fino a Roma, in particolare con Pietro e Paolo.",
+  "autore": {
+   "tradizione": "Luca.",
+   "studiosi": "Studiosi: attribuzione in genere accettata."
+  },
+  "periodo": {
+   "tradizione": "Circa 62 d.C.",
+   "studiosi": "Circa 80-90 d.C."
+  },
+  "destinatari": "Teofilo e le chiese",
+  "luoghi": "Gerusalemme, Antiochia, Asia Minore, Grecia, Roma",
+  "tema": "Lo Spirito Santo fa crescere la chiesa e porta il vangelo fino all'estremità della terra.",
+  "versetto_chiave": "1,8"
+ },
+ {
+  "i": 44,
+  "nome": "Romani",
+  "sigla": "Rm",
+  "capitoli": 16,
+  "sezione": "Lettere di Paolo",
+  "sottotitolo": "Il vangelo della giustificazione",
+  "intro": "Paolo presenta il vangelo: tutti hanno peccato, la giustizia di Dio è data per fede in Cristo, la vita nuova nello Spirito, il posto d'Israele e l'etica cristiana.",
+  "autore": {
+   "tradizione": "Paolo.",
+   "studiosi": null
+  },
+  "periodo": {
+   "tradizione": "Circa 56-57 d.C., da Corinto.",
+   "studiosi": null
+  },
+  "destinatari": "I cristiani di Roma",
+  "luoghi": "Corinto (scrittura), Roma",
+  "tema": "Il giusto vive per fede nel vangelo di Cristo.",
+  "versetto_chiave": "1,16"
+ },
+ {
+  "i": 45,
+  "nome": "1 Corinzi",
+  "sigla": "1Cor",
+  "capitoli": 16,
+  "sezione": "Lettere di Paolo",
+  "sottotitolo": "Una chiesa divisa, molte domande",
+  "intro": "Paolo risponde a divisioni, immoralità, culto, doni spirituali e risurrezione. Contiene l'inno all'amore (cap. 13) e l'insegnamento sulla Cena.",
+  "autore": {
+   "tradizione": "Paolo.",
+   "studiosi": null
+  },
+  "periodo": {
+   "tradizione": "Circa 55 d.C., da Efeso.",
+   "studiosi": null
+  },
+  "destinatari": "La chiesa di Corinto",
+  "luoghi": "Efeso (scrittura), Corinto",
+  "tema": "La chiesa vive dell'amore e dell'ordine, nell'attesa della risurrezione.",
+  "versetto_chiave": "13,13"
+ },
+ {
+  "i": 46,
+  "nome": "2 Corinzi",
+  "sigla": "2Cor",
+  "capitoli": 13,
+  "sezione": "Lettere di Paolo",
+  "sottotitolo": "Il ministero nella debolezza",
+  "intro": "Paolo difende il proprio ministero, parla di consolazione, di riconciliazione e della colletta per Gerusalemme. Nella debolezza si manifesta la potenza di Dio.",
+  "autore": {
+   "tradizione": "Paolo.",
+   "studiosi": "Alcuni studiosi ritengono che la lettera riunisca più scritti."
+  },
+  "periodo": {
+   "tradizione": "Circa 56 d.C., dalla Macedonia.",
+   "studiosi": null
+  },
+  "destinatari": "La chiesa di Corinto",
+  "luoghi": "Macedonia (scrittura), Corinto",
+  "tema": "La potenza di Dio si manifesta nella debolezza.",
+  "versetto_chiave": "12,9"
+ },
+ {
+  "i": 47,
+  "nome": "Galati",
+  "sigla": "Gal",
+  "capitoli": 6,
+  "sezione": "Lettere di Paolo",
+  "sottotitolo": "Liberi per grazia",
+  "intro": "Paolo difende il vangelo della grazia contro chi voleva imporre la legge ai credenti non ebrei. Si è giustificati per fede in Cristo e si vive per lo Spirito.",
+  "autore": {
+   "tradizione": "Paolo.",
+   "studiosi": null
+  },
+  "periodo": {
+   "tradizione": "Circa 49 d.C. (Galazia meridionale) oppure circa 53-57 d.C. (Galazia settentrionale).",
+   "studiosi": "Datazione discussa tra 48 e 57 d.C."
+  },
+  "destinatari": "Le chiese della Galazia",
+  "luoghi": "Galazia",
+  "tema": "Si è giustificati per fede in Cristo, non per le opere della legge.",
+  "versetto_chiave": "2,20"
+ },
+ {
+  "i": 48,
+  "nome": "Efesini",
+  "sigla": "Ef",
+  "capitoli": 6,
+  "sezione": "Lettere di Paolo",
+  "sottotitolo": "La chiesa corpo di Cristo",
+  "intro": "Presenta il piano di Dio in Cristo, la salvezza per grazia, l'unità di ebrei e non ebrei nella chiesa e le conseguenze per la vita quotidiana e la lotta spirituale.",
+  "autore": {
+   "tradizione": "Paolo, scritta dalla prigionia (Roma).",
+   "studiosi": "Alcuni studiosi ritengono la lettera scritta da un discepolo di Paolo."
+  },
+  "periodo": {
+   "tradizione": "Circa 60-62 d.C.",
+   "studiosi": "Circa 80-90 d.C. (per chi non l'attribuisce a Paolo)."
+  },
+  "destinatari": "Le chiese dell'Asia Minore, con Efeso",
+  "luoghi": "Roma (scrittura), Efeso",
+  "tema": "Dio riunisce tutti in Cristo, nell'unico corpo che è la chiesa.",
+  "versetto_chiave": "2,8"
+ },
+ {
+  "i": 49,
+  "nome": "Filippesi",
+  "sigla": "Fil",
+  "capitoli": 4,
+  "sezione": "Lettere di Paolo",
+  "sottotitolo": "La gioia in Cristo",
+  "intro": "Lettera di ringraziamento e incoraggiamento scritta dal carcere. Contiene l'inno a Cristo che si è umiliato e l'invito a rallegrarsi nel Signore.",
+  "autore": {
+   "tradizione": "Paolo.",
+   "studiosi": null
+  },
+  "periodo": {
+   "tradizione": "Circa 60-62 d.C., da Roma; alcuni propongono Efeso (circa 55 d.C.).",
+   "studiosi": "Datazione discussa."
+  },
+  "destinatari": "La chiesa di Filippi",
+  "luoghi": "Roma (scrittura), Filippi",
+  "tema": "Gioia e unità nell'umiltà di Cristo.",
+  "versetto_chiave": "4,4"
+ },
+ {
+  "i": 50,
+  "nome": "Colossesi",
+  "sigla": "Col",
+  "capitoli": 4,
+  "sezione": "Lettere di Paolo",
+  "sottotitolo": "Cristo, il primato su tutto",
+  "intro": "Paolo risponde a false dottrine e presenta il primato e la sufficienza di Cristo, creatore e riconciliatore. Segue l'invito a una vita nuova.",
+  "autore": {
+   "tradizione": "Paolo.",
+   "studiosi": "Alcuni studiosi la attribuiscono a un discepolo di Paolo."
+  },
+  "periodo": {
+   "tradizione": "Circa 60-62 d.C.",
+   "studiosi": "Circa 60-80 d.C."
+  },
+  "destinatari": "La chiesa di Colosse",
+  "luoghi": "Roma (scrittura), Colosse",
+  "tema": "In Cristo abita tutta la pienezza di Dio.",
+  "versetto_chiave": "1,15"
+ },
+ {
+  "i": 51,
+  "nome": "1 Tessalonicesi",
+  "sigla": "1Ts",
+  "capitoli": 5,
+  "sezione": "Lettere di Paolo",
+  "sottotitolo": "Fede, amore e speranza",
+  "intro": "Una delle lettere più antiche di Paolo: incoraggia i credenti di Tessalonica perseguitati e insegna sul ritorno del Signore e sulla vita santa.",
+  "autore": {
+   "tradizione": "Paolo.",
+   "studiosi": null
+  },
+  "periodo": {
+   "tradizione": "Circa 50-51 d.C., da Corinto.",
+   "studiosi": null
+  },
+  "destinatari": "La chiesa di Tessalonica",
+  "luoghi": "Corinto (scrittura), Tessalonica",
+  "tema": "Vivere in santità nell'attesa del ritorno di Cristo.",
+  "versetto_chiave": "4,16"
+ },
+ {
+  "i": 52,
+  "nome": "2 Tessalonicesi",
+  "sigla": "2Ts",
+  "capitoli": 3,
+  "sezione": "Lettere di Paolo",
+  "sottotitolo": "Perseveranza e attesa",
+  "intro": "Paolo corregge fraintendimenti sul giorno del Signore, incoraggia nella persecuzione ed esorta a lavorare e a restare saldi.",
+  "autore": {
+   "tradizione": "Paolo.",
+   "studiosi": "Alcuni studiosi ne mettono in dubbio la paternità paolina."
+  },
+  "periodo": {
+   "tradizione": "Circa 51 d.C.",
+   "studiosi": "Circa 51 d.C. (o più tardi per chi la ritiene pseudoepigrafica)."
+  },
+  "destinatari": "La chiesa di Tessalonica",
+  "luoghi": "Corinto (scrittura), Tessalonica",
+  "tema": "Restare saldi nella speranza del ritorno di Cristo.",
+  "versetto_chiave": "2,15"
+ },
+ {
+  "i": 53,
+  "nome": "1 Timoteo",
+  "sigla": "1Tm",
+  "capitoli": 6,
+  "sezione": "Lettere di Paolo",
+  "sottotitolo": "Guidare la chiesa",
+  "intro": "Paolo istruisce Timoteo, a Efeso, su dottrina sana, preghiera, qualità dei responsabili e comportamento nella famiglia di Dio.",
+  "autore": {
+   "tradizione": "Paolo.",
+   "studiosi": "Molti studiosi attribuiscono le lettere pastorali a un discepolo di Paolo, in epoca posteriore."
+  },
+  "periodo": {
+   "tradizione": "Circa 62-64 d.C.",
+   "studiosi": "Circa 80-100 d.C. (per chi non le attribuisce a Paolo)."
+  },
+  "destinatari": "Timoteo, a Efeso",
+  "luoghi": "Macedonia (scrittura), Efeso",
+  "tema": "Come comportarsi nella casa di Dio.",
+  "versetto_chiave": "3,15"
+ },
+ {
+  "i": 54,
+  "nome": "2 Timoteo",
+  "sigla": "2Tm",
+  "capitoli": 4,
+  "sezione": "Lettere di Paolo",
+  "sottotitolo": "L'ultima lettera di Paolo",
+  "intro": "Scritta da Paolo prigioniero verso la fine della sua vita: invita Timoteo a restare fedele, a custodire il vangelo e a predicare la parola.",
+  "autore": {
+   "tradizione": "Paolo.",
+   "studiosi": "Come per 1 Timoteo, alcuni studiosi la attribuiscono a un discepolo."
+  },
+  "periodo": {
+   "tradizione": "Circa 64-67 d.C., da Roma.",
+   "studiosi": "Circa 80-100 d.C. (per chi non la attribuisce a Paolo)."
+  },
+  "destinatari": "Timoteo",
+  "luoghi": "Roma (prigionia)",
+  "tema": "Restare fedeli e trasmettere il vangelo fino alla fine.",
+  "versetto_chiave": "3,16"
+ },
+ {
+  "i": 55,
+  "nome": "Tito",
+  "sigla": "Tt",
+  "capitoli": 3,
+  "sezione": "Lettere di Paolo",
+  "sottotitolo": "Ordine e buone opere",
+  "intro": "Paolo istruisce Tito, a Creta, sulla nomina degli anziani, sulla dottrina sana e sulle buone opere come frutto della grazia.",
+  "autore": {
+   "tradizione": "Paolo.",
+   "studiosi": "Studiosi: come per le altre lettere pastorali."
+  },
+  "periodo": {
+   "tradizione": "Circa 63-65 d.C.",
+   "studiosi": "Circa 80-100 d.C. (per chi non la attribuisce a Paolo)."
+  },
+  "destinatari": "Tito, a Creta",
+  "luoghi": "Creta",
+  "tema": "La grazia insegna una vita giusta e piena di buone opere.",
+  "versetto_chiave": "2,11"
+ },
+ {
+  "i": 56,
+  "nome": "Filemone",
+  "sigla": "Fm",
+  "capitoli": 1,
+  "sezione": "Lettere di Paolo",
+  "sottotitolo": "Uno schiavo diventa fratello",
+  "intro": "Breve lettera personale: Paolo chiede a Filemone di accogliere lo schiavo Onesimo, fuggito, non più come schiavo ma come fratello amato.",
+  "autore": {
+   "tradizione": "Paolo.",
+   "studiosi": null
+  },
+  "periodo": {
+   "tradizione": "Circa 60-62 d.C.",
+   "studiosi": null
+  },
+  "destinatari": "Filemone, a Colosse",
+  "luoghi": "Roma (scrittura), Colosse",
+  "tema": "L'amore cristiano trasforma i rapporti tra le persone.",
+  "versetto_chiave": "1,16"
+ },
+ {
+  "i": 57,
+  "nome": "Ebrei",
+  "sigla": "Eb",
+  "capitoli": 13,
+  "sezione": "Lettere generali",
+  "sottotitolo": "Cristo, superiore a tutto",
+  "intro": "Mostra la superiorità di Cristo su angeli, Mosè, sacerdozio e sacrifici dell'antica alleanza. Contiene l'elenco degli uomini di fede (cap. 11) ed esorta a perseverare.",
+  "autore": {
+   "tradizione": "Non dichiarato; si è pensato a Paolo, Barnaba, Apollo e altri.",
+   "studiosi": "Studiosi: autore ignoto; la tradizione orientale lo attribuiva a Paolo, quella occidentale ha avuto dubbi."
+  },
+  "periodo": {
+   "tradizione": "Circa 60-69 d.C., prima della distruzione del tempio (70 d.C.).",
+   "studiosi": "Circa 60-90 d.C."
+  },
+  "destinatari": "Credenti di origine ebraica",
+  "luoghi": "Non precisato; forse Roma o Italia (13,24)",
+  "tema": "Cristo è il sommo sacerdote perfetto: perseverare nella fede.",
+  "versetto_chiave": "11,1"
+ },
+ {
+  "i": 58,
+  "nome": "Giacomo",
+  "sigla": "Gc",
+  "capitoli": 5,
+  "sezione": "Lettere generali",
+  "sottotitolo": "Una fede che opera",
+  "intro": "Lettera pratica sulla fede che si mostra nelle opere: prove, parole, ricchezza e povertà, preghiera e pazienza.",
+  "autore": {
+   "tradizione": "Giacomo, fratello del Signore.",
+   "studiosi": "Alcuni studiosi ritengono che sia stata redatta in forma greca da un discepolo."
+  },
+  "periodo": {
+   "tradizione": "Circa 45-49 d.C.",
+   "studiosi": "Circa 60-100 d.C."
+  },
+  "destinatari": "I giudei credenti della diaspora",
+  "luoghi": "Gerusalemme (ambiente)",
+  "tema": "La fede viva si manifesta nelle opere.",
+  "versetto_chiave": "2,26"
+ },
+ {
+  "i": 59,
+  "nome": "1 Pietro",
+  "sigla": "1Pt",
+  "capitoli": 5,
+  "sezione": "Lettere generali",
+  "sottotitolo": "Speranza nella sofferenza",
+  "intro": "Pietro incoraggia credenti dispersi che soffrono per la fede: speranza viva, santità, sottomissione, imitazione di Cristo.",
+  "autore": {
+   "tradizione": "L'apostolo Pietro, con l'aiuto di Silvano (5,12).",
+   "studiosi": "Alcuni studiosi la attribuiscono a un discepolo di Pietro."
+  },
+  "periodo": {
+   "tradizione": "Circa 62-64 d.C., da Roma («Babilonia»).",
+   "studiosi": "Circa 70-90 d.C."
+  },
+  "destinatari": "Credenti nelle province dell'Asia Minore",
+  "luoghi": "Roma («Babilonia»)",
+  "tema": "Una speranza viva anche nella sofferenza.",
+  "versetto_chiave": "1,3"
+ },
+ {
+  "i": 60,
+  "nome": "2 Pietro",
+  "sigla": "2Pt",
+  "capitoli": 3,
+  "sezione": "Lettere generali",
+  "sottotitolo": "Crescere e restare vigilanti",
+  "intro": "Pietro avvisa contro i falsi maestri, ricorda la certezza del ritorno di Cristo e invita a crescere nella grazia e nella conoscenza.",
+  "autore": {
+   "tradizione": "L'apostolo Pietro.",
+   "studiosi": "Molti studiosi la considerano scritta da un discepolo, in epoca posteriore."
+  },
+  "periodo": {
+   "tradizione": "Circa 64-68 d.C.",
+   "studiosi": "Circa 80-130 d.C."
+  },
+  "destinatari": "Credenti in generale",
+  "luoghi": "Non precisato (prigionia)",
+  "tema": "Crescere nella conoscenza di Cristo e attendere il suo ritorno.",
+  "versetto_chiave": "3,9"
+ },
+ {
+  "i": 61,
+  "nome": "1 Giovanni",
+  "sigla": "1Gv",
+  "capitoli": 5,
+  "sezione": "Lettere generali",
+  "sottotitolo": "Dio è luce e amore",
+  "intro": "Giovanni scrive a comunità minacciate da falsi insegnamenti: camminare nella luce, amare i fratelli, confessare che Gesù è il Cristo e avere la certezza della vita eterna.",
+  "autore": {
+   "tradizione": "L'apostolo Giovanni.",
+   "studiosi": "Alcuni studiosi la attribuiscono alla stessa scuola del quarto vangelo."
+  },
+  "periodo": {
+   "tradizione": "Circa 85-95 d.C.",
+   "studiosi": "Circa 90-110 d.C."
+  },
+  "destinatari": "Credenti nell'Asia Minore",
+  "luoghi": "Probabilmente Efeso",
+  "tema": "Dio è amore: chi lo conosce ama e crede in Gesù.",
+  "versetto_chiave": "4,8"
+ },
+ {
+  "i": 62,
+  "nome": "2 Giovanni",
+  "sigla": "2Gv",
+  "capitoli": 1,
+  "sezione": "Lettere generali",
+  "sottotitolo": "Verità e amore",
+  "intro": "Breve lettera a una «signora eletta» e ai suoi figli: camminare nella verità e nell'amore e non accogliere chi insegna il falso.",
+  "autore": {
+   "tradizione": "Giovanni, detto «l'anziano».",
+   "studiosi": "Studiosi: stesso autore o scuola della prima lettera."
+  },
+  "periodo": {
+   "tradizione": "Circa 85-95 d.C.",
+   "studiosi": "Circa 90-110 d.C."
+  },
+  "destinatari": "Una chiesa locale",
+  "luoghi": "Probabilmente Efeso",
+  "tema": "Verità e amore vanno insieme.",
+  "versetto_chiave": "1,6"
+ },
+ {
+  "i": 63,
+  "nome": "3 Giovanni",
+  "sigla": "3Gv",
+  "capitoli": 1,
+  "sezione": "Lettere generali",
+  "sottotitolo": "L'ospitalità verso i servitori",
+  "intro": "Breve lettera a Gaio, lodato per l'ospitalità ai predicatori itineranti, con un richiamo a Diotrefe, che rifiuta l'autorità dell'anziano.",
+  "autore": {
+   "tradizione": "Giovanni, detto «l'anziano».",
+   "studiosi": "Studiosi: stesso autore o scuola della prima lettera."
+  },
+  "periodo": {
+   "tradizione": "Circa 85-95 d.C.",
+   "studiosi": "Circa 90-110 d.C."
+  },
+  "destinatari": "Gaio",
+  "luoghi": "Probabilmente Efeso",
+  "tema": "Camminare nella verità e accogliere chi serve il vangelo.",
+  "versetto_chiave": "1,4"
+ },
+ {
+  "i": 64,
+  "nome": "Giuda",
+  "sigla": "Gd",
+  "capitoli": 1,
+  "sezione": "Lettere generali",
+  "sottotitolo": "Combattere per la fede",
+  "intro": "Giuda esorta a combattere per la fede trasmessa ai santi, avvisa contro falsi maestri e invita a perseverare nell'amore di Dio.",
+  "autore": {
+   "tradizione": "Giuda, fratello di Giacomo e del Signore.",
+   "studiosi": "Alcuni studiosi la datano più tardi."
+  },
+  "periodo": {
+   "tradizione": "Circa 65-80 d.C.",
+   "studiosi": "Circa 70-100 d.C."
+  },
+  "destinatari": "Credenti in generale",
+  "luoghi": "Non precisato",
+  "tema": "Combattere per la fede e restare nell'amore di Dio.",
+  "versetto_chiave": "1,3"
+ },
+ {
+  "i": 65,
+  "nome": "Apocalisse",
+  "sigla": "Ap",
+  "capitoli": 22,
+  "sezione": "Profezia",
+  "sottotitolo": "La rivelazione di Gesù Cristo",
+  "intro": "Giovanni riceve a Patmos visioni sulle sette chiese e sugli eventi finali, con la vittoria dell'Agnello, il giudizio e i nuovi cieli e la nuova terra. Esistono diverse scuole di interpretazione.",
+  "autore": {
+   "tradizione": "L'apostolo Giovanni.",
+   "studiosi": "Alcuni studiosi propongono un altro Giovanni (un anziano di Efeso)."
+  },
+  "periodo": {
+   "tradizione": "Circa 95-96 d.C., sotto Domiziano.",
+   "studiosi": "Alcuni propongono circa 64-68 d.C., sotto Nerone."
+  },
+  "destinatari": "Le sette chiese dell'Asia",
+  "luoghi": "Patmos, Asia Minore",
+  "tema": "Cristo, l'Agnello, vince e rinnova ogni cosa.",
+  "versetto_chiave": "1,8"
+ }
+]

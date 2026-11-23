@@ -1,0 +1,22 @@
+Fonte dei dati geografici (places.json)
+
+I dati sui luoghi biblici (coordinate di riferimento) derivano dal progetto
+"OpenBible.info Bible Geocoding Data" (https://www.openbible.info/geo/),
+repository: https://github.com/openbibleinfo/Bible-Geocoding-Data
+
+Licenza: Creative Commons Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
+
+Attribuzione richiesta: "Dati geografici: OpenBible.info (Bible Geocoding Data), CC BY 4.0".
+
+Modifiche apportate: dal dataset originale (ancient.jsonl) sono stati selezionati circa
+180 luoghi, e sono stati usati solo il nome, il punto di riferimento (latitudine e
+longitudine) e le voci bibliche. I nomi italiani, le descrizioni, le forme e i
+riferimenti chiave sono stati scritti per questa app e non provengono dal dataset.
+Per alcuni luoghi (regioni, fiumi, luoghi di identificazione incerta) il punto indicato
+è un punto rappresentativo o approssimato; è segnalato dal campo "posizione_approssimata".
+Per Nilo, Eufrate e Tigri le coordinate sono state sostituite con un punto centrale
+indicativo scelto in questa app.
+
+I dati originali includono anche geometrie derivate da OpenStreetMap (licenza ODbL 1.0)
+e immagini con licenze diverse; questi elementi non sono inclusi in questa app.
