@@ -137,7 +137,7 @@ function doPost(e) {
     if (typeof raw !== 'string' || raw.length > 1500000) return json_({ok: false, error: 'Richiesta non valida.', code: 'invalid'});
     let req;
     try { req = JSON.parse(raw); } catch (err) { return json_({ok: false, error: 'Richiesta non valida.', code: 'invalid'}); }
-    if (!req || typeof req !== 'object') return json_({ok: false, error: 'Richiesta non valida.', code: 'invalid'});
+    if (!req || typeof req !== 'object' || Array.isArray(req)) return json_({ok: false, error: 'Richiesta non valida.', code: 'invalid'});
     if (!keyOk_(req.key)) { Utilities.sleep(400); return json_({ok: false, error: 'Chiave non valida.', code: 'auth'}); }
     switch (req.method) {
       case 'ping': return json_({ok: true, data: {pong: true}});

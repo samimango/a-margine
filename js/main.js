@@ -37,12 +37,13 @@ document.documentElement.classList.add('ready');
 
 /* Service worker: guscio dell'app disponibile anche offline */
 if ('serviceWorker' in navigator && location.protocol.startsWith('http') && !api.hasCloudRunner()) {
-  addEventListener('load', async () => {
+  const start = async () => {
     try {
       const reg = await navigator.serviceWorker.register('./sw.js');
       const ready = await navigator.serviceWorker.ready;
       const urls = performance.getEntriesByType('resource').map(r => r.name).filter(u => u.startsWith(location.origin));
       (ready.active || reg.active)?.postMessage({type: 'precache', urls: [location.href, ...urls]});
     } catch { /* senza service worker l'app funziona lo stesso */ }
-  });
+  };
+  if (document.readyState === 'complete') start(); else addEventListener('load', start);
 }

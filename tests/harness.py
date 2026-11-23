@@ -94,7 +94,7 @@ def make_handler(srv):
     return handler
 
 
-IGNORE = ('Failed to load resource', 'ERR_FAILED', 'fonts.g')
+IGNORE = ('Failed to load resource', 'ERR_FAILED', 'fonts.g', 'Service Worker registration blocked')
 PHONE = dict(viewport={'width': 390, 'height': 844}, device_scale_factor=2, has_touch=True, is_mobile=True)
 DESK = dict(viewport={'width': 1280, 'height': 800})
 
