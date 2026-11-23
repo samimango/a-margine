@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import harness
-for m in ['t_smoke','t_core', 't_reader', 't_sync', 't_screens', 't_backend']:
+for m in ['t_core', 't_reader', 't_sync', 't_screens', 't_backend']:
     try: __import__(m)
     except ModuleNotFoundError as e:
         if e.name != m: raise

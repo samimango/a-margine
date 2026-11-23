@@ -19,16 +19,15 @@ function fillState() {
 }
 async function connect(e) {
   e.preventDefault();
-  D.msg.textContent = '';
-  const before = api.config();
-  try { api.setConfig(D.url.value, D.key.value); } catch (err) { D.msg.textContent = err.message; return; }
   D.msg.textContent = 'Controllo il collegamento…';
-  try { await api.ping(); D.msg.textContent = ''; ui.toast('Collegato a Google'); fillState(); }
+  try { await api.checkConfig(D.url.value, D.key.value); }
   catch (err) {
-    if (before) api.setConfig(before.url, before.key); else api.clearConfig();
-    D.msg.textContent = api.isAuthError(err) ? 'La chiave non è accettata. Controlla di averla copiata per intero.' : 'Non riesco a raggiungere il Web App. Controlla l’indirizzo e che sia pubblicato per «Chiunque».';
-    fillState(); D.msg.textContent = D.msg.textContent;
+    D.msg.textContent = api.isAuthError(err) ? 'La chiave non è accettata. Controlla di averla copiata per intero.'
+      : /Web App di Google|chiave non è valida/.test(err.message) ? err.message : 'Non riesco a raggiungere il Web App. Controlla l’indirizzo e che sia pubblicato per «Chiunque».';
+    return;
   }
+  try { api.setConfig(D.url.value, D.key.value); } catch (err) { D.msg.textContent = err.message; return; }
+  fillState(); ui.toast('Collegato a Google');
 }
 async function copyLink() {
   const link = api.setupLink();

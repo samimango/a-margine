@@ -47,8 +47,8 @@ function toggleBmUndo(bk, ch, vs) {
 /* ---------- Disegno ---------- */
 function renderHeader() {
   D.title.firstChild.textContent = names[S.b] + (counts[S.b] > 1 ? ' ' + S.c : '');
-  D.prev.disabled = D.bottomPrev.disabled = !step(S.b, S.c, -1);
-  D.nextBtn.disabled = D.bottomNext.disabled = !step(S.b, S.c, 1);
+  D.bottomPrev.disabled = !step(S.b, S.c, -1);
+  D.bottomNext.disabled = !step(S.b, S.c, 1);
   D.bmBtn.setAttribute('aria-pressed', String(notes.isBm(S.b, S.c, S.v)));
   const nxt = step(S.b, S.c, 1);
   D.nextCard.replaceChildren();
@@ -352,8 +352,6 @@ export default {
   build(root) {
     el = root;
     D.title = h('button', {class: 'rtitle', id: 'titleBtn', type: 'button', 'aria-label': 'Scegli libro e capitolo', on: {click: () => router.go('libro', {book: S.b})}}, h('span', {id: 'heading'}), icon('down', 14, 2.2));
-    D.prev = h('button', {class: 'ic', id: 'prev', type: 'button', 'aria-label': 'Capitolo precedente', on: {click: () => turnChapter(-1)}}, icon('back', 20, 2));
-    D.nextBtn = h('button', {class: 'ic', id: 'next', type: 'button', 'aria-label': 'Capitolo successivo', on: {click: () => turnChapter(1)}}, icon('chev', 20, 2));
     D.bmBtn = h('button', {class: 'ic', id: 'bmBtn', type: 'button', 'aria-label': 'Segnalibro qui', on: {click: () => toggleBmUndo(S.b, S.c, S.v)}}, icon('bookmark', 20, 1.8));
     D.top = h('header', {class: 'rtop glass', id: 'readTop'},
       h('button', {class: 'ic', id: 'readBack', type: 'button', 'aria-label': 'Indietro', on: {click: () => router.back(router.previousId() && router.previousId() !== 'leggi' ? router.previousId() : 'libreria')}}, icon('back', 20, 2)),

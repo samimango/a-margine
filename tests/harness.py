@@ -63,8 +63,8 @@ def make_handler(srv):
             return route.fulfill(**cors(200, text))
         if 'fonts.googleapis.com' in url: return route.fulfill(status=200, content_type='text/css', body='')
         if 'fonts.gstatic.com' in url: return route.abort()
-        if url.startswith('http://app.test'):
-            path = url.replace('http://app.test', '').split('?')[0].split('#')[0]
+        if url.startswith('http://localhost'):
+            path = url.replace('http://localhost', '').split('?')[0].split('#')[0]
             f = ROOT / (path.lstrip('/') or 'index.html')
             if f.is_file():
                 ct = {'.js': 'text/javascript', '.mjs': 'text/javascript', '.webmanifest': 'application/manifest+json'}.get(f.suffix) or mimetypes.guess_type(str(f))[0] or 'text/plain'
@@ -86,7 +86,7 @@ class Env:
         own = srv is None
         srv = srv or Srv()
         if own: s.srvs.append(srv)
-        c = s.br.new_context(service_workers=sw, color_scheme='dark' if dark else 'light', accept_downloads=True, locale=locale, timezone_id='Europe/Zurich', **(PHONE if device == 'phone' else DESK))
+        c = s.br.new_context(service_workers=sw, color_scheme='dark' if dark else 'light', accept_downloads=True, permissions=['clipboard-read', 'clipboard-write'], locale=locale, timezone_id='Europe/Zurich', **(PHONE if device == 'phone' else DESK))
         s.ctxs.append(c)
         pg = c.new_page(); pg.set_default_timeout(5000)
         errs = []; s.errs.append(errs); pg.errs = errs; pg.srv = srv; pg.ctx = c
@@ -98,7 +98,7 @@ class Env:
         if seed:
             pg.add_init_script('if(!sessionStorage.__seeded){sessionStorage.__seeded=1;' + ';'.join(f'localStorage.setItem({json.dumps(k)},{json.dumps(v)})' for k, v in seed.items()) + '}')
         if init: pg.add_init_script(init)
-        pg.goto('http://app.test' + url)
+        pg.goto('http://localhost' + url)
         if wait: pg.wait_for_selector(wait); pg.wait_for_timeout(250)
         return pg
     def close(s):
@@ -124,10 +124,10 @@ def lsj(pg, k, d=None):
 def tab(pg, name):
     pg.click(f'#tabs [data-go={name}]'); pg.wait_for_timeout(200)
 def screen(pg): return pg.evaluate('document.body.dataset.screen')
-def open_ref(pg, b, c, v=1):
+def open_ref(pg, b, c, v=1, verses=True):
     """Apre il lettore passando dalla Libreria (campo «Vai a»)"""
     tab(pg, 'libreria'); pg.fill('#goto', f'{NAMES[b]} {c},{v}'); pg.press('#goto', 'Enter')
-    pg.wait_for_selector('#scr-leggi:not([hidden]) .verse'); pg.wait_for_timeout(200)
+    pg.wait_for_selector('#scr-leggi:not([hidden]) .verse' if verses else '#scr-leggi:not([hidden])'); pg.wait_for_timeout(200)
 def sync_now(pg, wait=700):
     pg.evaluate('import("/js/core/sync.js").then(m=>m.synchronize())'); pg.wait_for_timeout(wait)
 def eval_mod(pg, mod, expr):
@@ -154,8 +154,9 @@ def run(only=None):
                     if errs: raise AssertionError('errori in console: ' + ' | '.join(errs[:4]))
                     print(f'  PASS {name} [{dev}] {time.time()-t0:.1f}s'); ok += 1
                 except Exception as e:
-                    tb = traceback.format_exc().strip().split('\n')
-                    print(f'  FAIL {name} [{dev}]: {e}\n       {tb[-3].strip() if len(tb) > 2 else ""}'); fail += 1; failures.append(f'{name}[{dev}]')
+                    fr = [f for f in traceback.extract_tb(e.__traceback__) if f.filename != __file__]
+                    where = f'{Path(fr[-1].filename).name}:{fr[-1].lineno}  {fr[-1].line}' if fr else ''
+                    print(f'  FAIL {name} [{dev}]: {str(e).splitlines()[0] if str(e) else ""}\n       {where}'); fail += 1; failures.append(f'{name}[{dev}]')
                     try:
                         for i, c in enumerate(env.ctxs):
                             for j, p in enumerate(c.pages): p.screenshot(path=str(SHOTS / f'FAIL_{name}_{dev}_{i}{j}.png'))

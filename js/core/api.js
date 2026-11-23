@@ -64,14 +64,14 @@ function fail(message, code, status) { const e = Error(message); e.code = code; 
 export const isInvalid = err => Boolean(err && (err.status === 400 || /non valid/i.test(String(err.message || err))));
 export const isAuthError = err => Boolean(err && (err.code === 'auth' || err.status === 401));
 
-export async function call(method, data, {timeout = RPC_TIMEOUT} = {}) {
-  if (hasCloudRunner()) {
+export async function call(method, data, {timeout = RPC_TIMEOUT, cfg: override} = {}) {
+  if (hasCloudRunner() && !override) {
     return new Promise((resolve, reject) => {
       const t = setTimeout(() => reject(Error('Tempo scaduto.')), timeout);
       google.script.run.withSuccessHandler(r => { clearTimeout(t); resolve(r); }).withFailureHandler(e => { clearTimeout(t); reject(e); })[method](data);
     });
   }
-  const cfg = config();
+  const cfg = override || config();
   if (!cfg) throw fail('Non collegato a Google.', 'local', 0);
   const ctl = typeof AbortController === 'function' ? new AbortController() : null;
   const t = setTimeout(() => ctl && ctl.abort(), timeout);
@@ -88,4 +88,11 @@ export async function call(method, data, {timeout = RPC_TIMEOUT} = {}) {
     return body.data;
   } finally { clearTimeout(t); }
 }
-export const ping = () => call('ping', null, {timeout: 15000});
+export const ping = (cfg) => call('ping', null, {timeout: 15000, cfg});
+/* Controlla indirizzo e chiave SENZA salvarli; poi si salva con setConfig */
+export function checkConfig(url, key) {
+  url = String(url || '').trim(); key = String(key || '').trim();
+  if (!validUrl(url)) return Promise.reject(Error('L’indirizzo non sembra quello di un Web App di Google (deve iniziare con https://script.google.com/macros/s/ e finire con /exec).'));
+  if (!validKey(key)) return Promise.reject(Error('La chiave non è valida: usa quella scritta nei log di Apps Script.'));
+  return ping({url, key});
+}
