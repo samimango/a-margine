@@ -122,6 +122,7 @@ def lsj(pg, k, d=None):
     v = ls(pg, k)
     return json.loads(v) if v else d
 def tab(pg, name):
+    pg.evaluate("document.body.classList.remove('immersive')"); pg.wait_for_timeout(320)   # un tocco mostra le barre
     pg.click(f'#tabs [data-go={name}]'); pg.wait_for_timeout(200)
 def screen(pg): return pg.evaluate('document.body.dataset.screen')
 def open_ref(pg, b, c, v=1, verses=True):
@@ -154,7 +155,7 @@ def run(only=None):
                     if errs: raise AssertionError('errori in console: ' + ' | '.join(errs[:4]))
                     print(f'  PASS {name} [{dev}] {time.time()-t0:.1f}s'); ok += 1
                 except Exception as e:
-                    fr = [f for f in traceback.extract_tb(e.__traceback__) if f.filename != __file__]
+                    fr = [f for f in traceback.extract_tb(e.__traceback__) if f.filename.startswith(str(HERE)) and f.filename != __file__]
                     where = f'{Path(fr[-1].filename).name}:{fr[-1].lineno}  {fr[-1].line}' if fr else ''
                     print(f'  FAIL {name} [{dev}]: {str(e).splitlines()[0] if str(e) else ""}\n       {where}'); fail += 1; failures.append(f'{name}[{dev}]')
                     try:

@@ -126,7 +126,7 @@ addEventListener('scroll', () => { clearTimeout(scrollTimer); scrollTimer = setT
 const topEdge = () => (D.top && !document.body.classList.contains('immersive') ? D.top.getBoundingClientRect().bottom : 0) + 4;
 function trackPos() {
   clearTimeout(scrollTimer);
-  if (!isVisible() || pendingScroll) return;
+  if (!isVisible() || pendingScroll || selA !== null) return;   // con una selezione attiva la posizione è quella del versetto scelto
   if (jumpV !== null) {
     const r = document.getElementById('v' + jumpV)?.getBoundingClientRect();
     if (r && r.bottom > 80 && r.top < innerHeight) return;
@@ -230,8 +230,8 @@ function applyColor(i) {
   for (let n = selA; n <= selB; n++) { const id = vk(n); prev.push([id, notes.record(id).color ?? null]); flashIds.add(id); }
   setTimeout(() => { flashIds = new Set(); }, 300);
   for (const [id] of prev) notes.saveNote(id, {color: same ? null : i}, true);
-  refresh();
-  ui.toast('Colore cambiato', () => { for (const [id, old] of prev) notes.saveNote(id, {color: old}, true); refresh(); });
+  refresh(); paletteSel();
+  ui.toast('Colore cambiato', () => { for (const [id, old] of prev) notes.saveNote(id, {color: old}, true); refresh(); paletteSel(); });
 }
 function openWriteSel(sel) {
   const f = sel.from, t = sel.to;

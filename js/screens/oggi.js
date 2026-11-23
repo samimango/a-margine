@@ -119,7 +119,11 @@ export default {
       parts.hero, parts.stats, parts.cards, parts.recentBox,
       text('h2', 'Segnalibri', 'sec'), parts.bm, text('h2', 'Ultima meditazione', 'sec'), parts.med, parts.hint, parts.conflicts));
     liveConflicts(parts.conflicts);
-    for (const evt of ['notes:changed', 'data:changed', 'sync:state', 'config:changed', 'theme:changed']) on(evt, render);
+    /* aggiornamenti mirati: ridisegnare la card «Riprendi» mentre ci si tocca farebbe perdere il tocco */
+    const live = fn => () => { if (el && !el.hidden) fn(); };
+    on('sync:state', live(renderHint)); on('config:changed', live(renderHint));
+    for (const evt of ['notes:changed', 'data:changed']) on(evt, live(() => { renderStats(); renderRecents(); renderBookmarks(); renderLastMed(); }));
+    on('theme:changed', live(render));
   },
   show() { render(); },
 };
