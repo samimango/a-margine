@@ -1,0 +1,63 @@
+OK   boot_and_basic                     phone   0.8s 
+OK   boot_and_basic                     desk    0.8s 
+OK   single_chapter_books               phone   4.8s 
+OK   single_chapter_books               desk    4.9s 
+OK   salmi_119                          phone   2.9s 
+OK   salmi_119                          desk    3.0s 
+OK   selection_logic                    phone   1.3s 
+OK   selection_logic                    desk    1.4s 
+OK   notes_and_colors                   phone   6.8s 
+OK   notes_and_colors                   desk    6.9s 
+OK   free_chapter_notes                 phone   4.1s 
+OK   free_chapter_notes                 desk    3.9s 
+OK   other_chapter_text_and_export      phone   4.9s 
+OK   other_chapter_text_and_export      desk    5.0s 
+OK   limit_8kb_and_labels               phone   4.7s 
+OK   limit_8kb_and_labels               desk    4.8s 
+OK   two_devices_basic                  phone   8.4s 
+OK   two_devices_basic                  desk    8.3s 
+OK   conflicts_ui                       phone  16.1s 
+OK   conflicts_ui                       desk   16.1s 
+OK   conflict_survives_reload           phone   0.5s 
+OK   conflict_survives_reload           desk    0.5s 
+OK   typing_not_overwritten             phone  10.9s 
+OK   typing_not_overwritten             desk   10.9s 
+OK   typing_during_inflight_sync        phone   7.2s 
+OK   typing_during_inflight_sync        desk    7.2s 
+OK   bookmarks_sync_and_migration       phone   5.0s 
+OK   bookmarks_sync_and_migration       desk    5.0s 
+OK   notes_migration_and_invalid_isolation phone   6.0s 
+OK   notes_migration_and_invalid_isolation desk    6.0s 
+OK   offline_online                     phone   4.9s 
+OK   offline_online                     desk    5.1s 
+OK   sync_garbage_storage               phone   0.8s 
+OK   sync_garbage_storage               desk    0.8s 
+OK   cloud_mode                         phone   5.4s 
+OK   cloud_mode                         desk    5.2s 
+OK   history_blocked                    phone   2.1s 
+OK   history_blocked                    desk    2.0s 
+FAIL cloud_in_iframe                    phone   8.8s Page.go_back: Timeout 4000ms exceeded.
+ @cloud_in_iframe:218
+FAIL cloud_in_iframe                    desk    8.6s Page.go_back: Timeout 4000ms exceeded.
+ @cloud_in_iframe:218
+OK   position_scroll_swipe_reload       phone   6.2s 
+OK   return_to_read_keeps_place         phone   4.0s 
+OK   return_to_read_keeps_place         desk    3.9s 
+OK   load_failure_still_tracks          phone   2.3s 
+OK   load_failure_still_tracks          desk    2.4s 
+OK   cache_vs_network_race              phone   2.8s 
+OK   cache_vs_network_race              desk    2.9s 
+OK   history_flow                       phone   7.2s 
+OK   history_flow                       desk    7.3s 
+OK   a11y_focus_esc                     phone   2.7s 
+OK   a11y_focus_esc                     desk    2.6s 
+OK   security_xss                       phone   3.5s 
+OK   security_xss                       desk    3.4s 
+OK   import_file                        phone   1.6s 
+OK   import_file                        desk    1.5s 
+OK   search_race_and_notes              phone   7.2s 
+OK   search_race_and_notes              desk    7.3s 
+OK   desktop_phone_layout_smoke         phone   1.1s 
+OK   desktop_phone_layout_smoke         desk    1.0s 
+
+57/59 OK

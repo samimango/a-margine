@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="it" data-theme="paper"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-PNIC8Z0p4fLH3GKSwVR6bp50cH5Jr4PD6WzJa2cuvkg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://script.google.com https://*.googleusercontent.com; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="A margine">
+<meta name="theme-color" content="#f6f1e7">
+<title>A margine</title>
+<script>try{var t=localStorage.getItem('margine.theme');if(t!=='light'&&t!=='paper'&&t!=='dark')t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'paper';document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='paper'}</script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cardo&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&family=Lora:wght@500;600&display=swap">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/screens.css">
+</head>
+<body>
+<div id="app"><main id="screens"></main></div>
+<nav class="tabs glass" id="tabs" aria-label="Schermate"></nav>
+<div class="toast" id="toast" role="status" hidden></div>
+<noscript><p style="padding:24px;font:16px system-ui">A margine ha bisogno di JavaScript per funzionare.</p></noscript>
+<script type="module" src="js/main.js"></script>
+</body></html>

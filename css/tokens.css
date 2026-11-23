@@ -1,0 +1,50 @@
+/* TOKEN DI DESIGN — unica fonte per colori, tipografia, raggi e ombre. Tre temi: light, paper, dark (nero puro).
+   Il tema è scelto da <html data-theme="…"> (impostato da uno script in index.html prima del primo disegno).
+   Le feature NON devono usare colori fissi: usano questi token. */
+:root {
+  /* tipografia */
+  --serif-read: "Crimson Text", "Newsreader", Georgia, "Times New Roman", serif;   /* testo biblico, citazioni */
+  --serif-head: "Lora", Georgia, "Times New Roman", serif;                         /* titoli */
+  --serif-cover: "Cardo", Georgia, serif;                                          /* copertine */
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;               /* interfaccia */
+  --verse-size: 21px; --verse-lh: 1.65;                                            /* impostati da Aspetto della lettura */
+
+  /* accenti dei libri (per sezione e copertina) */
+  --terra: #b45c3a; --sage: #6d8062; --night: #233252; --ochre: #b8882e; --bord: #722c39; --gold: #a8833a; --slate: #4a5663; --teal: #35545c;
+  --bk: #b45c3a; --bk-ac: #f6dcc4;            /* colore del libro corrente: scritti dalle schermate Oggi, Leggi, Libro */
+  --accent-book: var(--bk);
+
+  /* forma */
+  --r-card: 22px; --r-md: 16px; --r-sm: 12px; --r-pill: 999px;
+  --tab-h: 62px; --colw: 680px; --pad: 18px; --hit: 44px;
+  --safe-t: env(safe-area-inset-top, 0px); --safe-b: env(safe-area-inset-bottom, 0px);
+  --dock: 78px; --actions-h: 0px;
+
+  /* tema chiaro (predefinito) */
+  --bg: #f4f0e8; --card: #fffdf9; --ink: #1d1a16; --dim: #6f675b; --line: rgba(60, 45, 20, .11);
+  --glass: rgba(250, 246, 238, .66); --chip: #ebe5d8; --pill: rgba(60, 40, 10, .09);
+  --accent: #b45c3a; --accent-ink: #ffffff; --ribbon: #b03a2a; --toast: #201c18;
+  --sel: rgba(180, 92, 58, .24); --scrim: rgba(24, 14, 4, .38);
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, .7) inset, 0 0 0 .6px var(--line), 0 10px 24px -14px rgba(60, 40, 10, .28);
+  --shadow-tab: 0 14px 34px -10px rgba(40, 25, 5, .35), inset 0 0 0 .6px rgba(255, 255, 255, .55), 0 0 0 .6px var(--line);
+  /* i cinque colori di evidenziazione: pallino (--dN) e fondo del testo (--cN) */
+  --d1: #d4a62a; --d2: #5b78a8; --d3: #6f8a62; --d4: #b9606f; --d5: #84689f;
+  --c1: rgba(212, 166, 42, .34); --c2: rgba(91, 120, 168, .28); --c3: rgba(111, 138, 98, .30); --c4: rgba(185, 96, 111, .28); --c5: rgba(132, 104, 159, .28);
+  color-scheme: light;
+}
+:root[data-theme="paper"] {
+  --bg: #f6f1e7; --card: #fffdf9; --ink: #221d16; --dim: #72695d; --line: rgba(60, 45, 20, .12);
+  --glass: rgba(250, 245, 234, .7); --chip: #ece5d4;
+}
+:root[data-theme="dark"] {
+  --bg: #000000; --card: #101010; --ink: #f3efe8; --dim: #9a958b; --line: rgba(255, 255, 255, .1);
+  --glass: rgba(28, 28, 28, .62); --chip: #1b1b1b; --pill: rgba(255, 255, 255, .12);
+  --accent: #e08a66; --accent-ink: #1a0f08; --ribbon: #d9553f; --toast: #2a2724;
+  --sel: rgba(224, 138, 102, .30); --scrim: rgba(0, 0, 0, .6);
+  --accent-book: var(--bk-ac);
+  --shadow-card: 0 0 0 .6px var(--line);
+  --shadow-tab: 0 14px 34px -10px #000, inset 0 0 0 .6px rgba(255, 255, 255, .16);
+  --d1: #e2b640; --d2: #7b97c8; --d3: #8fae80; --d4: #d17f8d; --d5: #a58ac2;
+  --c1: rgba(226, 182, 64, .34); --c2: rgba(123, 151, 200, .32); --c3: rgba(143, 174, 128, .30); --c4: rgba(209, 127, 141, .30); --c5: rgba(165, 138, 194, .32);
+  color-scheme: dark;
+}

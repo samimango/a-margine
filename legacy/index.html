@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light dark"><meta name="referrer" content="no-referrer"><title>A margine · Bibbia personale</title>
+<script>try{var t=localStorage.getItem('margine.theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="style.css"></head><body>
+<main id="app">
+
+<section class="scr" id="home"><div class="col">
+<h1 class="big" id="greet">Buonasera</h1>
+<div class="card" id="resume"><small>Riprendi da dove eri</small><b id="resRef"></b><p id="resText"></p><button class="go" id="resGo">Continua a leggere</button></div>
+<div id="recentBox" hidden><h2 class="sec">Letti di recente</h2><div id="homeRecent"></div></div>
+<h2 class="sec">Segnalibri</h2><div id="homeBm"></div>
+<h2 class="sec">Ultima meditazione</h2><div id="lastMed"></div>
+<h2 class="sec">Altro</h2>
+<div class="rows"><button id="textSize"></button><button id="themeBtn"></button><button id="colorsBtn">Nomi dei colori<span>›</span></button><button id="importBtn">Importa il testo della Bibbia<span>›</span></button><button id="exportBtn">Esporta le meditazioni<span>›</span></button><button id="copyBtn">Copia negli appunti<span>›</span></button><a id="source" target="_blank" rel="noopener noreferrer">Apri su LaParola.net<span>↗</span></a></div>
+<p class="hint" id="syncState" role="status"></p><div id="conflicts"></div>
+</div></section>
+
+<section class="scr" id="read" hidden>
+<header class="top" id="readTop"><button class="title" id="titleBtn" aria-label="Scegli libro e capitolo"><span id="heading"></span><i aria-hidden="true">▾</i></button><span class="grow"></span>
+<button class="ic aa" id="typoBtn" aria-label="Dimensione e interlinea del testo" aria-expanded="false">Aa</button>
+<button class="ic" id="goVerse" aria-label="Vai al versetto"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/></svg></button>
+<button class="ic" id="prev" aria-label="Capitolo precedente"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="m14.5 5.5-6.5 6.5 6.5 6.5"/></svg></button>
+<button class="ic" id="next" aria-label="Capitolo successivo"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg></button>
+<button class="ic" id="bmBtn" aria-label="Segnalibro qui"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M6 3.5h12V21l-6-4.5L6 21z"/></svg></button></header>
+<div class="col"><p class="hint" id="loadState" role="status"></p><button hidden id="retry">Riprova a caricare</button>
+<div class="typo" id="typo" hidden><div class="typoRow"><span>Testo</span><div class="seg" id="sizeSeg" role="group" aria-label="Dimensione del testo"></div></div><div class="typoRow"><span>Interlinea</span><div class="seg" id="leadSeg" role="group" aria-label="Interlinea"></div></div></div>
+<div id="verses" class="text"></div>
+<div class="turn"><button id="bottomPrev">‹ Precedente</button><button id="bottomNext">Successivo ›</button></div>
+<p class="hint" id="availability"></p></div></section>
+
+<section class="scr" id="pick" hidden>
+<header class="top"><button class="back" id="pickBack">‹ Leggi</button><span class="mid">Scegli il libro</span><span class="sp"></span></header>
+<div class="col"><div class="seg" id="testSeg" role="group" aria-label="Testamento"><button data-t="0">Antico Testamento</button><button data-t="1">Nuovo Testamento</button></div><div class="rows" id="books"></div></div></section>
+
+<section class="scr" id="chap" hidden>
+<header class="top"><button class="back" id="chapBack">‹ Libri</button><span class="mid" id="chapTitle"></span><span class="sp"></span></header>
+<div class="col"><div class="grid" id="chapters"></div></div></section>
+
+<section class="scr" id="write" hidden>
+<header class="top"><button class="back" id="wBack">‹ Indietro</button><span class="mid">Meditazione</span><button class="done" id="wDone">Fatto</button></header>
+<div class="col wr"><label id="attachLabel" hidden>Scrivi su<select id="attach"></select></label>
+<div class="quote"><b id="wRef"></b><span id="wText"></span><button class="link" id="readPassage" hidden>Leggi il passo</button></div>
+<textarea id="note" enterkeyhint="enter" placeholder="Cosa ti colpisce?" aria-label="Meditazione"></textarea></div>
+<div class="wbar"><div id="palette" class="palette" role="group" aria-label="Colore della meditazione"></div><span id="status" role="status"></span></div></section>
+
+<section class="scr" id="notebook" hidden><div class="col">
+<div class="head"><h1 class="big">Quaderno</h1><button class="pill" id="compose">+ Nuova</button></div>
+<div class="seg" id="nbSeg" role="group" aria-label="Sezione del quaderno"><button data-t="notes">Meditazioni</button><button data-t="marks">Segnalibri</button></div>
+<div id="filters" class="chips" role="group" aria-label="Filtra per colore"></div>
+<div id="entries"></div></div></section>
+
+<section class="scr" id="search" hidden><div class="col">
+<h1 class="big">Cerca</h1>
+<form id="wordForm"><label for="word" class="srOnly">Cerca</label><input id="word" required maxlength="100" type="search" enterkeyhint="search" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Una parola, per esempio luce"></form>
+<div id="recentS" hidden><h2 class="sec">Ricerche recenti</h2><div class="chips" id="recentChips"></div></div>
+<div class="seg" id="srSeg" role="group" aria-label="Dove cercare"><button data-t="bible">Bibbia</button><button data-t="notes">Le mie note</button></div>
+<p class="hint" id="resultStatus" role="status"></p><div id="hits"></div><button class="link" hidden id="moreHits">Altri risultati</button>
+</div></section>
+</main>
+
+<div class="actions" id="actions" hidden>
+<div class="aTop"><span class="aref" id="aref"></span><button class="roundbtn" id="aclose" aria-label="Deseleziona">✕</button></div>
+<div id="palette2" class="palette" role="group" aria-label="Colore del versetto"></div><div class="cname" id="cname"></div>
+<div class="abtns"><button class="btn p" id="openNote">Scrivi nota</button><button class="btn" id="bmSel">Segnalibro</button></div></div>
+
+<div class="toast" id="toast" role="status" hidden><span id="toastMsg"></span><span id="toastSep" aria-hidden="true">·</span><button id="toastUndo" hidden>Annulla</button></div>
+<div class="sheet" id="sheet" hidden><div class="sheetBox" role="dialog" aria-modal="true" aria-labelledby="sheetTitle"><div class="grab"></div><div class="sheetHead"><b id="sheetTitle">Vai al versetto</b><button class="roundbtn" id="sheetClose" aria-label="Chiudi">✕</button></div><div class="vgrid" id="vgrid"></div></div></div>
+<nav class="tabs" id="tabs" aria-label="Schermate">
+<button data-go="home"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z"/></svg>Home</button>
+<button data-go="read"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M9 8.5h6M9 12h6M9 15.5h3"/></svg>Leggi</button>
+<button data-go="search"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>Cerca</button>
+<button data-go="notebook"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>Quaderno</button></nav>
+
+<dialog id="dialog"><form method="dialog"><button class="close" aria-label="Chiudi">×</button></form><div id="content"></div></dialog><script src="sync.js"></script><script src="app.js"></script><script>document.documentElement.classList.add("ready")</script></body></html>
