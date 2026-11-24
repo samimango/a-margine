@@ -66,7 +66,7 @@ function goNow(next, params = {}, {push = true} = {}) {
   }
   if (!def.manageScroll) window.scrollTo(0, 0);
   if (prev !== next && !reduceMotion()) {
-    def.el.animate(next === 'nota' ? [{opacity: 0, transform: 'translateY(18px)'}, {opacity: 1, transform: 'none'}] : [{opacity: 0}, {opacity: 1}], {duration: next === 'nota' ? 220 : 180, easing: 'ease-out'});
+    def.el.animate(next === 'nota' ? [{opacity: 0, transform: 'translateY(18px)'}, {opacity: 1, transform: 'none'}] : [{opacity: 0}, {opacity: 1}], {duration: next === 'nota' ? 100 : 80, easing: 'ease-out'});
   }
   try { def.show?.(params, prev); } catch (e) { console.error(e); }
   emit('screen:show', {id: next, params, prev});
@@ -75,7 +75,8 @@ function goNow(next, params = {}, {push = true} = {}) {
 /* Dopo il cambio di schermata il focus va in cima alla nuova schermata (lettori di schermo e tastiera) */
 function focusScreen(el) {
   el.tabIndex = -1; el.style.outline = 'none';
-  try { el.focus({preventScroll: true}); } catch { /* ok */ }
+  /* nel frame successivo e solo se la schermata è ancora quella corrente: focus() subito forzerebbe stile e layout durante il cambio */
+  requestAnimationFrame(() => { if (el.hidden) return; try { el.focus({preventScroll: true}); } catch { /* ok */ } });
 }
 /* Torna indietro: se la schermata richiesta è quella precedente usa la cronologia, altrimenti vi passa direttamente */
 export function back(target = 'oggi', params = {}) {

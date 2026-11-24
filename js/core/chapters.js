@@ -113,14 +113,21 @@ export function prefetchAround(b, c, delay = 700) {
   clearTimeout(prefetchTimer);
   const run = ++prefetchRun;
   prefetchTimer = setTimeout(async () => {
-    for (const d of [1, -1]) {
+    for (const d of [1, -1, 2]) {   // +1, -1 e +2: chi legge di seguito trova già pronto anche il secondo capitolo dopo
+      let s = step(b, c, d === 2 ? 1 : d);
+      if (s && d === 2) s = step(s[0], s[1], 1);
       if (run !== prefetchRun || !api.isConfigured() || navigator.onLine === false) return;
-      const s = step(b, c, d);
       if (!s) continue;
       try { if (await cached(s[0], s[1])) continue; await fetchChapter(s[0], s[1]); emit('chapter:prefetched', {book: s[0], ch: s[1]}); } catch { /* silenzioso */ }
       await new Promise(r => setTimeout(r, 400));
     }
   }, delay);
+}
+
+/* Prefetch immediato (senza attesa): scalda il capitolo che si sta per aprire. Silenzioso, deduplicato con fetchChapter, no-op se non collegati/offline o già in cache. */
+export async function warm(b, c) {
+  if (!api.isConfigured() || navigator.onLine === false) return;
+  try { if (await cached(b, c)) return; await fetchChapter(b, c); emit('chapter:prefetched', {book: b, ch: c}); } catch { /* silenzioso */ }
 }
 
 /* ---- Testo importato a mano (database «margine-bibbia») ---- */

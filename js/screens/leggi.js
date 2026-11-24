@@ -81,6 +81,25 @@ function renderFooter() {
 }
 const boundsOf = id => { const [, , f, t] = id.split('.'); return [Number(f), Number(t ?? f)]; };
 
+const CHUNK_ABOVE = 100, CHUNK_FIRST = 40, CHUNK_SIZE = 30;
+let rest = null, renderGen = 0, restTimer = 0;
+/* disegna i prossimi n versetti del capitolo in corso (rest); a fine lista chiude il disegno a pezzi */
+function fillVerses(n) {
+  if (!rest) return;
+  const frag = document.createDocumentFragment(), end = Math.min(rest.list.length, rest.i + n);
+  for (; rest.i < end; rest.i++) frag.append(...rest.make(rest.list[rest.i]));
+  D.verses.append(frag);
+  if (rest.i >= rest.list.length) { rest = null; D.verses.dataset.complete = '1'; paintSel(); }
+}
+function scheduleRest() {
+  const gen = rest.gen, tick = () => { restTimer = 0; if (!rest || rest.gen !== gen) return; fillVerses(CHUNK_SIZE); if (rest) scheduleRest(); };
+  if ('requestIdleCallback' in window) restTimer = requestIdleCallback(tick, {timeout: 120});
+  else restTimer = setTimeout(tick, 16);
+}
+/* finisce subito il disegno a pezzi (salti a un versetto, scorrimento, posizione): dopo la chiamata tutti i versetti sono nel DOM */
+function flushRender() { if (rest) fillVerses(Infinity); }
+const partial = () => rest !== null;
+
 function renderText() {
   const section = S.b + '.' + S.c + '.', all = notes.annotated().filter(id => id.startsWith(section));
   const recs = new Map(), rec = id => { let r = recs.get(id); if (!r) { r = notes.record(id); recs.set(id, r); } return r; };
@@ -93,8 +112,7 @@ function renderText() {
   }
   const bms = new Set(notes.bookmarks().filter(m => m[0] === S.b && m[1] === S.c).map(m => m[2]));
   const decorate = features.hasDecorators();
-  const frag = document.createDocumentFragment();
-  for (const id of [...ids].sort((x, y) => Number(x.split('.')[2]) - Number(y.split('.')[2]))) {
+  const make = id => {
     const vs = Number(id.split('.')[2]), item = rec(id);
     const line = h('span', {class: 'verse', id: 'v' + vs, role: 'button', tabindex: '0', dataset: {n: vs}});
     const inSel = selA !== null && vs >= selA && vs <= selB;
@@ -108,9 +126,15 @@ function renderText() {
     if (decorate) features.decorateVerse(words, {book: S.b, ch: S.c, n: vs, id, text: body});
     if (item.note) line.append(h('em', {class: 'vnote', text: item.note}));
     for (const mid of rangeNotes.get(vs) || []) line.append(h('em', {class: 'vnote', text: notes.ref(mid) + ' · ' + rec(mid).note}));
-    frag.append(line, document.createTextNode(' '));
-  }
-  D.verses.replaceChildren(frag);
+    return [line, document.createTextNode(' ')];
+  };
+  const list = [...ids].sort((x, y) => Number(x.split('.')[2]) - Number(y.split('.')[2]));
+  /* capitoli lunghi: subito i primi versetti (e quelli fino al versetto da raggiungere), il resto a pezzi nei tempi morti */
+  const first = list.length > CHUNK_ABOVE ? Math.max(CHUNK_FIRST, pendingScroll && S.v > 1 ? list.findIndex(id => Number(id.split('.')[2]) >= S.v) + CHUNK_FIRST / 2 : 0) : list.length;
+  rest = {gen: ++renderGen, list, i: 0, make};
+  D.verses.replaceChildren();
+  fillVerses(first);
+  if (rest) { D.verses.dataset.complete = '0'; scheduleRest(); } else D.verses.dataset.complete = '1';
   const sec = S.b + '.' + S.c + '.';
   D.availability.textContent = loaded() ? 'Riveduta 2020 © ADI-Media · Testo da LaParola.net' : Object.keys(chapters.passages).some(k => k.startsWith(sec)) ? 'Testo importato sul dispositivo.' : (S.b === 42 && S.c === 1 ? 'Estratto locale · Giovanni 1,1–2.' : '');
   updateActions(); doScroll();
@@ -127,6 +151,7 @@ function doScroll() {
   if (S.v <= 1) { quiet(); window.scrollTo(0, 0); if (ready) pendingScroll = false; return; }
   if (!ready) return;
   /* se il versetto non esiste (testo con lacune) si resta all'inizio ma si riprende a registrare la posizione */
+  flushRender();
   const v = document.getElementById('v' + S.v);
   if (v) { quiet(); v.scrollIntoView({block: 'start'}); jumpV = S.v; }
   pendingScroll = false;
@@ -137,7 +162,7 @@ addEventListener('scroll', () => { clearTimeout(scrollTimer); scrollTimer = setT
 const topEdge = () => (D.top && !document.body.classList.contains('immersive') ? D.top.getBoundingClientRect().bottom : 0) + 4;
 function trackPos() {
   clearTimeout(scrollTimer);
-  if (!isVisible() || pendingScroll || selA !== null) return;   // con una selezione attiva la posizione è quella del versetto scelto
+  if (!isVisible() || pendingScroll || selA !== null || partial()) return;   // finché il capitolo non è tutto disegnato la posizione non si ricalcola; con una selezione attiva la posizione è quella del versetto scelto
   if (jumpV !== null) {
     const r = document.getElementById('v' + jumpV)?.getBoundingClientRect();
     if (r && r.bottom > 80 && r.top < innerHeight) return;
@@ -344,7 +369,7 @@ function openVerseSheet() {
   }});
 }
 function jumpVerse(n) {
-  setSelection(null, null); S.v = n; pendingScroll = false; savePos(); renderHeader(); renderText();
+  setSelection(null, null); S.v = n; pendingScroll = false; savePos(); renderHeader(); renderText(); flushRender();
   const v = document.getElementById('v' + n);
   if (v) { quiet(1000); v.scrollIntoView({block: 'start', behavior: reduceMotion() ? 'auto' : 'smooth'}); jumpV = n; }
 }
@@ -392,7 +417,7 @@ export default {
     root.addEventListener('click', onReaderClick);
     /* un capitolo si considera letto quando si arriva in fondo */
     if ('IntersectionObserver' in window) {
-      readObserver = new IntersectionObserver(entries => { if (entries.some(en => en.isIntersecting) && loaded() && isVisible()) notes.markRead(S.b, S.c); }, {threshold: 0.6});
+      readObserver = new IntersectionObserver(entries => { if (entries.some(en => en.isIntersecting) && loaded() && isVisible() && !partial()) notes.markRead(S.b, S.c); }, {threshold: 0.6});
       readObserver.observe(D.turn);
     }
     for (const evt of ['notes:changed', 'data:changed']) on(evt, () => { if (isVisible()) { renderHeader(); renderChapHead(); renderText(); paletteSel(); } });
@@ -411,7 +436,7 @@ export default {
     renderHeader(); renderChapHead(); paletteSel();
     if (requested !== S.b + '.' + S.c) { chapterText = {}; loadChapter(); }
     renderText(); renderFooter();
-    if (restoreY !== null) { quiet(); window.scrollTo(0, restoreY); }
+    if (restoreY !== null) { flushRender(); quiet(); window.scrollTo(0, restoreY); }
     lastY = scrollY;
   },
   hide() {

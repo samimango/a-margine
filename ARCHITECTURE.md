@@ -33,6 +33,13 @@ legacy/ legacy-tests/ design-demo/   materiale di riferimento, non fa parte dell
 - `mondo`: `{luogo: '<id in data/places.json>'}` mappa centrata sul luogo con la sua scheda, `{misura: '<id in data/measures.json>'}` scheda di una misura, moneta, ora, mese o festa, `{personaggio: '<id in data/people.json>'}` scheda di un personaggio, `{sezione: 'luoghi'|'misure'|'tempo'|'personaggi'|'mappa'}` apre direttamente la sezione, `{from: '<id schermata>'}` dove torna la freccia indietro (es. `oggi`, `impostazioni`). Senza parametri: la home di Mondo.
 - `progressi`, `memoria`: senza parametri.
 
+### Velocità di navigazione
+
+- Prefetch anticipato: la pagina di un libro, Oggi e il tocco su un capitolo chiamano `chapters.warm(libro, cap)` (no-op se non collegati/offline o già in cache; deduplicato con `fetchChapter`) prima di `openRef`.
+- `router`: la sfumatura di ingresso è di 80 ms (nota 100 ms), nessun ritardo per le schede; `focusScreen` sposta il focus nel frame successivo (mai layout forzato durante il cambio). La pillola delle schede scivola in .22 s.
+- `libreria`: le copertine si costruiscono una sola volta in `build`; `show()` aggiorna solo il puntino «in lettura».
+- `leggi`: capitoli con più di 100 versetti si disegnano a pezzi: i primi 40 subito (o fino al versetto da raggiungere), il resto nei tempi morti (`requestIdleCallback`). `#verses` ha `data-complete="0|1"` (1 = tutti i versetti nel DOM). Gli operatori che hanno bisogno di tutto il DOM (salto a un versetto, ripristino dello scorrimento) chiamano `flushRender()`; `trackPos` e il segno «letto» aspettano la fine del disegno. Chi legge `.verse` dal DOM subito dopo `chapter:loaded` in un capitolo lungo può trovarne solo una parte: aspettare `data-complete="1"`.
+
 ### Avvio e offline
 
 `loadFeatures` mette `<link rel="modulepreload">` per tutte le feature (scaricate in parallelo, eseguite in ordine). I dati pesanti (`data/*.json`) si caricano solo al bisogno o a riposo (`requestIdleCallback`): all'avvio parte soltanto `measures.json` (parole sottolineate di serie). `sw.js` salva a riposo, dopo il caricamento, anche i file caricati al bisogno (`LAZY`: `css/f-*.css`, `data/*.json`, moduli di Mondo): se si aggiunge una feature con CSS o dati propri, aggiungerli a quell'elenco.
@@ -46,7 +53,7 @@ legacy/ legacy-tests/ design-demo/   materiale di riferimento, non fa parte dell
 | `api.js` | indirizzo e chiave del servizio, `call(method, data)`, `checkConfig`, link `#setup=` |
 | `sync.js` | modifiche in attesa, revisioni, conflitti, istantanea; formato identico al vecchio servizio |
 | `notes.js` | note, colori, segnalibri, posizione, recenti, giorni e statistiche |
-| `chapters.js` | cache dei capitoli (IndexedDB), recupero con deduplica, precaricamento, testo importato |
+| `chapters.js` | cache dei capitoli (IndexedDB), recupero con deduplica, precaricamento (`prefetchAround`: +1, −1, +2; `warm(b, c)`: prefetch immediato e silenzioso di un capitolo che sta per aprirsi), testo importato |
 | `bible.js` | nomi, sigle, conteggi, sezioni, tavolozze dei libri, `parseRef` / `findBook` / `fmtRef` |
 | `router.js` | schermate, cronologia del browser, fogli, transizioni |
 | `ui.js` | `toast`, `sheet`, `popover`, `copyToClipboard` |

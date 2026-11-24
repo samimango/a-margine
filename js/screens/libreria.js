@@ -7,6 +7,7 @@ import {names, counts, SECTIONS, testamentLabel, parseRef, matchBooks} from '../
 import {openRef, openBook} from '../core/nav.js';
 
 let el, msg, input, shelves;
+const btns = new Map();   // libro → bottone, costruiti una sola volta: show() aggiorna solo il puntino «in lettura»
 
 function goTo(textValue) {
   const q = textValue.trim();
@@ -23,8 +24,16 @@ function goTo(textValue) {
   msg.textContent = hits.length > 1 ? 'Intendi ' + hits.map(i => names[i]).slice(0, 3).join(', ') + '? Scrivi un po’ di più.' : 'Non trovo «' + q + '». Prova con «gv 3,16» o «1 cor 13».';
 }
 
-function render() {
+function markReading() {
   const [cb] = notes.pos();
+  for (const [b, btn] of btns) {
+    const dot = btn.querySelector('.reading-dot');
+    if (b === cb && !dot) btn.append(h('i', {class: 'reading-dot', title: 'In lettura'}));
+    else if (b !== cb && dot) dot.remove();
+  }
+}
+
+function render() {
   shelves.replaceChildren();
   let lastT = -1;
   for (const s of SECTIONS) {
@@ -32,8 +41,9 @@ function render() {
     if (t !== lastT) { if (t === 1) shelves.append(h('div', {class: 'testament'}, h('span', {text: testamentLabel(1)}))); lastT = t; }
     const row = h('div', {class: 'shelf', role: 'list'});
     for (let b = s.from; b <= s.to; b++) {
-      row.append(h('button', {class: 'book', type: 'button', role: 'listitem', dataset: {book: b}, 'aria-label': names[b] + ', ' + counts[b] + (counts[b] === 1 ? ' capitolo' : ' capitoli'), on: {click: () => openBook(b)}},
-        cover(b, {w: 76, h: 108, r: 4}), h('b', {text: names[b]}), h('small', {text: counts[b] + (counts[b] === 1 ? ' capitolo' : ' capitoli')}), b === cb ? h('i', {class: 'reading-dot', title: 'In lettura'}) : null));
+      const btn = h('button', {class: 'book', type: 'button', role: 'listitem', dataset: {book: b}, 'aria-label': names[b] + ', ' + counts[b] + (counts[b] === 1 ? ' capitolo' : ' capitoli'), on: {click: () => openBook(b)}},
+        cover(b, {w: 76, h: 108, r: 4}), h('b', {text: names[b]}), h('small', {text: counts[b] + (counts[b] === 1 ? ' capitolo' : ' capitoli')}));
+      btns.set(b, btn); row.append(btn);
     }
     shelves.append(h('section', {class: 'section'}, h('div', {class: 'sh'}, text('span', s.label, 'eyebrow'), text('span', s.to - s.from + 1 + (s.to === s.from ? ' libro' : ' libri'), 'count')), row));
   }
@@ -48,7 +58,7 @@ export default {
     shelves = h('div', {class: 'shelves'});
     const form = h('form', {class: 'searchbox', id: 'gotoForm', autocomplete: 'off', on: {submit: e => { e.preventDefault(); goTo(input.value); }}}, icon('search', 18, 1.8), input, h('button', {class: 'mini', type: 'submit', text: 'Invio'}));
     root.append(h('div', {class: 'col'}, h('h1', {class: 'big'}, 'Libreria'), form, msg, shelves));
-    render();
+    render(); markReading();
   },
-  show() { msg.textContent = ''; input.value = ''; render(); },
+  show() { msg.textContent = ''; input.value = ''; markReading(); },
 };

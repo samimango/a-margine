@@ -5,6 +5,7 @@ import * as router from '../core/router.js';
 import * as notes from '../core/notes.js';
 import * as features from '../core/features.js';
 import {coverSvg} from '../core/covers.js';
+import * as chapters from '../core/chapters.js';
 import {names, counts, sectionOf, testamentOf, testamentLabel, bookStyle} from '../core/bible.js';
 import {openRef} from '../core/nav.js';
 
@@ -24,7 +25,7 @@ function render() {
   if (counts[book] > 1) {
     const grid = h('div', {class: 'grid', id: 'chapters'});
     for (let i = 1; i <= counts[book]; i++) {
-      const b = h('button', {type: 'button', class: read[book + '.' + i] ? 'done' : '', text: String(i), 'aria-label': 'Capitolo ' + i + (read[book + '.' + i] ? ', letto' : ''), on: {click: () => openRef(book, i, 1)}});
+      const b = h('button', {type: 'button', class: read[book + '.' + i] ? 'done' : '', text: String(i), 'aria-label': 'Capitolo ' + i + (read[book + '.' + i] ? ', letto' : ''), on: {click: () => { chapters.warm(book, i); openRef(book, i, 1); }}});
       if (pb === book && i === pc) b.setAttribute('aria-current', 'true');
       grid.append(b);
     }
@@ -34,7 +35,8 @@ function render() {
   const reading = pb === book;
   const ch = reading ? pc : 1;
   cta.replaceChildren(icon('book', 18, 2), reading ? 'Continua · capitolo ' + pc + ',' + pv : 'Inizia a leggere' + (counts[book] > 1 ? ' · capitolo 1' : ''));
-  cta.onclick = () => openRef(book, ch, reading ? pv : 1);
+  cta.onclick = () => { chapters.warm(book, ch); openRef(book, ch, reading ? pv : 1); };
+  chapters.warm(book, ch);   // il capitolo di «Continua» (o il primo) parte a scaldarsi appena si apre la pagina
 }
 
 export default {

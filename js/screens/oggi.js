@@ -49,6 +49,7 @@ function renderHero() {
     if (t && !quote.textContent) { quote.textContent = '«' + shortText(t, 150) + '»'; quote.hidden = false; }
   };
   chapters.cached(b, c).then(fill);
+  chapters.warm(b, c);   // «Continua» apre subito: il capitolo è già in arrivo
 }
 
 function renderStats() {

@@ -255,3 +255,44 @@ def cronologia_indietro(env, dev):
     pg.evaluate("history.length"); 
     # Indietro con un solo livello: restano nell'app (non c'è altro)
     check(screen(pg) in ('oggi', 'libreria', 'libro', 'leggi'))
+
+@test('phone')
+def navigazione_veloce(env, dev):
+    """Correzioni di velocità: prefetch anticipato, transizioni brevi, libreria costruita una volta, capitoli lunghi a pezzi"""
+    srv = Srv(); srv.delay['chapter'] = 0.2; env.srvs.append(srv)
+    pg = env.new(dev, srv=srv)
+    # transizioni brevi: la schermata sfuma in ≤ 100 ms (nota ≤ 120) e nessun ritardo extra
+    pg.evaluate("(()=>{window.__dur=[];const a=Element.prototype.animate;Element.prototype.animate=function(k,o){window.__dur.push(o&&o.duration);return a.apply(this,arguments)}})()")
+    tab(pg, 'libreria'); d = pg.evaluate('window.__dur'); check(d and max(d) <= 100, f'durata sfumatura {d}')
+    # libreria: i bottoni sono costruiti una sola volta, il puntino «in lettura» segue la posizione
+    pg.evaluate("window.__b=document.querySelector('.book[data-book=\"42\"]')")
+    pg.evaluate("import('/js/core/notes.js').then(m=>m.setPos(18,3,1))"); tab(pg, 'oggi'); tab(pg, 'libreria')
+    check(pg.evaluate("window.__b===document.querySelector('.book[data-book=\"42\"]')"), 'la libreria non deve ricostruire le copertine')
+    eq(pg.evaluate("[...document.querySelectorAll('.reading-dot')].map(e=>e.parentElement.dataset.book)"), ['18'])
+    pg.evaluate("import('/js/core/notes.js').then(m=>m.setPos(42,3,1))"); tab(pg, 'oggi'); tab(pg, 'libreria')
+    eq(pg.evaluate("[...document.querySelectorAll('.reading-dot')].map(e=>e.parentElement.dataset.book)"), ['42'])
+    # pagina libro: il capitolo di «Continua» (qui Giovanni 3) parte appena si apre la pagina; il tocco su un capitolo lo scalda prima di navigare
+    pg.click('.book[data-book="42"]'); pg.wait_for_selector('#scr-libro:not([hidden])'); pg.wait_for_timeout(150)
+    check('Giovanni 3' in srv.chapters(), str(srv.chapters()))
+    pg.click('#chapters button:nth-child(7)'); pg.wait_for_selector('#scr-leggi:not([hidden]) .verse'); pg.wait_for_timeout(300)
+    check('Giovanni 7' in srv.chapters() and srv.chapters().count('Giovanni 7') == 1, str(srv.chapters()))
+    # prefetch fino a +2 dopo la lettura
+    pg.wait_for_timeout(4500); ch = srv.chapters()
+    check('Giovanni 8' in ch and 'Giovanni 9' in ch and 'Giovanni 6' in ch, str(ch))
+
+@test('phone')
+def capitolo_lungo_a_pezzi(env, dev):
+    """Salmo 119 (176 versetti): primi versetti subito, il resto a pezzi; alla fine tutto presente e funzionante"""
+    pg = env.new(dev)
+    open_ref(pg, 18, 119, 1)
+    pg.wait_for_function("document.getElementById('verses').dataset.complete === '1'", timeout=5000)
+    eq(pg.locator('.verse').count(), 176)
+    # il tocco, la selezione multipla e il salto a un versetto lontano funzionano
+    tap_verse(pg, 3); tap_verse(pg, 5); eq(pg.evaluate("[...document.querySelectorAll('.verse.sel')].map(e=>Number(e.dataset.n))"), [3, 4, 5])
+    pg.click('#aclose'); pg.click('#goVerse'); pg.wait_for_selector('#vgrid .vnum'); pg.click('#vgrid .vnum >> nth=159'); pg.wait_for_timeout(900)
+    eq(lsj(pg, 'margine.pos')[:2], [18, 119]); check(pg.evaluate("document.getElementById('v160').getBoundingClientRect().top < innerHeight"))
+    # «Riprendi» da un versetto lontano: il capitolo si disegna fino a quel versetto prima dello scorrimento
+    pg.evaluate("import('/js/core/notes.js').then(m=>m.setPos(18,119,170))")
+    pg2 = env.new(dev, storage={'margine.pos': json.dumps([18, 119, 170])}); pg2.wait_for_selector('#resGo'); pg2.click('#resGo')
+    pg2.wait_for_selector('#scr-leggi:not([hidden]) #v170'); pg2.wait_for_timeout(600)
+    check(pg2.evaluate("document.getElementById('v170').getBoundingClientRect().top < innerHeight"), 'v170 in vista')
