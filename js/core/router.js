@@ -30,7 +30,15 @@ function ensureBuilt(def, params) {
 }
 export const screenEl = id => screens.get(id)?.el || null;
 
-export function go(next, params = {}, {push = true} = {}) {
+/* Un history.back() lanciato da un foglio che si chiude arriva come popstate DOPO: una go() fatta subito dopo verrebbe annullata.
+   Finché quel popstate è atteso, le navigazioni restano in coda e partono appena è stato gestito. */
+let popsPending = 0, queued = [], popGuard = 0;
+function flushQueued() { const q = queued; queued = []; for (const a of q) go(...a); }
+export function go(next, params = {}, opts = {}) {
+  if (popsPending > 0) { queued.push([next, params, opts]); return; }
+  goNow(next, params, opts);
+}
+function goNow(next, params = {}, {push = true} = {}) {
   let def = screens.get(next);
   if (!def) { next = 'oggi'; def = screens.get('oggi'); params = {}; }
   const prev = current;
@@ -86,10 +94,18 @@ export function pushOverlay(close) {
   return token;
 }
 export function popOverlay(token) {
-  if (trail[trail.length - 1] === token) { trail.pop(); try { history.back(); } catch { /* ok */ } }
+  if (trail[trail.length - 1] === token) {
+    trail.pop();
+    try { history.back(); popsPending++; clearTimeout(popGuard); popGuard = setTimeout(() => { popsPending = 0; flushQueued(); }, 600); } catch { /* ok */ }
+  }
 }
 
 function onPop(e) {
+  const wasMine = popsPending > 0;
+  if (wasMine) { popsPending--; if (!popsPending) clearTimeout(popGuard); }
+  try { handlePop(e); } finally { if (!popsPending) flushQueued(); }
+}
+function handlePop(e) {
   const s = e.state, i = Number.isInteger(s?.i) ? s.i : 0;
   while (trail.length > i + 1) { const t = trail.pop(); if (t.overlay) { try { t.close(true); } catch (err) { console.error(err); } } }
   let entry = trail[i];
@@ -98,7 +114,7 @@ function onPop(e) {
   if (!screens.has(entry.id)) entry = {id: 'oggi', params: {}};
   if (entry.id === current) return;
   const p = {...entry.params}; if (p.fresh) { delete p.fresh; p.restored = true; }
-  go(entry.id, p, {push: false});
+  goNow(entry.id, p, {push: false});
 }
 
 /* tabList: [{id,label,icon}] ; nav: elemento <nav> */

@@ -36,7 +36,8 @@
   --bg: #f6f1e7; --card: #fffdf9; --ink: #221d16; --dim: #72695d; --line: rgba(60, 45, 20, .12);
   --glass: rgba(250, 245, 234, .7); --chip: #ece5d4;
 }
-:root[data-theme="dark"] {
+/* Ambito scuro locale: `.theme-dark-scope` su un elemento (es. un foglio) ridefinisce gli stessi token del tema scuro, qualunque sia il tema dell'app */
+:root[data-theme="dark"], .theme-dark-scope {
   --bg: #000000; --card: #101010; --ink: #f3efe8; --dim: #9a958b; --line: rgba(255, 255, 255, .1);
   --glass: rgba(28, 28, 28, .62); --chip: #1b1b1b; --pill: rgba(255, 255, 255, .12);
   --accent: #e08a66; --accent-ink: #1a0f08; --ribbon: #d9553f; --toast: #2a2724;

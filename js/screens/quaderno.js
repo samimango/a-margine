@@ -1,5 +1,5 @@
 /* Quaderno: meditazioni e segnalibri. Meditazioni raggruppate per libro, data o colore, con ricerca. */
-import {h, text} from '../core/dom.js';
+import {h, text, noAutofill} from '../core/dom.js';
 import {icon} from '../core/icons.js';
 import * as notes from '../core/notes.js';
 import * as chapters from '../core/chapters.js';
@@ -92,7 +92,7 @@ export default {
     el = root;
     D.nbSeg = h('div', {id: 'nbSeg'}); D.grpSeg = h('div', {id: 'grpSeg'}); D.entries = h('div', {id: 'entries'});
     D.compose = h('button', {class: 'pill-sm', id: 'compose', type: 'button', on: {click: () => openNote(null, 'quaderno')}}, icon('plus', 15, 2.2), 'Nuova');
-    const input = h('input', {id: 'nbSearch', type: 'search', placeholder: 'Cerca nelle note', 'aria-label': 'Cerca nelle note', autocomplete: 'off', on: {input: () => { query = input.value; if (tab === 'notes') renderNotes(); }}});
+    const input = noAutofill(h('input', {id: 'nbSearch', type: 'search', placeholder: 'Cerca nelle note', 'aria-label': 'Cerca nelle note', autocomplete: 'off', on: {input: () => { query = input.value; if (tab === 'notes') renderNotes(); }}}), 'ricerca-note');
     D.search = h('label', {class: 'searchbox'}, icon('search', 18, 1.8), input);
     root.append(h('div', {class: 'col'}, h('div', {class: 'head'}, h('h1', {class: 'big'}, 'Quaderno'), D.compose), D.search, D.nbSeg, D.grpSeg, D.entries));
     for (const evt of ['notes:changed', 'data:changed']) on(evt, () => { if (!el.hidden) render(); });

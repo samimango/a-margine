@@ -1,0 +1,36 @@
+/* Feature «Progressi». Prefisso .f-progressi-. Solo token di tokens.css. */
+.f-progressi-col { display: flex; flex-direction: column; gap: 12px; padding-bottom: calc(var(--dock) + 24px); }
+.f-progressi-card { padding: 16px 18px; }
+.f-progressi-h { font: 600 16px var(--serif-head); margin: 0 0 12px; }
+.f-progressi-bible { display: grid; grid-template-columns: 128px 1fr; gap: 18px; align-items: center; position: relative; }
+.f-progressi-ring { width: 128px; height: 128px; }
+.f-progressi-ring circle { fill: none; stroke-width: 11; }
+.f-progressi-ring .trk { stroke: var(--chip); }
+.f-progressi-ring .val { stroke: var(--accent); stroke-linecap: round; transition: stroke-dasharray .8s cubic-bezier(.2, .8, .2, 1); }
+.f-progressi-ringtxt { position: absolute; left: 18px; top: 16px; width: 128px; height: 128px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.f-progressi-ringtxt b { font: 600 28px/1 var(--serif-head); }
+.f-progressi-ringtxt small { font: 500 11px var(--sans); color: var(--dim); margin-top: 3px; }
+.f-progressi-bible-t { display: flex; flex-direction: column; gap: 4px; }
+.f-progressi-bible-t b { font: 600 17px/1.25 var(--serif-head); }
+.f-progressi-bible-t small { font: 400 13px var(--sans); color: var(--dim); }
+.f-progressi-week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.f-progressi-day { display: flex; flex-direction: column; align-items: center; gap: 6px; font: 600 12px var(--sans); color: var(--dim); }
+.f-progressi-day i { width: 36px; height: 36px; border-radius: 50%; background: var(--chip); display: inline-flex; align-items: center; justify-content: center; color: var(--accent-ink); }
+.f-progressi-day.on i { background: var(--accent); }
+.f-progressi-day.today i { box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px var(--accent); }
+.f-progressi-day.today span { color: var(--ink); }
+.f-progressi-two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.f-progressi-stat { padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; }
+.f-progressi-stat b { font: 600 30px/1.1 var(--serif-head); margin-top: 6px; }
+.f-progressi-stat small { font: 500 12px var(--sans); color: var(--dim); }
+.f-progressi-ico { display: inline-flex; color: var(--sage); }
+.f-progressi-ico.flame { color: var(--terra); }
+.f-progressi-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.f-progressi-chip { padding: 8px 14px; border-radius: var(--r-pill); background: var(--card); box-shadow: var(--shadow-card); font: 500 13.5px var(--sans); border-left: 5px solid var(--bk); }
+.f-progressi-books { padding: 4px 6px; }
+.f-progressi-book { width: 100%; min-height: var(--hit); display: grid; grid-template-columns: minmax(0, 118px) 1fr 54px; gap: 10px; align-items: center; padding: 6px 10px; border-radius: var(--r-sm); text-align: left; }
+.f-progressi-bn { font: 500 14px var(--sans); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.f-progressi-bar { height: 8px; border-radius: 4px; background: var(--chip); overflow: hidden; }
+.f-progressi-bar i { display: block; height: 100%; border-radius: 4px; }
+.f-progressi-bc { font: 500 12px var(--sans); color: var(--dim); text-align: right; }
+@media (prefers-reduced-motion: reduce) { .f-progressi-ring .val { transition: none; } }

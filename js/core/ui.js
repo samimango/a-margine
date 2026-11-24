@@ -89,10 +89,12 @@ export function popover(anchor, build, {onClose} = {}) {
     el.style.left = left + 'px'; el.style.top = top + 'px';
   };
   place();
-  const onDown = e => { if (!el.contains(e.target)) api.close(); };
+  const born = performance.now();   // il tocco che ha aperto il popover è precedente: non lo chiude (niente setTimeout: con la pagina occupata un tocco rapido poteva arrivare prima)
+  const onDown = e => { if (e.timeStamp < born) return; if (!el.contains(e.target)) api.close(); };
   const onKey = e => { if (e.key === 'Escape') api.close(); };
   const api = {el, close() { if (!el.isConnected) return; el.remove(); openPopover = null; document.removeEventListener('pointerdown', onDown, true); document.removeEventListener('keydown', onKey, true); removeEventListener('scroll', api.close); onClose?.(); }};
-  setTimeout(() => { document.addEventListener('pointerdown', onDown, true); document.addEventListener('keydown', onKey, true); addEventListener('scroll', api.close, {passive: true, once: true}); }, 0);
+  document.addEventListener('pointerdown', onDown, true); document.addEventListener('keydown', onKey, true);
+  setTimeout(() => { if (el.isConnected) addEventListener('scroll', api.close, {passive: true, once: true}); }, 0);
   openPopover = api;
   return api;
 }

@@ -1,0 +1,89 @@
+/* Feature «Ascolta»: versetto in lettura, mini-player, foglio. Prefisso .f-ascolta-. Solo token di tokens.css,
+   Il foglio «Ascolta» è sempre nero puro: usa l'ambito scuro ufficiale `.theme-dark-scope` (tokens.css). */
+
+/* versetto in lettura nel lettore */
+.verse.f-ascolta-now { background-image: linear-gradient(var(--sel), var(--sel)); box-shadow: 0 0 0 3px var(--sel); transition: background-color .25s; }
+
+/* il contenuto delle schermate non finisce sotto il mini-player */
+body.f-ascolta-on #screens { padding-bottom: 72px; }
+
+/* mini-player flottante in vetro sopra la barra delle schede */
+.f-ascolta-mini {
+  position: fixed; z-index: 41; left: 50%; transform: translateX(-50%); width: min(440px, calc(100% - 36px)); height: 58px;
+  bottom: calc(var(--safe-b) + max(var(--dock), 12px)); display: flex; align-items: center; gap: 2px; padding: 0 6px 0 8px;
+  border-radius: 29px; box-shadow: var(--shadow-tab); transition: bottom .3s cubic-bezier(.2, .8, .2, 1);
+}
+.f-ascolta-mini[hidden] { display: none; }
+.f-ascolta-mini-open { flex: 1; min-width: 0; min-height: var(--hit); display: flex; align-items: center; gap: 10px; text-align: left; border-radius: 22px; }
+.f-ascolta-mini-open .cover { flex: none; display: flex; box-shadow: var(--shadow-card); border-radius: 4px; }
+.f-ascolta-mini-t { min-width: 0; display: flex; flex-direction: column; }
+.f-ascolta-mini-t b { font: 600 14px/1.2 var(--serif-head); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.f-ascolta-mini-t small { font: 500 12px/1.3 var(--sans); color: var(--dim); }
+.f-ascolta-btn { width: var(--hit); height: var(--hit); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: var(--ink); flex: none; }
+.f-ascolta-btn[data-act="toggle"] { background: var(--ink); color: var(--bg); }
+.f-ascolta-btn:active { background: var(--pill); }
+
+/* il mini-player sta sopra la barra azioni del versetto (che alza --dock) e l'avviso («Annulla») sopra il mini-player: nessuno si copre */
+body.has-actions .f-ascolta-mini { bottom: calc(var(--safe-b) + var(--dock) + 18px); }
+body.f-ascolta-on .toast { bottom: calc(var(--safe-b) + max(var(--dock), 12px) + 58px + 20px); }
+body.f-ascolta-on.has-actions .toast { bottom: calc(var(--safe-b) + var(--dock) + 18px + 58px + 10px); }
+
+/* foglio «Ascolta»: nero puro (classe theme-dark-scope aggiunta dal modulo) */
+.f-ascolta-sheet .sheet-box { background: var(--bg); color: var(--ink); border-top: .6px solid var(--line); }
+.f-ascolta-body { padding-bottom: 6px; }
+.f-ascolta-view[hidden], .f-ascolta-voices[hidden] { display: none; }
+.f-ascolta-cover { display: flex; justify-content: center; margin: 0 0 14px; }
+.f-ascolta-cover .cover { display: flex; border-radius: 10px; box-shadow: 0 26px 60px -18px var(--bk), 0 0 0 .6px var(--line); }
+.f-ascolta-title { font: 600 28px/1.1 var(--serif-head); margin: 0; letter-spacing: -.01em; }
+.f-ascolta-sub { font: 500 13px var(--sans); color: var(--dim); margin: 4px 0 12px; }
+.f-ascolta-lines { display: flex; flex-direction: column; gap: 8px; }
+.f-ascolta-line { margin: 0; font: 400 16px/1.45 var(--serif-read); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.f-ascolta-line:empty { display: none; }
+.f-ascolta-line.dim { color: var(--dim); -webkit-line-clamp: 1; }
+.f-ascolta-line.cur { font-size: 19px; line-height: 1.5; -webkit-line-clamp: 6; padding: 12px 14px; border-radius: var(--r-sm); background: var(--sel); box-shadow: 0 0 0 .6px var(--line); }
+.f-ascolta-prog { margin: 18px 0 4px; }
+.f-ascolta-range { width: 100%; height: var(--hit); accent-color: var(--accent); background: transparent; }
+.f-ascolta-times { display: flex; justify-content: space-between; font: 500 12px var(--sans); color: var(--dim); }
+.f-ascolta-ctl { display: flex; align-items: center; justify-content: center; gap: 34px; margin: 4px 0 10px; }
+.f-ascolta-big { width: 72px; height: 72px; border-radius: 50%; background: var(--ink); color: var(--bg); display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 10px 24px -10px var(--bk); }
+.f-ascolta-sk { width: 56px; height: 56px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: var(--ink); }
+.f-ascolta-sk:active { background: var(--pill); }
+.f-ascolta-sk:disabled { opacity: .35; }
+.f-ascolta-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 10px 0; }
+.f-ascolta-k { display: inline-flex; align-items: center; gap: 6px; font: 600 12px var(--sans); color: var(--dim); letter-spacing: .02em; }
+.f-ascolta-seg { display: flex; background: var(--chip); border-radius: 14px; padding: 3px; gap: 2px; }
+.f-ascolta-seg button { min-width: 48px; min-height: var(--hit); padding: 0 8px; border-radius: 11px; text-align: center; font: 600 13px var(--sans); color: var(--dim); }
+.f-ascolta-seg button[aria-pressed="true"] { background: var(--pill); color: var(--ink); box-shadow: 0 0 0 .6px var(--line); }
+.f-ascolta-note { display: block; font: 500 12px var(--sans); color: var(--dim); text-align: right; margin: -4px 2px 6px; }
+.f-ascolta-note:empty { display: none; }
+.f-ascolta-pillrow { width: 100%; min-height: 52px; margin: 8px 0; padding: 0 14px; border-radius: var(--r-md); background: var(--chip); display: flex; align-items: center; gap: 12px; text-align: left; color: var(--ink); }
+.f-ascolta-pill-t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.f-ascolta-pill-t b { font: 600 14.5px var(--sans); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.f-ascolta-pill-t .f-ascolta-k { font-size: 11px; }
+.f-ascolta-pillrow > .ic-svg:last-child { color: var(--dim); }
+.f-ascolta-switch { width: 100%; min-height: 56px; display: flex; align-items: center; gap: 12px; text-align: left; padding: 0 2px; margin-top: 4px; }
+.f-ascolta-sw-t { flex: 1; display: flex; flex-direction: column; }
+.f-ascolta-sw-t b { font: 500 15px var(--sans); }
+.f-ascolta-sw-t small { font: 400 12.5px var(--sans); color: var(--dim); }
+.f-ascolta-knob { position: relative; flex: none; width: 50px; height: 30px; border-radius: 15px; background: var(--chip); box-shadow: inset 0 0 0 .6px var(--line); transition: background .2s; }
+.f-ascolta-knob::after { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: var(--ink); transition: transform .25s cubic-bezier(.3, 1.3, .5, 1); }
+.f-ascolta-switch[aria-checked="true"] .f-ascolta-knob { background: var(--accent); }
+.f-ascolta-switch[aria-checked="true"] .f-ascolta-knob::after { transform: translateX(20px); background: var(--accent-ink); }
+
+/* elenco delle voci */
+.f-ascolta-back { display: inline-flex; align-items: center; gap: 4px; min-height: var(--hit); padding: 0 8px 0 0; font: 500 14px var(--sans); color: var(--accent); }
+.f-ascolta-h3 { font: 600 20px var(--serif-head); margin: 4px 0 10px; }
+.f-ascolta-voicebox { background: var(--card); border-radius: var(--r-md); box-shadow: var(--shadow-card); overflow: hidden; }
+.f-ascolta-voice { display: flex; align-items: center; min-height: 56px; }
+.f-ascolta-voice + .f-ascolta-voice { border-top: 1px solid var(--line); }
+.f-ascolta-voice-pick { flex: 1; min-width: 0; min-height: 56px; display: flex; align-items: center; gap: 8px; padding: 6px 4px 6px 12px; text-align: left; color: var(--ink); }
+.f-ascolta-check { width: 20px; flex: none; color: var(--accent); display: inline-flex; }
+.f-ascolta-voice-t { display: flex; flex-direction: column; min-width: 0; }
+.f-ascolta-voice-t b { font: 500 15px var(--sans); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.f-ascolta-voice-t small { font: 400 12.5px var(--sans); color: var(--dim); }
+.f-ascolta-try { min-height: var(--hit); min-width: 64px; margin: 0 8px; padding: 0 14px; border-radius: 22px; background: var(--chip); font: 600 13px var(--sans); color: var(--ink); }
+.f-ascolta-help { padding: 0 4px; }
+.f-ascolta-setrow + .f-ascolta-help { margin: 0; padding: 6px 16px 14px; border-top: 1px solid var(--line); }
+
+@media (prefers-reduced-motion: reduce) { .f-ascolta-mini, .f-ascolta-knob, .f-ascolta-knob::after { transition: none; } }
+@media (min-width: 700px) { .f-ascolta-mini { bottom: calc(var(--safe-b) + max(var(--dock), 12px)); } }

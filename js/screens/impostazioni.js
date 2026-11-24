@@ -1,5 +1,5 @@
 /* Impostazioni: aspetto, nomi dei colori, collegamento a Google + voci registrate dalle feature (per sezione) */
-import {h, text} from '../core/dom.js';
+import {h, text, noAutofill} from '../core/dom.js';
 import {icon} from '../core/icons.js';
 import * as router from '../core/router.js';
 import * as notes from '../core/notes.js';
@@ -17,9 +17,9 @@ let el, body;
 
 function colorsSheet() {
   ui.sheet({title: 'I miei colori', build(box, sh) {
-    const form = h('form', {class: 'colors-form', id: 'colorsForm'});
+    const form = h('form', {class: 'colors-form', id: 'colorsForm', autocomplete: 'off'});
     const inputs = notes.labels().map((value, i) => {
-      const input = h('input', {value, required: true, maxlength: '40', 'aria-label': colorNames[i]});
+      const input = noAutofill(h('input', {value, required: true, maxlength: '40', 'aria-label': colorNames[i]}), 'etichetta-colore-' + (i + 1));
       form.append(h('label', {}, h('i', {class: 'dot', style: {'--dot': 'var(--d' + (i + 1) + ')'}}), h('span', {text: colorNames[i]}), input));
       return input;
     });

@@ -1,5 +1,5 @@
 /* Collega il tuo Google: indirizzo del Web App + chiave, salvati su questo dispositivo. Anche con un link «#setup=…». */
-import {h, text} from '../core/dom.js';
+import {h, text, noAutofill} from '../core/dom.js';
 import {icon} from '../core/icons.js';
 import * as router from '../core/router.js';
 import * as api from '../core/api.js';
@@ -39,13 +39,13 @@ export default {
   build(root) {
     el = root;
     D.state = h('p', {class: 'hint', id: 'connState', role: 'status'});
-    D.url = h('input', {id: 'cfgUrl', type: 'url', inputmode: 'url', autocomplete: 'off', autocapitalize: 'none', spellcheck: 'false', placeholder: 'https://script.google.com/macros/s/…/exec', required: true});
-    D.key = h('input', {id: 'cfgKey', type: 'password', autocomplete: 'off', autocapitalize: 'none', spellcheck: 'false', placeholder: 'La chiave scritta nei log', required: true});
+    D.url = h('input', {id: 'cfgUrl', type: 'url', inputmode: 'url', autocomplete: 'off', autocapitalize: 'none', spellcheck: 'false', placeholder: 'https://script.google.com/macros/s/…/exec', required: true}); noAutofill(D.url, 'collegamento-link');
+    D.key = h('input', {id: 'cfgKey', type: 'password', autocomplete: 'off', autocapitalize: 'none', spellcheck: 'false', placeholder: 'La chiave scritta nei log', required: true}); noAutofill(D.key, 'collegamento-chiave');
     D.msg = h('p', {class: 'hint', id: 'connMsg', role: 'status'});
     D.disconnect = h('button', {class: 'btn', id: 'cfgOff', type: 'button', text: 'Scollega', on: {click: () => { api.clearConfig(); fillState(); ui.toast('Scollegato. Le note restano su questo dispositivo.'); }}});
     D.copyLink = h('button', {class: 'btn', id: 'cfgCopy', type: 'button', text: 'Copia il link di configurazione', on: {click: copyLink}});
     D.link = h('input', {class: 'linkbox', readonly: true, hidden: true, 'aria-label': 'Link di configurazione'});
-    const form = h('form', {id: 'cfgForm', class: 'cfg', on: {submit: connect}},
+    const form = h('form', {id: 'cfgForm', class: 'cfg', autocomplete: 'off', on: {submit: connect}},
       h('label', {}, h('span', {text: 'Indirizzo del Web App'}), D.url), h('label', {}, h('span', {text: 'Chiave'}), D.key),
       h('div', {class: 'cf-btns'}, h('button', {class: 'btn primary', type: 'submit', text: 'Salva e controlla'}), D.disconnect), D.msg);
     root.append(topbar({title: 'Collega il tuo Google', backTo: 'impostazioni'}),

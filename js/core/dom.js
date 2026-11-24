@@ -44,3 +44,14 @@ export function shortText(t, n) {
   return (sp > n * 0.6 ? cut.slice(0, sp) : cut).replace(/[\s,;:.–-]+$/, '') + '…';
 }
 export const isoDay = (d = new Date()) => { const p = n => String(n).padStart(2, '0'); return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()); };
+
+/* Campi di testo libero: Safari/iOS non deve proporre «Compila automaticamente» (contatti, indirizzi).
+   autocomplete="off" da solo non basta: serve anche un name neutro (mai nome/indirizzo/email/telefono) e gli attributi sotto.
+   kind 'note' = testo da scrivere (correzione e dettatura restano attive); 'search' = ricerche, codici, nomi brevi. Restituisce l'elemento. */
+export function noAutofill(el, name, kind = 'search') {
+  const a = {autocomplete: 'off', name, 'data-form-type': 'other', 'data-lpignore': 'true', 'data-1p-ignore': ''};
+  if (kind === 'note') Object.assign(a, {autocorrect: 'on', autocapitalize: 'sentences', spellcheck: 'true'});
+  else Object.assign(a, {autocorrect: 'off', autocapitalize: 'none', spellcheck: 'false'});
+  for (const [k, v] of Object.entries(a)) el.setAttribute(k, v);
+  return el;
+}

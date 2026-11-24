@@ -1,0 +1,62 @@
+/* Feature «Memoria»: ripasso con flashcard. Prefisso .f-memoria-. Solo token di tokens.css. */
+.f-memoria-col { padding-top: calc(var(--safe-t) + 8px); padding-bottom: calc(var(--safe-b) + 28px); }
+.f-memoria-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 52px; }
+.f-memoria-ic { width: var(--hit); height: var(--hit); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: var(--chip); color: var(--ink); flex: none; }
+.f-memoria-ic.ph { visibility: hidden; }
+.f-memoria-ht { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.f-memoria-ht b { font: 600 17px var(--serif-head); }
+.f-memoria-segs { display: flex; gap: 4px; margin: 6px 2px 16px; }
+.f-memoria-segs i { flex: 1; height: 4px; border-radius: 2px; background: var(--chip); }
+.f-memoria-segs i.done { background: var(--accent); }
+.f-memoria-segs i.cur { background: color-mix(in srgb, var(--accent) 45%, transparent); }
+
+.f-memoria-stage { perspective: 1400px; }
+.f-memoria-flip { display: grid; transform-style: preserve-3d; transition: transform .75s cubic-bezier(.34, 1.45, .5, 1); }
+.f-memoria-flip[data-flipped="true"] { transform: rotateY(180deg); }
+.f-memoria-face { grid-area: 1 / 1; background: var(--card); border-radius: var(--r-card); box-shadow: var(--shadow-card); padding: 22px 22px 16px; backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; min-height: 320px; }
+.f-memoria-face.back { transform: rotateY(180deg); }
+.f-memoria-fh { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.f-memoria-ref { color: var(--accent); }
+.f-memoria-tag { font: 500 11.5px var(--sans); color: var(--dim); background: var(--chip); border-radius: var(--r-pill); padding: 4px 10px; }
+.f-memoria-div { height: 1px; width: 56px; margin: 16px auto 14px; background: var(--line); }
+.f-memoria-text { font: 400 clamp(20px, 5.4vw, 24px)/1.9 var(--serif-read); margin: 0; flex: 1; }
+.f-memoria-ff { display: flex; justify-content: space-between; gap: 10px; font: 500 12px var(--sans); color: var(--dim); margin-top: 14px; }
+.f-memoria-gap { display: inline-block; vertical-align: baseline; min-width: calc(var(--n) * .52em); height: 1.05em; margin: 0 1px; border-radius: 4px; position: relative; top: .1em;
+  background: repeating-linear-gradient(-45deg, color-mix(in srgb, var(--accent) 34%, transparent) 0 3px, color-mix(in srgb, var(--accent) 12%, transparent) 3px 7px); box-shadow: 0 0 0 .6px color-mix(in srgb, var(--accent) 40%, transparent); }
+.f-memoria-gap::before { content: ""; position: absolute; inset: -12px -4px; }
+.f-memoria-gap-w { visibility: hidden; font: inherit; }
+.f-memoria-gap.shown { background: var(--sel); min-width: 0; height: auto; color: var(--ink); box-shadow: none; padding: 0 2px; font: inherit; }
+.f-memoria-gap.shown .f-memoria-gap-w { visibility: visible; }
+.f-memoria-gap.shown:disabled { opacity: 1; }
+.f-memoria-show { width: 100%; min-height: 54px; margin-top: 18px; border-radius: 27px; background: var(--ink); color: var(--bg); font: 600 16px var(--sans); display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: var(--shadow-tab); }
+.f-memoria-show[hidden], .f-memoria-grades[hidden] { display: none; }
+.f-memoria-q { text-align: center; margin: 20px 0 10px; }
+.f-memoria-gr { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.f-memoria-grade { min-height: 60px; border-radius: var(--r-md); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; color: var(--ink); background: color-mix(in srgb, var(--g) 18%, var(--card)); box-shadow: 0 0 0 .6px color-mix(in srgb, var(--g) 35%, transparent); }
+.f-memoria-grade b { font: 600 15px var(--sans); } .f-memoria-grade small { font: 500 11.5px var(--sans); color: var(--dim); }
+.f-memoria-grade.hard { --g: var(--terra); } .f-memoria-grade.good { --g: var(--sage); } .f-memoria-grade.easy { --g: var(--ochre); }
+
+.f-memoria-empty { display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; padding: 64px 12px; color: var(--dim); }
+.f-memoria-empty .btn { min-height: var(--hit); }
+.f-memoria-h2 { font: 600 24px var(--serif-head); color: var(--ink); margin: 4px 0 0; }
+.f-memoria-listwrap { margin-top: 10px; }
+.f-memoria-rows { margin-top: 16px; }
+.f-memoria-item { display: flex; align-items: center; gap: 8px; padding: 6px 4px 6px 16px; min-height: 64px; }
+.f-memoria-item + .f-memoria-item { border-top: 1px solid var(--line); }
+.f-memoria-item-t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; padding: 6px 0; }
+.f-memoria-item-t b { font: 500 15px var(--sans); }
+.f-memoria-item-t small { font: 400 13px var(--serif-read); color: var(--dim); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.f-memoria-due { font: 600 11.5px var(--sans); color: var(--dim); } .f-memoria-due.now { color: var(--accent); }
+.f-memoria-x { width: var(--hit); height: var(--hit); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: var(--dim); flex: none; }
+
+/* scheda in Oggi */
+.f-memoria-home { padding: 14px 16px 6px; }
+.f-memoria-home-h { display: flex; justify-content: space-between; align-items: center; }
+.f-memoria-home-e { color: var(--accent); }
+.f-memoria-home-n { font: 500 12px var(--sans); color: var(--dim); } .f-memoria-home-n.now { color: var(--ink); }
+.f-memoria-home-r { display: block; font: 600 15px var(--sans); margin-top: 8px; }
+.f-memoria-home-t { font: 400 16px/1.55 var(--serif-read); margin: 4px 0 0; }
+.f-memoria-blank { display: inline-block; min-width: calc(var(--n) * .5em); border-bottom: 1.5px solid var(--accent); margin: 0 2px; height: 1em; vertical-align: baseline; }
+.f-memoria-home-go { display: inline-flex; align-items: center; gap: 4px; min-height: var(--hit); color: var(--accent); font: 600 14px var(--sans); }
+
+@media (prefers-reduced-motion: reduce) { .f-memoria-flip { transition: none; } }

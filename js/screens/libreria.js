@@ -1,5 +1,5 @@
 /* Libreria: scaffalature di copertine per sezione + campo «Vai a» con il parser dei riferimenti */
-import {h, text} from '../core/dom.js';
+import {h, text, noAutofill} from '../core/dom.js';
 import {icon} from '../core/icons.js';
 import * as notes from '../core/notes.js';
 import {cover} from '../core/covers.js';
@@ -43,10 +43,10 @@ export default {
   id: 'libreria', tab: 'libreria', title: 'Libreria',
   build(root) {
     el = root;
-    input = h('input', {id: 'goto', type: 'search', enterkeyhint: 'go', autocomplete: 'off', autocapitalize: 'none', spellcheck: 'false', placeholder: 'Vai a… gv 3,16', 'aria-label': 'Vai a un riferimento'});
+    input = h('input', {id: 'goto', type: 'search', enterkeyhint: 'go', autocomplete: 'off', autocapitalize: 'none', spellcheck: 'false', placeholder: 'Vai a… gv 3,16', 'aria-label': 'Vai a un riferimento'}); noAutofill(input, 'riferimento-biblico');
     msg = h('p', {class: 'hint', id: 'gotoMsg', role: 'status'});
     shelves = h('div', {class: 'shelves'});
-    const form = h('form', {class: 'searchbox', id: 'gotoForm', on: {submit: e => { e.preventDefault(); goTo(input.value); }}}, icon('search', 18, 1.8), input, h('button', {class: 'mini', type: 'submit', text: 'Invio'}));
+    const form = h('form', {class: 'searchbox', id: 'gotoForm', autocomplete: 'off', on: {submit: e => { e.preventDefault(); goTo(input.value); }}}, icon('search', 18, 1.8), input, h('button', {class: 'mini', type: 'submit', text: 'Invio'}));
     root.append(h('div', {class: 'col'}, h('h1', {class: 'big'}, 'Libreria'), form, msg, shelves));
     render();
   },

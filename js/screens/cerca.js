@@ -1,5 +1,5 @@
 /* Cerca: nella Bibbia (LaParola.net) e nelle mie note. Un riferimento come «gv 3,16» porta direttamente al passo. */
-import {h, text} from '../core/dom.js';
+import {h, text, noAutofill} from '../core/dom.js';
 import {icon} from '../core/icons.js';
 import * as notes from '../core/notes.js';
 import * as api from '../core/api.js';
@@ -73,9 +73,9 @@ export default {
   id: 'cerca', tab: 'cerca', title: 'Cerca',
   build(root) {
     el = root;
-    D.word = h('input', {id: 'word', required: true, maxlength: '100', type: 'search', enterkeyhint: 'search', autocomplete: 'off', autocapitalize: 'none', spellcheck: 'false', placeholder: 'Una parola, per esempio luce', 'aria-label': 'Cerca',
-      on: {input: () => { if (srTab === 'notes') renderNoteSearch(); renderRecent(); refShortcut(); }}});
-    D.form = h('form', {class: 'searchbox', id: 'wordForm', on: {submit: e => { e.preventDefault(); notes.rememberSearch(D.word.value); if (srTab === 'bible') searchBible(false); else renderNoteSearch(); renderRecent(); }}}, icon('search', 18, 1.8), D.word);
+    D.word = noAutofill(h('input', {id: 'word', required: true, maxlength: '100', type: 'search', enterkeyhint: 'search', autocomplete: 'off', autocapitalize: 'none', spellcheck: 'false', placeholder: 'Una parola, per esempio luce', 'aria-label': 'Cerca',
+      on: {input: () => { if (srTab === 'notes') renderNoteSearch(); renderRecent(); refShortcut(); }}}), 'ricerca-parola');
+    D.form = h('form', {class: 'searchbox', id: 'wordForm', autocomplete: 'off', on: {submit: e => { e.preventDefault(); notes.rememberSearch(D.word.value); if (srTab === 'bible') searchBible(false); else renderNoteSearch(); renderRecent(); }}}, icon('search', 18, 1.8), D.word);
     D.seg = h('div', {id: 'srSeg'}); D.status = h('p', {class: 'hint', id: 'resultStatus', role: 'status'}); D.hits = h('div', {id: 'hits'}); D.jump = h('div', {id: 'jump'});
     D.more = h('button', {class: 'link', id: 'moreHits', type: 'button', hidden: true, text: 'Altri risultati', on: {click: () => searchBible(true)}});
     D.recentChips = h('div', {class: 'chips', id: 'recentChips'});

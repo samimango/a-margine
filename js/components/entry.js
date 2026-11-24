@@ -26,6 +26,6 @@ export function entryRow(id, onclick, {showQuote = true} = {}) {
   btn.append(dot, h('div', {class: 'ent-body'},
     h('div', {class: 'ent-head'}, h('strong', {text: ref(id)}), h('time', {text: dateLabel(item.t)})),
     quote ? h('em', {class: 'ent-quote', text: '«' + quote + '»'}) : null,
-    h('span', {text: item.note || ''})));
+    h('span', {class: 'ent-note', text: item.note || ''})));
   return btn;
 }

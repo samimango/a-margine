@@ -29,6 +29,8 @@ export const ICONS = {
   dots: '<circle cx="5" cy="12" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="19" cy="12" r="1.2" fill="currentColor"/>',
   info: '<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8v.1"/>',
 };
+/* Le feature aggiungono le proprie icone (nome → contenuto SVG, viewBox 24) senza toccare ICONS direttamente */
+export function registerIcons(obj) { return Object.assign(ICONS, obj); }
 export function iconSvg(name, size = 22, sw = 1.8) {
   const body = ICONS[name] || '';
   return `<svg class="ic-svg" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;

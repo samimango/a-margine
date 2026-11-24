@@ -1,5 +1,5 @@
 /* Editor della meditazione. Semplice (textarea) ma sostituibile: una feature con `noteEditor` (priorità maggiore) prende il suo posto. */
-import {h, text} from '../core/dom.js';
+import {h, text, noAutofill} from '../core/dom.js';
 import {icon} from '../core/icons.js';
 import * as router from '../core/router.js';
 import * as notes from '../core/notes.js';
@@ -43,6 +43,9 @@ function head() {
     if (!t.trim() && first > 0) { const id = activeId; chapters.loadSections([bk + '.' + ch]).then(found => { if (found && activeId === id && isVisible()) head(); }); }
   }
   D.wText.textContent = t.trim(); D.wText.hidden = !t.trim();
+  /* passo lungo: al massimo 3 righe, con «Mostra tutto» solo se serve; lo spazio per scrivere resta subito in vista */
+  D.wText.classList.add('clamp'); D.more.textContent = 'Mostra tutto ▾'; D.more.setAttribute('aria-expanded', 'false'); D.more.hidden = true;
+  requestAnimationFrame(() => { if (!D.wText.hidden) D.more.hidden = D.wText.scrollHeight <= D.wText.clientHeight + 1; });
   D.readPassage.hidden = !activeId || activeId.startsWith('free.');
 }
 function drawPalette() {
@@ -59,7 +62,7 @@ function drawPalette() {
    api = {id (getter), text (testo iniziale), changed(testo) → salva, setStatus(t), ctx} */
 function defaultEditor(box, api) {
   const area = h('textarea', {id: 'note', enterkeyhint: 'enter', placeholder: 'Cosa ti colpisce?', 'aria-label': 'Meditazione', on: {input: () => api.changed(area.value)}});
-  area.value = api.text; box.append(area);
+  noAutofill(area, 'meditazione-testo', 'note'); area.value = api.text; box.append(area);
   return {setText: t => { area.value = t; }, focus: () => area.focus({preventScroll: true})};
 }
 function mountEditor() {
@@ -77,13 +80,14 @@ export default {
     D.attach = h('select', {id: 'attach', 'aria-label': 'Scrivi su'});
     D.attachLabel = h('label', {id: 'attachLabel', hidden: true}, 'Scrivi su', D.attach);
     D.wRef = h('b', {id: 'wRef'}); D.wText = h('span', {id: 'wText'});
+    D.more = h('button', {class: 'link', id: 'wMore', type: 'button', hidden: true, 'aria-expanded': 'false', text: 'Mostra tutto ▾', on: {click: () => { const open = D.wText.classList.toggle('clamp') === false; D.more.textContent = open ? 'Mostra meno ▴' : 'Mostra tutto ▾'; D.more.setAttribute('aria-expanded', String(open)); }}});
     D.readPassage = h('button', {class: 'link', id: 'readPassage', type: 'button', hidden: true, text: 'Leggi il passo', on: {click: () => { if (!activeId || activeId.startsWith('free.')) return; const [bk, ch, f] = activeId.split('.'); openRef(bk, ch, Number(f) || 1); }}});
     D.editorBox = h('div', {class: 'editor-box', id: 'editorBox'});
     D.palette = h('div', {class: 'palette', id: 'palette', role: 'group', 'aria-label': 'Colore della meditazione'});
     D.status = h('span', {id: 'status', role: 'status'});
     const done = h('button', {class: 'done', id: 'wDone', type: 'button', text: 'Fatto', on: {click: () => router.back(from === 'nota' ? 'quaderno' : from)}});
     root.append(topbar({title: 'Meditazione', onBack: () => router.back(from), right: [done], id: 'wTop'}),
-      h('div', {class: 'col wr'}, D.attachLabel, h('div', {class: 'quote'}, D.wRef, D.wText, D.readPassage), D.editorBox),
+      h('div', {class: 'col wr'}, D.attachLabel, h('div', {class: 'quote'}, D.wRef, D.wText, h('div', {class: 'quote-links'}, D.readPassage, D.more)), D.editorBox),
       h('div', {class: 'wbar glass'}, D.palette, D.status));
     on('data:changed', () => { if (isVisible() && activeId) { const t = currentText(); editorHandle?.setText?.(t); drawPalette(); } });
   },

@@ -36,7 +36,7 @@ function renderHero() {
   const bar = h('i'); const progress = h('div', {class: 'hero-progress', 'aria-hidden': 'true'}, bar);
   const actions = h('div', {class: 'hero-btns'},
     h('button', {class: 'pill primary', id: 'resGo', type: 'button', on: {click: () => openRef(b, c, v)}}, icon('book', 17, 2), 'Continua'),
-    ...features.heroActions().map(a => h('button', {class: 'pill glass-btn', type: 'button', on: {click: () => a.run(features.ctx)}}, a.icon ? icon(a.icon, 17, 2) : null, a.label)));
+    ...features.heroActions().map(a => h('button', {class: 'pill glass-btn', type: 'button', dataset: {heroAction: a.id}, on: {click: () => a.run(features.ctx)}}, a.icon ? icon(a.icon, 17, 2) : null, a.label)));
   box.append(bg, h('div', {class: 'hero-shade'}),
     h('div', {class: 'hero-top'}, h('span', {class: 'hero-cover'}, cover(b, {w: 78, h: 110, r: 5, tsize: 7})),
       h('div', {class: 'hero-head'}, text('div', 'Riprendi da qui', 'eyebrow'), h('div', {class: 'hero-title', id: 'resRef', text: names[b] + ' ' + c}), sub)),
@@ -53,7 +53,9 @@ function renderHero() {
 
 function renderStats() {
   const s = notes.stats(), box = parts.stats; box.replaceChildren();
-  const card = (n, label, ic, color) => h('div', {class: 'card stat', style: {'--sc': color}}, h('div', {class: 'stat-ic'}, icon(ic, 15, 2)), h('div', {class: 'stat-n', text: String(n)}), h('div', {class: 'stat-l', text: label}));
+  /* le cifre aprono «Progressi» se la schermata esiste (arriva da una feature) */
+  const tap = router.hasScreen('progressi');
+  const card = (n, label, ic, color) => h(tap ? 'button' : 'div', tap ? {class: 'card stat tap', type: 'button', style: {'--sc': color}, 'aria-label': n + ' ' + label + '. Apri Progressi', on: {click: () => router.go('progressi')}} : {class: 'card stat', style: {'--sc': color}}, h('div', {class: 'stat-ic'}, icon(ic, 15, 2)), h('div', {class: 'stat-n', text: String(n)}), h('div', {class: 'stat-l', text: label}));
   box.append(card(s.streak, s.streak === 1 ? 'giorno di fila' : 'giorni di fila', 'flame', 'var(--terra)'), card(s.chapters, s.chapters === 1 ? 'capitolo letto' : 'capitoli letti', 'book', 'var(--sage)'), card(s.books, s.books === 1 ? 'libro finito' : 'libri finiti', 'bookmark', 'var(--ochre)'));
 }
 

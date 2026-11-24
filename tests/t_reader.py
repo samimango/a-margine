@@ -226,12 +226,12 @@ def hook_feature(env, dev):
         readerSettings:[{id:'rs', render(box){ box.append(h('div','prova-rs','Opzione di prova')); }}],
         heroActions:[{id:'ha', label:'Ascolta', icon:'book', run(ctx){ ctx.ui.toast('ascolto'); }}],
       }); })""")
-    tab(pg, 'libreria'); tab(pg, 'oggi'); check(pg.is_visible('.prova-card')); check('Ascolta' in pg.inner_text('.hero-btns'))
-    pg.click('.hero-btns .glass-btn'); check('ascolto' in toast_text(pg))
+    tab(pg, 'libreria'); tab(pg, 'oggi'); check(pg.is_visible('.prova-card')); check(pg.locator('.hero-btns [data-hero-action=ha]').inner_text().strip() == 'Ascolta')
+    pg.click('.hero-btns [data-hero-action=ha]'); check('ascolto' in toast_text(pg))
     pg.click('#settingsBtn'); check('Voce di prova' in pg.inner_text('[data-section=Dati]')); pg.click('[data-section=Dati] .row:has-text("Voce di prova")'); check('toccata' in toast_text(pg))
     open_ref(pg, 42, 3, 1)
     check(pg.locator('#v3 mark.dec').count() == 1, 'decoratore'); check('Titolo 3' in pg.inner_text('.prova-head')); check('Fine 3' in pg.inner_text('.prova-foot'))
-    tap_verse(pg, 4); actions = pg.eval_on_selector_all('.abtn', 'els=>els.map(e=>e.dataset.action)'); eq(actions, ['ev', 'nota', 'segnalibro', 'copia'], 'ordine delle azioni')
+    tap_verse(pg, 4); actions = pg.eval_on_selector_all('.abtn', 'els=>els.map(e=>e.dataset.action)'); eq([a for a in actions if a in ('ev', 'nota', 'segnalibro', 'copia')], ['ev', 'nota', 'segnalibro', 'copia'], 'ordine relativo delle azioni di base (altre feature possono aggiungerne)')
     pg.click('.abtn[data-action=ev]'); check('azione Giovanni 3,4 1' in toast_text(pg), toast_text(pg))
     pg.click('#aclose'); pg.click('#typoBtn'); check(pg.is_visible('.prova-rs')); pg.keyboard.press('Escape')
     pg.evaluate("import('/js/core/router.js').then(r=>r.go('prova'))"); check('Schermata di prova' in pg.inner_text('#scr-prova'))

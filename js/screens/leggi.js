@@ -67,6 +67,11 @@ function renderChapHead() {
 }
 function renderFooter() {
   D.footerSlots.replaceChildren(...features.chapterFooter({book: S.b, ch: S.c, text: chapterText}).map(c => h('div', {class: 'chap-slot', dataset: {feature: c.id}}, c.node)));
+  /* Una feature può portare la propria card «Capitolo dopo» (elemento con data-next): allora prende il posto di quella del nucleo, con lo stesso id */
+  const own = D.footerSlots.querySelector('[data-next]');
+  D.bottomNext.hidden = Boolean(own); D.bottomNext.id = own ? 'bottomNextCore' : 'bottomNext';
+  D.turn.classList.toggle('solo', Boolean(own));
+  if (own) own.id = 'bottomNext';
 }
 const boundsOf = id => { const [, , f, t] = id.split('.'); return [Number(f), Number(t ?? f)]; };
 

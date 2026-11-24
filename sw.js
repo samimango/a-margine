@@ -16,6 +16,10 @@ function version() {
   })());
 }
 const FONT_CACHE = 'margine-fonts';
+/* File che la pagina carica solo al bisogno (feature, fogli di stile e dati): salvati a riposo, dopo il caricamento, perché l'app funzioni offline anche per Mondo, Ascolta, Memoria ecc. */
+const LAZY = ['css/f-ascolta.css', 'css/f-introduzioni.css', 'css/f-memoria.css', 'css/f-mondo.css', 'css/f-progressi.css',
+  'js/features/mondo-geo.js', 'js/features/mondo-mappa.js',
+  'data/books.json', 'data/measures.json', 'data/people.json', 'data/places.json'];
 
 self.addEventListener('install', e => {
   e.waitUntil((async () => {
@@ -36,7 +40,8 @@ self.addEventListener('message', e => {
   if (!e.data || e.data.type !== 'precache' || !Array.isArray(e.data.urls)) return;
   e.waitUntil((async () => {
     const cache = await caches.open(await version());
-    await Promise.allSettled(e.data.urls.filter(u => { try { return new URL(u).origin === location.origin; } catch { return false; } }).map(u => cache.add(new Request(u, {cache: 'reload'}))));
+    const lazy = LAZY.map(u => new URL(u, self.registration.scope).href);
+    await Promise.allSettled([...new Set([...e.data.urls, ...lazy])].filter(u => { try { return new URL(u).origin === location.origin; } catch { return false; } }).map(u => cache.add(new Request(u, {cache: 'reload'}))));
   })());
 });
 function fromNetwork(req) {

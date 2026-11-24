@@ -73,6 +73,8 @@ export function runReady() {
 
 /* Carica i moduli elencati in js/features/index.js: un modulo rotto viene saltato */
 export async function loadFeatures(ids) {
+  /* i moduli si scaricano tutti insieme (modulepreload) ma si eseguono in ordine: su rete lenta si paga un solo giro invece di uno per modulo */
+  for (const id of ids) { const l = document.createElement('link'); l.rel = 'modulepreload'; l.href = new URL('../features/' + id + '.js', import.meta.url).href; document.head.append(l); }
   for (const id of ids) {
     try { await import('../features/' + id + '.js'); }
     catch (e) { console.error('feature non caricata:', id, e); }

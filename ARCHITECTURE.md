@@ -23,6 +23,20 @@ tests/                Playwright + backend vero eseguito in Node (python3 tests/
 legacy/ legacy-tests/ design-demo/   materiale di riferimento, non fa parte dell'app
 ```
 
+### Fogli, popover e navigazione
+
+`ui.sheet()` aggiunge un livello alla cronologia (`pushOverlay`); chiuderlo con `close()` fa un `history.back()` il cui `popstate` arriva dopo. Per questo il router tiene un contatore (`popsPending`): finché un popstate di chiusura è atteso, ogni `router.go()` viene messa in coda e parte appena il popstate è stato gestito (rete di sicurezza: 600 ms). Quindi `sheet.close(); nav.openRef(...)` o `router.go(...)` subito dopo la chiusura funziona, senza ritardi artificiali.
+`ui.popover()` registra subito i suoi ascoltatori (tocco fuori ed Esc) e ignora il tocco che l'ha aperto confrontando `event.timeStamp`: niente `setTimeout`, che con la pagina occupata poteva far perdere il primo tocco «fuori».
+
+### Parametri delle schermate delle feature
+
+- `mondo`: `{luogo: '<id in data/places.json>'}` mappa centrata sul luogo con la sua scheda, `{misura: '<id in data/measures.json>'}` scheda di una misura, moneta, ora, mese o festa, `{personaggio: '<id in data/people.json>'}` scheda di un personaggio, `{sezione: 'luoghi'|'misure'|'tempo'|'personaggi'|'mappa'}` apre direttamente la sezione, `{from: '<id schermata>'}` dove torna la freccia indietro (es. `oggi`, `impostazioni`). Senza parametri: la home di Mondo.
+- `progressi`, `memoria`: senza parametri.
+
+### Avvio e offline
+
+`loadFeatures` mette `<link rel="modulepreload">` per tutte le feature (scaricate in parallelo, eseguite in ordine). I dati pesanti (`data/*.json`) si caricano solo al bisogno o a riposo (`requestIdleCallback`): all'avvio parte soltanto `measures.json` (parole sottolineate di serie). `sw.js` salva a riposo, dopo il caricamento, anche i file caricati al bisogno (`LAZY`: `css/f-*.css`, `data/*.json`, moduli di Mondo): se si aggiunge una feature con CSS o dati propri, aggiungerli a quell'elenco.
+
 ### Nucleo (`js/core`)
 
 | modulo | compito |
@@ -36,8 +50,9 @@ legacy/ legacy-tests/ design-demo/   materiale di riferimento, non fa parte dell
 | `bible.js` | nomi, sigle, conteggi, sezioni, tavolozze dei libri, `parseRef` / `findBook` / `fmtRef` |
 | `router.js` | schermate, cronologia del browser, fogli, transizioni |
 | `ui.js` | `toast`, `sheet`, `popover`, `copyToClipboard` |
+| `icons.js` | `icon`, `iconSvg`, `registerIcons`, `fleuron` |
 | `features.js` | registro delle feature e hook |
-| `theme.js`, `nav.js`, `dom.js`, `icons.js`, `covers.js` | tema/carattere, `openRef/openBook/openNote`, `h()`, icone, copertine SVG |
+| `theme.js`, `nav.js`, `dom.js`, `covers.js` | tema/carattere, `openRef/openBook/openNote`, `h()`, copertine SVG |
 
 ## Dati: non cambiano
 
@@ -80,12 +95,17 @@ registerFeature({
 - Editor: `api = {id, text, changed(testo), setStatus(t), ctx}`. Chiama `changed` a ogni modifica: il nucleo salva, mette in coda e sincronizza. Senza editor registrato si usa la textarea predefinita.
 - `ctx` (ultimo argomento di ogni hook) = `{router, store, api, bible, chapters, notes, sync, ui, bus, dom, icons, covers, nav, theme}`. Una feature importa i moduli del nucleo solo tramite `ctx` o `../core/...`, mai da altre feature.
 - Un errore dentro un hook viene registrato in console e l'hook viene ignorato.
+- Icone proprie: `ctx.icons.registerIcons({'<prefisso>-nome': '<path/circle viewBox 24>'})` (mai `Object.assign(ICONS, …)`); si consiglia un prefisso per feature (`asc-`, `mem-`).
+- `chapterFooter` può restituire una propria card «Capitolo dopo»: se l'elemento ha `data-next` il nucleo nasconde la sua card e dà l'id `#bottomNext` a quella della feature (così c'è sempre UNA sola card, con lo stesso id per test e navigazione). Se nessuna feature la porta, resta quella del nucleo (disabilitata in Apocalisse 22).
+- `heroActions`: il pulsante in Oggi ha `data-hero-action="<id>"`; le azioni sul versetto hanno `data-action="<id>"`.
+- Le cifre di Oggi (giorni di fila, capitoli, libri) sono pulsanti che aprono la schermata `progressi` se esiste (altrimenti restano riquadri).
 
 ## Stile
 
 - Mai colori, raggi, ombre o spazi scritti a mano in un file diverso da `css/tokens.css`: si usano le variabili (`--bg`, `--fg`, `--muted`, `--card`, `--line`, `--accent`, `--d1..5` e `--c1..5` per i colori dei versetti, `--bk` / `--accent-book` per il libro corrente).
 - Stili di una nuova feature: classe con prefisso (`.f-<nome>-...`) e regole in un `<style>` creato dal modulo o in un nuovo file CSS caricato dal modulo con `<link>` (consentito dalla CSP: `style-src 'self' 'unsafe-inline'`).
 - Testo dell'interfaccia in italiano, tono semplice, accenti corretti.
+- Ambito scuro locale: la classe `.theme-dark-scope` (in `tokens.css`) ridefinisce su un solo elemento gli stessi token del tema scuro, qualunque sia il tema dell'app. Il foglio di «Ascolta» la usa (`sh.el.classList.add('theme-dark-scope')`) invece di colori scritti a mano; dentro l'ambito basta usare `var(--bg)`, `var(--ink)` ecc. e impostare `background`/`color` dell'elemento.
 
 ## File che NON si toccano (salvo incarico esplicito sul nucleo)
 
