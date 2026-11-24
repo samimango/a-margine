@@ -9,17 +9,18 @@ MOCK = """(()=>{
   {name:'Google italiano',lang:'it-IT',voiceURI:'gi',localService:false,default:false},
   {name:'Alice',lang:'it-IT',voiceURI:'alice',localService:true,default:false},
   {name:'Federica (Migliorata)',lang:'it-IT',voiceURI:'fed-enh',localService:true,default:false}];
- const ls={}; let list=[]; window.__spoken=[]; window.__cancels=0; window.__speakMs=40; window.__hang=false;
+ const ls={}; let list=[]; window.__spoken=[]; window.__cancels=0; window.__speakMs=40; window.__hang=false; window.__noStart=false; window.__syncSpeaks=[]; window.__inClick=false;
+ document.addEventListener('click',()=>{window.__inClick=true;setTimeout(()=>{window.__inClick=false},0)},true);
  class U{constructor(t){this.text=t;this.rate=1;this.pitch=1;this.volume=1;this.voice=null;this.lang=''}}
  let cur=null,timer=0,queue=[];
  const syn={speaking:false,paused:false,pending:false,getVoices:()=>list,
   addEventListener(e,f){(ls[e]=ls[e]||[]).push(f)},removeEventListener(e,f){ls[e]=(ls[e]||[]).filter(x=>x!==f)},
-  speak(u){queue.push(u);if(!cur)next()},
+  speak(u){window.__syncSpeaks.push(Boolean(window.__inClick));queue.push(u);if(!cur)next()},
   cancel(){window.__cancels++;clearTimeout(timer);queue=[];const c=cur;cur=null;syn.speaking=false;if(c&&c.onerror)setTimeout(()=>c.onerror({error:'canceled'}),0)},
   pause(){syn.paused=true},resume(){syn.paused=false}};
  function next(){cur=queue.shift();if(!cur){syn.speaking=false;return}syn.speaking=true;
   if(cur.volume!==0)window.__spoken.push({text:cur.text,voice:cur.voice&&cur.voice.name,rate:cur.rate,pitch:cur.pitch,lang:cur.lang});
-  const c=cur; if(window.__hang&&cur.volume!==0)return;
+  const c=cur; if(!window.__noStart&&c.onstart)setTimeout(()=>c.onstart({}),5); if(window.__hang&&!c.text.startsWith('Giovanni, ')&&!c.text.startsWith('Salmi, '))return;
   timer=setTimeout(()=>{if(cur!==c)return;cur=null;c.onend&&c.onend({});next()},window.__speakMs)}
  Object.defineProperty(window,'speechSynthesis',{value:syn,configurable:true});window.SpeechSynthesisUtterance=U;
  setTimeout(()=>{list=voices;(ls.voiceschanged||[]).forEach(f=>f({}))},300);
@@ -69,8 +70,9 @@ def voce_target_44(env, dev):
 def lettura_avanza_evidenzia_pausa(env, dev):
     pg = new(env, dev); open_ref(pg, 42, 3, 1)
     tap_verse(pg, 2); pg.click('[data-action="ascolta"]'); pg.wait_for_selector('#ascoltaMini:not([hidden])')
-    wait_js(pg, 'window.__spoken.length>=1')
-    s = spoken(pg)[0]
+    wait_js(pg, 'window.__spoken.length>=2')
+    eq(spoken(pg)[0]['text'], 'Giovanni, capitolo 3', 'annuncio sincrono nel gesto')
+    s = spoken(pg)[1]
     eq(s['voice'], 'Federica (Migliorata)'); eq(s['lang'], 'it-IT'); eq(s['pitch'], 1); check(abs(s['rate'] - 0.95) < 1e-6, str(s['rate']))
     check(s['text'].startswith('Giovanni 3 versetto 2'), s['text']); check(not s['text'].startswith('2 '), 'niente numero del versetto')
     wait_js(pg, "document.querySelector('#v3.f-ascolta-now')"); eq(cls_verse(pg), [3])
@@ -151,9 +153,9 @@ def temi_foglio_e_mini(env, dev):
 @test()
 def ripresa_dopo_visibilitychange(env, dev):
     pg = new(env, dev); open_ref(pg, 42, 3, 1); tap_verse(pg, 4)
-    pg.evaluate("window.__hang=true"); pg.click('[data-action="ascolta"]'); wait_js(pg, 'window.__spoken.length>=1')
-    first = spoken(pg)[0]['text']; n = len(spoken(pg))
-    pg.evaluate("window.__hang=false; speechSynthesis.speaking=false; document.dispatchEvent(new Event('visibilitychange'))")
+    pg.evaluate("window.__hang=true"); pg.click('[data-action="ascolta"]'); wait_js(pg, 'window.__spoken.length>=2')
+    first = spoken(pg)[1]['text']; n = len(spoken(pg))
+    pg.evaluate("window.__hang=false; window.__noStart=false; window.__syncSpeaks=[]; speechSynthesis.speaking=false; document.dispatchEvent(new Event('visibilitychange'))")
     wait_js(pg, f'window.__spoken.length>{n}'); eq(spoken(pg)[n]['text'], first, 'riprende dalla stessa frase')
 
 @test()
@@ -172,3 +174,84 @@ def senza_speech_non_si_rompe(env, dev):
     pg = env.new(dev, init="delete window.speechSynthesis; Object.defineProperty(window,'speechSynthesis',{value:undefined,configurable:true}); window.SpeechSynthesisUtterance=undefined;")
     pg.wait_for_selector('.hero-btns .pill.glass-btn'); pg.click('.hero-btns .pill.glass-btn'); pg.wait_for_timeout(300)
     check('non può leggere' in pg.inner_text('#toast')); settings(pg); check('Non disponibile' in pg.inner_text('#ascoltaVoceRow'))
+
+
+def silent_toast(pg): return pg.is_visible('#toast') and 'togli il silenzioso' in pg.inner_text('#toast')
+def sync_ok(pg): return pg.evaluate('window.__syncSpeaks')
+
+@test('phone')
+def prima_speak_sincrona_in_ogni_percorso(env, dev):
+    pg = new(env, dev); open_ref(pg, 42, 3, 1)
+    # 1) azione sul versetto
+    tap_verse(pg, 2); pg.click('[data-action="ascolta"]'); wait_js(pg, 'window.__syncSpeaks.length>=1')
+    check(sync_ok(pg)[0] is True, 'versetto: speak() fuori dal gesto'); pg.click('#ascoltaMini [data-act=stop]')
+    # 2) pulsante cuffie in Leggi (a metà capitolo: la scelta del menu è il gesto)
+    pg.evaluate('window.__syncSpeaks=[]'); pg.click('#topAct-ascolta'); pg.click('#ascoltaChoice [data-from=here]'); wait_js(pg, 'window.__syncSpeaks.length>=1')
+    check(sync_ok(pg)[0] is True, 'cuffie: speak() fuori dal gesto'); pg.click('#ascoltaMini [data-act=stop]') if pg.is_visible('#ascoltaMini') else None
+    # 3) Oggi (pagina nuova: da capo il menu non serve)
+    pg3 = new(env, dev); open_ref(pg3, 42, 3, 1); tab(pg3, 'oggi'); pg3.evaluate('window.__syncSpeaks=[]')
+    pg3.click('.hero-btns .pill.glass-btn'); wait_js(pg3, 'window.__syncSpeaks.length>=1')
+    check(sync_ok(pg3)[0] is True, 'Oggi: speak() fuori dal gesto')
+    # le voci possono non essere ancora caricate: parla comunque in it-IT
+    pg2 = env.new(dev, init=MOCK.replace("setTimeout(()=>{list=voices;", "setTimeout(()=>{list=voices;window.__late=1;").replace("},300);", "},60000);"))
+    open_ref(pg2, 42, 3, 1); tap_verse(pg2, 2); pg2.click('[data-action="ascolta"]'); wait_js(pg2, 'window.__spoken.length>=2')
+    eq(spoken(pg2)[0]['lang'], 'it-IT'); check(spoken(pg2)[0]['voice'] in (None, ''), str(spoken(pg2)[0]))
+    eq(spoken(pg2)[1]['lang'], 'it-IT')
+
+@test('phone')
+def cuffie_capitolo_intero_e_menu(env, dev):
+    pg = new(env, dev); open_ref(pg, 42, 3, 1)
+    box = pg.eval_on_selector('#topAct-ascolta', 'e=>{const r=e.getBoundingClientRect();return [r.width,r.height]}')
+    check(box[0] >= 44 and box[1] >= 44, str(box)); eq(pg.get_attribute('#topAct-ascolta', 'aria-label'), 'Ascolta il capitolo')
+    check(pg.evaluate("document.documentElement.scrollWidth<=innerWidth+1")); shot(pg, f'ascolta_leggi_cuffie_{dev}')
+    # all'inizio: parte dal versetto 1 e apre il foglio, senza menu
+    pg.click('#topAct-ascolta'); pg.wait_for_selector('.f-ascolta-sheet'); check(pg.locator('#ascoltaChoice').count() == 0)
+    wait_js(pg, 'window.__spoken.length>=2'); check(spoken(pg)[1]['text'].startswith('Giovanni 3 versetto 1'), spoken(pg)[1]['text'])
+    pg.keyboard.press('Escape'); pg.wait_for_selector('#ascoltaMini:not([hidden])'); pg.click('#ascoltaMini [data-act=stop]')
+    # a metà capitolo: mini-menu con due scelte
+    pg2 = new(env, dev); open_ref(pg2, 42, 3, 5)
+    pg2.click('#topAct-ascolta'); pg2.wait_for_selector('#ascoltaChoice')
+    txt = pg2.inner_text('#ascoltaChoice'); check('Dall’inizio del capitolo' in txt and 'Da qui (v. 5)' in txt, txt)
+    for b in pg2.query_selector_all('#ascoltaChoice button'):
+        bb = b.bounding_box(); check(bb['height'] >= 44, str(bb))
+    shot(pg2, f'ascolta_menu_{dev}')
+    pg2.click('#ascoltaChoice [data-from=here]'); pg2.wait_for_selector('.f-ascolta-sheet'); wait_js(pg2, 'window.__spoken.length>=2')
+    check(spoken(pg2)[1]['text'].startswith('Giovanni 3 versetto 5'), spoken(pg2)[1]['text'])
+    # «Ricomincia il capitolo» dal foglio
+    pg2.click('#ascoltaRestart'); wait_js(pg2, "window.__spoken.some((s,i)=>i>1&&s.text.startsWith('Giovanni 3 versetto 1 '))")
+    check('togli il silenzioso' in pg2.inner_text('.f-ascolta-silent'))
+    shot(pg2, f'ascolta_foglio_aiuto_{dev}')
+    # da capo: «Dall'inizio» dal menu
+    pg3 = new(env, dev); open_ref(pg3, 42, 3, 7); pg3.click('#topAct-ascolta'); pg3.wait_for_selector('#ascoltaChoice')
+    pg3.click('#ascoltaChoice [data-from=start]'); wait_js(pg3, 'window.__spoken.length>=2')
+    check(spoken(pg3)[1]['text'].startswith('Giovanni 3 versetto 1 '), spoken(pg3)[1]['text'])
+    # Oggi offre lo stesso menu quando non si è all'inizio
+    pg4 = new(env, dev); open_ref(pg4, 42, 3, 9); tab(pg4, 'oggi'); pg4.click('.hero-btns .pill.glass-btn'); pg4.wait_for_selector('#ascoltaChoice')
+    check('Da qui (v. 9)' in pg4.inner_text('#ascoltaChoice'))
+
+@test('phone')
+def avviso_se_onstart_non_arriva(env, dev):
+    pg = new(env, dev); open_ref(pg, 42, 3, 1)
+    pg.evaluate('window.__noStart=true'); tap_verse(pg, 2); pg.click('[data-action="ascolta"]')
+    pg.wait_for_timeout(1500); check(not silent_toast(pg), 'troppo presto')
+    wait_js(pg, "document.getElementById('toast').textContent.includes('Non senti nulla? Su iPhone togli il silenzioso (tasto laterale) e alza il volume.')", timeout=3000)
+    shot(pg, f'ascolta_avviso_silenzioso_{dev}')
+    # una volta per sessione: un secondo avvio non lo ripete
+    pg.click('#ascoltaMini [data-act=stop]'); pg.wait_for_timeout(5500)
+    tap_verse(pg, 3); pg.click('[data-action="ascolta"]'); pg.wait_for_timeout(2600)
+    check(not silent_toast(pg), 'ripetuto')
+    # con onstart regolare non compare
+    pg2 = new(env, dev); open_ref(pg2, 42, 3, 1); tap_verse(pg2, 2); pg2.click('[data-action="ascolta"]'); pg2.wait_for_timeout(2600)
+    check(not silent_toast(pg2))
+
+@test('phone')
+def onend_mancante_non_blocca(env, dev):
+    pg = new(env, dev); open_ref(pg, 42, 3, 1); tap_verse(pg, 2)
+    pg.evaluate('window.__hang=true'); pg.click('[data-action="ascolta"]'); wait_js(pg, 'window.__spoken.length>=2')
+    # pausa e ripresa con onend che non arriva
+    pg.click('#ascoltaMini [data-act=toggle]'); pg.wait_for_timeout(200); eq(pg.get_attribute('#ascoltaMini [data-act=toggle]', 'aria-label'), 'Riprendi')
+    n = len(spoken(pg)); pg.click('#ascoltaMini [data-act=toggle]'); wait_js(pg, f'window.__spoken.length>{n}')
+    eq(spoken(pg)[n]['text'], spoken(pg)[n - 1]['text'], 'riprende dalla stessa frase')
+    # versetto successivo con onend che non arriva
+    v0 = cls_verse(pg)[0]; pg.click('#ascoltaMini [data-act=next]'); pg.wait_for_timeout(400)
+    check(cls_verse(pg)[0] > v0, str(cls_verse(pg)))

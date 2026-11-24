@@ -45,7 +45,13 @@ function toggleBmUndo(bk, ch, vs) {
 }
 
 /* ---------- Disegno ---------- */
+function renderTopActions() {
+  const info = {book: S.b, ch: S.c, v: S.v};
+  D.topX.replaceChildren(...features.readerTopActions(info).map(a => h('button', {class: 'ic', type: 'button', id: 'topAct-' + a.id, dataset: {topAction: a.id}, 'aria-label': a.label, title: a.label,
+    on: {click: e => { try { a.run({book: S.b, ch: S.c, v: S.v, anchor: e.currentTarget}, features.ctx); } catch (e) { console.error(e); } }}}, a.icon ? icon(a.icon, 20, 1.8) : null)));
+}
 function renderHeader() {
+  renderTopActions();
   D.title.firstChild.textContent = names[S.b] + (counts[S.b] > 1 ? ' ' + S.c : '');
   D.bottomPrev.disabled = !step(S.b, S.c, -1);
   D.bottomNext.disabled = !step(S.b, S.c, 1);
@@ -360,7 +366,7 @@ export default {
     D.bmBtn = h('button', {class: 'ic', id: 'bmBtn', type: 'button', 'aria-label': 'Segnalibro qui', on: {click: () => toggleBmUndo(S.b, S.c, S.v)}}, icon('bookmark', 20, 1.8));
     D.top = h('header', {class: 'rtop glass', id: 'readTop'},
       h('button', {class: 'ic', id: 'readBack', type: 'button', 'aria-label': 'Indietro', on: {click: () => router.back(router.previousId() && router.previousId() !== 'leggi' ? router.previousId() : 'libreria')}}, icon('back', 20, 2)),
-      D.title, h('span', {class: 'grow'}),
+      D.title, h('span', {class: 'grow'}), D.topX = h('span', {class: 'rtop-x'}),
       h('button', {class: 'ic aa', id: 'typoBtn', type: 'button', 'aria-label': 'Aspetto della lettura', on: {click: openTypoSheet}}, icon('text', 20, 1.8)),
       h('button', {class: 'ic', id: 'goVerse', type: 'button', 'aria-label': 'Vai al versetto', on: {click: openVerseSheet}}, icon('grid', 19, 1.8)),
       D.bmBtn);

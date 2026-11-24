@@ -87,3 +87,14 @@ body.f-ascolta-on.has-actions .toast { bottom: calc(var(--safe-b) + var(--dock) 
 
 @media (prefers-reduced-motion: reduce) { .f-ascolta-mini, .f-ascolta-knob, .f-ascolta-knob::after { transition: none; } }
 @media (min-width: 700px) { .f-ascolta-mini { bottom: calc(var(--safe-b) + max(var(--dock), 12px)); } }
+
+/* scelta «Dall'inizio / Da qui» e aiuto per il silenzioso */
+.f-ascolta-choice { display: flex; flex-direction: column; gap: 8px; }
+.popover.f-ascolta-choice { padding: 10px; }
+.f-ascolta-pick { width: 100%; min-height: 56px; padding: 0 14px; border-radius: var(--r-md); background: var(--chip); display: flex; align-items: center; gap: 14px; text-align: left; color: var(--ink); }
+.f-ascolta-pick:active { background: var(--pill); }
+.f-ascolta-pick > .ic-svg { color: var(--accent); flex: none; }
+.f-ascolta-pick-t { display: flex; flex-direction: column; min-width: 0; }
+.f-ascolta-pick-t b { font: 600 16px var(--sans); }
+.f-ascolta-pick-t small { font: 400 12.5px var(--sans); color: var(--dim); }
+.f-ascolta-silent { margin: 6px 4px 4px; font: 400 12.5px/1.45 var(--sans); color: var(--dim); text-align: center; }

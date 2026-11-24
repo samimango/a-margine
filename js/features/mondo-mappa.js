@@ -1,11 +1,24 @@
-/* Mappa interattiva di «Mondo della Bibbia»: mappa vettoriale disegnata (SVG, sempre disponibile offline) + piastrelle OpenStreetMap
-   quando c'è rete. Proiezione Web Mercator per tutto. Zoom/pan con dita (pointer events, pinch), rotella, tastiera.
+/* Mappa interattiva di «Mondo della Bibbia»: mappa vettoriale disegnata (SVG, sempre disponibile offline) + piastrelle SENZA etichette (Esri World Shaded Relief; CARTO nolabels se c'è una chiave) quando c'è rete. I nomi sono SOLO i nostri, in italiano. Proiezione Web Mercator per tutto. Zoom/pan con dita (pointer events, pinch), rotella, tastiera.
    Nessuna libreria. Caricato solo quando serve (import dinamico da mondo.js). */
 import {MEDITERRANEO, MARE_NERO, MAR_ROSSO, GOLFO_PERSICO, ISOLE, FIUMI, LAGHI, BASE, BASE_Z, WORLD, nx, ny, pathOf} from './mondo-geo.js';
 
 const SVGNS = 'http://www.w3.org/2000/svg';
-const TILE_URL = (z, x, y) => `https://tile.openstreetmap.org/${z}/${x}/${y}.png`;
-const Z_MIN = 3.4, Z_MAX = 12, TILE_ZMIN = 5, TILE_ZMAX = 12, TILE_SHOW_FROM = 4.5;
+const isDark = () => document.documentElement.dataset.theme === 'dark';
+const retina = () => (window.devicePixelRatio || 1) > 1.2;
+/* CARTO (voyager_nolabels / dark_nolabels) chiede ormai una chiave gratuita: senza, mette la scritta «API KEY REQUIRED» su ogni piastrella.
+   Perciò di serie si usa Esri World Shaded Relief (rilievo, senza nomi, strade né confini). Con una chiave CARTO in localStorage
+   («margine.mondo.cartokey») si passa alle piastrelle CARTO senza etichette. */
+const cartoKey = () => { try { return localStorage.getItem('margine.mondo.cartokey') || ''; } catch { return ''; } };
+const TILE_URL = (z, x, y) => cartoKey()
+  ? `https://${'abcd'[(x + y) % 4]}.basemaps.cartocdn.com/rastertiles/${isDark() ? 'dark_nolabels' : 'voyager_nolabels'}/${z}/${x}/${y}${retina() ? '@2x' : ''}.png?key=${encodeURIComponent(cartoKey())}`
+  : `https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/${z}/${y}/${x}`;
+const ATTRIBUTION = () => cartoKey() ? '© OpenStreetMap contributors © CARTO' : 'Rilievo: Esri, USGS, NOAA';
+const Z_MIN = 3.4, Z_MAX = 11, TILE_ZMIN = 5, TILE_ZMAX = 10, TILE_SHOW_FROM = 4.5;
+/* nomi e posizioni dell'etichetta scritti a mano (le piastrelle non hanno testo); anchor 'l' = etichetta a destra del punto */
+const NAME = {'mar-mediterraneo': 'Mar Mediterraneo\n(Mar Grande)', 'mar-morto': 'Mar Morto\n(Mar Salato)', 'samaria-regione': 'Samaria'};
+const LABEL_AT = {giudea: {lat: 31.82, lon: 34.72}, canaan: {lat: 32.15, lon: 35.1}, 'mar-mediterraneo': {lat: 32.2, lon: 33.9}, giordano: {lat: 32.3, lon: 35.64, anchor: 'l'}, 'mar-morto': {lat: 31.3, lon: 35.74, anchor: 'l'}, 'mar-di-galilea': {lat: 32.62, lon: 35.62, anchor: 'l'}, galilea: {lat: 33.05, lon: 35.3}, filistia: {lat: 31.55, lon: 34.45}, negheb: {lat: 30.95, lon: 34.85}, moab: {lat: 31.3, lon: 35.85}, galaad: {lat: 32.2, lon: 35.82}, ammon: {lat: 31.85, lon: 36.05}, basan: {lat: 32.75, lon: 36.0}, decapoli: {lat: 32.45, lon: 35.75}};
+const TIER1 = new Set(['gerusalemme']);
+const TIER2 = new Set(['nazaret', 'betlemme', 'cafarnao', 'roma', 'damasco', 'antiochia-di-siria', 'efeso', 'corinto', 'atene', 'babilonia', 'ninive', 'menfi', 'alessandria', 'gerico', 'sichem', 'ebron', 'tiro', 'sidone', 'cesarea', 'betania', 'bersabea', 'giaffa', 'tarso', 'filippi', 'tessalonica', 'tiberiade', 'betel', 'silo', 'cana', 'ur-dei-caldei', 'caran']);
 const BOUNDS = {x0: nx(-14), x1: nx(64), y0: ny(50), y1: ny(8)};
 const BOOST = new Set(['gerusalemme', 'nazaret', 'betlemme', 'cafarnao', 'roma', 'damasco', 'antiochia-di-siria', 'efeso', 'corinto', 'atene', 'babilonia', 'ninive', 'menfi', 'sinai', 'mar-di-galilea', 'giordano',
   'mar-morto', 'mar-mediterraneo', 'egitto', 'galilea', 'giudea', 'samaria-regione', 'tarso', 'filippi', 'tessalonica', 'cesarea', 'gerico', 'sichem', 'ebron', 'betania', 'tiro', 'sidone', 'alessandria', 'cipro', 'creta', 'malta', 'patmos', 'ur-dei-caldei', 'caran', 'nilo', 'eufrate', 'monte-ermon', 'monte-carmelo', 'monte-tabor', 'bersabea', 'betel', 'silo', 'giaffa', 'mar-rosso', 'moab', 'edom', 'cana', 'tiberiade', 'siracusa']);
@@ -29,7 +42,7 @@ export function periodsOf(place, bible) {
 }
 
 export function createMap({places, bible, onSelect, reduceMotion = false}) {
-  const view = {x: nx(35.4), y: ny(32.0), z: 7.3};
+  const view = {x: nx(35.2), y: ny(31.97), z: 6.9};
   let W = 0, H = 0, dirty = true, raf = 0, filter = {period: 'tutti', tipo: 'tutti'}, selected = null, layout = [], tileTimer = 0, anim = 0;
   const pointers = new Map();
   let gesture = null;
@@ -55,23 +68,32 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
   const mkBtn = (cls, label, txt) => { const b = el('button', 'f-mondo-btn ' + cls, {type: 'button', 'aria-label': label}); b.textContent = txt; return b; };
   const bPlus = mkBtn('plus', 'Ingrandisci', '+'), bMinus = mkBtn('minus', 'Riduci', '−'), bHome = mkBtn('home', 'Torna alla Terra Santa', '⌖');
   const ctl = el('div', 'f-mondo-ctl'); ctl.append(bPlus, bMinus, bHome);
-  const attr = el('a', 'f-mondo-attr', {href: 'https://www.openstreetmap.org/copyright', target: '_blank', rel: 'noopener noreferrer', hidden: ''});
-  attr.textContent = '© OpenStreetMap contributors';
-  const hint = el('div', 'f-mondo-offline', {hidden: '', role: 'status'}); hint.textContent = 'Mappa disegnata (senza rete)';
-  root.append(draw, tileBox, ptsBox, ctl, attr, hint);
+  /* la riga con l'attribuzione e l'avviso sta SOTTO la mappa, non sopra: non copre mai i nomi */
+  const attr = el('a', 'f-mondo-attr', {href: 'https://www.arcgis.com/home/item.html?id=9c5370d0b54f4de1b48a3792d7dbd62c', target: '_blank', rel: 'noopener noreferrer', hidden: ''});
+  attr.textContent = ATTRIBUTION();
+  const hint = el('span', 'f-mondo-offline', {hidden: '', role: 'status'}); hint.textContent = 'Mappa disegnata (senza rete)';
+  const foot = el('div', 'f-mondo-foot', {hidden: ''}); foot.append(attr, hint);
+  const wrap = el('div', 'f-mondo-wrap'); wrap.append(root, foot);
+  root.append(draw, tileBox, ptsBox, ctl);
 
   /* ---------- punti ---------- */
   places.forEach((p, i) => {
     const per = periodsOf(p, bible);
     const prio = (BOOST.has(p.id) ? 100 : 0) + (p.riferimenti_chiave?.length || 0) * 3 + (p.tipo === 'città' ? 2 : 0) - (p.tipo === 'regione' ? 1 : 0) - i * 0.001;
     const labelOnly = p.tipo === 'regione' || LABEL_ONLY.has(p.id);
-    const node = el('div', 'f-mondo-pt' + (p.tipo === 'regione' ? ' reg' : labelOnly ? ' wat' : ''), {hidden: '', 'data-id': p.id});
+    const at = LABEL_AT[p.id], name = NAME[p.id] || p.nome_it, lines = name.split('\n');
+    const tier = TIER1.has(p.id) ? 1 : TIER2.has(p.id) ? 2 : 3;
+    const node = el('div', 'f-mondo-pt' + (p.tipo === 'regione' ? ' reg' : labelOnly ? ' wat' : ' t' + tier) + (at?.anchor === 'l' ? ' al' : ''), {hidden: '', 'data-id': p.id});
     node.style.setProperty('--pc', DOT_VAR[p.tipo] || 'var(--accent)');
     const dot = labelOnly ? null : el('i', 'f-mondo-dot' + (p.posizione_approssimata ? ' apx' : ''));
-    const lbl = el('span', 'f-mondo-lbl', {text: p.nome_it});
+    const lbl = el('span', 'f-mondo-lbl', {text: name});
     if (dot) node.append(dot); node.append(lbl);
     ptsBox.append(node);
-    meta.set(p.id, {p, prio, per, labelOnly, node, wx: nx(p.lon), wy: ny(p.lat), w: p.nome_it.length * (p.tipo === 'regione' ? 9.8 : 6.7) + 8, vis: false});
+    const minZ = labelOnly ? 0 : BOOST.has(p.id) ? 0 : (p.riferimenti_chiave?.length || 0) >= 4 ? 7.6 : 8.6;
+    const cw = p.tipo === 'regione' ? 9.4 : labelOnly ? 7 : tier === 1 ? 9.6 : tier === 2 ? 7.6 : 6.6;
+    const maxLen = Math.max(...lines.map(l => l.length));
+    meta.set(p.id, {p, prio, per, labelOnly, node, minZ, tier, left: at?.anchor === 'l', lh: lines.length * (p.tipo === 'regione' ? 18 : labelOnly ? 16 : tier === 1 ? 24 : tier === 2 ? 20 : 18), dx: tier === 1 ? 14 : tier === 2 ? 11 : 9,
+      wx: nx(at?.lon ?? p.lon), wy: ny(at?.lat ?? p.lat), px: nx(p.lon), py: ny(p.lat), w: maxLen * cw + 10, vis: false});
   });
   const order = [...meta.values()].sort((a, b) => b.prio - a.prio);
   const allowed = m => (filter.period === 'tutti' || m.per.has(filter.period)) && (filter.tipo === 'tutti' || (filter.tipo === 'città' ? m.p.tipo === 'città' : filter.tipo === 'monti' ? m.p.tipo === 'monte' : filter.tipo === 'acque' ? m.p.tipo === 'acqua' : filter.tipo === 'regioni' ? m.p.tipo === 'regione' : true));
@@ -101,13 +123,15 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
     for (const m of list) {
       const force = m.p.id === selected;
       let vis = false, sx = 0, sy = 0, lr = null, dr = null;
-      if (force || (shown < maxShown && allowed(m))) {
+      if (force || (shown < maxShown && allowed(m) && view.z >= m.minZ && !(m.p.tipo === 'regione' && view.z > 9.6))) {
         [sx, sy] = toScreen(m.wx, m.wy);
         if (sx > -pad && sx < W + pad && sy > -pad && sy < H + pad) {
-          lr = m.p.tipo === 'regione' || m.labelOnly ? [sx - m.w / 2, sy - 8, sx + m.w / 2, sy + 8] : [sx + 9, sy - 8, sx + 9 + m.w, sy + 8];
+          const hh = m.lh / 2;
+          lr = m.left ? [sx + 6, sy - hh, sx + 6 + m.w, sy + hh] : m.p.tipo === 'regione' || m.labelOnly ? [sx - m.w / 2, sy - hh, sx + m.w / 2, sy + hh] : [sx + m.dx, sy - hh, sx + m.dx + m.w, sy + hh];
           dr = m.labelOnly ? null : [sx - 7, sy - 7, sx + 7, sy + 7];
+          const edge = lr[0] < 3 || lr[2] > W - 3 || lr[1] < 2 || lr[3] > H - 2;   // un'etichetta tagliata dal bordo non si mostra
           if (force) vis = true;
-          else if (!(rectHit(lr) || (dr && rectHit(dr)))) vis = true;
+          else if (!(edge || rectHit(lr) || (dr && rectHit(dr)))) vis = true;
           else if (dr && !m.labelOnly && !rectHit(dr) && view.z >= 8.5) { lr = null; vis = true; }   // punto senza etichetta
         }
       }
@@ -146,7 +170,7 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
   function syncTiles() {
     const want = tilesWanted();
     tileBox.hidden = !want;
-    if (!want) { for (const img of tiles.values()) img.remove(); tiles.clear(); setTilesOn(false); hint.hidden = online(); return; }
+    if (!want) { for (const img of tiles.values()) img.remove(); tiles.clear(); setTilesOn(false); hint.hidden = online(); footSync(); return; }
     if (!W || !H) return;
     const zi = tileZ(), n = 2 ** zi, s = Wz();
     const x0 = Math.floor((view.x - W / 2 / s) * n), x1 = Math.floor((view.x + W / 2 / s) * n), y0 = Math.floor((view.y - H / 2 / s) * n), y1 = Math.floor((view.y + H / 2 / s) * n);
@@ -175,9 +199,15 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
   }
   function setTilesOn(on) {
     root.classList.toggle('tiles-on', on && online());
+    attr.textContent = ATTRIBUTION(); attr.href = cartoKey() ? 'https://www.openstreetmap.org/copyright' : 'https://www.arcgis.com/home/item.html?id=9c5370d0b54f4de1b48a3792d7dbd62c';
     attr.hidden = !(on && online());
     hint.hidden = online();
+    footSync();
   }
+  function footSync() { foot.hidden = attr.hidden && hint.hidden; }
+  /* cambio tema: le piastrelle chiare e scure sono diverse */
+  const themeObs = new MutationObserver(() => { for (const img of tiles.values()) img.remove(); tiles.clear(); tileState.loaded = 0; syncTiles(); });
+  themeObs.observe(document.documentElement, {attributes: true, attributeFilter: ['data-theme']});
   function resetTiles() { tileState.failed = false; tileState.errors = 0; syncTiles(); invalidate(); }
   addEventListener('online', resetTiles);
   addEventListener('offline', () => { syncTiles(); });
@@ -201,7 +231,7 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
     const step = t => { const k = Math.min(1, (t - t0) / dur), e = 1 - (1 - k) ** 3; setView(x0 + (x1 - x0) * e, y0 + (y1 - y0) * e, z0 + (z1 - z0) * e); if (k < 1) anim = requestAnimationFrame(step); };
     anim = requestAnimationFrame(step);
   }
-  const home = () => flyTo(35.4, 32.0, W < 500 ? 7.3 : 7.8);
+  const home = () => flyTo(35.2, 31.97, W < 500 ? 6.9 : 7.6);
 
   /* ---------- gesti ---------- */
   const pos = e => { const r = root.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
@@ -268,7 +298,7 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
   ro.observe(root);
 
   return {
-    el: root,
+    el: wrap,
     setFilter(f) { filter = {...filter, ...f}; invalidate(); },
     select, selectedId: () => selected,
     flyToPlace(id, z) { const m = meta.get(id); if (!m) return; selected = id; flyTo(m.p.lon, m.p.lat, z ?? Math.max(view.z, m.p.tipo === 'regione' ? 7 : 9)); },
@@ -276,6 +306,6 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
     retryTiles: resetTiles,
     view: () => ({...view}), state: () => ({tiles: tiles.size, loaded: tileState.loaded, failed: tileState.failed, shown: layout.length, tilesOn: root.classList.contains('tiles-on')}),
     setZoom(z) { setView(view.x, view.y, z); },
-    destroy() { ro.disconnect(); removeEventListener('online', resetTiles); },
+    destroy() { ro.disconnect(); themeObs.disconnect(); removeEventListener('online', resetTiles); },
   };
 }

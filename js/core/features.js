@@ -20,7 +20,7 @@ import * as theme from './theme.js';
 export const ctx = Object.freeze({router, store, api, bible, chapters, notes, sync, ui, bus, dom, icons, covers, nav, theme});
 
 const registry = new Map();
-const HOOKS = ['settings', 'verseActions', 'textDecorators', 'homeCards', 'bookCards', 'readerSettings', 'chapterHeader', 'chapterFooter', 'heroActions'];
+const HOOKS = ['settings', 'verseActions', 'textDecorators', 'homeCards', 'bookCards', 'readerSettings', 'chapterHeader', 'chapterFooter', 'heroActions', 'readerTopActions'];
 
 export function registerFeature(def) {
   if (!def || typeof def.id !== 'string') throw Error('registerFeature: serve un id');
@@ -57,6 +57,8 @@ export const chapterHeader = info => collect('chapterHeader').map(c => ({id: c.i
 export const chapterFooter = info => collect('chapterFooter').map(c => ({id: c.id, node: safe(() => c.render(info, ctx), c.id, null)})).filter(c => c.node);
 /* heroActions: [{id, label, icon, order?, run(ctx)}] pulsanti accanto a «Continua» nella card Riprendi */
 export const heroActions = () => collect('heroActions');
+/* readerTopActions: [{id, label, icon, order?, when?(info), run(info, ctx)}] pulsanti icona nella barra in alto di Leggi; info = {book, ch, v} */
+export const readerTopActions = info => collect('readerTopActions').filter(a => { try { return !a.when || a.when(info); } catch { return false; } });
 /* noteEditor: {id, priority?, mount(box, api)} — vince la priorità più alta. api = {id (getter), text (testo iniziale), changed(testo) per salvare, setStatus(t), ctx};
    mount restituisce {setText?(t), focus?(), destroy?()}. Se nessuno è registrato si usa l'editor predefinito (textarea). */
 export function noteEditorFor() {

@@ -144,7 +144,8 @@ function buildHub() {
     S.map?.setFilter(S.filter);
   };
   for (const [v, l, aria] of periods) seg.append(h('button', {type: 'button', 'data-v': v, 'aria-label': aria, text: l, on: {click: () => { S.filter.period = v; sync(); }}}));
-  for (const [v, l] of types) chips.append(h('button', {type: 'button', class: 'f-mondo-chip', 'data-v': v, on: {click: () => { S.filter.tipo = v; sync(); }}}, h('span', {text: l})));
+  const DOT = {città: 'var(--accent)', monti: 'var(--d3)', acque: 'var(--d2)', regioni: 'var(--dim)'};
+  for (const [v, l] of types) chips.append(h('button', {type: 'button', class: 'f-mondo-chip', 'data-v': v, on: {click: () => { S.filter.tipo = v; sync(); }}}, h('span', {}, DOT[v] ? h('i', {style: '--pc:' + DOT[v], 'aria-hidden': 'true'}) : null, l)));
   S.syncFilters = sync;
   S.mapSlot = h('div', {class: 'f-mondo-slot', id: 'mondoMapSlot'}, h('p', {class: 'f-mondo-loading', text: 'Carico la mappa…'}));
   const tile = (view, ic, title, sub) => h('button', {class: 'card f-mondo-tile-btn', type: 'button', 'data-view': view, on: {click: () => showView(view)}},

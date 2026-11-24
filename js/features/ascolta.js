@@ -3,7 +3,7 @@
    - scelta della voce con preferenza per le voci «migliorate» (Premium, Enhanced, Siri, Neural…) e locali
    - evidenziazione del versetto nel lettore (classe sul .verse), mini-player in vetro, foglio «Ascolta»
    - rimedi ai difetti noti di iOS: cancel() prima di ogni lettura, riferimento forte all'utterance (altrimenti onend non arriva),
-     sblocco con una voce muta nel gesto dell'utente, cane da guardia se onend non arriva, ripresa dopo visibilitychange.
+     la prima speak() parte SINCRONA nel gesto dell'utente (annuncio «Libro, capitolo N»: niente voce muta di sblocco), cane da guardia se onend non arriva, avviso se onstart non arriva (iPhone in silenzioso), ripresa dopo visibilitychange.
    Pausa = si ferma e si riparte dall'inizio della frase corrente: pause()/resume() su iOS e Android non sono affidabili.
    Dati: margine.ascolta.rate | .voice | .next */
 import {registerFeature, ctx} from '../core/features.js';
@@ -111,7 +111,8 @@ export function splitParts(t, max = MAX_PART) {
 }
 
 /* ---------------------------------------------------------------- stato */
-const P = {state: 'idle', b: 0, c: 1, verses: [], i: 0, parts: [], k: 0, run: 0, retries: 0, u: null, wd: 0, gap: 0, timerEnd: 0, timerMin: 0, timerId: 0, loading: false};
+const P = {state: 'idle', b: 0, c: 1, verses: [], i: 0, parts: [], k: 0, run: 0, retries: 0, u: null, wd: 0, gap: 0, timerEnd: 0, timerMin: 0, timerId: 0, loading: false, ns: 0, intro: null, ready: null, introT: 0};
+let heard = false, helpShown = false;
 const listeners = new Set();
 const emitState = () => { for (const fn of [...listeners]) { try { fn(); } catch (e) { console.error(e); } } };
 const getRate = () => { const r = Number(store.get(KEY.rate)); return SPEEDS.includes(r) ? r : 1; };
@@ -127,15 +128,6 @@ async function loadVerses(b, c) {
   if (!map && api.isConfigured()) { try { map = await chapters.fetchChapter(b, c); } catch { map = null; } }
   const ids = new Set([...Object.keys(map || {}), ...Object.keys(chapters.sampleText()), ...Object.keys(chapters.passages)].filter(id => id.startsWith(sec)));
   return [...ids].map(id => ({n: Number(id.split('.')[2]), text: chapters.textOf(id)})).filter(v => v.text).sort((a, z) => a.n - z.n);
-}
-
-/* ---- voce muta nel gesto dell'utente: sblocca speechSynthesis su iOS ---- */
-let unlocked = false;
-function unlock() {
-  const s = synth(); if (!s) return;
-  s.cancel();
-  if (unlocked) return; unlocked = true;
-  try { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; s.speak(u); } catch { /* ok */ }
 }
 
 /* ---- evidenziazione nel lettore ---- */
@@ -160,8 +152,8 @@ function highlight(scroll = true) {
 /* ---- motore ---- */
 function cancelSpeech() { const s = synth(); clearTimeout(P.wd); clearTimeout(P.gap); P.u = null; try { s?.cancel(); } catch { /* ok */ } }
 function stopAll() {
-  P.run++; cancelSpeech(); clearTimeout(P.timerId); P.timerEnd = 0; P.timerMin = 0;
-  P.state = 'idle'; P.loading = false; P.verses = []; P.parts = [];
+  P.run++; cancelSpeech(); clearTimeout(P.timerId); clearTimeout(P.ns); clearTimeout(P.introT); P.timerEnd = 0; P.timerMin = 0;
+  P.state = 'idle'; P.loading = false; P.verses = []; P.parts = []; P.intro = null; P.ready = null;
   document.body.classList.remove('f-ascolta-on');
   highlight(false); emitState();
 }
@@ -189,8 +181,14 @@ function speakPart() {
     if (P.k >= P.parts.length) advance(run);
     else P.gap = setTimeout(() => { if (run === P.run && P.state === 'playing') speakPart(); }, PART_PAUSE / mult);
   };
+  u.onstart = () => { heard = true; clearTimeout(P.ns); };
   u.onend = finish;
-  u.onerror = e => { if (done || run !== P.run) return; if (e && (e.error === 'canceled' || e.error === 'interrupted')) return; finish(); };
+  u.onerror = e => {
+    if (done || run !== P.run) return;
+    if (e && (e.error === 'canceled' || e.error === 'interrupted')) return;
+    if (e && e.error === 'not-allowed') { stopAll(); ui.toast(HELP_SILENT); return; }
+    finish();
+  };
   const estimate = Math.max(5000, txt.length / (13 * u.rate) * 1000 * 1.8 + 3000);
   clearTimeout(P.wd);
   P.wd = setTimeout(() => {       // onend non è mai arrivato (blocco di iOS): si riprova la stessa frase, poi si salta
@@ -200,6 +198,7 @@ function speakPart() {
     P.gap = setTimeout(() => { if (run === P.run && P.state === 'playing') speakPart(); }, 120);
   }, estimate);
   try { s.speak(u); } catch (e) { console.error(e); }
+  armHeard();
 }
 function advance(run) {
   if (run !== P.run) return;
@@ -222,23 +221,67 @@ function advance(run) {
 }
 function finishAll(run, msg) { if (run !== P.run) return; stopAll(); ui.toast(msg); }
 
-/* Avvia dal versetto n del capitolo (b, c). Va chiamata dentro un gesto dell'utente. */
-export async function start(b, c, n = 1, {openSheet = false} = {}) {
-  if (!supported()) { ui.toast('Questo browser non può leggere ad alta voce.'); return; }
-  unlock();
-  const run = ++P.run;
-  clearTimeout(P.gap); clearTimeout(P.wd);
-  P.b = b; P.c = c; P.state = 'idle'; P.loading = true; P.verses = [];
-  document.body.classList.add('f-ascolta-on');
-  emitState();
-  if (openSheet) openPlayerSheet();
-  const [verses] = await Promise.all([loadVerses(b, c), loadVoices(1500)]);
-  if (run !== P.run) return;
+const HELP_SILENT = 'Non senti nulla? Su iPhone togli il silenzioso (tasto laterale) e alza il volume.';
+/* se dopo ~2 s nessuna voce è partita (onstart mai arrivato) si avvisa, una volta per sessione */
+function armHeard() {
+  if (heard || helpShown || P.ns) return;
+  P.ns = setTimeout(() => { P.ns = 0; if (!heard && !helpShown && active()) { helpShown = true; ui.toast(HELP_SILENT); } }, 2000);
+}
+/* Annuncio «Libro, capitolo N»: è la PRIMA speak(), fatta in modo sincrono nel gesto dell'utente (iOS la ammette solo lì).
+   Intanto i versetti si caricano; la lettura comincia quando l'annuncio è finito (o dopo 4 s se onend non arriva). */
+function announce(run) {
+  const s = synth(); if (!s) return;
+  const label = bible.names[P.b] + (bible.counts[P.b] > 1 ? ', capitolo ' + P.c : '');
+  const u = new SpeechSynthesisUtterance(speakable(label) || label), voice = chosenVoice();
+  if (voice) u.voice = voice;
+  u.lang = voice?.lang || 'it-IT'; u.rate = Math.min(2, BASE_RATE * getRate()); u.pitch = 1; u.volume = 1;
+  P.u = u; P.intro = {done: false};
+  const end = () => { if (run !== P.run || !P.intro) return; P.intro.done = true; setTimeout(() => tryBegin(run), 0); };
+  u.onstart = () => { heard = true; clearTimeout(P.ns); };
+  u.onend = end;
+  u.onerror = e => { if (e && (e.error === 'canceled' || e.error === 'interrupted')) return; if (e && e.error === 'not-allowed' && run === P.run) { stopAll(); ui.toast(HELP_SILENT); return; } end(); };
+  clearTimeout(P.introT); P.introT = setTimeout(end, 4000);
+  try { s.cancel(); s.speak(u); } catch (e) { console.error(e); P.intro.done = true; }
+}
+function tryBegin(run) {
+  if (run !== P.run || !P.ready || (P.intro && !P.intro.done)) return;
+  const {verses, n} = P.ready; P.ready = null; P.intro = null; clearTimeout(P.introT);
+  cancelSpeech();
   P.loading = false;
-  if (!verses.length) { stopAll(); ui.toast('Il testo di questo capitolo non è ancora sul dispositivo.'); return; }
   P.verses = verses; P.state = 'playing';
   const idx = verses.findIndex(v => v.n >= n);
   setVerse(idx < 0 ? 0 : idx);
+}
+/* Avvia dal versetto n del capitolo (b, c). Va chiamata dentro un gesto dell'utente: la prima speak() è sincrona. */
+export function start(b, c, n = 1, {openSheet = false} = {}) {
+  if (!supported()) { ui.toast('Questo browser non può leggere ad alta voce.'); return; }
+  const run = ++P.run;
+  clearTimeout(P.gap); clearTimeout(P.wd); clearTimeout(P.ns); P.ns = 0; heard = false;
+  P.b = b; P.c = c; P.state = 'idle'; P.loading = true; P.verses = []; P.parts = []; P.ready = null;
+  announce(run);
+  armHeard();
+  document.body.classList.add('f-ascolta-on');
+  emitState();
+  if (openSheet) openPlayerSheet();
+  loadVerses(b, c).then(verses => {
+    if (run !== P.run) return;
+    if (!verses.length) { stopAll(); ui.toast('Il testo di questo capitolo non è ancora sul dispositivo.'); return; }
+    P.ready = {verses, n}; tryBegin(run);
+  }, () => { if (run === P.run) { stopAll(); ui.toast('Il testo di questo capitolo non è ancora sul dispositivo.'); } });
+}
+/* Dal punto di lettura (b, c, v): dall'inizio se v ≤ 1, altrimenti chiede «Dall'inizio / Da qui» */
+export function startChoose(b, c, v = 1, opts = {}, anchor = null) {
+  if (!supported()) { ui.toast('Questo browser non può leggere ad alta voce.'); return; }
+  if (!v || v <= 1) { start(b, c, 1, opts); return; }
+  const at = anchor || document.activeElement || document.body;
+  ui.popover(at, (box, pop) => {
+    const pick = (n) => { start(b, c, n, opts); pop.close(); };
+    box.id = 'ascoltaChoice'; box.classList.add('f-ascolta-choice');
+    box.setAttribute('aria-label', 'Ascolta il capitolo');
+    box.append(
+      h('button', {class: 'f-ascolta-pick', type: 'button', dataset: {from: 'start'}, on: {click: () => pick(1)}}, icon('asc-headphones', 20, 1.8), h('span', {class: 'f-ascolta-pick-t'}, h('b', {text: 'Dall’inizio del capitolo'}), h('small', {text: bible.lapRef(b, c) + ' · versetto 1'}))),
+      h('button', {class: 'f-ascolta-pick', type: 'button', dataset: {from: 'here'}, on: {click: () => pick(v)}}, icon('asc-play', 20, 1.8), h('span', {class: 'f-ascolta-pick-t'}, h('b', {text: 'Da qui (v. ' + v + ')'}), h('small', {text: bible.lapRef(b, c) + ' · versetto ' + v}))));
+  });
 }
 export function pause() { if (P.state !== 'playing') return; P.run++; cancelSpeech(); P.state = 'paused'; emitState(); }
 export function resume() { if (P.state !== 'paused') return; P.state = 'playing'; P.k = Math.max(0, P.k); speakPart(); emitState(); }
@@ -329,11 +372,11 @@ function voiceList(box, onPick) {
 function trySample(v) {
   const s = synth(); if (!s) return;
   const wasPlaying = P.state === 'playing'; if (wasPlaying) pause();
-  unlock(); s.cancel();
+  s.cancel();
   const u = new SpeechSynthesisUtterance('Il Signore è il mio pastore: nulla mi manca.');
   u.voice = v; u.lang = v.lang || 'it-IT'; u.rate = BASE_RATE * getRate(); u.pitch = 1;
   P.u = u;
-  setTimeout(() => s.speak(u), 60);
+  try { s.speak(u); } catch (e) { console.error(e); }
 }
 
 /* ---- foglio «Ascolta» ---- */
@@ -366,7 +409,9 @@ function openPlayerSheet() {
           h('button', {class: 'f-ascolta-sk', type: 'button', 'aria-label': 'Versetto successivo', id: 'ascoltaNextV', on: {click: nextVerse}}, icon('asc-next', 24, 1.8))),
         h('div', {class: 'f-ascolta-row'}, h('span', {class: 'f-ascolta-k'}, icon('asc-speed', 16, 1.8), 'Velocità'), speed),
         voiceBtn,
-        h('div', {class: 'f-ascolta-row'}, h('span', {class: 'f-ascolta-k'}, icon('asc-timer', 16, 1.8), 'Timer'), timerSeg), timerNote, nextSw);
+        h('div', {class: 'f-ascolta-row'}, h('span', {class: 'f-ascolta-k'}, icon('asc-timer', 16, 1.8), 'Timer'), timerSeg), timerNote, nextSw,
+        h('button', {class: 'f-ascolta-pillrow', type: 'button', id: 'ascoltaRestart', on: {click: () => start(P.b, P.c, 1)}}, icon('asc-prev', 18, 1.8), h('span', {class: 'f-ascolta-pill-t'}, h('b', {text: 'Ricomincia il capitolo'}))),
+        text('p', HELP_SILENT, 'hint f-ascolta-silent'));
       /* elenco voci in una vista interna */
       const back = h('button', {class: 'f-ascolta-back', type: 'button', on: {click: () => { voices.hidden = true; view.hidden = false; voiceBtn.focus(); }}}, icon('back', 18, 2), 'Indietro');
       const vbox = h('div', {class: 'f-ascolta-voicebox'});
@@ -420,12 +465,13 @@ function settingsRow(row) {
 }
 
 /* ---- scorciatoie dal lettore ---- */
-function startFromPos() { const [b, c, v] = notes.pos(); start(b, c, v, {openSheet: true}); }
+function startFromPos() { const [b, c, v] = notes.pos(); startChoose(b, c, v, {openSheet: true}, document.querySelector('[data-hero-action="ascolta"]')); }
 
 registerFeature({
   id: 'ascolta',
   heroActions: [{id: 'ascolta', label: 'Ascolta', icon: 'asc-headphones', order: 10, run: () => startFromPos()}],
   verseActions: [{id: 'ascolta', label: 'Ascolta da qui', icon: 'asc-headphones', order: 25, when: () => supported(), run: sel => start(sel.book, sel.ch, sel.from)}],
+  readerTopActions: [{id: 'ascolta', label: 'Ascolta il capitolo', icon: 'asc-headphones', order: 10, when: () => supported(), run: ({book, ch, v, anchor}) => startChoose(book, ch, v, {openSheet: true}, anchor)}],
   settings: [{id: 'ascolta-voce', section: 'Ascolto', order: 10, label: 'Voce per la lettura', render: settingsRow}],
   textDecorators: [{id: 'ascolta', order: 90, decorate(textEl, info) {
     if (active() && info.book === P.b && info.ch === P.c && verseOf()?.n === info.n) textEl.parentNode?.classList.add('f-ascolta-now');

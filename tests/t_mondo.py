@@ -8,7 +8,8 @@ def mock_tiles(pg, fail=False):
     def h(route, req):
         pg.tile_reqs.append(req.url)
         return route.abort() if fail else route.fulfill(status=200, content_type='image/png', body=PNG)
-    pg.route('https://tile.openstreetmap.org/**', h)
+    pg.route('https://server.arcgisonline.com/**', h)
+    pg.route('https://*.basemaps.cartocdn.com/**', h)
 def go_mondo(pg, **params):
     pg.evaluate("p=>import('/js/core/router.js').then(r=>r.go('mondo',p))", params)
     pg.wait_for_selector('#scr-mondo:not([hidden])')
@@ -30,8 +31,9 @@ def mondo_online_piastrelle(env, dev):
     pg = env.new(dev); mock_tiles(pg)
     go_mondo(pg); pg.wait_for_selector('.f-mondo-tile.ok', state='attached'); pg.wait_for_timeout(500)
     check(len(pg.tile_reqs) >= 1 and len(pg.tile_reqs) <= 40, len(pg.tile_reqs))
-    check(all(u.startswith('https://tile.openstreetmap.org/') for u in pg.tile_reqs))
-    check(pg.is_visible('.f-mondo-attr') and '© OpenStreetMap contributors' in pg.inner_text('.f-mondo-attr'))
+    check(all(u.startswith('https://server.arcgisonline.com/') for u in pg.tile_reqs), pg.tile_reqs[:2])
+    check(not any('tile.openstreetmap' in u for u in pg.tile_reqs))
+    check(pg.is_visible('.f-mondo-attr') and 'Esri' in pg.inner_text('.f-mondo-attr'))
     n = len(pg.tile_reqs)
     pg.click('.f-mondo-btn.plus'); pg.wait_for_timeout(900); check(len(pg.tile_reqs) > n)
     shot(pg, f'mondo_online_{dev}')
@@ -101,3 +103,44 @@ def mondo_parametri_e_ingressi(env, dev):
     go_mondo(pg, personaggio='abraamo'); pg.wait_for_selector('.sheet [data-kind=personaggio]'); pg.keyboard.press('Escape'); pg.wait_for_timeout(250)
     for th in ['light', 'paper', 'dark']:
         pg.evaluate("t=>document.documentElement.dataset.theme=t", th); go_mondo(pg, sezione='mappa'); pg.wait_for_timeout(300); shot(pg, f'mondo_{th}')
+
+@test('phone')
+def mondo_carto_con_chiave_e_attribuzione(env, dev):
+    for th in ('paper', 'dark'):
+        pg = env.new(dev, storage={'margine.theme': th, 'margine.mondo.cartokey': 'K123'}); mock_tiles(pg)
+        go_mondo(pg); pg.wait_for_selector('.f-mondo-tile.ok', state='attached'); pg.wait_for_timeout(400)
+        carto = [u for u in pg.tile_reqs if 'cartocdn' in u]
+        check(carto and all('/rastertiles/' + ('dark_nolabels' if th == 'dark' else 'voyager_nolabels') + '/' in u and 'key=K123' in u for u in carto), carto[:2])
+        check(all(u.endswith('@2x.png?key=K123') for u in carto), carto[:1])
+        check('© OpenStreetMap contributors © CARTO' in pg.inner_text('.f-mondo-attr'))
+    check('tile.openstreetmap.org' not in (ROOT / 'index.html').read_text() and 'basemaps.cartocdn.com' in (ROOT / 'index.html').read_text())
+
+@test('phone')
+def mondo_etichette_gerarchia_e_fuori_dalla_mappa(env, dev):
+    pg = env.new(dev, storage={'margine.theme': 'dark'}); mock_tiles(pg)
+    go_mondo(pg); pg.wait_for_selector('.f-mondo-tile.ok', state='attached'); pg.wait_for_timeout(600)
+    fs = lambda sel: float(pg.eval_on_selector(sel, 'e=>parseFloat(getComputedStyle(e).fontSize)'))
+    check(fs('[data-id=gerusalemme] .f-mondo-lbl') > fs('[data-id=nazaret] .f-mondo-lbl') > 0, 'gerarchia')
+    check(pg.eval_on_selector('[data-id=galilea] .f-mondo-lbl', 'e=>getComputedStyle(e).fontStyle') == 'italic')
+    check(pg.eval_on_selector('[data-id=mar-morto] .f-mondo-lbl', 'e=>getComputedStyle(e).fontStyle') == 'italic')
+    txt = pg.eval_on_selector_all('.f-mondo-pt:not([hidden]) .f-mondo-lbl', 'e=>e.map(x=>x.textContent)')
+    check('Mar Mediterraneo\n(Mar Grande)' in txt and 'Mar Morto\n(Mar Salato)' in txt and 'Gerusalemme' in txt, str(txt))
+    # nessuna etichetta visibile si sovrappone a un'altra
+    boxes = pg.eval_on_selector_all('.f-mondo-pt:not([hidden]):not(.nolbl) .f-mondo-lbl', 'e=>e.map(x=>{const r=x.getBoundingClientRect();return [r.left,r.top,r.right,r.bottom,x.textContent]})')
+    for i, a in enumerate(boxes):
+        for b in boxes[i + 1:]:
+            check(not (a[0] < b[2] - 1 and a[2] > b[0] + 1 and a[1] < b[3] - 1 and a[3] > b[1] + 1), f'sovrapposte: {a[4]} / {b[4]}')
+    # attribuzione e avviso stanno sotto la mappa, non sopra i nomi
+    mp = pg.eval_on_selector('.f-mondo-map', 'e=>e.getBoundingClientRect().bottom')
+    check(pg.eval_on_selector('.f-mondo-attr', 'e=>e.getBoundingClientRect().top') >= mp - 1)
+    pg2 = env.new(dev, init="Object.defineProperty(navigator,'onLine',{get:()=>false})"); go_mondo(pg2); pg2.wait_for_selector('.f-mondo-offline:not([hidden])'); pg2.wait_for_timeout(400)
+    mp = pg2.eval_on_selector('.f-mondo-map', 'e=>e.getBoundingClientRect().bottom')
+    check(pg2.eval_on_selector('.f-mondo-offline', 'e=>e.getBoundingClientRect().top') >= mp - 1, 'avviso sopra la mappa')
+
+@test('phone')
+def mondo_card_hub_testo_visibile(env, dev):
+    for th in ('dark', 'paper'):
+        pg = env.new(dev, storage={'margine.theme': th}); mock_tiles(pg); go_mondo(pg); pg.wait_for_selector('.f-mondo-tile-btn')
+        r = pg.eval_on_selector_all('.f-mondo-tile-btn', "els=>els.map(e=>{const b=e.querySelector('b'),s=e.querySelector('small');const cs=x=>getComputedStyle(x);return [b.textContent,s.textContent,cs(b).color,cs(e).backgroundColor,b.getBoundingClientRect().width,s.getBoundingClientRect().height]})")
+        eq(len(r), 4)
+        for t, sub, col, bg, w, hh in r: check(t and sub and col != bg and w > 20 and hh > 8, str((t, col, bg)))

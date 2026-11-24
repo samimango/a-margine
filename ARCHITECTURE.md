@@ -86,6 +86,7 @@ registerFeature({
   chapterHeader:  [{id, order?, render({book,ch,text}, ctx) -> Node|null}],
   chapterFooter:  [{id, order?, render({book,ch,text}, ctx) -> Node|null}],
   heroActions:    [{id, label, icon, order?, run(ctx)}],                            // accanto a «Continua»
+  readerTopActions: [{id, label, icon, order?, when?(info), run(info, ctx)}],       // pulsanti icona (≥44px) nella barra in alto di Leggi; info = {book, ch, v, anchor}
   noteEditor:     {id, priority?, mount(box, api) -> {setText?, focus?, destroy?}}, // vince la priorità più alta
   onReady(ctx) {},
 });
@@ -97,6 +98,9 @@ registerFeature({
 - Un errore dentro un hook viene registrato in console e l'hook viene ignorato.
 - Icone proprie: `ctx.icons.registerIcons({'<prefisso>-nome': '<path/circle viewBox 24>'})` (mai `Object.assign(ICONS, …)`); si consiglia un prefisso per feature (`asc-`, `mem-`).
 - `chapterFooter` può restituire una propria card «Capitolo dopo»: se l'elemento ha `data-next` il nucleo nasconde la sua card e dà l'id `#bottomNext` a quella della feature (così c'è sempre UNA sola card, con lo stesso id per test e navigazione). Se nessuna feature la porta, resta quella del nucleo (disabilitata in Apocalisse 22).
+- `readerTopActions`: il pulsante ha `id="topAct-<id>"` e `data-top-action`. «Ascolta» ne usa uno (cuffie): all'inizio del capitolo parte subito, altrimenti un popover `#ascoltaChoice` offre «Dall'inizio» / «Da qui».
+- Ascolta: la PRIMA `speechSynthesis.speak()` deve partire sincrona nel gesto (iOS): è l'annuncio «Libro, capitolo N»; i versetti si caricano nel frattempo. Mai `await`/`setTimeout` prima. Se `onstart` non arriva in ~2 s: toast sul tasto del silenzioso (una volta per sessione).
+- Mappa (`mondo-mappa.js`): piastrelle senza etichette. CARTO `voyager_nolabels`/`dark_nolabels` ora richiedono una chiave gratuita (senza, ogni piastrella porta «API KEY REQUIRED»): di serie Esri World Shaded Relief; con `localStorage['margine.mondo.cartokey']` si usano le CARTO. Nomi solo nostri (`NAME`, `LABEL_AT`, `TIER1/2` in cima al file). Attribuzione e avviso offline stanno in una riga SOTTO la mappa.
 - `heroActions`: il pulsante in Oggi ha `data-hero-action="<id>"`; le azioni sul versetto hanno `data-action="<id>"`.
 - Le cifre di Oggi (giorni di fila, capitoli, libri) sono pulsanti che aprono la schermata `progressi` se esiste (altrimenti restano riquadri).
 
