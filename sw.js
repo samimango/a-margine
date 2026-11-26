@@ -18,7 +18,7 @@ function version() {
 const FONT_CACHE = 'margine-fonts';
 /* File che la pagina carica solo al bisogno (feature, fogli di stile e dati): salvati a riposo, dopo il caricamento, perché l'app funzioni offline anche per Mondo, Ascolta, Memoria ecc. */
 const LAZY = ['css/f-ascolta.css', 'css/f-introduzioni.css', 'css/f-memoria.css', 'css/f-mondo.css', 'css/f-progressi.css',
-  'js/features/mondo-geo.js', 'js/features/mondo-mappa.js',
+  'js/features/mondo-geo.js', 'js/features/mondo-mappa.js', 'js/features/mondo-terra.js', 'js/features/mondo-terra-levante.js',
   'data/books.json', 'data/measures.json', 'data/people.json', 'data/places.json'];
 
 self.addEventListener('install', e => {

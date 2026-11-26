@@ -68,11 +68,15 @@ def mondo_pan_zoom_filtri(env, dev):
     pg.mouse.move(cx, cy); pg.mouse.wheel(0, -300); pg.wait_for_timeout(300)
     check(pg.evaluate("document.querySelector('.f-mondo-world').getAttribute('transform')") != z0)
     n0 = pg.locator('.f-mondo-pt:not([hidden])').count()
-    pg.click('.f-mondo-seg button[data-v=atti]'); pg.wait_for_timeout(300)
-    pg.click('.f-mondo-chip[data-v="città"]'); pg.wait_for_timeout(300)
+    # i filtri di periodo e tipo stanno nel foglio «Filtri» (un pulsante sopra la mappa)
+    pg.click('#mondoFiltri'); pg.wait_for_selector('.sheet .f-mondo-seg')
+    pg.click('.sheet .f-mondo-seg button[data-v=atti]'); pg.wait_for_timeout(300)
+    pg.click('.sheet .f-mondo-chip[data-v="città"]'); pg.wait_for_timeout(300)
     check(pg.locator('.f-mondo-pt:not([hidden]) .f-mondo-dot').count() >= 0)
-    for sel in ['.f-mondo-btn', '.f-mondo-seg button', '.f-mondo-chip', '.f-mondo-tile-btn']:
+    for sel in ['.f-mondo-btn', '.sheet .f-mondo-seg button', '.sheet .f-mondo-chip', '.f-mondo-tile-btn', '.f-mondo-livelli .f-mondo-chip', '.f-mondo-filtri']:
         for hgt in pg.eval_on_selector_all(sel, 'els=>els.map(e=>e.getBoundingClientRect().height)'): check(hgt >= 44, f'{sel} {hgt}')
+    pg.keyboard.press('Escape'); pg.wait_for_timeout(200)
+    check(pg.eval_on_selector('#mondoFiltri', 'e=>e.classList.contains("on")'), 'il pulsante Filtri non segnala i filtri attivi')
     no_hscroll(pg)
 
 @test()
@@ -255,3 +259,52 @@ def mondo_livelli_citta_discrete(env, dev):
     pg.click('.f-mondo-livelli [data-v=nessuno]'); pg.wait_for_timeout(300)
     w = pg.eval_on_selector('.k-cit:not(.t1) > .f-mondo-dot', 'e=>parseFloat(getComputedStyle(e).width)')
     check(w <= 7, f'nessuno: punti città {w}')
+
+@test()
+def mondo_atlante_costa_vera_e_livello_sobrio(env, dev):
+    pg = env.new(dev); go_mondo(pg); pg.wait_for_selector('.f-mondo-map'); pg.wait_for_timeout(500)
+    # costa vera (Natural Earth, dal modulo mondo-terra.js): un solo percorso di terra, nessun mare disegnato a mano
+    n = pg.eval_on_selector('.f-mondo-top .f-mondo-land-p', 'e=>e.getAttribute("d").length')
+    check(n > 20000, f'costa troppo semplice: {n} caratteri')
+    eq(pg.locator('.f-mondo-top .f-mondo-sea').count(), 0, 'mari disegnati a mano ancora presenti')
+    check('Natural Earth' in pg.inner_text('.f-mondo-attrib') and 'OpenBible.info' in pg.inner_text('.f-mondo-attrib'), 'attribuzioni')
+    # a riposo: solo i mari di base e le città principali (al massimo 11 nomi), Gerusalemme sempre
+    shown = pg.eval_on_selector_all('.f-mondo-pt:not([hidden]) .f-mondo-lbl', 'els=>els.map(e=>e.textContent)')
+    check(len(shown) <= 11 and 'Gerusalemme' in shown, str(shown))
+    # il pulsante Filtri sta sopra la mappa, non i suoi chip: il foglio apre periodo e tipo
+    pg.click('#mondoFiltri'); pg.wait_for_selector('.sheet .f-mondo-seg')
+    eq(pg.locator('.sheet .f-mondo-seg button').count(), 4); eq(pg.locator('.sheet .f-mondo-chip').count(), 4)
+    pg.keyboard.press('Escape'); pg.wait_for_timeout(200)
+    check(not pg.is_visible('.sheet'), 'il foglio Filtri non si chiude')
+    no_hscroll(pg)
+
+@test()
+def mondo_citta_sulla_costa_e_nell_entroterra(env, dev):
+    pg = env.new(dev); go_mondo(pg); pg.wait_for_selector('.f-mondo-map'); pg.wait_for_timeout(400)
+    # coordinate di data/places.json contro la costa vera (Natural Earth): le città costiere entro 6 km dalla riva,
+    # le altre su terra e non in mare; Gerusalemme a ovest del Mar Morto
+    res = pg.evaluate("""async () => {
+      const T = await import('/js/features/mondo-terra.js'), L = await import('/js/features/mondo-terra-levante.js');
+      const places = await (await fetch('/data/places.json')).json(), byId = Object.fromEntries(places.map(p => [p.id, p]));
+      const inBox = (lon, lat) => lon >= L.LEV_BOX.x0 && lon <= L.LEV_BOX.x1 && lat >= L.LEV_BOX.y0 && lat <= L.LEV_BOX.y1;
+      const polysAt = (lon, lat) => inBox(lon, lat) ? L.TERRA_LEVANTE : T.TERRA;
+      const onLand = (lon, lat) => { let c = 0; for (const poly of polysAt(lon, lat)) for (const r of poly) for (let i = 0, j = r.length - 1; i < r.length; j = i++) {
+        const [xi, yi] = r[i], [xj, yj] = r[j]; if ((yi > lat) !== (yj > lat) && lon < (xj - xi) * (lat - yi) / (yj - yi) + xi) c++; } return c % 2 === 1; };
+      const km = (a, b) => Math.hypot((a[0] - b[0]) * Math.cos(32 * Math.PI / 180) * 111.2, (a[1] - b[1]) * 111.2);
+      const distCoast = (lon, lat) => { let best = 1e9; for (const poly of polysAt(lon, lat)) for (const r of poly) for (let i = 0; i < r.length; i++) {
+        const a = r[i], b = r[(i + 1) % r.length], dx = b[0] - a[0], dy = b[1] - a[1], L2 = dx * dx + dy * dy || 1e-12;
+        const t = Math.max(0, Math.min(1, ((lon - a[0]) * dx + (lat - a[1]) * dy) / L2)); best = Math.min(best, km([lon, lat], [a[0] + dx * t, a[1] + dy * t])); } return best; };
+      const costiere = ['giaffa', 'cesarea', 'tiro', 'sidone', 'gaza', 'ascalon'], interne = ['gerusalemme', 'betlemme', 'ebron', 'betel', 'silo', 'sichem', 'gerico', 'nazaret', 'bersabea'];
+      const out = {};
+      for (const id of costiere) { const p = byId[id]; out[id] = {d: distCoast(p.lon, p.lat), terra: onLand(p.lon, p.lat), costa: true}; }
+      for (const id of interne) { const p = byId[id]; out[id] = {d: distCoast(p.lon, p.lat), terra: onLand(p.lon, p.lat), costa: false}; }
+      return out; }""")
+    for k, v in res.items():
+        if v['costa']: check(v['d'] <= 6, f'{k} lontana dalla costa: {v["d"]:.1f} km')
+        else: check(v['terra'], f'{k} non è su terra')
+    check(res['gerusalemme']['terra'] and res['gerusalemme']['d'] > 20, 'Gerusalemme troppo vicina al mare')
+    # nessun nome di mare o di fiume tagliato dal bordo della mappa
+    pg.wait_for_timeout(300)
+    box = pg.eval_on_selector('.f-mondo-map', 'e=>{const r=e.getBoundingClientRect();return [r.left,r.top,r.right,r.bottom]}')
+    for l in pg.eval_on_selector_all('.f-mondo-pt.wat:not([hidden]) .f-mondo-lbl', 'els=>els.map(e=>{const r=e.getBoundingClientRect();return [e.textContent,r.left,r.top,r.right,r.bottom]})'):
+        check(l[1] >= box[0] - 1 and l[3] <= box[2] + 1 and l[2] >= box[1] - 1 and l[4] <= box[3] + 1, f'etichetta tagliata: {l[0]}')

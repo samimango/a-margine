@@ -10,7 +10,7 @@
    Esempio:  ctx.router.go('mondo', {luogo: 'betania', from: 'leggi'})
    Dati caricati una sola volta (fetch di data/*.json) e solo quando servono; CSS e mappa in moduli caricati al primo uso. */
 import {registerFeature} from '../core/features.js';
-import {nx, ny, MEDITERRANEO, LAGHI, FIUMI, LIVELLI} from './mondo-geo.js';
+import {nx, ny, COSTA_ANTEPRIMA, LAGHI, FIUMI, LIVELLI} from './mondo-geo.js';
 
 const FEATURE = 'mondo';
 const cache = {};
@@ -48,8 +48,10 @@ function previewSvg(w, h) {
   const poly = (pts, close = true) => pts.map(([lo, la], i) => (i ? 'L' : 'M') + X(lo) + ' ' + Y(la)).join('') + (close ? 'Z' : '');
   const city = [['Cafarnao', 35.575, 32.881, 1], ['Nazaret', 35.298, 32.702, -1], ['Gerusalemme', 35.234, 31.777, 1], ['Betlemme', 35.208, 31.704, -1]];
   const dots = city.map(([n, lo, la, side]) => `<circle cx="${X(lo)}" cy="${Y(la)}" r="3.6" class="f-mondo-pvdot${n === 'Gerusalemme' ? ' main' : ''}"/><text x="${(Number(X(lo)) + side * 8).toFixed(1)}" y="${(Number(Y(la)) + 4).toFixed(1)}" text-anchor="${side > 0 ? 'start' : 'end'}" class="f-mondo-pvl">${n}</text>`).join('');
-  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect width="${w}" height="${h}" class="f-mondo-land"/>` +
-    `<path d="${poly(MEDITERRANEO)}" class="f-mondo-sea"/><path d="${poly(LAGHI.galilea)}" class="f-mondo-lake"/><path d="${poly(LAGHI.morto)}" class="f-mondo-lake"/><path d="${poly(FIUMI.giordano, false)}" class="f-mondo-river"/>${dots}</svg>`;
+  /* la costa è quella vera (Natural Earth, mondo-geo.js), la stessa della mappa */
+  const coast = COSTA_ANTEPRIMA.map(p => p.map(r => poly(r)).join('')).join('');
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect width="${w}" height="${h}" class="f-mondo-seabg"/>` +
+    `<path d="${coast}" class="f-mondo-land-p"/><path d="${poly(LAGHI.galilea)}" class="f-mondo-lake"/><path d="${poly(LAGHI.morto)}" class="f-mondo-lake"/><path d="${poly(FIUMI.giordano, false)}" class="f-mondo-river"/>${dots}</svg>`;
 }
 
 /* ---------- riferimenti biblici tappabili ---------- */
@@ -135,40 +137,57 @@ async function showScreen(params, prev) {
 /* ---------- hub: filtri, mappa, riquadri, attribuzioni ---------- */
 function buildHub() {
   const {h} = S.ctx.dom;
-  const periods = [['tutti', 'Tutti', 'Tutti i periodi'], ['at', 'Antico T.', 'Antico Testamento'], ['vangeli', 'Vangeli', 'Vangeli'], ['atti', 'Atti e lettere', 'Atti e lettere']];
-  const types = [['tutti', 'Tutti'], ['città', 'Città'], ['monti', 'Monti'], ['acque', 'Acque']];
   const livelli = [['nessuno', 'Nessuno'], ['terra', 'Terra di Gesù'], ['tribu', 'Le 12 tribù'], ['regni', 'Regni divisi'], ['popoli', 'Popoli vicini']];
-  const seg = h('div', {class: 'seg f-mondo-seg', role: 'group', 'aria-label': 'Periodo'});
+  /* una sola riga di livelli sopra la mappa; periodo e tipo stanno nel foglio «Filtri» */
   const lvRow = h('div', {class: 'f-mondo-chips f-mondo-livelli', role: 'group', 'aria-label': 'Livelli regionali'});
   for (const [v, l] of livelli) lvRow.append(h('button', {type: 'button', class: 'f-mondo-chip', 'data-v': v, on: {click: () => { S.filter.livello = v; sync(); }}}, h('span', {}, l)));
-  const chips = h('div', {class: 'f-mondo-chips', role: 'group', 'aria-label': 'Tipo di luogo'});
+  const btnFiltri = h('button', {class: 'f-mondo-filtri', id: 'mondoFiltri', type: 'button', 'aria-haspopup': 'dialog', text: 'Filtri', on: {click: () => openFiltri()}}, h('i', {class: 'f-mondo-filtri-dot', 'aria-hidden': 'true'}));
   const sync = () => {
-    seg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === S.filter.period)));
-    chips.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === S.filter.tipo)));
     lvRow.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === S.filter.livello)));
+    S.filtroMark?.();
+    const n = (S.filter.period !== 'tutti') + (S.filter.tipo !== 'tutti');
+    btnFiltri.classList.toggle('on', n > 0);
+    btnFiltri.setAttribute('aria-label', n ? `Filtri, ${n} attivi` : 'Filtri');
     S.map?.setFilter(S.filter);
   };
-  for (const [v, l, aria] of periods) seg.append(h('button', {type: 'button', 'data-v': v, 'aria-label': aria, text: l, on: {click: () => { S.filter.period = v; sync(); }}}));
-  /* la pillola mostra la stessa forma del simbolo sulla mappa: legenda e filtro in un'unica riga */
-  const DOT = {città: ['var(--accent)', 'g-cit'], monti: ['var(--d3)', 'g-mon'], acque: ['var(--d2)', 'g-acq']};
-  for (const [v, l] of types) chips.append(h('button', {type: 'button', class: 'f-mondo-chip', 'data-v': v, on: {click: () => { S.filter.tipo = v; sync(); }}}, h('span', {}, DOT[v] ? h('i', {class: DOT[v][1], style: '--pc:' + DOT[v][0], 'aria-hidden': 'true'}) : null, l)));
   S.syncFilters = sync;
   S.mapSlot = h('div', {class: 'f-mondo-slot', id: 'mondoMapSlot'}, h('p', {class: 'f-mondo-loading', text: 'Carico la mappa…'}));
   const tile = (view, ic, title, sub) => h('button', {class: 'card f-mondo-tile-btn', type: 'button', 'data-view': view, on: {click: () => showView(view)}},
     h('span', {class: 'f-mondo-tic'}, ico(ic, 20)), h('b', {text: title}), h('small', {text: sub}));
   const el = h('div', {class: 'f-mondo-hub'},
-    h('h1', {class: 'big f-mondo-h1', text: 'Mondo della Bibbia'}), seg, chips, lvRow, S.mapSlot,
+    h('h1', {class: 'big f-mondo-h1', text: 'Mondo della Bibbia'}), h('div', {class: 'f-mondo-barra'}, lvRow, btnFiltri), S.mapSlot,
     h('div', {class: 'f-mondo-grid'}, tile('luoghi', 'pin', 'Luoghi', 'Città, monti e mari'), tile('misure', 'scale', 'Misure e monete', 'Talento, siclo, cubito'), tile('tempo', 'clock', 'Il tempo', 'Ore del giorno e feste'), tile('personaggi', 'person', 'Personaggi', 'Da Adamo a Paolo')),
     footer());
   sync();
   return el;
 }
 
+/* foglio «Filtri»: periodo e tipo di luogo. Le scelte si applicano subito alla mappa */
+function openFiltri() {
+  const {h} = S.ctx.dom;
+  const periods = [['tutti', 'Tutti', 'Tutti i periodi'], ['at', 'Antico T.', 'Antico Testamento'], ['vangeli', 'Vangeli', 'Vangeli'], ['atti', 'Atti e lettere', 'Atti e lettere']];
+  const types = [['tutti', 'Tutti'], ['città', 'Città'], ['monti', 'Monti'], ['acque', 'Acque']];
+  const DOT = {città: ['var(--dim)', 'g-cit'], monti: ['var(--dim)', 'g-mon'], acque: ['var(--d2)', 'g-acq']};
+  openSheet({title: 'Filtri', build: body => {
+    const seg = h('div', {class: 'seg f-mondo-seg', role: 'group', 'aria-label': 'Periodo'});
+    for (const [v, l, aria] of periods) seg.append(h('button', {type: 'button', 'data-v': v, 'aria-label': aria, text: l, on: {click: () => { S.filter.period = v; S.syncFilters(); }}}));
+    const chips = h('div', {class: 'f-mondo-chips', role: 'group', 'aria-label': 'Tipo di luogo'});
+    for (const [v, l] of types) chips.append(h('button', {type: 'button', class: 'f-mondo-chip', 'data-v': v, on: {click: () => { S.filter.tipo = v; S.syncFilters(); }}}, h('span', {}, DOT[v] ? h('i', {class: DOT[v][1], style: '--pc:' + DOT[v][0], 'aria-hidden': 'true'}) : null, l)));
+    S.filtroMark = () => {
+      seg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === S.filter.period)));
+      chips.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === S.filter.tipo)));
+    };
+    S.filtroMark();
+    body.append(h('p', {class: 'eyebrow f-mondo-filtri-h', text: 'Periodo'}), seg, h('p', {class: 'eyebrow f-mondo-filtri-h', text: 'Tipo di luogo'}), chips,
+      h('p', {class: 'hint', text: 'I filtri cambiano solo i punti della mappa. I livelli regionali si scelgono accanto alla mappa.'}));
+  }});
+}
+
 function footer() {
   const {h} = S.ctx.dom;
   const a = (href, t) => h('a', {href, target: '_blank', rel: 'noopener noreferrer', text: t});
   return h('p', {class: 'f-mondo-attrib'}, 'Dati sui luoghi: ', a('https://www.openbible.info/geo/', 'OpenBible.info (Bible Geocoding Data)'), ', ', a('https://creativecommons.org/licenses/by/4.0/', 'CC BY 4.0'),
-    '. Mappa: disegnata per l’app; con la rete, rilievo ', a('https://www.arcgis.com/home/item.html?id=9c5370d0b54f4de1b48a3792d7dbd62c', 'Esri'), '.');
+    '. Costa e terre: ', a('https://www.naturalearthdata.com/', 'Natural Earth'), ' (dominio pubblico). Mappa: disegnata per l’app; con la rete, rilievo ', a('https://www.arcgis.com/home/item.html?id=9c5370d0b54f4de1b48a3792d7dbd62c', 'Esri'), '.');
 }
 
 function ensureMap() {

@@ -1,15 +1,19 @@
 /* Mappa interattiva di «Mondo della Bibbia»: mappa vettoriale disegnata (SVG, sempre disponibile offline) + piastrelle SENZA etichette (Esri World Shaded Relief; CARTO nolabels se c'è una chiave) quando c'è rete. I nomi sono SOLO i nostri, in italiano. Proiezione Web Mercator per tutto. Zoom/pan con dita (pointer events, pinch), rotella, tastiera.
    Nessuna libreria. Caricato solo quando serve (import dinamico da mondo.js). */
-import {MEDITERRANEO, MARE_NERO, MAR_ROSSO, GOLFO_PERSICO, ISOLE, FIUMI, LAGHI, AREE, BASE, WORLD, nx, ny, pathOf, levelBounds, labelCandidates} from './mondo-geo.js';
+import {MEDITERRANEO, MARE_NERO, MAR_ROSSO, GOLFO_PERSICO, FIUMI, LAGHI, AREE, BASE, WORLD, nx, ny, pathOf, levelBounds, labelCandidates} from './mondo-geo.js';
+import {TERRA} from './mondo-terra.js';
+/* costa vera (Natural Earth 1:50m): il mare è lo sfondo, la terra è un solo percorso con regola evenodd (i buchi sono laghi e mari interni) */
+const LAND_D = TERRA.map(poly => poly.map(ring => pathOf(ring)).join('')).join('');
+/* mari di sfondo usati solo per scegliere dove scrivere le etichette (non disegnati) */
 const SEA = [MEDITERRANEO, MARE_NERO, MAR_ROSSO, GOLFO_PERSICO];
 const AREA_POLY = Object.fromEntries(AREE.map(a => [a.id, a.poligono]));
 
-/* colori sobri per le aree di un livello (indice nell'ordine dei dati) */
-const PALETTE = ['#8c6d4f', '#5b7c8d', '#7b8553', '#9a6161', '#6d6a93', '#a68b4b', '#4f7d6f', '#8a5f7d', '#6b7f9a', '#a0744f', '#5f8a5f', '#7d6b50', '#4f6b8a', '#8f7a5a'];
+/* un solo colore per livello: le aree di uno stesso livello si distinguono dal contorno, non dal colore */
+const LV_COLOR = {terra: '#9a7a4c', tribu: '#6f7d58', regni: '#8a5d52', popoli: '#5d6b84'};
 /* nodi delle aree: un nodo per (area, livello); id = id dell'area, con suffisso se compare in più livelli */
 const AREA_NODES = [];
-{ const cnt = {}; for (const a of AREE) for (const lv of a.livelli) { const k = cnt[lv] = (cnt[lv] ?? -1) + 1; const first = lv === a.livelli[0];
-    AREA_NODES.push({...a, id: first ? a.id : a.id + '-' + lv, areaId: a.id, livello: lv, tipo: 'regione', nome_it: a.nome, lat: a.ancora[1], lon: a.ancora[0], riferimenti_chiave: a.rif, color: PALETTE[k % PALETTE.length]}); } }
+{ const cnt = {}; for (const a of AREE) for (const lv of a.livelli) { cnt[lv] = (cnt[lv] ?? -1) + 1; const first = lv === a.livelli[0];
+    AREA_NODES.push({...a, id: first ? a.id : a.id + '-' + lv, areaId: a.id, livello: lv, tipo: 'regione', nome_it: a.nome, lat: a.ancora[1], lon: a.ancora[0], riferimenti_chiave: a.rif, color: LV_COLOR[lv]}); } }
 
 const SVGNS = 'http://www.w3.org/2000/svg';
 const isDark = () => document.documentElement.dataset.theme === 'dark';
@@ -27,10 +31,15 @@ const Z_MIN = 3.4, Z_MAX = 11, TILE_ZMIN = 5, TILE_ZMAX = 10, TILE_SHOW_FROM = 4
 const RELIEF_KEY = 'margine.mondo.rilievo';
 const reliefSaved = () => { try { return localStorage.getItem(RELIEF_KEY) === '1'; } catch { return false; } };
 /* inquadratura iniziale: Israele antico (lon/lat del centro); lo zoom dipende dalla larghezza */
-const HOME = {lon: 35.3, lat: 31.5};
-const homeZ = w => w < 500 ? 6.6 : 7.1;
+const HOME = {lon: 35.25, lat: 31.5};
+const homeZ = w => w < 500 ? 7.5 : 7.6;
 const KM_STEPS = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000];
 /* con un livello regionale attivo solo queste città si vedono (più Gerusalemme); le altre compaiono da zoom 8,2 */
+/* importanza 1–5 per luogo: 5 Gerusalemme, 4 le città principali e i mari di base (visibili anche a riposo), 3 e sotto solo con lo zoom */
+const IMP5 = new Set(['gerusalemme']);
+const IMP4 = new Set(['betlemme', 'nazaret', 'cafarnao', 'gerico', 'ebron', 'cesarea', 'tiro', 'mar-mediterraneo', 'mar-morto', 'mar-di-galilea', 'giordano']);
+/* zoom da cui un luogo di importanza 1–3 compare */
+const IMP_ZOOM = {5: 0, 4: 0, 3: 7.6, 2: 8.6, 1: 9.4};
 const MAIN_CITIES = {
   terra: ['nazaret', 'cafarnao', 'tiro', 'sidone', 'cesarea', 'betlemme'],
   tribu: ['sichem', 'silo', 'betel', 'gerico', 'ebron', 'bersabea'],
@@ -39,15 +48,18 @@ const MAIN_CITIES = {
 };
 const CITY_ZOOM_FULL = 8.2;
 /* nomi e posizioni dell'etichetta scritti a mano (le piastrelle non hanno testo); anchor 'l' = etichetta a destra del punto */
-const NAME = {'mar-mediterraneo': 'Mar Mediterraneo\n(Mar Grande)', 'mar-morto': 'Mar Morto\n(Mar Salato)', iturea: 'Iturea e\nTraconitide', 'manasse-est': 'Manasse\n(est)', 'manasse-ovest': 'Manasse\n(ovest)', 'dan-nord': 'Dan\n(nord)', 'regno-israele': 'Regno di\nIsraele', 'regno-giuda': 'Regno di\nGiuda', 'aram': 'Aram\n(Damasco)'};
-const LABEL_AT = {giudea: {lat: 31.82, lon: 34.72}, canaan: {lat: 32.15, lon: 35.1}, 'mar-mediterraneo': {lat: 32.5, lon: 34.1}, giordano: {lat: 32.3, lon: 35.64, anchor: 'l'}, 'mar-morto': {lat: 30.9, lon: 35.62, anchor: 'l'}, 'mar-di-galilea': {lat: 32.62, lon: 35.62, anchor: 'l'}, galilea: {lat: 33.05, lon: 35.3}, filistia: {lat: 31.55, lon: 34.45}, negheb: {lat: 30.95, lon: 34.85}, moab: {lat: 31.3, lon: 35.85}, galaad: {lat: 32.2, lon: 35.82}, ammon: {lat: 31.85, lon: 36.05}, basan: {lat: 32.75, lon: 36.0}, decapoli: {lat: 32.45, lon: 35.75}};
+const NAME = {'mar-mediterraneo': 'Mar Mediterraneo\n(Mar Grande)', 'mar-morto': 'Mar Morto\n(Mar Salato)', 'mar-di-galilea': 'Mar di\nGalilea', iturea: 'Iturea e\nTraconitide', 'manasse-est': 'Manasse\n(est)', 'manasse-ovest': 'Manasse\n(ovest)', 'dan-nord': 'Dan\n(nord)', 'regno-israele': 'Regno di\nIsraele', 'regno-giuda': 'Regno di\nGiuda', 'aram': 'Aram\n(Damasco)'};
+const LABEL_AT = {giudea: {lat: 31.82, lon: 34.72}, canaan: {lat: 32.15, lon: 35.1}, 'mar-mediterraneo': {lat: 31.9, lon: 33.85}, 'mar-rosso': {lat: 27.4, lon: 35.1, anchor: 'l'}, giordano: {lat: 32.3, lon: 35.64, anchor: 'l'}, 'mar-morto': {lat: 30.9, lon: 35.62, anchor: 'l'}, 'mar-di-galilea': {lat: 32.6, lon: 35.66, anchor: 'l'}, galilea: {lat: 33.05, lon: 35.3}, filistia: {lat: 31.55, lon: 34.45}, negheb: {lat: 30.95, lon: 34.85}, moab: {lat: 31.3, lon: 35.85}, galaad: {lat: 32.2, lon: 35.82}, ammon: {lat: 31.85, lon: 36.05}, basan: {lat: 32.75, lon: 36.0}, decapoli: {lat: 32.45, lon: 35.75}};
+/* posizioni alternative per l'etichetta di un mare o di un lago, se la prima è occupata: la prima libera vince */
+const LABEL_ALT = {'mar-di-galilea': [{lat: 32.45, lon: 35.66, anchor: 'l'}, {lat: 32.84, lon: 35.71, anchor: 'l'}]};
 const TIER1 = new Set(['gerusalemme']);
+const impOf = p => IMP5.has(p.id) ? 5 : IMP4.has(p.id) ? 4 : (p.tipo === 'città' && ((p.riferimenti_chiave?.length || 0) >= 4)) ? 3 : (p.riferimenti_chiave?.length || 0) >= 3 ? 2 : 1;
 const TIER2 = new Set(['nazaret', 'betlemme', 'cafarnao', 'roma', 'damasco', 'antiochia-di-siria', 'efeso', 'corinto', 'atene', 'babilonia', 'ninive', 'menfi', 'alessandria', 'gerico', 'sichem', 'ebron', 'tiro', 'sidone', 'cesarea', 'betania', 'bersabea', 'giaffa', 'tarso', 'filippi', 'tessalonica', 'tiberiade', 'betel', 'silo', 'cana', 'ur-dei-caldei', 'caran']);
 const BOUNDS = {x0: nx(-14), x1: nx(64), y0: ny(50), y1: ny(8)};
 const BOOST = new Set(['gerusalemme', 'nazaret', 'betlemme', 'cafarnao', 'roma', 'damasco', 'antiochia-di-siria', 'efeso', 'corinto', 'atene', 'babilonia', 'ninive', 'menfi', 'sinai', 'mar-di-galilea', 'giordano',
   'mar-morto', 'mar-mediterraneo', 'egitto', 'galilea', 'giudea', 'samaria-regione', 'tarso', 'filippi', 'tessalonica', 'cesarea', 'gerico', 'sichem', 'ebron', 'betania', 'tiro', 'sidone', 'alessandria', 'cipro', 'creta', 'malta', 'patmos', 'ur-dei-caldei', 'caran', 'nilo', 'eufrate', 'monte-ermon', 'monte-carmelo', 'monte-tabor', 'bersabea', 'betel', 'silo', 'giaffa', 'mar-rosso', 'moab', 'edom', 'cana', 'tiberiade', 'siracusa']);
 const LABEL_ONLY = new Set(['mar-di-galilea', 'mar-morto', 'mar-mediterraneo', 'mar-rosso', 'giordano', 'nilo', 'eufrate', 'tigri', 'fiume-chebar', 'torrente-arnon', 'torrente-iabboc', 'torrente-chison']);
-const DOT_VAR = {città: 'var(--accent)', monte: 'var(--d3)', acqua: 'var(--d2)', luogo: 'var(--d1)', isola: 'var(--d5)', valle: 'var(--d3)'};
+const DOT_VAR = {città: 'var(--m-ink2)', monte: 'var(--m-ink2)', acqua: 'var(--m-river)', luogo: 'var(--m-ink2)', isola: 'var(--m-ink2)', valle: 'var(--m-ink2)'};
 /* forma del simbolo per tipo: città cerchio pieno, monte triangolo, acqua goccia */
 const KIND = {città: 'k-cit', monte: 'k-mon', acqua: 'k-acq', luogo: 'k-luo', isola: 'k-iso', valle: 'k-val'};
 
@@ -79,25 +91,57 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
 
   /* ---------- struttura ---------- */
   const root = el('div', 'f-mondo-map', {role: 'application', tabindex: '0', 'aria-label': 'Mappa del mondo della Bibbia. Trascina per spostare, pizzica o usa più e meno per ingrandire.'});
-  const defs = svg('defs', {}, svg('pattern', {id: 'f-mondo-stip', width: '7', height: '7', patternUnits: 'userSpaceOnUse'}, svg('circle', {cx: '1.5', cy: '1.5', r: '.6', class: 'f-mondo-stipdot'})));
-  const land = svg('rect', {class: 'f-mondo-land', width: '100%', height: '100%'});
-  const stip = svg('rect', {class: 'f-mondo-stipfill', width: '100%', height: '100%', fill: 'url(#f-mondo-stip)'});
+  const sea0 = svg('rect', {class: 'f-mondo-seabg', width: '100%', height: '100%'});
   const world = svg('g', {class: 'f-mondo-world'});
-  const sea = d => svg('path', {d, class: 'f-mondo-sea'});
-  /* ordine di disegno: mari, isole, fiumi, laghi (le regioni sono solo testo) */
+  /* ordine di disegno: sfondo (mare), poi la terra con la sua costa, le aree (ritagliate sulla terra), fiumi e laghi.
+     Le piastrelle del rilievo stanno tra lo sfondo e la terra: con il rilievo acceso la terra diventa semitrasparente */
+  const clipId = 'f-mondo-clip', maskId = 'f-mondo-mask';
+  const landP = svg('path', {d: LAND_D, class: 'f-mondo-land-p'});
+  const shore = svg('path', {d: LAND_D, class: 'f-mondo-shore', 'clip-path': `url(#${clipId})`});
+  const coast = svg('path', {d: LAND_D, class: 'f-mondo-coast'});
+  /* maschera delle aree: terra (bianco) meno laghi e mari interni (nero). Con il Levante dettagliato si scambia il riquadro */
+  const mBox = svg('rect', {fill: 'none'}), mLev = svg('path', {fill: 'none', 'fill-rule': 'evenodd'});
+  const maskEl = svg('mask', {id: maskId, maskUnits: 'userSpaceOnUse', x: -BASE, y: -BASE, width: 3 * BASE, height: 3 * BASE},
+    svg('path', {d: LAND_D, fill: '#fff', 'fill-rule': 'evenodd'}), mBox, mLev,
+    ...Object.values(LAGHI).map(pts => svg('path', {d: pathOf(pts, true, true), fill: '#000'})));
   /* aree dei livelli: visibili solo quello attivo (CSS su data-livello); la più grande sta sotto */
   const areaEls = AREA_NODES.filter(a => a.poligono).map(a => svg('path', {d: pathOf(a.poligono, true, true), class: `f-mondo-area lv-${a.livello} certezza-${a.certezza}`, 'data-area': a.id, style: `--ac:${a.color}`}));
-  world.append(sea(pathOf(MEDITERRANEO)), sea(pathOf(MARE_NERO)), sea(pathOf(MAR_ROSSO)), sea(pathOf(GOLFO_PERSICO)),
-    ...ISOLE.map(pts => svg('path', {d: pathOf(pts), class: 'f-mondo-isle'})),
-    ...areaEls,
+  world.append(landP, shore, coast, svg('g', {mask: `url(#${maskId})`}, ...areaEls),
     ...Object.values(FIUMI).map(pts => svg('path', {d: pathOf(pts, false, true), class: 'f-mondo-river'})),
     ...Object.values(LAGHI).map(pts => svg('path', {d: pathOf(pts, true, true), class: 'f-mondo-lake'})));
-  /* livelli: base (terra e puntinatura) sotto le piastrelle; sopra, mari, fiumi, laghi e aree, sempre visibili */
-  const drawBase = svg('svg', {class: 'f-mondo-draw f-mondo-base', 'aria-hidden': 'true', focusable: 'false'}, defs, land, stip);
-  const drawTop = svg('svg', {class: 'f-mondo-draw f-mondo-top', 'aria-hidden': 'true', focusable: 'false'}, world);
+  /* livelli: sfondo e piastrelle sotto; sopra, terra, aree, fiumi e laghi, sempre visibili */
+  const drawBase = svg('svg', {class: 'f-mondo-draw f-mondo-base', 'aria-hidden': 'true', focusable: 'false'}, sea0);
+  const drawTop = svg('svg', {class: 'f-mondo-draw f-mondo-top', 'aria-hidden': 'true', focusable: 'false'}, svg('defs', {}, svg('clipPath', {id: clipId}, svg('path', {d: LAND_D, 'clip-rule': 'evenodd'})), maskEl), world);
+  /* Levante a precisione maggiore: caricato in modo pigro (mondo-terra-levante.js) solo da zoom 7,5; sotto, resta la costa a 50m */
+  const LEV_ZOOM = 7.5;
+  let levReq = false, levEls = null, levOn = null;
+  function loadLevante() {
+    if (levReq) return; levReq = true;
+    import('./mondo-terra-levante.js').then(({TERRA_LEVANTE, LEV_BOX}) => {
+      const d = TERRA_LEVANTE.map(poly => poly.map(ring => pathOf(ring)).join('')).join('');
+      const X0 = nx(LEV_BOX.x0) * BASE, X1 = nx(LEV_BOX.x1) * BASE, Y0 = ny(LEV_BOX.y1) * BASE, Y1 = ny(LEV_BOX.y0) * BASE;
+      const box = svg('rect', {x: X0, y: Y0, width: X1 - X0, height: Y1 - Y0, class: 'f-mondo-seabg'});
+      const lp = svg('path', {d, class: 'f-mondo-land-p'}), lc = svg('path', {d, class: 'f-mondo-coast'});
+      const lclip = svg('clipPath', {id: 'f-mondo-clip-lev'}, svg('path', {d, 'clip-rule': 'evenodd'}));
+      const ls = svg('path', {d, class: 'f-mondo-shore', 'clip-path': 'url(#f-mondo-clip-lev)'});
+      drawTop.querySelector('defs').append(lclip);
+      coast.after(box, ls, lp, lc);
+      mBox.setAttribute('x', X0); mBox.setAttribute('y', Y0); mBox.setAttribute('width', X1 - X0); mBox.setAttribute('height', Y1 - Y0);
+      mLev.setAttribute('d', d);
+      levEls = [box, ls, lp, lc];
+      setLev(Boolean(levOn));
+      invalidate();
+    }).catch(() => { /* senza il file resta la costa a 50m */ });
+  }
+  /* accende o spegne il Levante dettagliato (terra, costa, riquadro di mare e maschera delle aree) */
+  function setLev(on) {
+    levOn = on;
+    if (!levEls) return;
+    levEls.forEach(e => { e.style.display = on ? '' : 'none'; });
+    mBox.setAttribute('fill', on ? '#000' : 'none'); mLev.setAttribute('fill', on ? '#fff' : 'none');
+  }
   const tileBox = el('div', 'f-mondo-tiles', {'aria-hidden': 'true'});
   const ptsBox = el('div', 'f-mondo-pts');
-  const vig = el('div', 'f-mondo-vig', {'aria-hidden': 'true'});
   const mkBtn = (cls, label, txt) => { const b = el('button', 'f-mondo-btn ' + cls, {type: 'button', 'aria-label': label, title: label}); b.textContent = txt; return b; };
   const bPlus = mkBtn('plus', 'Ingrandisci', '+'), bMinus = mkBtn('minus', 'Riduci', '−'), bHome = mkBtn('home', 'Posizione iniziale: Terra Santa', '⌖');
   const ctl = el('div', 'f-mondo-ctl'); ctl.append(bHome, bMinus, bPlus);
@@ -112,7 +156,7 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
   let relief = reliefSaved();
   const bRel = el('button', 'f-mondo-rel', {type: 'button', 'aria-pressed': String(relief), 'aria-label': 'Mostra il rilievo', title: 'Rilievo'}); bRel.textContent = 'Rilievo';
   root.classList.toggle('rilievo', relief);
-  root.append(drawBase, tileBox, drawTop, vig, ptsBox, scale, ctl, bRel);
+  root.append(drawBase, tileBox, drawTop, ptsBox, scale, ctl, bRel);
   root.dataset.livello = 'nessuno';
 
   /* ---------- punti ---------- */
@@ -130,17 +174,24 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
     const lbl = el('span', 'f-mondo-lbl', {text: name});
     if (dot) node.append(dot); node.append(lbl);
     ptsBox.append(node);
-    const minZ = labelOnly ? 0 : BOOST.has(p.id) ? 0 : (p.riferimenti_chiave?.length || 0) >= 4 ? 7.6 : 8.6;
+    /* la soglia di zoom sta in levelShown (per importanza), non qui */
+    const minZ = 0, imp = p.livello ? 5 : impOf(p);
     const cw = p.tipo === 'regione' ? 10 : labelOnly ? 7 : tier === 1 ? 9.6 : tier === 2 ? 7.6 : 6.6;
     const maxLen = Math.max(...lines.map(l => l.length));
     /* prima l'ancora dell'area (di norma il centro migliore), poi gli altri punti interni */
     const cands = p.livello ? [[p.lon, p.lat], ...(AREA_POLY[p.areaId] ? labelCandidates(AREA_POLY[p.areaId], SEA) : [])] : null;
-    meta.set(p.id, {p, cands, prio, per, labelOnly, node, minZ, tier, left: at?.anchor === 'l', lh: lines.length * (p.tipo === 'regione' ? 18 : labelOnly ? 16 : tier === 1 ? 24 : tier === 2 ? 20 : 18), dx: tier === 1 ? 14 : tier === 2 ? 11 : 9,
-      wx: nx(at?.lon ?? p.lon), wy: ny(at?.lat ?? p.lat), px: nx(p.lon), py: ny(p.lat), w: maxLen * cw + 10, vis: false});
+    meta.set(p.id, {p, cands, prio, per, labelOnly, node, minZ, imp, tier, left: at?.anchor === 'l', lh: lines.length * (p.tipo === 'regione' ? 18 : labelOnly ? 16 : tier === 1 ? 24 : tier === 2 ? 20 : 18), dx: tier === 1 ? 14 : tier === 2 ? 11 : 9,
+      wx: nx(at?.lon ?? p.lon), wy: ny(at?.lat ?? p.lat), alts: (LABEL_ALT[p.id] || []).map(a => [nx(a.lon), ny(a.lat)]), px: nx(p.lon), py: ny(p.lat), w: maxLen * cw + 10, vis: false});
   });
   const order = [...meta.values()].sort((a, b) => b.prio - a.prio);
-  const cityShown = m => filter.livello === 'nessuno' || m.p.tipo !== 'città' || view.z >= CITY_ZOOM_FULL || m.p.id === 'gerusalemme' || (MAIN_CITIES[filter.livello] || []).includes(m.p.id);
-  const allowed = m => m.p.livello ? m.p.livello === filter.livello : (filter.period === 'tutti' || m.per.has(filter.period)) && (filter.tipo === 'tutti' || (filter.tipo === 'città' ? m.p.tipo === 'città' : filter.tipo === 'monti' ? m.p.tipo === 'monte' : filter.tipo === 'acque' ? m.p.tipo === 'acqua' : true)) && cityShown(m);
+  /* a riposo (livello «Nessuno») compare per importanza: 5 e 4 sempre, 3–1 da uno zoom crescente.
+     Con un livello regionale attivo restano visibili solo le sue città principali (le altre da zoom 8,2). */
+  const levelShown = m => {
+    if (m.p.livello) return true;
+    if (filter.livello !== 'nessuno') return m.p.tipo !== 'città' || view.z >= CITY_ZOOM_FULL || m.p.id === 'gerusalemme' || (MAIN_CITIES[filter.livello] || []).includes(m.p.id);
+    return view.z >= IMP_ZOOM[m.imp];
+  };
+  const allowed = m => m.p.livello ? m.p.livello === filter.livello : (filter.period === 'tutti' || m.per.has(filter.period)) && (filter.tipo === 'tutti' || (filter.tipo === 'città' ? m.p.tipo === 'città' : filter.tipo === 'monti' ? m.p.tipo === 'monte' : filter.tipo === 'acque' ? m.p.tipo === 'acqua' : true)) && levelShown(m);
 
   /* ---------- rendering ---------- */
   const Wz = () => WORLD * 2 ** view.z;
@@ -152,9 +203,10 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
   function frame() {
     raf = 0; if (!dirty) return; dirty = false;
     if (!W || !H) return;
+    if (view.z >= LEV_ZOOM) { if (!levReq) loadLevante(); else if (levOn !== true && levEls) setLev(true); }
+    else if (levOn && levEls) setLev(false);
     const s = Wz(), k = s / BASE, tx = W / 2 - view.x * s, ty = H / 2 - view.y * s;
     world.setAttribute('transform', `translate(${tx.toFixed(2)} ${ty.toFixed(2)}) scale(${k})`);
-    stip.setAttribute('transform', `translate(${(tx % 7).toFixed(2)} ${(ty % 7).toFixed(2)})`);
     layoutPoints(s);
     positionTiles(s);
     updateScale();
@@ -162,7 +214,7 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
   }
 
   function layoutPoints(s) {
-    const placed = reserved(), pad = 30, maxShown = Math.round(clamp(8 + (view.z - 3.4) * 10, 10, 110));
+    const placed = reserved(), pad = 30, maxShown = Math.round(clamp(8 + (view.z - 3.4) * 10, 14, 110));
     layout = []; let shown = 0;
     const rectHit = (r) => placed.some(q => r[0] < q[2] && r[2] > q[0] && r[1] < q[3] && r[3] > q[1]);
     /* con pochi nomi (Terra, Regni, Popoli) le aree prevalgono sulle città minori; con le tribù, molte, prevalgono le città */
@@ -188,6 +240,19 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
         }
       } else if (force || (shown < maxShown && allowed(m) && view.z >= m.minZ && !(m.p.tipo === 'regione' && view.z > 9.6))) {
         [sx, sy] = toScreen(m.wx, m.wy);
+        if (m.alts.length && !force) {
+          /* se l'etichetta principale non ha posto, prova le alternative (l'ancora resta sul mare o sul lago) */
+          for (const [ax, ay] of [[m.wx, m.wy], ...m.alts]) {
+            const [tx, ty] = toScreen(ax, ay), r2 = [tx + 6, ty - m.lh / 2, tx + 6 + m.w, ty + m.lh / 2];
+            if (!rectHit(r2) && r2[2] < W - 4) { sx = tx; sy = ty; break; }
+          }
+        }
+        /* un nome di mare o di fiume non si taglia al bordo: se l'ancora è fuori vista, si riporta dentro */
+        if (m.labelOnly && /^mar-(mediterraneo|morto|di-galilea)$/.test(m.p.id)) {   /* i mari si riportano dentro la vista; fiumi e altro fuori vista restano nascosti */
+          const hh1 = m.lh / 2;
+          sx = m.left ? clamp(sx, 4, W - m.w - 10) : clamp(sx, m.w / 2 + 4, W - m.w / 2 - 4);
+          sy = clamp(sy, hh1 + 4, H - hh1 - 56);
+        }
         if (sx > -pad && sx < W + pad && sy > -pad && sy < H + pad) {
           const hh = m.lh / 2;
           lr = m.left ? [sx + 6, sy - hh, sx + 6 + m.w, sy + hh] : m.p.tipo === 'regione' || m.labelOnly ? [sx - m.w / 2, sy - hh, sx + m.w / 2, sy + hh] : [sx + m.dx, sy - hh, sx + m.dx + m.w, sy + hh];

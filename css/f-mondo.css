@@ -2,7 +2,7 @@
    La mappa usa variabili proprie (--m-*) per tema: carta/pergamena (predefinito), notte grigio-blu (scuro). */
 .f-mondo-col { padding-bottom: 24px; }
 .f-mondo-h1 { margin: 2px 0 10px; font-size: 32px; }
-.f-mondo-seg { margin: 6px 0 2px; }
+.f-mondo-seg { margin: 0 0 2px; }
 .f-mondo-seg button { min-height: 44px; font-size: 12.5px; }
 /* filtro per tipo: una sola riga di pillole, scorribile in orizzontale se non ci sta */
 .f-mondo-chips { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 2px -4px 4px; }
@@ -20,16 +20,15 @@
 .f-mondo-chip[aria-pressed="true"] { color: var(--bg); }
 .f-mondo-chip[aria-pressed="true"] i.g-reg { border-color: var(--bg); }
 
-/* mappa: colori da atlante. Carta (predefinito) e notte (scuro) */
-.f-mondo-map {
-  --m-land: #efe7d3; --m-stip: rgba(96, 74, 40, .13); --m-sea: #b7cad1; --m-sea-line: #6f8790; --m-lake: #a9c1c9; --m-isle: #e4dac3; --m-coast: #7f8c8c;
-  --m-river: #6d8c95; --m-ink: #2a2217; --m-ink2: #5d5143; --m-halo: #f4eee0; --m-vig: rgba(110, 84, 46, .16); --m-ctl: #fffdf8;
-  position: relative; height: clamp(300px, 44dvh, 520px); overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; background: var(--m-land); outline-offset: -3px;
+/* mappa da atlante storico: campiture piatte; carta (predefinito) e scuro (antracite caldo). Nessuna texture, nessuna vignettatura */
+.f-mondo-map, .f-mondo-homeprev {
+  --m-land: #f1ebdc; --m-sea: #bccfd3; --m-sea-line: #6f8890; --m-coast: #6b8189; --m-shore: rgba(70, 104, 114, .17); --m-lake: #b3c8cd;
+  --m-river: #6f9099; --m-ink: #2a2319; --m-ink2: #66594a; --m-halo: #f1ebdc; --m-ctl: #fffdf8;
+  position: relative; height: clamp(380px, 62dvh, 640px); overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; background: var(--m-sea); outline-offset: -3px;
 }
-:root[data-theme="dark"] .f-mondo-map {
-  --m-land: #2a3038; --m-stip: rgba(214, 224, 236, .07); --m-sea: #173048; --m-sea-line: #3f6185; --m-lake: #1d3a55; --m-isle: #2d333b; --m-coast: #4a5b69;
-  --m-river: #7fa6cc;
-  --m-ink: #e8e4dc; --m-ink2: #a7aeb6; --m-halo: #262b31; --m-vig: rgba(0, 0, 0, .28); --m-ctl: #303640;
+:root[data-theme="dark"] .f-mondo-map, :root[data-theme="dark"] .f-mondo-homeprev {
+  --m-land: #36332e; --m-sea: #1f2a32; --m-sea-line: #4b5f6b; --m-coast: #5b6d78; --m-shore: rgba(160, 186, 200, .10); --m-lake: #1f2a32;
+  --m-river: #6f90a0; --m-ink: #ebe5d8; --m-ink2: #b3aa98; --m-halo: #36332e; --m-ctl: #3d3a35;
 }
 .f-mondo-slot { margin-top: 6px; }
 .f-mondo-loading { color: var(--dim); font: 400 14px/1.4 var(--sans); padding: 40px 12px; text-align: center; margin: 0; }
@@ -37,12 +36,18 @@
 .f-mondo-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 26px; padding: 3px 10px; background: var(--card); box-shadow: 0 -.6px 0 var(--line); font: 500 11px/1.3 var(--sans); color: var(--dim); }
 .f-mondo-foot[hidden] { display: none; }
 .f-mondo-draw { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.f-mondo-land { fill: var(--m-land); }
-.f-mondo-stipdot { fill: var(--m-stip); }
-.f-mondo-sea { fill: var(--m-sea); stroke: var(--m-sea-line); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.f-mondo-seabg { fill: var(--m-sea); }
+/* anteprima in Oggi: stesse tinte, senza interazione */
+.f-mondo-homeprev .f-mondo-land { fill: var(--m-land); }
+.f-mondo-homeprev .f-mondo-sea { fill: var(--m-sea); stroke: var(--m-sea-line); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.f-mondo-homeprev .f-mondo-lake { fill: var(--m-lake); stroke: var(--m-sea-line); stroke-width: .8; vector-effect: non-scaling-stroke; }
+.f-mondo-homeprev .f-mondo-river { fill: none; stroke: var(--m-river); stroke-width: 1.1; vector-effect: non-scaling-stroke; }
+.f-mondo-land-p { fill: var(--m-land); fill-rule: evenodd; }
+.f-mondo-map.rilievo .f-mondo-land-p { fill-opacity: .62; }
+.f-mondo-coast { fill: none; stroke: var(--m-coast); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.f-mondo-shore { fill: none; stroke: var(--m-shore); stroke-width: 6; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
 .f-mondo-lake { fill: var(--m-lake); stroke: var(--m-sea-line); stroke-width: .8; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
-.f-mondo-isle { fill: var(--m-isle); stroke: var(--m-coast); stroke-width: .8; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
-.f-mondo-river { fill: none; stroke: var(--m-river); stroke-width: 1.1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+.f-mondo-river { fill: none; stroke: var(--m-river); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
 .f-mondo-tiles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 .f-mondo-tile { position: absolute; left: 0; top: 0; max-width: none; opacity: 0; transition: opacity .2s; pointer-events: none; user-select: none; }
 .f-mondo-tile.ok { opacity: .42; }
@@ -50,33 +55,24 @@
 :root[data-theme="light"] .f-mondo-tile { filter: grayscale(1) brightness(1.18) contrast(.9); }
 :root[data-theme="paper"] .f-mondo-tile { filter: grayscale(1) brightness(1.2) contrast(.9); }
 :root[data-theme="dark"] .f-mondo-tile { filter: grayscale(1) brightness(1.7) contrast(.85); }
-.f-mondo-vig { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 45%, transparent 58%, var(--m-vig) 100%); }
 .f-mondo-pts { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .f-mondo-pt { position: absolute; left: 0; top: 0; width: 0; height: 0; will-change: transform; }
 .f-mondo-pt.sel { z-index: 3; }
 
-/* simboli: città cerchio pieno con alone chiaro; monte triangolo; acqua goccia; luogo anello; isola rombo */
-.f-mondo-dot { position: absolute; left: -3.25px; top: -3.25px; width: 6.5px; height: 6.5px; border-radius: 50%; background: var(--pc); box-shadow: 0 0 0 1.2px var(--m-halo); box-sizing: border-box; }
-.k-cit > .f-mondo-dot { background: color-mix(in srgb, var(--pc) 78%, var(--m-halo)); }
-.t2 > .f-mondo-dot { left: -3.5px; top: -3.5px; width: 7px; height: 7px; }
-.t1 > .f-mondo-dot { left: -5.5px; top: -5.5px; width: 11px; height: 11px; box-shadow: 0 0 0 2px var(--m-halo); }
-.k-mon > .f-mondo-dot { left: -5px; top: -5px; width: 10px; height: 9px; border-radius: 0; clip-path: polygon(50% 0, 100% 100%, 0 100%); box-shadow: none; filter: drop-shadow(0 0 .7px var(--m-halo)) drop-shadow(0 0 .7px var(--m-halo)); }
-.k-acq > .f-mondo-dot { left: -4px; top: -5px; width: 8px; height: 8px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); box-shadow: 0 0 0 1.2px var(--m-halo); }
-.k-luo > .f-mondo-dot, .k-val > .f-mondo-dot { background: var(--m-halo); border: 2px solid var(--pc); box-shadow: none; }
-.k-iso > .f-mondo-dot { clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); box-shadow: none; filter: drop-shadow(0 0 .7px var(--m-halo)) drop-shadow(0 0 .7px var(--m-halo)); }
-.f-mondo-dot.apx { background: var(--m-halo); border: 2px solid var(--pc); box-shadow: none; }
-.sel > .f-mondo-dot { box-shadow: 0 0 0 1.5px var(--m-halo), 0 0 0 3px var(--m-ink); }
-.sel > .k-mon.f-mondo-dot, .sel > .k-iso.f-mondo-dot { box-shadow: none; }
+/* segni: città piccolo punto pieno con filo chiaro; Gerusalemme un poco più grande; monte triangolo tenue; acqua senza segno */
+.f-mondo-dot { position: absolute; left: -2.5px; top: -2.5px; width: 5px; height: 5px; border-radius: 50%; background: var(--m-ink2); box-shadow: 0 0 0 1px var(--m-halo); box-sizing: border-box; }
+.t1 > .f-mondo-dot { left: -3.5px; top: -3.5px; width: 7px; height: 7px; background: var(--m-ink); }
+.k-mon > .f-mondo-dot { left: -3.5px; top: -3px; width: 7px; height: 6px; border-radius: 0; background: color-mix(in srgb, var(--m-ink2) 45%, transparent); box-shadow: none; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.k-luo > .f-mondo-dot, .k-val > .f-mondo-dot { background: var(--m-halo); border: 1.5px solid var(--m-ink2); }
+.sel > .f-mondo-dot { box-shadow: 0 0 0 1.5px var(--m-halo), 0 0 0 2.8px var(--m-ink); }
+.sel > .k-mon.f-mondo-dot { box-shadow: none; }
 
-/* nomi: solo i nostri, in italiano; alone sottile dello stesso colore dello sfondo, senza bagliore */
-.f-mondo-lbl { position: absolute; left: 9px; top: -9px; white-space: pre; font: 600 12px/18px var(--serif-head); color: var(--m-ink); letter-spacing: .005em;
-  text-shadow: 0 0 1px var(--m-halo), 0 0 1px var(--m-halo), 0 0 2px var(--m-halo), 1px 0 0 var(--m-halo), -1px 0 0 var(--m-halo), 0 1px 0 var(--m-halo), 0 -1px 0 var(--m-halo); }
-.t2 > .f-mondo-lbl { left: 11px; top: -10px; font-size: 13.5px; font-weight: 700; line-height: 20px; }
-.t1 > .f-mondo-lbl { left: 14px; top: -12px; font-size: 18px; font-weight: 800; line-height: 24px; }
-/* regioni: maiuscoletto spaziato, senza punto */
-.reg > .f-mondo-lbl { left: 0; top: -9px; transform: translateX(-50%); text-align: center; font: 600 10px/14px var(--serif-head); text-transform: uppercase; letter-spacing: .16em; color: var(--m-ink2); }
-/* acque: corsivo */
-.wat > .f-mondo-lbl { left: 0; top: -9px; transform: translateX(-50%); text-align: center; font: italic 500 12.5px/16px var(--serif-read); letter-spacing: .02em; color: color-mix(in srgb, var(--m-river) 62%, var(--m-ink)); }
+/* nomi da atlante: serif regolare per le città, Gerusalemme appena più grande, corsivo per le acque, maiuscoletto per le regioni */
+.f-mondo-lbl { position: absolute; left: 8px; top: -8px; white-space: pre; font: 400 11px/16px var(--serif-read); color: var(--m-ink); letter-spacing: .005em;
+  text-shadow: 0 0 0 transparent, 1px 0 0 var(--m-halo), -1px 0 0 var(--m-halo), 0 1px 0 var(--m-halo), 0 -1px 0 var(--m-halo); }
+.t1 > .f-mondo-lbl { left: 10px; top: -10px; font: 600 12.5px/20px var(--serif-head); }
+.reg > .f-mondo-lbl { left: 0; top: -8px; transform: translateX(-50%); text-align: center; font: 600 11px/14px var(--serif-head); text-transform: uppercase; letter-spacing: .14em; color: var(--m-ink2); }
+.wat > .f-mondo-lbl { left: 0; top: -8px; transform: translateX(-50%); text-align: center; font: italic 400 11.5px/16px var(--serif-read); letter-spacing: .02em; color: color-mix(in srgb, var(--m-river) 72%, var(--m-ink)); }
 .wat.al > .f-mondo-lbl { left: 6px; transform: none; text-align: left; }
 .f-mondo-pt.sel > .f-mondo-lbl { color: var(--m-ink); }
 .nolbl > .f-mondo-lbl { display: none; }
@@ -140,11 +136,11 @@
 .f-mondo-acts { margin-top: 8px; display: grid; grid-template-columns: 1fr 1.4fr; gap: 8px; }
 .f-mondo-acts .btn.primary { order: 2; }
 .f-mondo-acts .btn { min-height: 46px; }
-@media (min-width: 700px) { .f-mondo-map { height: 440px; } }
 
 /* livelli regionali: aree morbide a bassa opacità; certezza alta = bordo pieno, media/discussa = tratteggiato */
-.f-mondo-area { fill: var(--ac); fill-opacity: .17; stroke: var(--ac); stroke-opacity: .9; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
-.f-mondo-area.certezza-media, .f-mondo-area.certezza-discussa { stroke-dasharray: 4 3; }
+.f-mondo-area { fill: var(--ac); fill-opacity: .12; stroke: var(--ac); stroke-opacity: .8; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.f-mondo-area.certezza-media { stroke-dasharray: 5 3; stroke-opacity: .6; }
+.f-mondo-area.certezza-discussa { stroke-dasharray: 2 3; stroke-opacity: .5; fill-opacity: .07; }
 .f-mondo-map:not([data-livello="terra"]) .lv-terra, .f-mondo-map:not([data-livello="tribu"]) .lv-tribu,
 .f-mondo-map:not([data-livello="regni"]) .lv-regni, .f-mondo-map:not([data-livello="popoli"]) .lv-popoli { display: none; }
 .f-mondo-map:not([data-livello="terra"]) .f-mondo-area.lv-terra,
@@ -152,19 +148,22 @@
 .f-mondo-map:not([data-livello="regni"]) .f-mondo-area.lv-regni,
 .f-mondo-map:not([data-livello="popoli"]) .f-mondo-area.lv-popoli { display: none; }
 .f-mondo-livelli { margin-top: 2px; }
+/* riga dei livelli con, a destra, il pulsante «Filtri» (apre il foglio con periodo e tipo) */
+.f-mondo-barra { display: flex; align-items: center; gap: 8px; margin: 4px 0 6px; }
+.f-mondo-barra .f-mondo-livelli { flex: 1; min-width: 0; margin: 0; }
+.f-mondo-filtri { flex: none; position: relative; min-height: 44px; padding: 0 13px; border-radius: var(--r-pill); background: var(--chip); color: var(--ink); font: 600 13px var(--sans); display: inline-flex; align-items: center; }
+.f-mondo-filtri-dot { display: none; width: 6px; height: 6px; margin-left: 6px; border-radius: 50%; background: var(--accent); }
+.f-mondo-filtri.on .f-mondo-filtri-dot { display: inline-block; }
+.f-mondo-filtri-h { margin: 14px 2px 6px; }
+.f-mondo-filtri-h:first-child { margin-top: 2px; }
 .f-mondo-cert { font: 400 14px/1.45 var(--sans); color: var(--ink); }
 .f-mondo-cert b { font-weight: 600; }
 .f-mondo-note { font: 400 13px/1.45 var(--sans); color: var(--dim); }
 .f-mondo-fonti { font: 400 12px/1.5 var(--sans); color: var(--dim); border-top: .6px solid var(--line); padding-top: 8px; }
 
 /* interruttore «Rilievo», in alto a sinistra: piccolo, con area di tocco di 40 px */
-.f-mondo-rel { position: absolute; top: 8px; left: 8px; z-index: 5; min-height: 40px; padding: 0 12px; border-radius: 20px; background: var(--m-ctl); color: var(--m-ink); box-shadow: 0 0 0 .6px var(--line), 0 1px 2px rgba(0, 0, 0, .12); font: 600 12px var(--sans); }
+.f-mondo-rel { position: absolute; top: 8px; left: 8px; z-index: 5; min-height: 40px; padding: 0 11px; border-radius: 20px; background: var(--m-ctl); color: var(--m-ink); box-shadow: 0 0 0 .6px var(--line), 0 1px 2px rgba(0, 0, 0, .12); font: 500 12px var(--sans); }
 .f-mondo-rel[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 .f-mondo-rel:focus:not(:focus-visible) { outline: none; }
 
 /* con un livello regionale attivo: città piccole, discrete e senza alone; le regioni in primo piano */
-.f-mondo-map:not([data-livello="nessuno"]) .k-cit:not(.t1) > .f-mondo-dot { left: -2.5px; top: -2.5px; width: 5px; height: 5px; box-shadow: 0 0 0 .6px var(--m-halo); background: color-mix(in srgb, var(--pc) 55%, var(--m-halo)); }
-.f-mondo-map:not([data-livello="nessuno"]) .k-cit:not(.t1) > .f-mondo-lbl { font: 500 11px/16px var(--serif-read); left: 6px; top: -8px; color: color-mix(in srgb, var(--m-ink) 78%, var(--m-halo)); }
-.f-mondo-map:not([data-livello="nessuno"]) .k-cit.t1 > .f-mondo-dot { left: -4.5px; top: -4.5px; width: 9px; height: 9px; }
-.f-mondo-map:not([data-livello="nessuno"]) .k-cit.t1 > .f-mondo-lbl { font: 700 15px/20px var(--serif-head); left: 10px; top: -10px; }
-.f-mondo-map:not([data-livello="nessuno"]) .reg > .f-mondo-lbl { font: 700 12px/16px var(--serif-head); letter-spacing: .2em; color: var(--m-ink); }

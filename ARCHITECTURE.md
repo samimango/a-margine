@@ -42,7 +42,7 @@ legacy/ legacy-tests/ design-demo/   materiale di riferimento, non fa parte dell
 
 ### Avvio e offline
 
-`loadFeatures` mette `<link rel="modulepreload">` per tutte le feature (scaricate in parallelo, eseguite in ordine). I dati pesanti (`data/*.json`) si caricano solo al bisogno o a riposo (`requestIdleCallback`): all'avvio parte soltanto `measures.json` (parole sottolineate di serie). `sw.js` salva a riposo, dopo il caricamento, anche i file caricati al bisogno (`LAZY`: `css/f-*.css`, `data/*.json`, moduli di Mondo): se si aggiunge una feature con CSS o dati propri, aggiungerli a quell'elenco.
+`loadFeatures` mette `<link rel="modulepreload">` per tutte le feature (scaricate in parallelo, eseguite in ordine). I dati pesanti (`data/*.json`) si caricano solo al bisogno o a riposo (`requestIdleCallback`): all'avvio parte soltanto `measures.json` (parole sottolineate di serie). `sw.js` salva a riposo, dopo il caricamento, anche i file caricati al bisogno (`LAZY`: `css/f-*.css`, `data/*.json`, moduli di Mondo, compresi `mondo-terra.js` e `mondo-terra-levante.js`): se si aggiunge una feature con CSS o dati propri, aggiungerli a quell'elenco.
 
 ### Nucleo (`js/core`)
 
@@ -107,6 +107,8 @@ registerFeature({
 - `chapterFooter` può restituire una propria card «Capitolo dopo»: se l'elemento ha `data-next` il nucleo nasconde la sua card e dà l'id `#bottomNext` a quella della feature (così c'è sempre UNA sola card, con lo stesso id per test e navigazione). Se nessuna feature la porta, resta quella del nucleo (disabilitata in Apocalisse 22).
 - `readerTopActions`: il pulsante ha `id="topAct-<id>"` e `data-top-action`. «Ascolta» ne usa uno (cuffie): all'inizio del capitolo parte subito, altrimenti un popover `#ascoltaChoice` offre «Dall'inizio» / «Da qui».
 - Ascolta: la PRIMA `speechSynthesis.speak()` deve partire sincrona nel gesto (iOS): è l'annuncio «Libro, capitolo N»; i versetti si caricano nel frattempo. Mai `await`/`setTimeout` prima. Se `onstart` non arriva in ~2 s: toast sul tasto del silenzioso (una volta per sessione).
+- Mappa «Mondo della Bibbia» (`mondo-mappa.js`, dati in `mondo-geo.js`, `mondo-terra.js`, `mondo-terra-levante.js`): la costa è quella vera. `mondo-terra.js` è Natural Earth 1:50m (dominio pubblico) per tutto il riquadro −30…80 E, 2…62 N, tolleranza 0,025°. `mondo-terra-levante.js` è Natural Earth 1:10m (npm `world-atlas`) per il Levante 32…40,5 E, 27…36,5 N, tolleranza 0,003°; si carica in modo pigro solo da zoom 7,5 e copre il riquadro 50m (sfondo di mare sotto). Le aree delle tribù e dei regni sono ritagliate con una maschera (terra meno laghi) e i vertici vicini al Giordano o alle rive si allineano alla riva (`snapPunto` in `mondo-geo.js`). Anteprima in Oggi: `COSTA_ANTEPRIMA` in `mondo-geo.js` (10m, piccola). Mari e laghi sono contorni da coordinate note: non sono dati di costa.
+  Regole di zoom: importanza 1–5 per luogo (5 Gerusalemme, 4 le sette città principali e i mari di base, 3–1 da zoom 7,6 / 8,6 / 9,4). Etichette di mare: se l'ancora è fuori vista si riporta dentro; altre etichette fuori vista restano nascoste. Filtri: periodo e tipo sono nel foglio «Filtri» (`openFiltri`), i livelli regionali restano in una riga sopra la mappa.
 - Mappa (`mondo-mappa.js`): piastrelle senza etichette. CARTO `voyager_nolabels`/`dark_nolabels` ora richiedono una chiave gratuita (senza, ogni piastrella porta «API KEY REQUIRED»): di serie Esri World Shaded Relief; con `localStorage['margine.mondo.cartokey']` si usano le CARTO. Nomi solo nostri (`NAME`, `LABEL_AT`, `TIER1/2` in cima al file). Attribuzione e avviso offline stanno in una riga SOTTO la mappa.
 - `heroActions`: il pulsante in Oggi ha `data-hero-action="<id>"`; le azioni sul versetto hanno `data-action="<id>"`.
 - Le cifre di Oggi (giorni di fila, capitoli, libri) sono una sola riga di testo sotto «Riprendi»: si mostrano solo le cifre maggiori di zero (senza nessuna, la riga è nascosta); ogni cifra è un pulsante che apre la schermata `progressi` se esiste (altrimenti resta testo).
@@ -124,7 +126,7 @@ registerFeature({
 
 ## File che NON si toccano (salvo incarico esplicito sul nucleo)
 
-`index.html`, `sw.js`, `css/tokens.css`, `css/base.css`, `js/main.js`, tutto `js/core/`, `js/screens/leggi.js`, `js/screens/nota.js`, `backend/`, `legacy/`, `tests/harness.py`, `tests/gas_host.js`, `manifest.webmanifest`.
+`index.html`, `sw.js` (salvo la riga LAZY per i file di costa di Mondo), `css/tokens.css`, `css/base.css`, `js/main.js`, tutto `js/core/`, `js/screens/leggi.js`, `js/screens/nota.js`, `backend/`, `legacy/`, `tests/harness.py`, `tests/gas_host.js`, `manifest.webmanifest`.
 In particolare: `sync.js` e `backend/Code.gs` (compreso `protocol.js` incluso, che deve restare identico a `legacy/protocol.js`) definiscono il formato dei dati; cambiarli rompe i dispositivi già in uso.
 I test nuovi si aggiungono come `tests/t_<nome>.py` (e un nome in `tests/run.py`).
 
