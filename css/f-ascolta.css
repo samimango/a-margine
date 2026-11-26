@@ -98,3 +98,7 @@ body.f-ascolta-on.has-actions .toast { bottom: calc(var(--safe-b) + var(--dock) 
 .f-ascolta-pick-t b { font: 600 16px var(--sans); }
 .f-ascolta-pick-t small { font: 400 12.5px var(--sans); color: var(--dim); }
 .f-ascolta-silent { margin: 6px 4px 4px; font: 400 12.5px/1.45 var(--sans); color: var(--dim); text-align: center; }
+/* riquadro «scarica una voce migliore» dentro l'elenco voci */
+.f-ascolta-tip { padding: 12px 14px; border-bottom: 1px solid var(--line); }
+.f-ascolta-tip b { display: block; font: 600 15px var(--sans); color: var(--ink); }
+.f-ascolta-tip .hint { margin: 4px 0 0; }

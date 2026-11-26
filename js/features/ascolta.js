@@ -29,7 +29,9 @@ const {icon} = icons;
 }
 
 const KEY = {rate: 'margine.ascolta.rate', voice: 'margine.ascolta.voice', next: 'margine.ascolta.next'};
-const BASE_RATE = 0.95, SPEEDS = [0.8, 1, 1.2, 1.5], VERSE_PAUSE = 350, PART_PAUSE = 140, MAX_PART = 170;
+const BASE_RATE = 0.92, SPEEDS = [0.8, 1, 1.2, 1.5], PART_PAUSE = 140, MAX_PART = 240;
+/* pausa tra un versetto e il successivo: breve e variabile, così la lettura non suona a orologio */
+const verseGap = () => (180 + Math.random() * 160) / getRate();
 const synth = () => ('speechSynthesis' in window && 'SpeechSynthesisUtterance' in window ? window.speechSynthesis : null);
 export const supported = () => Boolean(synth());
 const fmtSpeed = s => String(s).replace('.', ',') + '×';
@@ -38,18 +40,25 @@ const fmtSpeed = s => String(s).replace('.', ',') + '×';
 const QUALITY = [[/premium/i, 130], [/enhanced|migliorata|potenziata/i, 120], [/siri/i, 110], [/neural|natural|online|wavenet/i, 100]];
 const PREFERRED = ['federica', 'alice', 'luca', 'paola', 'emma', 'elsa', 'isabella', 'silvia', 'cosimo', 'diego', 'giorgio'];
 export function qualityOf(v) { const s = v.name + ' ' + (v.voiceURI || ''); return QUALITY.find(([re]) => re.test(s))?.[1] || 0; }
-function scoreOf(v) {
-  let s = qualityOf(v);
+/* punteggio: qualità dichiarata, poi voce di sistema, nome noto, Google (online ma buona), penalità per le compact e per eSpeak */
+export function scoreOf(v) {
+  const q = qualityOf(v), tag = v.name + ' ' + (v.voiceURI || '');
+  let s = q;
   if (v.localService) s += 20;
   const i = PREFERRED.findIndex(n => v.name.toLowerCase().includes(n));
   if (i >= 0) s += 30 - i;
+  if (/google/i.test(v.name)) s += 40;
+  if (q < 100 && /compact/i.test(tag)) s -= 60;
   return s;
 }
+const isEspeak = v => /espeak/i.test(v.name + ' ' + (v.voiceURI || ''));
 export function itVoices() {
   const s = synth(); if (!s) return [];
   let list = []; try { list = s.getVoices() || []; } catch { /* ok */ }
-  return list.filter(v => /^it([-_]|$)/i.test(v.lang || '')).sort((a, z) => scoreOf(z) - scoreOf(a) || a.name.localeCompare(z.name, 'it'));
+  return list.filter(v => /^it([-_]|$)/i.test(v.lang || '') && !isEspeak(v)).sort((a, z) => scoreOf(z) - scoreOf(a) || a.name.localeCompare(z.name, 'it'));
 }
+/* c'è almeno una voce «migliorata» (Premium o Enhanced) fra quelle italiane? */
+export const hasEnhancedVoice = (list = itVoices()) => list.some(v => qualityOf(v) >= 120);
 /* Su iOS le voci arrivano in ritardo: si riprova a intervalli e si ascolta voiceschanged */
 let voicesPromise = null;
 export function loadVoices(timeout = 4000) {
@@ -71,15 +80,32 @@ export function chosenVoice() {
   return (saved && list.find(v => voiceKey(v) === saved.uri || v.name === saved.name)) || list[0] || null;
 }
 function saveVoice(v) { store.setJson(KEY.voice, {uri: voiceKey(v), name: v.name}); emitState(); }
-const voiceTag = v => qualityOf(v) >= 100 ? (/premium/i.test(v.name) ? 'Premium' : /enhanced|migliorata/i.test(v.name) ? 'Migliorata' : 'Alta qualità') : v.localService ? 'Su questo dispositivo' : 'Online';
+const voiceTag = v => qualityOf(v) >= 100 ? (/premium/i.test(v.name + (v.voiceURI || '')) ? 'Premium' : /enhanced|migliorata|potenziata/i.test(v.name + (v.voiceURI || '')) ? 'Migliorata' : 'Alta qualità') : /compact/i.test(v.voiceURI || '') ? 'Compatta, qualità base' : v.localService ? 'Su questo dispositivo' : 'Online';
 
 /* ---------------------------------------------------------------- testo da leggere */
+/* sigle dei libri, da leggere per esteso solo quando seguono un numero di capitolo («Gv 3,16») */
+const BOOKS = {Gn: 'Genesi', Es: 'Esodo', Lv: 'Levitico', Nm: 'Numeri', Dt: 'Deuteronomio', Gs: 'Giosuè', Gdc: 'Giudici', Rt: 'Rut', Sam: 'Samuele', Re: 'Re', Cr: 'Cronache',
+  Esd: 'Esdra', Ne: 'Neemia', Est: 'Ester', Gb: 'Giobbe', Sal: 'Salmo', Pr: 'Proverbi', Qo: 'Qoèlet', Ct: 'Cantico dei Cantici', Is: 'Isaia', Ger: 'Geremia', Lam: 'Lamentazioni',
+  Ez: 'Ezechiele', Dn: 'Daniele', Os: 'Osea', Gl: 'Gioele', Am: 'Amos', Abd: 'Abdia', Abc: 'Abacuc', Gio: 'Giona', Mi: 'Michea', Na: 'Naum', Sof: 'Sofonia', Ag: 'Aggeo', Zc: 'Zaccaria', Ml: 'Malachia',
+  Mt: 'Matteo', Mc: 'Marco', Lc: 'Luca', Gv: 'Giovanni', At: 'Atti', Rm: 'Romani', Cor: 'Corinzi', Gal: 'Galati', Ef: 'Efesini', Fil: 'Filippesi', Col: 'Colossesi', Ts: 'Tessalonicesi',
+  Tm: 'Timoteo', Tt: 'Tito', Fm: 'Filemone', Eb: 'Ebrei', Gc: 'Giacomo', Pt: 'Pietro', Gd: 'Giuda', Ap: 'Apocalisse'};
+const BOOK_REF = new RegExp('\\b([1-3]\\s?)?(' + Object.keys(BOOKS).join('|') + ')\\.?\\s+(\\d{1,3})(?:[,:](\\d{1,3}))?\\b', 'g');
+const ORDINAL = {1: 'Primo ', 2: 'Secondo ', 3: 'Terzo '};
+/* numeri romani di due o più lettere, solo maiuscoli («Salmo XXIII»): vanno via, non si leggono */
+const ROMAN = /\b(?=[IVXLCDM]{2,}\b)M{0,3}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3})(?<=[IVXLCDM]{2})\b/g;
 const SUBS = [
-  [/\bv{1,2}\.\s*(\d)/g, (m, d) => 'versetto ' + d],
+  [/[¹²³⁰-⁹₀-₉*†‡]+/g, ''],                  // note e apici
+  [/\[[^\]]*\]/g, ''],                                                          // [a], [nota]
+  [BOOK_REF, (m, pre, ab, ch, vs) => (pre ? ORDINAL[pre.trim()] || '' : '') + BOOKS[ab] + ' ' + ch + (vs ? ', versetto ' + vs : '')],
+  [ROMAN, ''],
+  [/\bvv\.\s*(\d)/g, (m, d) => 'versetti ' + d],
+  [/\bv\.\s*(\d)/g, (m, d) => 'versetto ' + d],
   [/\bSig\.(?=\s)/g, 'Signore'], [/\becc\./gi, 'eccetera'], [/\bcfr\./gi, 'confronta'], [/\bes\./gi, 'per esempio'], [/\bcap\.\s*(\d)/gi, (m, d) => 'capitolo ' + d],
+  [/\bca\.(?=\s)/gi, 'circa'], [/\bss\.(?=\s)/g, 'seguenti'], [/\bCr\.(?=\s|$)/g, 'Cristo'],
+  [/\ba\.\s?C\./g, 'avanti Cristo'], [/\bd\.\s?C\./g, 'dopo Cristo'],
   [/\bS\.\s/g, 'San '],
+  [/(\d)\s*[-–]\s*(\d)/g, '$1 a $2'],                                           // 3-5 → 3 a 5, non «tre meno cinque»
   [/[«»“”"]/g, ''], [/[‘’]/g, '\''], [/\s*[—–]\s*/g, ', '], [/\s*\(\s*/g, ', '], [/\s*\)\s*/g, ', '],
-  [/\[[^\]]*\]/g, ''],
   [/\b[A-ZÀ-Ý]{3,}\b/g, w => w.charAt(0) + w.slice(1).toLowerCase()],       // SIGNORE → Signore (altrimenti letto lettera per lettera)
   [/\s+/g, ' '],
 ];
@@ -93,13 +119,21 @@ export function splitParts(t, max = MAX_PART) {
   const s = speakable(t); if (!s) return [];
   const pieces = s.split(/(?<=[;:])\s+/);
   const out = [];
+  /* accorpa i pezzi (già spezzati) fino a max; solo se un pezzo non entra, si scende ai punti successivi */
+  const pack = (items, max2) => {
+    const res = []; let cur = '';
+    for (const it of items) {
+      if (cur && (cur + ' ' + it).length > max2) { res.push(cur); cur = it; } else cur = cur ? cur + ' ' + it : it;
+    }
+    if (cur) res.push(cur);
+    return res;
+  };
   const pushLong = piece => {
     if (piece.length <= max) { out.push(piece); return; }
-    let cur = '';
-    for (const word of piece.split(/(?<=,)\s+|\s+/)) {
-      if (cur && (cur + ' ' + word).length > max) { out.push(cur); cur = word; } else cur = cur ? cur + ' ' + word : word;
+    for (const clause of pack(piece.split(/(?<=,)\s+/), max)) {        // prima le virgole
+      if (clause.length <= max) out.push(clause);
+      else out.push(...pack(clause.split(/\s+/), max));                 // solo in ultima istanza gli spazi
     }
-    if (cur) out.push(cur);
   };
   let acc = '';
   for (const p of pieces) {
@@ -217,7 +251,7 @@ function advance(run) {
     P.b = nx[0]; P.c = nx[1]; P.verses = verses;
     if (router.currentId() === 'leggi') nav.openRef(P.b, P.c, 1);
     setVerse(0);
-  }, VERSE_PAUSE / getRate());
+  }, verseGap());
 }
 function finishAll(run, msg) { if (run !== P.run) return; stopAll(); ui.toast(msg); }
 
@@ -349,11 +383,16 @@ function updateMini() {
 }
 
 /* ---- elenco voci (usato nel foglio e nelle impostazioni) ---- */
+/* riquadro mostrato quando non c'è nessuna voce Premium o Enhanced: spiega come scaricarne una */
+const enhancedTip = () => h('div', {class: 'f-ascolta-tip', id: 'ascoltaTip'},
+  h('b', {text: 'Per una voce più naturale'}),
+  text('p', 'Su iPhone non c’è ancora una voce Premium o Avanzata. Per scaricarne una: Impostazioni › Accessibilità › Contenuto letto › Voci › Italiano, poi scegli una voce «Premium» o «Avanzata» (per esempio Alice o Luca). Poi riapri l’app.', 'hint'));
 function voiceList(box, onPick) {
   const draw = () => {
     const list = itVoices(), cur = chosenVoice();
     box.replaceChildren();
     if (!list.length) { box.append(text('p', 'Nessuna voce italiana trovata su questo dispositivo. Sul telefono arrivano a volte con un po’ di ritardo: riprova tra un momento.', 'hint')); return; }
+    if (!hasEnhancedVoice(list)) box.append(enhancedTip());
     for (const v of list) {
       const on = cur && voiceKey(cur) === voiceKey(v);
       box.append(h('div', {class: 'f-ascolta-voice' + (on ? ' on' : ''), dataset: {voice: v.name}},

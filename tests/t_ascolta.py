@@ -73,7 +73,7 @@ def lettura_avanza_evidenzia_pausa(env, dev):
     wait_js(pg, 'window.__spoken.length>=2')
     eq(spoken(pg)[0]['text'], 'Giovanni, capitolo 3', 'annuncio sincrono nel gesto')
     s = spoken(pg)[1]
-    eq(s['voice'], 'Federica (Migliorata)'); eq(s['lang'], 'it-IT'); eq(s['pitch'], 1); check(abs(s['rate'] - 0.95) < 1e-6, str(s['rate']))
+    eq(s['voice'], 'Federica (Migliorata)'); eq(s['lang'], 'it-IT'); eq(s['pitch'], 1); check(abs(s['rate'] - 0.92) < 1e-6, str(s['rate']))
     check(s['text'].startswith('Giovanni 3 versetto 2'), s['text']); check(not s['text'].startswith('2 '), 'niente numero del versetto')
     wait_js(pg, "document.querySelector('#v3.f-ascolta-now')"); eq(cls_verse(pg), [3])
     check('Giovanni 3' in pg.inner_text('#ascoltaMini'))
@@ -98,9 +98,8 @@ def capitolo_dopo_e_interruttore(env, dev):
     pg.evaluate("window.__speakMs=15")
     tap_verse(pg, 29); pg.click('[data-action="ascolta"]')
     wait_js(pg, "window.__spoken.some(s=>s.text.startsWith('Giovanni 4 versetto 1 '))", timeout=9000)
-    pg.wait_for_timeout(500)
+    wait_js(pg, "document.querySelector('#scr-leggi #v2.f-ascolta-now')", timeout=9000)   # la pausa tra versetti è variabile: si attende, non si dorme
     eq(lsj(pg, 'margine.pos')[:2], [42, 4], 'il lettore segue il capitolo')
-    wait_js(pg, "document.querySelector('#scr-leggi #v2.f-ascolta-now')")
     pg.click('#ascoltaMini [data-act=stop]')
     # senza «continua al capitolo dopo» si ferma alla fine
     pg2 = new(env, dev, storage={'margine.ascolta.next': '0', 'margine.pos': json.dumps([42, 3, 29])})
@@ -118,15 +117,16 @@ def foglio_ascolta_controlli(env, dev):
     check('Giovanni 3' in pg.inner_text('.f-ascolta-title')); check(pg.is_hidden('#ascoltaMini'))
     shot(pg, f'ascolta_foglio_{dev}')
     # velocità
-    pg.click('[data-speed="1.5"]'); wait_js(pg, "window.__spoken.length && window.__spoken[window.__spoken.length-1].rate>1.4")
+    pg.click('[data-speed="1.5"]'); wait_js(pg, "window.__spoken.length && window.__spoken[window.__spoken.length-1].rate>1.3")
     eq(ls(pg, 'margine.ascolta.rate'), '1.5'); eq(pg.get_attribute('[data-speed="1.5"]', 'aria-pressed'), 'true')
-    check(abs(spoken(pg)[-1]['rate'] - 0.95 * 1.5) < 1e-6)
+    check(abs(spoken(pg)[-1]['rate'] - 0.92 * 1.5) < 1e-6)
     # timer
     pg.click('[data-timer="15"]'); check('Si ferma tra circa 15 min' in pg.inner_text('.f-ascolta-note'))
     pg.click('[data-timer="0"]'); check(pg.inner_text('.f-ascolta-note') == '')
     # interruttore capitolo dopo
     eq(pg.get_attribute('#ascoltaNext', 'aria-checked'), 'true'); pg.click('#ascoltaNext'); eq(pg.get_attribute('#ascoltaNext', 'aria-checked'), 'false'); eq(ls(pg, 'margine.ascolta.next'), '0')
     # versetto successivo / precedente dal foglio
+    pg.evaluate('window.__speakMs=400')   # versetti lunghi: la lettura automatica non avanza durante il test
     pg.click('#ascoltaNextV'); pg.wait_for_timeout(300)
     n1 = pg.input_value('.f-ascolta-range'); pg.click('#ascoltaPrev'); pg.wait_for_timeout(300)
     check(int(pg.input_value('.f-ascolta-range')) < int(n1))
@@ -166,7 +166,7 @@ def testo_da_leggere_e_pezzi(env, dev):
       b: m.splitParts('Poiché Dio ha tanto amato il mondo; che ha dato il suo unigenito Figliuolo: affinché chiunque crede in lui non perisca, ma abbia vita eterna, e '+'parola '.repeat(60)),
       c: m.splitParts('Breve versetto.'), d: m.splitParts('')}))""")
     check('SIGNORE' not in r['a'] and 'Signore' in r['a'] and 'versetto 5' in r['a'] and '«' not in r['a'], r['a'])
-    check(len(r['b']) >= 3 and all(len(x) <= 175 for x in r['b']), str([len(x) for x in r['b']]))
+    check(len(r['b']) >= 3 and all(len(x) <= 240 for x in r['b']), str([len(x) for x in r['b']]))
     check(r['b'][0][-1] in ';:' and len(r['b'][0]) > 60, r['b'][0]); eq(r['c'], ['Breve versetto.']); eq(r['d'], [])
 
 @test('phone')
@@ -255,3 +255,53 @@ def onend_mancante_non_blocca(env, dev):
     # versetto successivo con onend che non arriva
     v0 = cls_verse(pg)[0]; pg.click('#ascoltaMini [data-act=next]'); pg.wait_for_timeout(400)
     check(cls_verse(pg)[0] > v0, str(cls_verse(pg)))
+
+
+def mock_voices(js):
+    """Stessa finta speechSynthesis di MOCK, con un elenco di voci diverso"""
+    a = MOCK.index('const voices=['); b = MOCK.index('];', a) + 2
+    return MOCK[:a] + 'const voices=[' + js + '];' + MOCK[b:]
+
+RANK = """{name:'Alice',lang:'it-IT',voiceURI:'com.apple.voice.compact.it-IT.Alice',localService:true,default:false},
+  {name:'Luca',lang:'it-IT',voiceURI:'com.apple.voice.enhanced.it-IT.Luca',localService:true,default:false},
+  {name:'Google italiano',lang:'it-IT',voiceURI:'gi',localService:false,default:false},
+  {name:'Microsoft Elsa Online (Natural)',lang:'it-IT',voiceURI:'els',localService:false,default:false},
+  {name:'eSpeak Italian',lang:'it',voiceURI:'espeak-it',localService:true,default:false}"""
+
+@test('phone')
+def ordine_voci_per_qualita(env, dev):
+    pg = env.new(dev, init=mock_voices(RANK)); settings(pg)
+    wait_js(pg, "document.querySelector('#ascoltaVoceRow small').textContent.includes('Luca')")
+    names = pg.evaluate("import('/js/features/ascolta.js').then(m=>m.itVoices().map(v=>v.name))")
+    eq(names, ['Luca', 'Microsoft Elsa Online (Natural)', 'Google italiano', 'Alice'], 'Premium/Enhanced, poi Natural, Google, compact ultima; eSpeak esclusa')
+    check(pg.evaluate("import('/js/features/ascolta.js').then(m=>m.hasEnhancedVoice())"))
+    pg.click('#ascoltaVoceRow'); pg.wait_for_selector('.f-ascolta-voice')
+    check('Compatta' in pg.inner_text('.f-ascolta-voice[data-voice="Alice"]'), 'etichetta della compact')
+    check(pg.locator('#ascoltaTip').count() == 0, 'con Luca enhanced niente riquadro')
+
+@test('phone')
+def senza_premium_mostra_come_scaricarla(env, dev):
+    voci = RANK.replace("{name:'Luca',lang:'it-IT',voiceURI:'com.apple.voice.enhanced.it-IT.Luca',localService:true,default:false},", "")
+    pg = env.new(dev, init=mock_voices(voci)); settings(pg)
+    wait_js(pg, "document.querySelector('#ascoltaVoceRow small').textContent.includes('Elsa')")
+    check(not pg.evaluate("import('/js/features/ascolta.js').then(m=>m.hasEnhancedVoice())"))
+    pg.click('#ascoltaVoceRow'); pg.wait_for_selector('#ascoltaTip')
+    tip = pg.inner_text('#ascoltaTip')
+    check('Impostazioni › Accessibilità › Contenuto letto › Voci › Italiano' in tip and 'Premium' in tip and 'Avanzata' in tip and 'riapri' in tip, tip)
+    check('Per una voce più naturale' in tip)
+    check(pg.locator('#ascoltaTip ~ .f-ascolta-voice').count() >= 1, 'il riquadro sta sopra l’elenco')
+    shot(pg, f'ascolta_voce_senza_premium_{dev}')
+
+@test('phone')
+def testo_preparato_per_la_lettura(env, dev):
+    pg = new(env, dev)
+    r = pg.evaluate("""import('/js/features/ascolta.js').then(m=>({
+      a: m.speakable('Gv 3,16 e 1Gv 4,8; Sal 23'),
+      b: m.speakable('Il Salmo XXIII¹ dice*: vv. 3-5 (cfr. Rm 8,28) e poi [nota] Gesù Cr. parlò. Nel 30 d.C. e ca. 5 anni a.C.'),
+      c: m.splitParts('Vide che era buono, e disse: «Sia la luce». E fu sera e fu mattina, un giorno. ' + 'lunga frase senza punti che continua ancora '.repeat(8)),
+    }))""")
+    eq(r['a'], 'Giovanni 3, versetto 16 e Primo Giovanni 4, versetto 8; Salmo 23', 'sigle dei libri con capitolo e versetto')
+    check('XXIII' not in r['b'] and '¹' not in r['b'] and '*' not in r['b'] and '[' not in r['b'] and '(' not in r['b'], r['b'])
+    check('versetti 3 a 5' in r['b'] and 'Gesù Cristo' in r['b'] and 'dopo Cristo' in r['b'] and 'avanti Cristo' in r['b'] and 'circa 5' in r['b'], r['b'])
+    check(all(len(x) <= 240 for x in r['c']) and len(r['c']) >= 2, str([len(x) for x in r['c']]))
+    check(r['c'][0].endswith('.') or r['c'][0].endswith(';') or r['c'][0].endswith(':') or r['c'][0].endswith(','), r['c'][0])
