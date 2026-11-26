@@ -36,11 +36,14 @@ def calcoli_e_schermata(env, dev):
 @test()
 def accessi_e_vuoto(env, dev):
     pg = env.new(dev)
-    pg.focus('#scr-oggi .stats .stat >> nth=1'); pg.keyboard.press('Enter'); pg.wait_for_selector('#progWeek')
+    # senza cifre la riga «giorni di fila» di Oggi è nascosta: si arriva a Progressi da Impostazioni › Studio, con la tastiera
+    eq(pg.is_visible('#scr-oggi .stats'), False)
+    pg.click('#settingsBtn'); pg.wait_for_selector('[data-section="Studio"] .row:has-text("Progressi")')
+    pg.focus('[data-section="Studio"] .row:has-text("Progressi")'); pg.keyboard.press('Enter'); pg.wait_for_selector('#progWeek')
     check('0%' in pg.inner_text('#progPct')); check('Quando leggerai' in pg.inner_text('#scr-progressi')); eq(pg.locator('.f-progressi-book').count(), 0)
-    pg.keyboard.press('Escape'); wait_js(pg, "document.body.dataset.screen==='oggi'")
-    pg.click('#settingsBtn'); pg.click('[data-section="Studio"] .row:has-text("Progressi")'); pg.wait_for_selector('#progWeek')
-    pg.click('.tb-back'); wait_js(pg, "document.body.dataset.screen==='impostazioni'")
+    pg.keyboard.press('Escape'); wait_js(pg, "document.body.dataset.screen==='impostazioni'")
+    pg.click('[data-section="Studio"] .row:has-text("Progressi")'); pg.wait_for_selector('#progWeek')
+    pg.click('#scr-progressi .tb-back'); wait_js(pg, "document.body.dataset.screen==='impostazioni'")
 
 @test('phone')
 def temi(env, dev):

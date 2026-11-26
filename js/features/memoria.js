@@ -130,7 +130,7 @@ function renderReview() {
   const list = load();
   if (!list.length) {
     body.append(head({title: 'Ripasso', right: listButton('Elenco dei versetti')}),
-      h('div', {class: 'f-memoria-empty'}, icon('mem-cards', 34, 1.4), text('h2', 'Ancora niente a memoria', 'f-memoria-h2'),
+      h('div', {class: 'f-memoria-empty'}, text('h2', 'Ancora niente a memoria', 'f-memoria-h2'),
         text('p', 'Tocca un versetto nel testo e scegli «Impara a memoria»: qui tornerà per i ripassi.', 'hint'),
         h('button', {class: 'btn primary', type: 'button', text: 'Vai alla lettura', on: {click: () => router.go('libreria')}})));
     return;

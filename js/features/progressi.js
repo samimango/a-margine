@@ -61,18 +61,18 @@ function render() {
         h('small', {text: d.finished.length ? plural(d.finished.length, 'libro completato', 'libri completati') : 'Nessun libro completato per ora'}))),
     h('section', {class: 'card f-progressi-card'}, text('h2', 'Questa settimana', 'f-progressi-h'),
       h('div', {class: 'f-progressi-week', id: 'progWeek', role: 'list'}, ...d.week.map((day, i) => h('div', {class: 'f-progressi-day' + (set.has(day) ? ' on' : '') + (day === today ? ' today' : ''), role: 'listitem', 'aria-label': DAY_NAMES[i] + (set.has(day) ? ': letto' : ': non letto') + (day === today ? ' (oggi)' : ''), dataset: {day}},
-        h('i', {}, set.has(day) ? icon('check', 14, 2.6) : null), h('span', {text: DAYS[i], 'aria-hidden': 'true'}))))),
-    h('div', {class: 'f-progressi-two'},
-      h('div', {class: 'card f-progressi-stat', id: 'progStreak'}, h('span', {class: 'f-progressi-ico flame'}, icon('flame', 16, 2)), h('b', {text: String(d.streak)}), h('small', {text: d.streak === 1 ? 'giorno di fila' : 'giorni di fila'})),
-      h('div', {class: 'card f-progressi-stat', id: 'progBest'}, h('span', {class: 'f-progressi-ico'}, icon('check', 16, 2)), h('b', {text: String(d.best)}), h('small', {text: 'record di fila'}))),
-    h('div', {class: 'f-progressi-two'},
-      h('div', {class: 'card f-progressi-stat', id: 'progMed'}, h('span', {class: 'f-progressi-ico'}, icon('pen', 16, 2)), h('b', {text: String(d.meditations)}), h('small', {text: d.meditations === 1 ? 'meditazione' : 'meditazioni'})),
-      h('div', {class: 'card f-progressi-stat', id: 'progHl'}, h('span', {class: 'f-progressi-ico'}, icon('text', 16, 2)), h('b', {text: String(d.highlights)}), h('small', {text: d.highlights === 1 ? 'versetto evidenziato' : 'versetti evidenziati'}))));
+        h('i', {'aria-hidden': 'true'}), h('span', {text: DAYS[i], 'aria-hidden': 'true'}))))),
+    /* numeri come righe di testo, non come quattro card */
+    h('section', {class: 'card f-progressi-card f-progressi-list'},
+      h('div', {class: 'f-progressi-row', id: 'progStreak'}, h('small', {text: d.streak === 1 ? 'giorno di fila' : 'giorni di fila'}), h('b', {text: String(d.streak)})),
+      h('div', {class: 'f-progressi-row', id: 'progBest'}, h('small', {text: 'record di fila'}), h('b', {text: String(d.best)})),
+      h('div', {class: 'f-progressi-row', id: 'progMed'}, h('small', {text: d.meditations === 1 ? 'meditazione' : 'meditazioni'}), h('b', {text: String(d.meditations)})),
+      h('div', {class: 'f-progressi-row', id: 'progHl'}, h('small', {text: d.highlights === 1 ? 'versetto evidenziato' : 'versetti evidenziati'}), h('b', {text: String(d.highlights)}))));
   if (d.finished.length) body.append(text('h2', 'Libri completati', 'sec'), h('div', {class: 'f-progressi-chips', id: 'progDone'}, ...d.finished.map(b => h('span', {class: 'f-progressi-chip', style: {'--bk': bible.bookStyle(b).c1}, text: bible.names[b]}))));
   body.append(text('h2', 'Per libro', 'sec'));
   if (!d.started.length) body.append(text('p', 'Quando leggerai un capitolo fino in fondo, il libro comparirà qui.', 'empty'));
   else body.append(h('div', {class: 'card f-progressi-books', id: 'progBooks'}, ...d.started.map(x => h('button', {class: 'f-progressi-book', type: 'button', dataset: {book: x.b}, 'aria-label': bible.names[x.b] + ': ' + x.n + ' capitoli su ' + x.total, on: {click: () => ctx.nav.openBook(x.b)}},
-    h('span', {class: 'f-progressi-bn', text: bible.names[x.b]}), h('span', {class: 'f-progressi-bar', 'aria-hidden': 'true'}, h('i', {style: {width: Math.max(3, Math.round(x.n / x.total * 100)) + '%', background: bible.bookStyle(x.b).c1}})), h('span', {class: 'f-progressi-bc', text: x.n + '/' + x.total})))));
+    h('span', {class: 'f-progressi-bn', text: bible.names[x.b]}), h('span', {class: 'f-progressi-bc', text: x.n + ' di ' + x.total})))));
   body.append(text('p', 'Un capitolo conta come letto quando arrivi in fondo. I dati restano su questo dispositivo.', 'hint'));
 }
 

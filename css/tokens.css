@@ -15,15 +15,16 @@
   --accent-book: var(--bk);
 
   /* forma */
-  --r-card: 22px; --r-md: 16px; --r-sm: 12px; --r-pill: 999px;
+  /* raggi: esterno = interno + padding. xs cover e barre · ctl controlli 10 · sm 12 · md 14 pannelli piccoli · card 16 · panel 20 fogli e pannelli grandi */
+  --r-xs: 4px; --r-ctl: 10px; --r-sm: 12px; --r-md: 14px; --r-card: 16px; --r-panel: 20px; --r-pill: 999px;
   --tab-h: 62px; --colw: 680px; --pad: 18px; --hit: 44px;
   --safe-t: env(safe-area-inset-top, 0px); --safe-b: env(safe-area-inset-bottom, 0px);
   --dock: 78px; --actions-h: 0px;
 
   /* tema chiaro (predefinito) */
-  --bg: #f4f0e8; --card: #fffdf9; --ink: #1d1a16; --dim: #6f675b; --line: rgba(60, 45, 20, .11);
+  --bg: #f4f0e8; --card: #fffdf9; --ink: #1d1a16; --dim: #625a4e; --line: rgba(60, 45, 20, .11);
   --glass: rgba(250, 246, 238, .66); --chip: #ebe5d8; --pill: rgba(60, 40, 10, .09);
-  --accent: #b45c3a; --accent-ink: #ffffff; --ribbon: #b03a2a; --toast: #201c18;
+  --accent: #b45c3a; --accent-text: #94462a; --accent-ink: #ffffff; --ribbon: #b03a2a; --toast: #201c18;
   --sel: rgba(180, 92, 58, .24); --scrim: rgba(24, 14, 4, .38);
   --shadow-card: 0 1px 0 rgba(255, 255, 255, .7) inset, 0 0 0 .6px var(--line), 0 10px 24px -14px rgba(60, 40, 10, .28);
   --shadow-tab: 0 14px 34px -10px rgba(40, 25, 5, .35), inset 0 0 0 .6px rgba(255, 255, 255, .55), 0 0 0 .6px var(--line);
@@ -33,14 +34,14 @@
   color-scheme: light;
 }
 :root[data-theme="paper"] {
-  --bg: #f6f1e7; --card: #fffdf9; --ink: #221d16; --dim: #72695d; --line: rgba(60, 45, 20, .12);
+  --bg: #f6f1e7; --card: #fffdf9; --ink: #221d16; --dim: #625a4e; --line: rgba(60, 45, 20, .12);
   --glass: rgba(250, 245, 234, .7); --chip: #ece5d4;
 }
 /* Ambito scuro locale: `.theme-dark-scope` su un elemento (es. un foglio) ridefinisce gli stessi token del tema scuro, qualunque sia il tema dell'app */
 :root[data-theme="dark"], .theme-dark-scope {
   --bg: #000000; --card: #101010; --ink: #f3efe8; --dim: #9a958b; --line: rgba(255, 255, 255, .1);
   --glass: rgba(28, 28, 28, .62); --chip: #1b1b1b; --pill: rgba(255, 255, 255, .12);
-  --accent: #e08a66; --accent-ink: #1a0f08; --ribbon: #d9553f; --toast: #2a2724;
+  --accent: #e08a66; --accent-text: #e08a66; --accent-ink: #1a0f08; --ribbon: #d9553f; --toast: #2a2724;
   --sel: rgba(224, 138, 102, .30); --scrim: rgba(0, 0, 0, .6);
   --accent-book: var(--bk-ac);
   --shadow-card: 0 0 0 .6px var(--line);

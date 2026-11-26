@@ -109,11 +109,15 @@ registerFeature({
 - Ascolta: la PRIMA `speechSynthesis.speak()` deve partire sincrona nel gesto (iOS): è l'annuncio «Libro, capitolo N»; i versetti si caricano nel frattempo. Mai `await`/`setTimeout` prima. Se `onstart` non arriva in ~2 s: toast sul tasto del silenzioso (una volta per sessione).
 - Mappa (`mondo-mappa.js`): piastrelle senza etichette. CARTO `voyager_nolabels`/`dark_nolabels` ora richiedono una chiave gratuita (senza, ogni piastrella porta «API KEY REQUIRED»): di serie Esri World Shaded Relief; con `localStorage['margine.mondo.cartokey']` si usano le CARTO. Nomi solo nostri (`NAME`, `LABEL_AT`, `TIER1/2` in cima al file). Attribuzione e avviso offline stanno in una riga SOTTO la mappa.
 - `heroActions`: il pulsante in Oggi ha `data-hero-action="<id>"`; le azioni sul versetto hanno `data-action="<id>"`.
-- Le cifre di Oggi (giorni di fila, capitoli, libri) sono pulsanti che aprono la schermata `progressi` se esiste (altrimenti restano riquadri).
+- Le cifre di Oggi (giorni di fila, capitoli, libri) sono una sola riga di testo sotto «Riprendi»: si mostrano solo le cifre maggiori di zero (senza nessuna, la riga è nascosta); ogni cifra è un pulsante che apre la schermata `progressi` se esiste (altrimenti resta testo).
 
 ## Stile
 
-- Mai colori, raggi, ombre o spazi scritti a mano in un file diverso da `css/tokens.css`: si usano le variabili (`--bg`, `--fg`, `--muted`, `--card`, `--line`, `--accent`, `--d1..5` e `--c1..5` per i colori dei versetti, `--bk` / `--accent-book` per il libro corrente).
+- Mai colori, raggi, ombre o spazi scritti a mano in un file diverso da `css/tokens.css`: si usano le variabili (`--bg`, `--ink`, `--dim`, `--card`, `--chip`, `--line`, `--accent`, `--accent-text`, `--d1..5` e `--c1..5` per i colori dei versetti, `--bk` / `--accent-book` per il libro corrente).
+- Raggi: `--r-xs` 4 (cover, barre), `--r-ctl` 10 (controlli), `--r-sm` 12, `--r-md` 14 (pannelli piccoli, segmenti), `--r-card` 16 (card), `--r-panel` 20 (fogli, pannelli grandi), `--r-pill`. Il raggio interno è quello esterno meno il padding. Solo i cerchi usano `50%`.
+- Testo piccolo in accento: `--accent-text` (scuro sul tema carta; ≥4,5:1 su tutti i fondi). `--accent` resta per superfici e pulsanti.
+- Etichette (`.eyebrow`): frase normale, tracking ≤ .04em. Il maiuscolo spaziato è solo `.eyebrow.caps` (hero «Riprendi da qui») e nelle intestazioni di sezione (`.testament`, `.sh .eyebrow`, `.libro-title .eyebrow`).
+- Icone: `icon(nome, size)` ha due sole misure, 16 o 18 px (le altre si arrotondano), tratto 1.8 fisso. Ombre: `var(--shadow-card)` / `var(--shadow-tab)`, niente ombre colorate.
 - Stili di una nuova feature: classe con prefisso (`.f-<nome>-...`) e regole in un `<style>` creato dal modulo o in un nuovo file CSS caricato dal modulo con `<link>` (consentito dalla CSP: `style-src 'self' 'unsafe-inline'`).
 - Testo dell'interfaccia in italiano, tono semplice, accenti corretti.
 - Ambito scuro locale: la classe `.theme-dark-scope` (in `tokens.css`) ridefinisce su un solo elemento gli stessi token del tema scuro, qualunque sia il tema dell'app. Il foglio di «Ascolta» la usa (`sh.el.classList.add('theme-dark-scope')`) invece di colori scritti a mano; dentro l'ambito basta usare `var(--bg)`, `var(--ink)` ecc. e impostare `background`/`color` dell'elemento.

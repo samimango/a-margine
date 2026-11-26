@@ -169,7 +169,7 @@ function openCard(anchor) {
 
 /* ---------- Stile ---------- */
 const CSS = `
-.f-parole-w { --tone: var(--dim); position: relative; cursor: pointer; border-radius: 3px; text-decoration: underline dotted; text-decoration-thickness: 1.4px; text-underline-offset: .24em;
+.f-parole-w { --tone: var(--dim); position: relative; cursor: pointer; border-radius: var(--r-xs); text-decoration: underline dotted; text-decoration-thickness: 1.4px; text-underline-offset: .24em;
   text-decoration-color: color-mix(in srgb, var(--tone) 62%, transparent); -webkit-touch-callout: none; transition: background-color .15s; }
 .f-parole-w::after { content: ''; position: absolute; inset: -8px -4px; }
 .f-parole-w:hover, .f-parole-w:focus-visible { background-color: color-mix(in srgb, var(--tone) 14%, transparent); }
@@ -181,7 +181,7 @@ const CSS = `
 .f-parole-av { width: 44px; height: 44px; flex: none; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; color: var(--tone); background: color-mix(in srgb, var(--tone) 16%, var(--card)); }
 .f-parole-initial { font: 600 21px var(--serif-head); }
 .f-parole-titles { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; padding-top: 1px; }
-.f-parole-eyebrow { font: 600 10.5px/1.2 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--tone); }
+.f-parole-eyebrow { font: 600 12px/1.3 var(--sans); letter-spacing: .02em; color: var(--tone); }
 .f-parole-title { font: 600 22px/1.15 var(--serif-head); letter-spacing: -.01em; }
 .f-parole-titles small { font: 400 13px/1.35 var(--sans); color: var(--dim); }
 .f-parole-x { width: var(--hit); height: var(--hit); margin: -6px -8px 0 0; flex: none; display: inline-flex; align-items: center; justify-content: center; color: var(--dim); border-radius: 50%; }
@@ -192,7 +192,7 @@ const CSS = `
 .f-parole-chips, .f-parole-refs { display: flex; flex-wrap: wrap; gap: 6px; }
 .f-parole-chip { padding: 6px 11px; border-radius: var(--r-pill); background: var(--chip); font: 500 12.5px/1.25 var(--sans); }
 .f-parole-field { display: flex; flex-direction: column; gap: 5px; }
-.f-parole-label { font: 600 10.5px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+.f-parole-label { font: 600 12px var(--sans); letter-spacing: .02em; color: var(--dim); }
 .f-parole-ref { position: relative; min-height: 34px; padding: 0 13px; border-radius: var(--r-pill); display: inline-flex; align-items: center; background: color-mix(in srgb, var(--tone) 14%, var(--card)); color: var(--ink); font: 600 13px var(--sans); }
 .f-parole-ref:not(.plain)::after { content: ''; position: absolute; inset: -5px -2px; }
 .f-parole-ref.plain { min-height: 0; padding: 5px 11px; font-weight: 500; }

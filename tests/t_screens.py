@@ -68,7 +68,7 @@ def oggi_statistiche(env, dev):
     check('64.1' in (lsj(pg, 'margine.read') or {}), 'capitolo letto arrivando in fondo')
     check(len(lsj(pg, 'margine.days')) == 1)
     tab(pg, 'oggi'); txt = pg.inner_text('.stats')
-    check('1\ngiorno di fila' in txt and '1\ncapitolo letto' in txt and '1\nlibro finito' in txt, repr(txt))
+    check('1 giorno di fila' in txt and '1 capitolo letto' in txt and '1 libro finito' in txt, repr(txt))
     check(pg.locator('.recent').count() == 1); check('Giuda' in pg.inner_text('.recents'))
     # Riprendi mostra libro, capitolo e versetto
     check('Giuda' in pg.inner_text('#resRef'))

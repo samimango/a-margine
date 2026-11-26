@@ -22,24 +22,23 @@ function dateEyebrow() {
 const greeting = () => { const hr = new Date().getHours(); return hr < 12 ? 'Buongiorno' : hr < 18 ? 'Buon pomeriggio' : 'Buonasera'; };
 
 function row(label, onclick, sub) {
-  return h('button', {class: 'row', type: 'button', on: {click: onclick}}, h('span', {class: 'row-main'}, h('b', {text: label}), sub ? h('small', {text: sub}) : null), icon('chev', 16, 2.2));
+  return h('button', {class: 'row', type: 'button', on: {click: onclick}}, h('span', {class: 'row-main'}, h('b', {text: label}), sub ? h('small', {text: sub}) : null), icon('chev', 16));
 }
 
 function renderHero() {
   const [b, c, v] = notes.pos(), st = bookStyle(b);
   const box = parts.hero; box.replaceChildren();
-  box.style.setProperty('--bk', st.c1); box.style.setProperty('--bk-ac', st.ac);
-  const bg = h('div', {class: 'hero-bg'}); bg.innerHTML = coverSvg(b, {w: 358, h: 246, hero: true, r: 0, symx: 290, symy: 96, syms: 250});
+  box.style.setProperty('--bk', st.c1);
   const qText = chapters.textOf(b + '.' + c + '.' + v);
   const quote = h('p', {class: 'hero-quote', text: qText ? '«' + shortText(qText, 150) + '»' : '', hidden: !qText});
   const sub = h('div', {class: 'hero-sub', text: 'Versetto ' + v});
   const bar = h('i'); const progress = h('div', {class: 'hero-progress', 'aria-hidden': 'true'}, bar);
   const actions = h('div', {class: 'hero-btns'},
-    h('button', {class: 'pill primary', id: 'resGo', type: 'button', on: {click: () => openRef(b, c, v)}}, icon('book', 17, 2), 'Continua'),
-    ...features.heroActions().map(a => h('button', {class: 'pill glass-btn', type: 'button', dataset: {heroAction: a.id}, on: {click: () => a.run(features.ctx)}}, a.icon ? icon(a.icon, 17, 2) : null, a.label)));
-  box.append(bg, h('div', {class: 'hero-shade'}),
-    h('div', {class: 'hero-top'}, h('span', {class: 'hero-cover'}, cover(b, {w: 78, h: 110, r: 5, tsize: 7})),
-      h('div', {class: 'hero-head'}, text('div', 'Riprendi da qui', 'eyebrow'), h('div', {class: 'hero-title', id: 'resRef', text: names[b] + ' ' + c}), sub)),
+    h('button', {class: 'pill primary', id: 'resGo', type: 'button', on: {click: () => openRef(b, c, v)}}, 'Continua'),
+    ...features.heroActions().map(a => h('button', {class: 'pill glass-btn', type: 'button', dataset: {heroAction: a.id}, on: {click: () => a.run(features.ctx)}}, a.label)));
+  box.append(
+    h('div', {class: 'hero-top'}, h('span', {class: 'hero-cover'}, cover(b, {w: 78, h: 110, r: 4, tsize: 7})),
+      h('div', {class: 'hero-head'}, text('div', 'Riprendi da qui', 'eyebrow caps'), h('div', {class: 'hero-title', id: 'resRef', text: names[b] + ' ' + c}), sub)),
     quote, actions, progress);
   const fill = map => {
     if (!map || !box.isConnected) return;
@@ -52,12 +51,19 @@ function renderHero() {
   chapters.warm(b, c);   // «Continua» apre subito: il capitolo è già in arrivo
 }
 
+/* una riga di testo sotto la scheda: solo le cifre maggiori di zero; senza cifre, niente riga */
 function renderStats() {
   const s = notes.stats(), box = parts.stats; box.replaceChildren();
-  /* le cifre aprono «Progressi» se la schermata esiste (arriva da una feature) */
   const tap = router.hasScreen('progressi');
-  const card = (n, label, ic, color) => h(tap ? 'button' : 'div', tap ? {class: 'card stat tap', type: 'button', style: {'--sc': color}, 'aria-label': n + ' ' + label + '. Apri Progressi', on: {click: () => router.go('progressi')}} : {class: 'card stat', style: {'--sc': color}}, h('div', {class: 'stat-ic'}, icon(ic, 15, 2)), h('div', {class: 'stat-n', text: String(n)}), h('div', {class: 'stat-l', text: label}));
-  box.append(card(s.streak, s.streak === 1 ? 'giorno di fila' : 'giorni di fila', 'flame', 'var(--terra)'), card(s.chapters, s.chapters === 1 ? 'capitolo letto' : 'capitoli letti', 'book', 'var(--sage)'), card(s.books, s.books === 1 ? 'libro finito' : 'libri finiti', 'bookmark', 'var(--ochre)'));
+  const items = [[s.streak, s.streak === 1 ? 'giorno di fila' : 'giorni di fila'], [s.chapters, s.chapters === 1 ? 'capitolo letto' : 'capitoli letti'], [s.books, s.books === 1 ? 'libro finito' : 'libri finiti']].filter(([n]) => n > 0);
+  box.hidden = !items.length;
+  items.forEach(([n, label], i) => {
+    if (i) box.append(h('span', {class: 'stats-sep', 'aria-hidden': 'true', text: '·'}));
+    const inner = [h('b', {text: String(n)}), ' ' + label];
+    box.append(tap
+      ? h('button', {class: 'stat tap', type: 'button', 'aria-label': n + ' ' + label + '. Apri Progressi', on: {click: () => router.go('progressi')}}, ...inner)
+      : h('span', {class: 'stat'}, ...inner));
+  });
 }
 
 function renderCards() {
@@ -111,14 +117,14 @@ export default {
     el = root;
     parts = {
       date: text('div', '', 'eyebrow'), greet: h('h1', {class: 'big', id: 'greet'}),
-      hero: h('div', {class: 'hero', id: 'hero'}), stats: h('div', {class: 'stats'}), cards: h('div', {class: 'home-cards'}),
+      hero: h('div', {class: 'hero card', id: 'hero'}), stats: h('p', {class: 'stats', hidden: true}), cards: h('div', {class: 'home-cards'}),
       recent: h('div', {class: 'recents'}), bm: h('div', {class: 'rows'}), med: h('div'),
       hint: h('p', {class: 'hint', id: 'syncState', role: 'status'}), conflicts: h('div', {class: 'conflicts', id: 'conflicts', hidden: true}),
     };
     parts.recentBox = h('div', {hidden: true}, text('h2', 'Letti di recente', 'sec'), parts.recent);
     root.append(h('div', {class: 'col'},
       h('div', {class: 'oggi-head'}, h('div', {}, parts.date, parts.greet),
-        h('button', {class: 'avatar', id: 'settingsBtn', type: 'button', 'aria-label': 'Impostazioni', on: {click: () => router.go('impostazioni')}}, icon('person', 20, 1.7))),
+        h('button', {class: 'avatar', id: 'settingsBtn', type: 'button', 'aria-label': 'Impostazioni', on: {click: () => router.go('impostazioni')}}, icon('person', 18))),
       parts.hero, parts.stats, parts.cards, parts.recentBox,
       text('h2', 'Segnalibri', 'sec'), parts.bm, text('h2', 'Ultima meditazione', 'sec'), parts.med, parts.hint, parts.conflicts));
     liveConflicts(parts.conflicts);

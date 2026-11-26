@@ -34,7 +34,7 @@ function render() {
   body.append(hero, content);
   const reading = pb === book;
   const ch = reading ? pc : 1;
-  cta.replaceChildren(icon('book', 18, 2), reading ? 'Continua · capitolo ' + pc + ',' + pv : 'Inizia a leggere' + (counts[book] > 1 ? ' · capitolo 1' : ''));
+  cta.replaceChildren(reading ? 'Continua · capitolo ' + pc + ',' + pv : 'Inizia a leggere' + (counts[book] > 1 ? ' · capitolo 1' : ''));
   cta.onclick = () => { chapters.warm(book, ch); openRef(book, ch, reading ? pv : 1); };
   chapters.warm(book, ch);   // il capitolo di «Continua» (o il primo) parte a scaldarsi appena si apre la pagina
 }

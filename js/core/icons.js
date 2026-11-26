@@ -31,13 +31,16 @@ export const ICONS = {
 };
 /* Le feature aggiungono le proprie icone (nome → contenuto SVG, viewBox 24) senza toccare ICONS direttamente */
 export function registerIcons(obj) { return Object.assign(ICONS, obj); }
-export function iconSvg(name, size = 22, sw = 1.8) {
+/* Un solo set di dimensioni: 16 o 18 px, tratto 1.8 fisso (il terzo argomento vecchio è ignorato). */
+export const iconSize = s => (s <= 16 ? 16 : 18);
+export function iconSvg(name, size = 18) {
   const body = ICONS[name] || '';
-  return `<svg class="ic-svg" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
+  const px = iconSize(size);
+  return `<svg class="ic-svg" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="${px}" height="${px}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
 }
-export function icon(name, size = 22, sw = 1.8) {
+export function icon(name, size = 18) {
   const t = document.createElement('template');
-  t.innerHTML = iconSvg(name, size, sw);
+  t.innerHTML = iconSvg(name, size);
   return t.content.firstChild;
 }
 export const fleuron = (w = 44) => `<svg class="fleuron" aria-hidden="true" viewBox="0 0 60 12" width="${w}" height="${w * 0.2}" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"><path d="M2 6H22M38 6H58"/><path d="M30 1.5 L33.5 6 L30 10.5 L26.5 6Z" fill="currentColor" stroke="none"/><circle cx="24.5" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="35.5" cy="6" r="1" fill="currentColor" stroke="none"/></svg>`;

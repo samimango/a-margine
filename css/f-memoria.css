@@ -6,7 +6,7 @@
 .f-memoria-ht { display: flex; flex-direction: column; align-items: center; gap: 2px; }
 .f-memoria-ht b { font: 600 17px var(--serif-head); }
 .f-memoria-segs { display: flex; gap: 4px; margin: 6px 2px 16px; }
-.f-memoria-segs i { flex: 1; height: 4px; border-radius: 2px; background: var(--chip); }
+.f-memoria-segs i { flex: 1; height: 4px; border-radius: var(--r-xs); background: var(--chip); }
 .f-memoria-segs i.done { background: var(--accent); }
 .f-memoria-segs i.cur { background: color-mix(in srgb, var(--accent) 45%, transparent); }
 
@@ -16,19 +16,19 @@
 .f-memoria-face { grid-area: 1 / 1; background: var(--card); border-radius: var(--r-card); box-shadow: var(--shadow-card); padding: 22px 22px 16px; backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; min-height: 320px; }
 .f-memoria-face.back { transform: rotateY(180deg); }
 .f-memoria-fh { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.f-memoria-ref { color: var(--accent); }
+.f-memoria-ref { color: var(--accent-text); }
 .f-memoria-tag { font: 500 11.5px var(--sans); color: var(--dim); background: var(--chip); border-radius: var(--r-pill); padding: 4px 10px; }
 .f-memoria-div { height: 1px; width: 56px; margin: 16px auto 14px; background: var(--line); }
 .f-memoria-text { font: 400 clamp(20px, 5.4vw, 24px)/1.9 var(--serif-read); margin: 0; flex: 1; }
 .f-memoria-ff { display: flex; justify-content: space-between; gap: 10px; font: 500 12px var(--sans); color: var(--dim); margin-top: 14px; }
-.f-memoria-gap { display: inline-block; vertical-align: baseline; min-width: calc(var(--n) * .52em); height: 1.05em; margin: 0 1px; border-radius: 4px; position: relative; top: .1em;
+.f-memoria-gap { display: inline-block; vertical-align: baseline; min-width: calc(var(--n) * .52em); height: 1.05em; margin: 0 1px; border-radius: var(--r-xs); position: relative; top: .1em;
   background: repeating-linear-gradient(-45deg, color-mix(in srgb, var(--accent) 34%, transparent) 0 3px, color-mix(in srgb, var(--accent) 12%, transparent) 3px 7px); box-shadow: 0 0 0 .6px color-mix(in srgb, var(--accent) 40%, transparent); }
 .f-memoria-gap::before { content: ""; position: absolute; inset: -12px -4px; }
 .f-memoria-gap-w { visibility: hidden; font: inherit; }
 .f-memoria-gap.shown { background: var(--sel); min-width: 0; height: auto; color: var(--ink); box-shadow: none; padding: 0 2px; font: inherit; }
 .f-memoria-gap.shown .f-memoria-gap-w { visibility: visible; }
 .f-memoria-gap.shown:disabled { opacity: 1; }
-.f-memoria-show { width: 100%; min-height: 54px; margin-top: 18px; border-radius: 27px; background: var(--ink); color: var(--bg); font: 600 16px var(--sans); display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: var(--shadow-tab); }
+.f-memoria-show { width: 100%; min-height: 54px; margin-top: 18px; border-radius: var(--r-pill); background: var(--ink); color: var(--bg); font: 600 16px var(--sans); display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: var(--shadow-tab); }
 .f-memoria-show[hidden], .f-memoria-grades[hidden] { display: none; }
 .f-memoria-q { text-align: center; margin: 20px 0 10px; }
 .f-memoria-gr { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
@@ -52,7 +52,7 @@
 /* scheda in Oggi */
 .f-memoria-home { padding: 14px 16px 6px; }
 .f-memoria-home-h { display: flex; justify-content: space-between; align-items: center; }
-.f-memoria-home-e { color: var(--accent); }
+.f-memoria-home-e { color: var(--accent-text); }
 .f-memoria-home-n { font: 500 12px var(--sans); color: var(--dim); } .f-memoria-home-n.now { color: var(--ink); }
 .f-memoria-home-r { display: block; font: 600 15px var(--sans); margin-top: 8px; }
 .f-memoria-home-t { font: 400 16px/1.55 var(--serif-read); margin: 4px 0 0; }
