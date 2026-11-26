@@ -1,6 +1,15 @@
 /* Mappa interattiva di «Mondo della Bibbia»: mappa vettoriale disegnata (SVG, sempre disponibile offline) + piastrelle SENZA etichette (Esri World Shaded Relief; CARTO nolabels se c'è una chiave) quando c'è rete. I nomi sono SOLO i nostri, in italiano. Proiezione Web Mercator per tutto. Zoom/pan con dita (pointer events, pinch), rotella, tastiera.
    Nessuna libreria. Caricato solo quando serve (import dinamico da mondo.js). */
-import {MEDITERRANEO, MARE_NERO, MAR_ROSSO, GOLFO_PERSICO, ISOLE, FIUMI, LAGHI, BASE, BASE_Z, WORLD, nx, ny, pathOf} from './mondo-geo.js';
+import {MEDITERRANEO, MARE_NERO, MAR_ROSSO, GOLFO_PERSICO, ISOLE, FIUMI, LAGHI, AREE, BASE, WORLD, nx, ny, pathOf, levelBounds, labelCandidates} from './mondo-geo.js';
+const SEA = [MEDITERRANEO, MARE_NERO, MAR_ROSSO, GOLFO_PERSICO];
+const AREA_POLY = Object.fromEntries(AREE.map(a => [a.id, a.poligono]));
+
+/* colori sobri per le aree di un livello (indice nell'ordine dei dati) */
+const PALETTE = ['#8c6d4f', '#5b7c8d', '#7b8553', '#9a6161', '#6d6a93', '#a68b4b', '#4f7d6f', '#8a5f7d', '#6b7f9a', '#a0744f', '#5f8a5f', '#7d6b50', '#4f6b8a', '#8f7a5a'];
+/* nodi delle aree: un nodo per (area, livello); id = id dell'area, con suffisso se compare in più livelli */
+const AREA_NODES = [];
+{ const cnt = {}; for (const a of AREE) for (const lv of a.livelli) { const k = cnt[lv] = (cnt[lv] ?? -1) + 1; const first = lv === a.livelli[0];
+    AREA_NODES.push({...a, id: first ? a.id : a.id + '-' + lv, areaId: a.id, livello: lv, tipo: 'regione', nome_it: a.nome, lat: a.ancora[1], lon: a.ancora[0], riferimenti_chiave: a.rif, color: PALETTE[k % PALETTE.length]}); } }
 
 const SVGNS = 'http://www.w3.org/2000/svg';
 const isDark = () => document.documentElement.dataset.theme === 'dark';
@@ -14,9 +23,13 @@ const TILE_URL = (z, x, y) => cartoKey()
   : `https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/${z}/${y}/${x}`;
 const ATTRIBUTION = () => cartoKey() ? '© OpenStreetMap contributors © CARTO' : 'Rilievo: Esri, USGS, NOAA';
 const Z_MIN = 3.4, Z_MAX = 11, TILE_ZMIN = 5, TILE_ZMAX = 10, TILE_SHOW_FROM = 4.5;
+/* inquadratura iniziale: Israele antico (lon/lat del centro); lo zoom dipende dalla larghezza */
+const HOME = {lon: 35.3, lat: 31.5};
+const homeZ = w => w < 500 ? 6.6 : 7.1;
+const KM_STEPS = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000];
 /* nomi e posizioni dell'etichetta scritti a mano (le piastrelle non hanno testo); anchor 'l' = etichetta a destra del punto */
-const NAME = {'mar-mediterraneo': 'Mar Mediterraneo\n(Mar Grande)', 'mar-morto': 'Mar Morto\n(Mar Salato)', 'samaria-regione': 'Samaria'};
-const LABEL_AT = {giudea: {lat: 31.82, lon: 34.72}, canaan: {lat: 32.15, lon: 35.1}, 'mar-mediterraneo': {lat: 32.2, lon: 33.9}, giordano: {lat: 32.3, lon: 35.64, anchor: 'l'}, 'mar-morto': {lat: 31.3, lon: 35.74, anchor: 'l'}, 'mar-di-galilea': {lat: 32.62, lon: 35.62, anchor: 'l'}, galilea: {lat: 33.05, lon: 35.3}, filistia: {lat: 31.55, lon: 34.45}, negheb: {lat: 30.95, lon: 34.85}, moab: {lat: 31.3, lon: 35.85}, galaad: {lat: 32.2, lon: 35.82}, ammon: {lat: 31.85, lon: 36.05}, basan: {lat: 32.75, lon: 36.0}, decapoli: {lat: 32.45, lon: 35.75}};
+const NAME = {'mar-mediterraneo': 'Mar Mediterraneo\n(Mar Grande)', 'mar-morto': 'Mar Morto\n(Mar Salato)', iturea: 'Iturea e\nTraconitide', 'manasse-est': 'Manasse\n(est)', 'manasse-ovest': 'Manasse\n(ovest)', 'dan-nord': 'Dan\n(nord)', 'regno-israele': 'Regno di\nIsraele', 'regno-giuda': 'Regno di\nGiuda', 'aram': 'Aram\n(Damasco)'};
+const LABEL_AT = {giudea: {lat: 31.82, lon: 34.72}, canaan: {lat: 32.15, lon: 35.1}, 'mar-mediterraneo': {lat: 32.5, lon: 34.1}, giordano: {lat: 32.3, lon: 35.64, anchor: 'l'}, 'mar-morto': {lat: 31.2, lon: 35.95, anchor: 'l'}, 'mar-di-galilea': {lat: 32.62, lon: 35.62, anchor: 'l'}, galilea: {lat: 33.05, lon: 35.3}, filistia: {lat: 31.55, lon: 34.45}, negheb: {lat: 30.95, lon: 34.85}, moab: {lat: 31.3, lon: 35.85}, galaad: {lat: 32.2, lon: 35.82}, ammon: {lat: 31.85, lon: 36.05}, basan: {lat: 32.75, lon: 36.0}, decapoli: {lat: 32.45, lon: 35.75}};
 const TIER1 = new Set(['gerusalemme']);
 const TIER2 = new Set(['nazaret', 'betlemme', 'cafarnao', 'roma', 'damasco', 'antiochia-di-siria', 'efeso', 'corinto', 'atene', 'babilonia', 'ninive', 'menfi', 'alessandria', 'gerico', 'sichem', 'ebron', 'tiro', 'sidone', 'cesarea', 'betania', 'bersabea', 'giaffa', 'tarso', 'filippi', 'tessalonica', 'tiberiade', 'betel', 'silo', 'cana', 'ur-dei-caldei', 'caran']);
 const BOUNDS = {x0: nx(-14), x1: nx(64), y0: ny(50), y1: ny(8)};
@@ -24,6 +37,8 @@ const BOOST = new Set(['gerusalemme', 'nazaret', 'betlemme', 'cafarnao', 'roma',
   'mar-morto', 'mar-mediterraneo', 'egitto', 'galilea', 'giudea', 'samaria-regione', 'tarso', 'filippi', 'tessalonica', 'cesarea', 'gerico', 'sichem', 'ebron', 'betania', 'tiro', 'sidone', 'alessandria', 'cipro', 'creta', 'malta', 'patmos', 'ur-dei-caldei', 'caran', 'nilo', 'eufrate', 'monte-ermon', 'monte-carmelo', 'monte-tabor', 'bersabea', 'betel', 'silo', 'giaffa', 'mar-rosso', 'moab', 'edom', 'cana', 'tiberiade', 'siracusa']);
 const LABEL_ONLY = new Set(['mar-di-galilea', 'mar-morto', 'mar-mediterraneo', 'mar-rosso', 'giordano', 'nilo', 'eufrate', 'tigri', 'fiume-chebar', 'torrente-arnon', 'torrente-iabboc', 'torrente-chison']);
 const DOT_VAR = {città: 'var(--accent)', monte: 'var(--d3)', acqua: 'var(--d2)', luogo: 'var(--d1)', isola: 'var(--d5)', valle: 'var(--d3)'};
+/* forma del simbolo per tipo: città cerchio pieno, monte triangolo, acqua goccia */
+const KIND = {città: 'k-cit', monte: 'k-mon', acqua: 'k-acq', luogo: 'k-luo', isola: 'k-iso', valle: 'k-val'};
 
 const svg = (tag, attrs = {}, ...kids) => { const e = document.createElementNS(SVGNS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); e.append(...kids); return e; };
 const el = (tag, cls, attrs = {}) => { const e = document.createElement(tag); if (cls) e.className = cls; for (const [k, v] of Object.entries(attrs)) k === 'text' ? e.textContent = v : e.setAttribute(k, v); return e; };
@@ -42,48 +57,58 @@ export function periodsOf(place, bible) {
 }
 
 export function createMap({places, bible, onSelect, reduceMotion = false}) {
-  const view = {x: nx(35.2), y: ny(31.97), z: 6.9};
+  const view = {x: nx(HOME.lon), y: ny(HOME.lat), z: homeZ(0)};
   let W = 0, H = 0, dirty = true, raf = 0, filter = {period: 'tutti', tipo: 'tutti'}, selected = null, layout = [], tileTimer = 0, anim = 0;
   const pointers = new Map();
   let gesture = null;
   const tiles = new Map();                         // chiave → img
   const tileState = {loaded: 0, errors: 0, failed: false};
   const meta = new Map();                          // id → {p, prio, per:Set, node, dot, lbl}
+  const warmed = [];                               // immagini precaricate a basso zoom (tengono viva la cache del browser)
 
   /* ---------- struttura ---------- */
   const root = el('div', 'f-mondo-map', {role: 'application', tabindex: '0', 'aria-label': 'Mappa del mondo della Bibbia. Trascina per spostare, pizzica o usa più e meno per ingrandire.'});
-  const hatch = svg('pattern', {id: 'f-mondo-hatch', width: '9', height: '9', patternUnits: 'userSpaceOnUse'}, svg('path', {d: 'M-1 10L10 -1M-1 1L1 -1M8 10L10 8', class: 'f-mondo-hatchline'}));
-  const defs = svg('defs', {}, hatch);
+  const defs = svg('defs', {}, svg('pattern', {id: 'f-mondo-stip', width: '7', height: '7', patternUnits: 'userSpaceOnUse'}, svg('circle', {cx: '1.5', cy: '1.5', r: '.6', class: 'f-mondo-stipdot'})));
   const land = svg('rect', {class: 'f-mondo-land', width: '100%', height: '100%'});
-  const hatchRect = svg('rect', {class: 'f-mondo-hatchfill', width: '100%', height: '100%', fill: 'url(#f-mondo-hatch)'});
+  const stip = svg('rect', {class: 'f-mondo-stipfill', width: '100%', height: '100%', fill: 'url(#f-mondo-stip)'});
   const world = svg('g', {class: 'f-mondo-world'});
   const sea = d => svg('path', {d, class: 'f-mondo-sea'});
+  /* ordine di disegno: mari, isole, fiumi, laghi (le regioni sono solo testo) */
+  /* aree dei livelli: visibili solo quello attivo (CSS su data-livello); la più grande sta sotto */
+  const areaEls = AREA_NODES.filter(a => a.poligono).map(a => svg('path', {d: pathOf(a.poligono, true, true), class: `f-mondo-area lv-${a.livello} certezza-${a.certezza}`, 'data-area': a.id, style: `--ac:${a.color}`}));
   world.append(sea(pathOf(MEDITERRANEO)), sea(pathOf(MARE_NERO)), sea(pathOf(MAR_ROSSO)), sea(pathOf(GOLFO_PERSICO)),
     ...ISOLE.map(pts => svg('path', {d: pathOf(pts), class: 'f-mondo-isle'})),
-    ...Object.values(FIUMI).map(pts => svg('path', {d: pathOf(pts, false), class: 'f-mondo-river'})),
-    ...Object.values(LAGHI).map(pts => svg('path', {d: pathOf(pts), class: 'f-mondo-lake'})));
-  const draw = svg('svg', {class: 'f-mondo-draw', 'aria-hidden': 'true', focusable: 'false'}, defs, land, hatchRect, world);
+    ...areaEls,
+    ...Object.values(FIUMI).map(pts => svg('path', {d: pathOf(pts, false, true), class: 'f-mondo-river'})),
+    ...Object.values(LAGHI).map(pts => svg('path', {d: pathOf(pts, true, true), class: 'f-mondo-lake'})));
+  const draw = svg('svg', {class: 'f-mondo-draw', 'aria-hidden': 'true', focusable: 'false'}, defs, land, stip, world);
   const tileBox = el('div', 'f-mondo-tiles', {'aria-hidden': 'true'});
   const ptsBox = el('div', 'f-mondo-pts');
-  const mkBtn = (cls, label, txt) => { const b = el('button', 'f-mondo-btn ' + cls, {type: 'button', 'aria-label': label}); b.textContent = txt; return b; };
-  const bPlus = mkBtn('plus', 'Ingrandisci', '+'), bMinus = mkBtn('minus', 'Riduci', '−'), bHome = mkBtn('home', 'Torna alla Terra Santa', '⌖');
-  const ctl = el('div', 'f-mondo-ctl'); ctl.append(bPlus, bMinus, bHome);
+  const vig = el('div', 'f-mondo-vig', {'aria-hidden': 'true'});
+  const mkBtn = (cls, label, txt) => { const b = el('button', 'f-mondo-btn ' + cls, {type: 'button', 'aria-label': label, title: label}); b.textContent = txt; return b; };
+  const bPlus = mkBtn('plus', 'Ingrandisci', '+'), bMinus = mkBtn('minus', 'Riduci', '−'), bHome = mkBtn('home', 'Posizione iniziale: Terra Santa', '⌖');
+  const ctl = el('div', 'f-mondo-ctl'); ctl.append(bHome, bMinus, bPlus);
+  /* barra di scala in km, in basso a sinistra */
+  const scale = el('div', 'f-mondo-scale', {'aria-hidden': 'true'}); const scaleBar = el('i'), scaleTxt = el('span'); scale.append(scaleBar, scaleTxt);
   /* la riga con l'attribuzione e l'avviso sta SOTTO la mappa, non sopra: non copre mai i nomi */
   const attr = el('a', 'f-mondo-attr', {href: 'https://www.arcgis.com/home/item.html?id=9c5370d0b54f4de1b48a3792d7dbd62c', target: '_blank', rel: 'noopener noreferrer', hidden: ''});
   attr.textContent = ATTRIBUTION();
   const hint = el('span', 'f-mondo-offline', {hidden: '', role: 'status'}); hint.textContent = 'Mappa disegnata (senza rete)';
   const foot = el('div', 'f-mondo-foot', {hidden: ''}); foot.append(attr, hint);
   const wrap = el('div', 'f-mondo-wrap'); wrap.append(root, foot);
-  root.append(draw, tileBox, ptsBox, ctl);
+  root.append(draw, tileBox, vig, ptsBox, scale, ctl);
+  root.dataset.livello = 'nessuno';
 
   /* ---------- punti ---------- */
-  places.forEach((p, i) => {
-    const per = periodsOf(p, bible);
-    const prio = (BOOST.has(p.id) ? 100 : 0) + (p.riferimenti_chiave?.length || 0) * 3 + (p.tipo === 'città' ? 2 : 0) - (p.tipo === 'regione' ? 1 : 0) - i * 0.001;
+  const ITEMS = [...places.filter(p => p.tipo !== 'regione'), ...AREA_NODES];
+  ITEMS.forEach((p, i) => {
+    const per = p.livello ? new Set() : periodsOf(p, bible);
+    const prio = p.livello ? -5 : (BOOST.has(p.id) ? 100 : 0) + (p.riferimenti_chiave?.length || 0) * 3 + (p.tipo === 'città' ? 2 : 0) - (p.tipo === 'regione' ? 1 : 0) - i * 0.001;
     const labelOnly = p.tipo === 'regione' || LABEL_ONLY.has(p.id);
-    const at = LABEL_AT[p.id], name = NAME[p.id] || p.nome_it, lines = name.split('\n');
+    const at = p.livello ? null : LABEL_AT[p.id], name = NAME[p.id] || p.nome_it, lines = name.split('\n');
     const tier = TIER1.has(p.id) ? 1 : TIER2.has(p.id) ? 2 : 3;
-    const node = el('div', 'f-mondo-pt' + (p.tipo === 'regione' ? ' reg' : labelOnly ? ' wat' : ' t' + tier) + (at?.anchor === 'l' ? ' al' : ''), {hidden: '', 'data-id': p.id});
+    const kind = p.tipo === 'regione' ? 'reg' : labelOnly ? 'wat' : KIND[p.tipo] || 'k-cit';
+    const node = el('div', `f-mondo-pt ${kind} t${labelOnly && p.tipo !== 'regione' ? 0 : tier}` + (at?.anchor === 'l' ? ' al' : '') + (p.livello ? ' lv-' + p.livello : ''), {hidden: '', 'data-id': p.id});
     node.style.setProperty('--pc', DOT_VAR[p.tipo] || 'var(--accent)');
     const dot = labelOnly ? null : el('i', 'f-mondo-dot' + (p.posizione_approssimata ? ' apx' : ''));
     const lbl = el('span', 'f-mondo-lbl', {text: name});
@@ -92,38 +117,59 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
     const minZ = labelOnly ? 0 : BOOST.has(p.id) ? 0 : (p.riferimenti_chiave?.length || 0) >= 4 ? 7.6 : 8.6;
     const cw = p.tipo === 'regione' ? 9.4 : labelOnly ? 7 : tier === 1 ? 9.6 : tier === 2 ? 7.6 : 6.6;
     const maxLen = Math.max(...lines.map(l => l.length));
-    meta.set(p.id, {p, prio, per, labelOnly, node, minZ, tier, left: at?.anchor === 'l', lh: lines.length * (p.tipo === 'regione' ? 18 : labelOnly ? 16 : tier === 1 ? 24 : tier === 2 ? 20 : 18), dx: tier === 1 ? 14 : tier === 2 ? 11 : 9,
+    /* prima l'ancora dell'area (di norma il centro migliore), poi gli altri punti interni */
+    const cands = p.livello ? [[p.lon, p.lat], ...(AREA_POLY[p.areaId] ? labelCandidates(AREA_POLY[p.areaId], SEA) : [])] : null;
+    meta.set(p.id, {p, cands, prio, per, labelOnly, node, minZ, tier, left: at?.anchor === 'l', lh: lines.length * (p.tipo === 'regione' ? 18 : labelOnly ? 16 : tier === 1 ? 24 : tier === 2 ? 20 : 18), dx: tier === 1 ? 14 : tier === 2 ? 11 : 9,
       wx: nx(at?.lon ?? p.lon), wy: ny(at?.lat ?? p.lat), px: nx(p.lon), py: ny(p.lat), w: maxLen * cw + 10, vis: false});
   });
   const order = [...meta.values()].sort((a, b) => b.prio - a.prio);
-  const allowed = m => (filter.period === 'tutti' || m.per.has(filter.period)) && (filter.tipo === 'tutti' || (filter.tipo === 'città' ? m.p.tipo === 'città' : filter.tipo === 'monti' ? m.p.tipo === 'monte' : filter.tipo === 'acque' ? m.p.tipo === 'acqua' : filter.tipo === 'regioni' ? m.p.tipo === 'regione' : true));
+  const allowed = m => m.p.livello ? m.p.livello === filter.livello : (filter.period === 'tutti' || m.per.has(filter.period)) && (filter.tipo === 'tutti' || (filter.tipo === 'città' ? m.p.tipo === 'città' : filter.tipo === 'monti' ? m.p.tipo === 'monte' : filter.tipo === 'acque' ? m.p.tipo === 'acqua' : true));
 
   /* ---------- rendering ---------- */
   const Wz = () => WORLD * 2 ** view.z;
   const toScreen = (wx, wy) => { const s = Wz(); return [(wx - view.x) * s + W / 2, (wy - view.y) * s + H / 2]; };
   const invalidate = () => { dirty = true; if (!raf) raf = requestAnimationFrame(frame); };
+  /* zone occupate dai controlli: le etichette non ci finiscono sopra */
+  const reserved = () => W ? [[W - 8 - 132, H - 8 - 44, W - 8, H - 8], [12, H - 12 - 26, 162, H - 12]] : [];
 
   function frame() {
     raf = 0; if (!dirty) return; dirty = false;
     if (!W || !H) return;
     const s = Wz(), k = s / BASE, tx = W / 2 - view.x * s, ty = H / 2 - view.y * s;
     world.setAttribute('transform', `translate(${tx.toFixed(2)} ${ty.toFixed(2)}) scale(${k})`);
-    hatch.setAttribute('patternTransform', `translate(${(tx % 9).toFixed(2)} ${(ty % 9).toFixed(2)})`);
+    stip.setAttribute('transform', `translate(${(tx % 7).toFixed(2)} ${(ty % 7).toFixed(2)})`);
     layoutPoints(s);
     positionTiles(s);
+    updateScale();
     scheduleTiles();
   }
 
   function layoutPoints(s) {
-    const placed = [], pad = 30, maxShown = Math.round(clamp(8 + (view.z - 3.4) * 10, 10, 110));
+    const placed = reserved(), pad = 30, maxShown = Math.round(clamp(8 + (view.z - 3.4) * 10, 10, 110));
     layout = []; let shown = 0;
     const rectHit = (r) => placed.some(q => r[0] < q[2] && r[2] > q[0] && r[1] < q[3] && r[3] > q[1]);
-    const list = selected && meta.get(selected) ? [meta.get(selected), ...order.filter(m => m.p.id !== selected)] : order;
+    /* con pochi nomi (Terra, Regni, Popoli) le aree prevalgono sulle città minori; con le tribù, molte, prevalgono le città */
+    const areasFirst = filter.livello !== 'tribu';
+    const base = areasFirst
+      ? [...order.filter(m => m.p.id === 'gerusalemme'), ...order.filter(m => m.p.livello), ...order.filter(m => !m.p.livello && m.p.id !== 'gerusalemme')]
+      : [...order.filter(m => m.p.id === 'gerusalemme'), ...order.filter(m => !m.p.livello && m.p.id !== 'gerusalemme'), ...order.filter(m => m.p.livello)];
+    const list = selected && meta.get(selected) ? [meta.get(selected), ...base.filter(m => m.p.id !== selected)] : base;
     for (const m of order) m.vis = false;
     for (const m of list) {
       const force = m.p.id === selected;
       let vis = false, sx = 0, sy = 0, lr = null, dr = null;
-      if (force || (shown < maxShown && allowed(m) && view.z >= m.minZ && !(m.p.tipo === 'regione' && view.z > 9.6))) {
+      if (m.p.livello) {
+        /* un'area: il primo punto interno al poligono dove la sua etichetta sta libera (mai fuori dall'area) */
+        if (allowed(m) && view.z >= m.minZ) {
+          const hh = m.lh / 2, w2 = m.w / 2, Z = Wz();
+          for (const [lo, la] of m.cands) {
+            const cx = (nx(lo) - view.x) * Z + W / 2, cy = (ny(la) - view.y) * Z + H / 2;
+            const r = [cx - w2, cy - hh, cx + w2, cy + hh];
+            if (r[0] < 3 || r[2] > W - 3 || r[1] < 2 || r[3] > H - 2 || rectHit(r)) continue;
+            sx = cx; sy = cy; lr = r; vis = true; break;
+          }
+        }
+      } else if (force || (shown < maxShown && allowed(m) && view.z >= m.minZ && !(m.p.tipo === 'regione' && view.z > 9.6))) {
         [sx, sy] = toScreen(m.wx, m.wy);
         if (sx > -pad && sx < W + pad && sy > -pad && sy < H + pad) {
           const hh = m.lh / 2;
@@ -132,12 +178,11 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
           const edge = lr[0] < 3 || lr[2] > W - 3 || lr[1] < 2 || lr[3] > H - 2;   // un'etichetta tagliata dal bordo non si mostra
           if (force) vis = true;
           else if (!(edge || rectHit(lr) || (dr && rectHit(dr)))) vis = true;
-          else if (dr && !m.labelOnly && !rectHit(dr) && view.z >= 8.5) { lr = null; vis = true; }   // punto senza etichetta
         }
       }
       if (vis) {
         if (lr) placed.push(lr); if (dr) placed.push(dr);
-        shown++;
+        if (!m.p.livello) shown++;
         m.sx = sx; m.sy = sy; m.lr = lr; m.hasLabel = Boolean(lr);
         layout.push(m);
       }
@@ -146,14 +191,30 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
     for (const m of order) {
       const n = m.node;
       if (m.vis) {
-        n.hidden = false; n.style.transform = `translate(${m.sx.toFixed(1)}px,${m.sy.toFixed(1)}px)`;
+        n.hidden = false;
+        const tr = `translate(${m.sx.toFixed(1)}px,${m.sy.toFixed(1)}px)`;
+        if (n._tr !== tr) { n.style.transform = tr; n._tr = tr; }
         n.classList.toggle('nolbl', !m.hasLabel);
         n.classList.toggle('sel', m.p.id === selected);
       } else if (!n.hidden) n.hidden = true;
     }
   }
 
-  /* ---------- piastrelle OpenStreetMap ---------- */
+  /* barra di scala: km per pixel alla latitudine del centro (Mercatore, cerchio massimo 40 075 km) */
+  let scaleKey = '';
+  function updateScale() {
+    const lat = centerLL()[1];
+    const kmpx = 40075.016 * Math.cos(lat * Math.PI / 180) / Wz();
+    let L = KM_STEPS[0];
+    for (const k of KM_STEPS) if (k / kmpx <= 110) L = k;
+    const key = L + '|' + Math.round(L / kmpx);
+    if (key === scaleKey) return;
+    scaleKey = key;
+    scaleBar.style.width = Math.round(L / kmpx) + 'px';
+    scaleTxt.textContent = L + ' km';
+  }
+
+  /* ---------- piastrelle (Esri senza nomi, o CARTO con chiave) ---------- */
   const online = () => navigator.onLine !== false && !tileState.failed;
   const tileZ = () => clamp(Math.round(view.z), TILE_ZMIN, TILE_ZMAX);
   const tilesWanted = () => view.z >= TILE_SHOW_FROM && online();
@@ -162,8 +223,10 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
     const tx = W / 2 - view.x * s, ty = H / 2 - view.y * s;
     for (const [key, img] of tiles) {
       const [z, x, y] = key.split('/').map(Number), sc = 2 ** (view.z - z) * WORLD;
-      img.style.transform = `translate(${(tx + x / 2 ** z * s).toFixed(2)}px,${(ty + y / 2 ** z * s).toFixed(2)}px)`;
-      img.style.width = img.style.height = (sc + 0.6).toFixed(2) + 'px';
+      const tr = `translate(${(tx + x / 2 ** z * s).toFixed(2)}px,${(ty + y / 2 ** z * s).toFixed(2)}px)`;
+      if (img._tr !== tr) { img.style.transform = tr; img._tr = tr; }
+      const sz = (sc + 0.6).toFixed(2) + 'px';
+      if (img._sz !== sz) { img.style.width = img.style.height = sz; img._sz = sz; }
     }
   }
   function scheduleTiles() { clearTimeout(tileTimer); tileTimer = setTimeout(syncTiles, 140); }
@@ -196,6 +259,19 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
     const ready = [...need].every(k => tiles.get(k)?.classList.contains('ok'));
     if (!ready && late !== true) return;
     for (const [key, img] of tiles) if (!need.has(key)) { img.remove(); tiles.delete(key); }
+  }
+  /* a riposo, scalda la cache delle piastrelle dell'area biblica a zoom 5 e 7 (le due scale più usate) */
+  function warmTiles() {
+    if (!online() || cartoKey()) return;
+    const idle = window.requestIdleCallback || (f => setTimeout(f, 300));
+    idle(() => {
+      for (const z of [5, 7]) {
+        const n = 2 ** z, cx = Math.floor(nx(HOME.lon) * n), cy = Math.floor(ny(HOME.lat) * n);
+        for (let x = cx - 2; x <= cx + 2; x++) for (let y = Math.max(0, cy - 2); y <= Math.min(n - 1, cy + 2); y++) {
+          const im = new Image(); im.referrerPolicy = 'origin'; im.src = TILE_URL(z, ((x % n) + n) % n, y); warmed.push(im);
+        }
+      }
+    }, {timeout: 4000});
   }
   function setTilesOn(on) {
     root.classList.toggle('tiles-on', on && online());
@@ -231,7 +307,15 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
     const step = t => { const k = Math.min(1, (t - t0) / dur), e = 1 - (1 - k) ** 3; setView(x0 + (x1 - x0) * e, y0 + (y1 - y0) * e, z0 + (z1 - z0) * e); if (k < 1) anim = requestAnimationFrame(step); };
     anim = requestAnimationFrame(step);
   }
-  const home = () => flyTo(35.2, 31.97, W < 500 ? 6.9 : 7.6);
+  const home = () => flyTo(HOME.lon, HOME.lat, homeZ(W));
+  /* zoom e centro che fanno riempire la mappa al livello: il massimo che racchiude tutte le sue aree */
+  function fitLevel(lv) {
+    const b = levelBounds(lv), padX = 36, padY = 36;
+    const zx = Math.log2((W - padX) * 360 / (WORLD * Math.max(b.x1 - b.x0, 0.01)));
+    const zy = Math.log2((H - padY) / (WORLD * Math.max(ny(b.y0) - ny(b.y1), 1e-4)));
+    const cy = (ny(b.y0) + ny(b.y1)) / 2;
+    return [(b.x0 + b.x1) / 2, Math.atan(Math.sinh(Math.PI * (1 - 2 * cy))) * 180 / Math.PI, clamp(Math.min(zx, zy), Z_MIN, Z_MAX)];
+  }
 
   /* ---------- gesti ---------- */
   const pos = e => { const r = root.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
@@ -282,6 +366,9 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
 
   /* tocco: il punto o l'etichetta più vicini */
   function tap(sx, sy) {
+    /* prima le aree: il nome di una regione, se toccato, vince su una città vicina */
+    const area = layout.find(m => m.p.livello && m.lr && sx >= m.lr[0] - 6 && sx <= m.lr[2] + 6 && sy >= m.lr[1] - 8 && sy <= m.lr[3] + 8);
+    if (area) { select(area.p.id); onSelect?.(area.p); return; }
     let best = null, bd = 1e9;
     for (const m of layout) {
       let d = 1e9;
@@ -294,12 +381,19 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
   function select(id) { selected = id; invalidate(); }
 
   /* ---------- ridimensionamento ---------- */
-  const ro = new ResizeObserver(() => { const r = root.getBoundingClientRect(); if (r.width === W && r.height === H) return; const first = !W; W = r.width; H = r.height; if (first && W) home(); invalidate(); });
+  const ro = new ResizeObserver(() => { const r = root.getBoundingClientRect(); if (r.width === W && r.height === H) return; const first = !W; W = r.width; H = r.height; if (first && W) { view.z = homeZ(W); home(); } invalidate(); });
   ro.observe(root);
+  setTimeout(warmTiles, 1500);
 
   return {
     el: wrap,
-    setFilter(f) { filter = {...filter, ...f}; invalidate(); },
+    setFilter(f) {
+      const before = filter.livello;
+      filter = {...filter, ...f}; root.dataset.livello = filter.livello || 'nessuno';
+      /* cambiando livello si inquadra la sua area (lo zoom resta quello dell'utente se il livello è «Nessuno») */
+      if (filter.livello !== before && filter.livello !== 'nessuno' && W) { const [lo, la, z] = fitLevel(filter.livello); flyTo(lo, la, z); }
+      invalidate();
+    },
     select, selectedId: () => selected,
     flyToPlace(id, z) { const m = meta.get(id); if (!m) return; selected = id; flyTo(m.p.lon, m.p.lat, z ?? Math.max(view.z, m.p.tipo === 'regione' ? 7 : 9)); },
     home, resize() { ro.disconnect(); ro.observe(root); const r = root.getBoundingClientRect(); if (r.width) { W = r.width; H = r.height; } invalidate(); syncTiles(); },

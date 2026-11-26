@@ -54,17 +54,209 @@ export const FIUMI = {
   nilo2: [[31.25, 30.05], [31.5, 30.8], [31.8, 31.45]],
   eufrate: [[38.5, 38.7], [38.0, 37.5], [38.0, 36.8], [39.0, 35.95], [40.15, 35.3], [40.9, 34.45], [42.4, 34.1], [43.3, 33.4], [43.8, 33.35], [44.4, 32.5], [45.3, 31.3], [46.25, 31.05], [47.4, 31.0], [48.4, 30.0]],
   tigri: [[40.2, 37.9], [42.2, 37.3], [43.15, 36.35], [43.9, 34.2], [44.4, 33.3], [45.8, 32.5], [47.15, 31.85], [47.45, 31.0]],
-  giordano: [[35.65, 33.25], [35.6, 33.0], [35.57, 32.9], [35.57, 32.7], [35.55, 32.5], [35.55, 32.1], [35.55, 31.85], [35.52, 31.77]],
+  giordano: [[35.65, 33.25], [35.6, 33.0], [35.57, 32.9], [35.57, 32.7], [35.55, 32.5], [35.55, 32.1], [35.55, 31.85], [35.57, 31.8]],
 };
 /* Laghi */
 export const LAGHI = {
   galilea: [[35.55, 32.9], [35.62, 32.88], [35.65, 32.8], [35.63, 32.7], [35.57, 32.69], [35.53, 32.8], [35.52, 32.87]],
-  morto: [[35.5, 31.78], [35.57, 31.75], [35.58, 31.55], [35.55, 31.35], [35.48, 31.15], [35.42, 31.1], [35.38, 31.2], [35.38, 31.35], [35.4, 31.55], [35.45, 31.72]],
+  morto: [[35.56, 31.8], [35.6, 31.62], [35.62, 31.45], [35.58, 31.25], [35.52, 31.12], [35.45, 31.08], [35.4, 31.18], [35.38, 31.35], [35.42, 31.55], [35.45, 31.7]],
 };
 
-/* Percorso SVG (spazio BASE) da una lista [lon, lat] */
-export function pathOf(points, close = true) {
-  let d = '';
-  points.forEach(([lon, lat], i) => { d += (i ? 'L' : 'M') + (nx(lon) * BASE).toFixed(1) + ' ' + (ny(lat) * BASE).toFixed(1); });
+/* Percorso SVG (spazio BASE) da una lista [lon, lat].
+   smooth: curve morbide (Catmull-Rom → Bézier) per fiumi, laghi e regioni. */
+export function pathOf(points, close = true, smooth = false) {
+  const P = points.map(([lon, lat]) => [nx(lon) * BASE, ny(lat) * BASE]);
+  if (!smooth || P.length < 3) {
+    let d = '';
+    P.forEach(([x, y], i) => { d += (i ? 'L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1); });
+    return d + (close ? 'Z' : '');
+  }
+  const n = P.length, at = i => close ? P[(i + n) % n] : P[Math.min(Math.max(i, 0), n - 1)];
+  let d = `M${P[0][0].toFixed(1)} ${P[0][1].toFixed(1)}`;
+  const segs = close ? n : n - 1;
+  for (let i = 0; i < segs; i++) {
+    const p0 = at(i - 1), p1 = at(i), p2 = at(i + 1), p3 = at(i + 2);
+    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6], c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+    d += `C${c1[0].toFixed(1)} ${c1[1].toFixed(1)} ${c2[0].toFixed(1)} ${c2[1].toFixed(1)} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+  }
   return d + (close ? 'Z' : '');
+}
+
+/* ---------- Livelli regionali ----------
+   Poligoni approssimativi disegnati a mano a partire da punti ancorati a città, fiumi e mari reali (Mediterraneo, Giordano,
+   Mar Morto, Arnon, Iabbok, Ermon, lago di Galilea). Non sono confini ufficiali. Ogni area ha:
+   certezza: 'alta' (confini e sede sicuri nelle linee generali), 'media' (confini indicativi, discussi dagli studiosi),
+   'discussa' (estensione o nome non confermati). nomeBiblico: false se il nome non compare nella Bibbia.
+   Fonti: Encyclopedia of the Bible (Biblegateway), voci «Location of Tribes», «Perea», «Decapolis» (Britannica); testi biblici indicati. */
+export const LIVELLI = {
+  terra: {nome: 'Terra di Gesù', fonti: 'Fonti: Encyclopedia of the Bible (Biblegateway), voci «Perea» e «Location of Tribes»; Britannica, voce «Decapolis». I confini sono semplificati: le regioni del Nuovo Testamento non avevano limiti fissi.'},
+  tribu: {nome: 'Le 12 tribù', fonti: 'Fonti: Giosuè 13–19 e Encyclopedia of the Bible, voce «Location of Tribes», che segnala confini incerti per Dan, Simeone, Aser, Neftali e Issacar. Levi non ha un territorio: aveva 48 città sparse (secondo alcune fonti 61; Gs 21).'},
+  regni: {nome: 'Regni divisi', fonti: 'Fonti: 1Re 12 e 15–16. La linea di confine tra Israele e Giuda non è documentata con precisione: il tracciato è indicativo.'},
+  popoli: {nome: 'Popoli vicini', fonti: 'Fonti: testi biblici citati; le sedi di Filistei, Moab, Ammon ed Edom sono ben documentate. I confini di Aram e di Ammon sono indicativi.'},
+};
+export const AREE = [
+  /* Terra di Gesù */
+  {id: 'galilea', nome: 'Galilea', livelli: ['terra'], certezza: 'alta', periodo: 'Epoca di Gesù', rif: ['Mt 4,15', 'Gv 4,46'],
+    descrizione: 'Regione a nord della pianura di Esdrelon, con il lago di Galilea al centro. Nei Vangeli è il luogo principale del ministero di Gesù, con Nazaret e Cafarnao.',
+    poligono: [[35.0, 32.8], [35.1, 33.0], [35.19, 33.27], [35.45, 33.27], [35.62, 33.25], [35.62, 32.95], [35.58, 32.7], [35.4, 32.65], [35.15, 32.65], [35.0, 32.75]], ancora: [35.3, 32.95]},
+  {id: 'samaria', nome: 'Samaria', livelli: ['terra'], certezza: 'alta', periodo: 'Epoca di Gesù', rif: ['Gv 4,4', '1Re 16,24'],
+    descrizione: 'Regione montuosa fra Galilea e Giudea, con Sichem e il monte Garizim. Gesù la attraversa nel racconto della donna di Samaria (Gv 4).',
+    poligono: [[34.95, 32.7], [35.15, 32.65], [35.4, 32.65], [35.55, 32.6], [35.55, 32.3], [35.5, 31.95], [35.2, 31.9], [34.95, 32.0], [34.85, 32.3]], ancora: [35.2, 32.2]},
+  {id: 'giudea', nome: 'Giudea', livelli: ['terra'], certezza: 'alta', periodo: 'Epoca di Gesù', rif: ['Lc 1,5', 'Gv 3,22'],
+    descrizione: 'Regione a sud di Samaria, con Gerusalemme, Betlemme ed Ebron. Nei Vangeli indica la regione intorno a Gerusalemme, in contrasto con la Galilea.',
+    poligono: [[34.7, 31.9], [35.2, 31.9], [35.5, 31.9], [35.5, 31.55], [35.45, 31.2], [35.25, 31.0], [35.1, 31.05], [34.95, 31.1], [34.75, 31.25], [34.7, 31.5]], ancora: [35.1, 31.55]},
+  {id: 'perea', nome: 'Perea', livelli: ['terra'], certezza: 'discussa', periodo: 'Epoca di Gesù', rif: ['Mt 19,1', 'Mc 10,1'], nomeBiblico: false,
+    descrizione: 'Regione a est del Giordano, indicata nei Vangeli come «al di là del Giordano». È il nome di età romana, usato da Giuseppe Flavio.',
+    nota: 'Il nome Perea non compare nella Bibbia, salvo una variante di Lc 6,17. I suoi confini sono discussi.',
+    poligono: [[35.55, 32.7], [35.85, 32.75], [35.95, 32.2], [35.8, 31.6], [35.6, 31.5], [35.55, 31.9]], ancora: [35.88, 32.1]},
+  {id: 'decapoli', nome: 'Decapoli', livelli: ['terra'], certezza: 'discussa', periodo: 'Epoca di Gesù', rif: ['Mc 5,20', 'Mt 4,25'],
+    descrizione: 'Gruppo di città di impianto greco a est e a sud-est del lago di Galilea. Il Nuovo Testamento la nomina (Mc 5,20), ma l’elenco delle città non è fisso.',
+    nota: 'Secondo Plinio il Vecchio le città erano dieci, con Damasco; l’elenco è cambiato nel tempo. Gli studiosi non concordano sulla lista.',
+    poligono: [[35.45, 32.65], [35.8, 32.95], [36.15, 32.5], [36.05, 31.85], [35.75, 31.85], [35.55, 32.2]], ancora: [35.85, 32.6]},
+  {id: 'idumea', nome: 'Idumea', livelli: ['terra'], certezza: 'media', periodo: 'Epoca di Gesù', rif: ['Mc 3,8'],
+    descrizione: 'Territorio degli idumei, discendenti di Edom, a sud della Giudea. Il Vangelo di Marco ne parla come di una zona da cui venivano folle a seguire Gesù (Mc 3,8).',
+    poligono: [[34.85, 31.3], [35.2, 31.0], [35.4, 30.7], [35.3, 30.0], [35.0, 29.6], [34.8, 30.3], [34.8, 30.8]], ancora: [35.05, 30.45]},
+  {id: 'fenicia', nome: 'Fenicia', livelli: ['terra', 'popoli'], certezza: 'media', periodo: 'Epoca di Gesù', rif: ['Mc 7,24', 'At 21,2'],
+    descrizione: 'Fascia costiera a nord della Galilea, con le città di Tiro e Sidone. Gesù vi si ritira nel racconto della donna siro-fenicia (Mc 7,24–31).',
+    poligono: [[35.05, 32.92], [35.18, 33.27], [35.37, 33.56], [35.6, 33.85], [35.9, 34.1], [35.95, 33.85], [35.7, 33.55], [35.65, 33.2], [35.35, 32.95]], ancora: [35.4, 33.4]},
+  {id: 'iturea', nome: 'Iturea e Traconitide', livelli: ['terra'], certezza: 'discussa', periodo: 'Epoca di Gesù', rif: ['Lc 3,1'], nomeBiblico: true,
+    descrizione: 'Regione a nord-est della Galilea, verso il monte Ermon. Il Vangelo di Luca la cita insieme alla Traconitide, nel passo che data l’inizio del ministero di Giovanni.',
+    nota: 'I confini di Iturea e Traconitide non sono noti con precisione: qui sono riuniti in un’unica area indicativa.',
+    poligono: [[35.9, 33.3], [36.5, 33.6], [36.6, 32.95], [36.1, 32.85], [35.95, 33.0]], ancora: [36.25, 33.2]},
+  {id: 'gaulanitide', nome: 'Gaulanitide', livelli: ['terra'], certezza: 'discussa', periodo: 'Epoca romana', rif: [], nomeBiblico: false,
+    descrizione: 'Regione a est del lago di Galilea, sull’altopiano del Golan. È il nome usato da Giuseppe Flavio, non dalla Bibbia.',
+    nota: 'Il nome non compare nella Bibbia. Il suo confine con la Batanea e la Traconitide è discusso.',
+    poligono: [[35.6, 33.25], [35.85, 33.3], [35.92, 33.0], [35.85, 32.72], [35.65, 32.72], [35.6, 32.95]], ancora: [35.75, 33.0]},
+
+  /* Le 12 tribù (Gs 13–19); Levi non ha territorio */
+  {id: 'ruben', nome: 'Ruben', livelli: ['tribu'], certezza: 'media', periodo: 'Conquista e insediamento', rif: ['Gs 13,15–23'],
+    descrizione: 'Tribù a est del Giordano, fra l’Arnon a sud e il territorio di Gad a nord, con Chesbon e Aroer nei testi di Giosuè.',
+    poligono: [[35.52, 31.85], [35.6, 31.85], [35.9, 31.8], [36.0, 31.6], [35.95, 31.45], [35.6, 31.45], [35.52, 31.6]], ancora: [35.75, 31.62]},
+  {id: 'gad', nome: 'Gad', livelli: ['tribu'], certezza: 'media', periodo: 'Conquista e insediamento', rif: ['Gs 13,24–28'],
+    descrizione: 'Tribù a est del Giordano, fra Ruben e lo Iabbok, fino alla punta sud del lago di Galilea.',
+    poligono: [[35.5, 32.45], [35.6, 32.4], [35.9, 32.4], [36.1, 32.45], [36.2, 32.2], [36.0, 31.9], [35.9, 31.85], [35.6, 31.85], [35.52, 32.1]], ancora: [35.85, 32.5]},
+  {id: 'manasse-est', nome: 'Manasse (est)', livelli: ['tribu'], certezza: 'media', periodo: 'Conquista e insediamento', rif: ['Gs 13,29–31'],
+    descrizione: 'Metà della tribù di Manasse a est del Giordano, con Gàlaad e Basan. Il modo in cui fu insediata questa regione non è chiaro.',
+    poligono: [[35.55, 32.5], [35.8, 32.55], [36.1, 32.5], [36.2, 32.45], [36.4, 32.8], [36.3, 33.1], [36.0, 33.25], [35.7, 33.2], [35.6, 33.0], [35.5, 32.7]], ancora: [36.0, 33.05]},
+  {id: 'manasse-ovest', nome: 'Manasse (ovest)', livelli: ['tribu'], certezza: 'media', periodo: 'Conquista e insediamento', rif: ['Gs 17,1–13'],
+    descrizione: 'Metà della tribù di Manasse a ovest del Giordano, fra la valle di Bet-Sean, il Carmelo e il confine con Efraim.',
+    poligono: [[34.9, 32.72], [34.98, 32.72], [35.1, 32.7], [35.1, 32.55], [35.3, 32.5], [35.5, 32.5], [35.53, 32.35], [35.35, 32.3], [35.1, 32.3], [34.92, 32.4]], ancora: [35.1, 32.5]},
+  {id: 'efraim', nome: 'Efraim', livelli: ['tribu'], certezza: 'media', periodo: 'Conquista e insediamento', rif: ['Gs 16,1–10'],
+    descrizione: 'Tribù delle colline centrali, fra Manasse a nord e Beniamino a sud, con Sichem e Silo.',
+    poligono: [[34.95, 32.4], [35.1, 32.3], [35.35, 32.3], [35.53, 32.35], [35.55, 32.1], [35.42, 31.95], [35.2, 31.95], [35.0, 32.0], [34.9, 32.2]], ancora: [35.25, 32.15]},
+  {id: 'beniamino', nome: 'Beniamino', livelli: ['tribu'], certezza: 'media', periodo: 'Conquista e insediamento', rif: ['Gs 18,11–28'],
+    descrizione: 'Tribù fra Efraim e Giuda, sul confine dove passa Gerusalemme. Alcune sue città furono poi assegnate a Giuda.',
+    poligono: [[35.0, 31.95], [35.2, 31.95], [35.42, 31.95], [35.5, 31.9], [35.45, 31.8], [35.3, 31.75], [35.1, 31.75], [34.95, 31.8]], ancora: [35.22, 31.86]},
+  {id: 'giuda', nome: 'Giuda', livelli: ['tribu'], certezza: 'media', periodo: 'Conquista e insediamento', rif: ['Gs 15,1–63'],
+    descrizione: 'La tribù più grande, a sud di Beniamino fino al Negheb, con il Mar Morto a est. Il suo confine settentrionale passava presso Kiriat-Iearim.',
+    poligono: [[34.7, 31.85], [34.95, 31.8], [35.1, 31.75], [35.3, 31.75], [35.45, 31.8], [35.5, 31.6], [35.45, 31.3], [35.3, 31.1], [35.15, 30.95], [35.0, 31.0], [34.85, 31.2], [34.7, 31.4]], ancora: [35.1, 31.55]},
+  {id: 'simeone', nome: 'Simeone', livelli: ['tribu'], certezza: 'media', periodo: 'Conquista e insediamento', rif: ['Gs 19,1–9'],
+    descrizione: 'Tribù senza territorio proprio: le sue città stavano dentro quello di Giuda, nel Negheb nord-occidentale. Non tutte sono identificate.',
+    poligono: [[34.7, 31.35], [34.85, 31.3], [35.0, 31.25], [35.0, 31.0], [34.85, 30.9], [34.7, 31.05]], ancora: [34.8, 31.2]},
+  {id: 'dan', nome: 'Dan', livelli: ['tribu'], certezza: 'discussa', periodo: 'Conquista e insediamento', rif: ['Gs 19,40–46'],
+    descrizione: 'Territorio originario sulla Sefela, presso Zorea ed Eshtaol. Secondo la Bibbia gran parte fu perduta ai Filistei: la sua estensione è discussa.',
+    nota: 'Il territorio di Dan è il meno sicuro fra quelli tribali: il testo di Giosuè non ne dà i confini con chiarezza.',
+    poligono: [[34.75, 32.05], [34.95, 32.1], [35.0, 32.0], [35.05, 31.95], [35.0, 31.85], [34.85, 31.8], [34.7, 31.85]], ancora: [34.85, 31.98]},
+  {id: 'dan-nord', nome: 'Dan (nord)', livelli: ['tribu'], certezza: 'media', periodo: 'Epoca dei Giudici', rif: ['Gdc 18,27–29'],
+    descrizione: 'Dopo la conquista del nord, i Dan si stabilirono a Lais, presso le sorgenti del Giordano, e la città prese il nome di Dan.',
+    poligono: [[35.62, 33.32], [35.72, 33.3], [35.72, 33.18], [35.62, 33.18]], ancora: [35.66, 33.25]},
+  {id: 'aser', nome: 'Aser', livelli: ['tribu'], certezza: 'media', periodo: 'Conquista e insediamento', rif: ['Gs 19,24–31'],
+    descrizione: 'Tribù del nord-ovest, lungo la costa da Tiro verso il Carmelo. Il confine settentrionale non è chiaro.',
+    poligono: [[35.02, 32.9], [35.12, 33.0], [35.19, 33.27], [35.28, 33.25], [35.27, 33.0], [35.2, 32.85], [35.05, 32.82]], ancora: [35.1, 33.05]},
+  {id: 'neftali', nome: 'Neftali', livelli: ['tribu'], certezza: 'media', periodo: 'Conquista e insediamento', rif: ['Gs 19,32–39'],
+    descrizione: 'Tribù dell’alta Galilea, fra Aser e il Giordano. Il confine settentrionale non è indicato nel testo.',
+    poligono: [[35.28, 33.25], [35.6, 33.27], [35.66, 33.1], [35.62, 32.9], [35.4, 32.85], [35.27, 32.9], [35.27, 33.0]], ancora: [35.42, 33.05]},
+  {id: 'zabulon', nome: 'Zabulon', livelli: ['tribu'], certezza: 'media', periodo: 'Conquista e insediamento', rif: ['Gs 19,10–16'],
+    descrizione: 'Tribù della bassa Galilea, fra Aser e Issacar, senza grandi città cananee.',
+    poligono: [[35.02, 32.82], [35.2, 32.85], [35.27, 32.9], [35.4, 32.85], [35.3, 32.72], [35.1, 32.7], [34.98, 32.72]], ancora: [35.2, 32.78]},
+  {id: 'issacar', nome: 'Issacar', livelli: ['tribu'], certezza: 'media', periodo: 'Conquista e insediamento', rif: ['Gs 19,17–23'],
+    descrizione: 'Tribù della pianura di Esdrelon e delle valli fino al Giordano. Il suo confine è indicato solo a nord.',
+    poligono: [[35.1, 32.7], [35.3, 32.72], [35.45, 32.72], [35.55, 32.65], [35.5, 32.5], [35.3, 32.5], [35.1, 32.55]], ancora: [35.3, 32.62]},
+
+  /* Regni divisi (dopo Salomone, 1Re 12) */
+  {id: 'regno-israele', nome: 'Regno di Israele', livelli: ['regni'], certezza: 'media', periodo: 'Dopo Salomone (931 circa a.C.)', rif: ['1Re 12,16–20'],
+    descrizione: 'Il regno del nord, con capitale a Samaria. Comprende Galilea, Samaria, Efraim e le terre a est del Giordano, fino a Gàlaad.',
+    poligono: [[34.8, 31.95], [35.5, 31.95], [35.6, 32.1], [35.8, 32.1], [36.1, 32.2], [36.3, 32.8], [36.3, 33.2], [35.9, 33.3], [35.6, 33.35], [35.2, 33.27], [35.1, 33.0], [34.9, 32.6]], ancora: [35.95, 32.5]},
+  {id: 'regno-giuda', nome: 'Regno di Giuda', livelli: ['regni'], certezza: 'media', periodo: 'Dopo Salomone (931 circa a.C.)', rif: ['1Re 12,17–20'],
+    descrizione: 'Il regno del sud, con capitale a Gerusalemme e la dinastia di Davide. Restò legato alla tribù di Giuda, con Beniamino e parte di Simeone.',
+    poligono: [[34.7, 31.95], [35.5, 31.95], [35.5, 31.55], [35.45, 31.2], [35.2, 31.0], [35.0, 30.9], [34.6, 31.1], [34.5, 31.5], [34.6, 31.8]], ancora: [35.0, 31.45]},
+
+  /* Popoli vicini (solo sedi ben localizzate) */
+  {id: 'filistia', nome: 'Filistia', livelli: ['popoli'], certezza: 'alta', periodo: 'Antico Testamento', rif: ['Gs 13,3', 'Gdc 16,1'],
+    descrizione: 'Pentapoli filistea sulla costa, con Gaza, Asdod, Ascalon, Ekron e Gat (Gs 13,3). Fu la principale rivale d’Israele nel periodo dei Giudici.',
+    poligono: [[34.65, 31.85], [34.8, 31.95], [34.85, 31.7], [34.75, 31.4], [34.55, 31.3], [34.3, 31.2], [34.3, 31.35], [34.45, 31.5], [34.55, 31.65]], ancora: [34.6, 31.6]},
+  {id: 'moab', nome: 'Moab', livelli: ['popoli'], certezza: 'alta', periodo: 'Antico Testamento', rif: ['Nm 21,13', 'Rut 1,1'],
+    descrizione: 'Regione a est del Mar Morto, a sud dell’Arnon, con cui Israele aveva confine (Nm 21,13).',
+    poligono: [[35.5, 31.45], [35.95, 31.45], [36.0, 31.1], [35.8, 30.9], [35.6, 31.1], [35.5, 31.3]], ancora: [35.75, 31.25]},
+  {id: 'ammon', nome: 'Ammon', livelli: ['popoli'], certezza: 'alta', periodo: 'Antico Testamento', rif: ['Gdc 11,13', '2Sam 12,26'],
+    descrizione: 'Regione a est del Giordano, con la capitale Rabba (oggi Amman), fra lo Iabbok e il deserto (Gdc 11,13).',
+    poligono: [[35.7, 32.1], [36.2, 32.2], [36.3, 31.6], [35.95, 31.4], [35.7, 31.5], [35.7, 31.8]], ancora: [36.12, 31.5]},
+  {id: 'edom', nome: 'Edom', livelli: ['popoli'], certezza: 'alta', periodo: 'Antico Testamento', rif: ['Nm 20,14–21', 'Gen 36,1'],
+    descrizione: 'Regione montuosa di Seir, a sud del Mar Morto, fino al golfo di Aqaba. Il re di Edom rifiutò il passaggio a Israele (Nm 20,14–21).',
+    poligono: [[35.0, 30.8], [35.6, 31.1], [35.6, 30.4], [35.3, 29.6], [35.0, 29.5], [34.9, 30.2]], ancora: [35.35, 30.5]},
+  {id: 'aram', nome: 'Aram (Damasco)', livelli: ['popoli'], certezza: 'media', periodo: 'Antico Testamento', rif: ['Gen 14,15', '2Re 5,1'],
+    descrizione: 'Regione di Damasco, a nord-est della Galilea. Gli Aramei sono nominati nei libri dei Re, in particolare nelle guerre con Israele.',
+    nota: 'I confini esatti del regno di Aram variavano nel tempo: il tracciato è indicativo.',
+    poligono: [[35.9, 33.9], [36.4, 33.8], [37.0, 33.9], [37.2, 33.2], [36.6, 32.8], [36.2, 32.9], [35.9, 33.2]], ancora: [36.6, 33.4]},
+  {id: 'egitto', nome: 'Egitto ↙', livelli: ['popoli'], certezza: 'alta', periodo: 'Antico Testamento', rif: ['Gen 12,10'], poligono: null, ancora: [32.6, 30.0],
+    descrizione: 'Egitto, a sud-ovest della Terra d’Israele, oltre il Sinai. È indicato solo con un’etichetta: la sua area è fuori dalla mappa.'},
+];
+
+/* ---------- geometria delle aree: punto d'etichetta interno e inquadratura ---------- */
+export function pointInPoly(pt, poly) {
+  let inside = false; const [x, y] = pt;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const [xi, yi] = poly[i], [xj, yj] = poly[j];
+    if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) inside = !inside;
+  }
+  return inside;
+}
+/* distanza minima dal punto ai lati del poligono (lon scalata per la latitudine) */
+function distEdges(pt, poly) {
+  const k = Math.cos(31.5 * Math.PI / 180); let best = Infinity;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const ax = poly[j][0] * k, ay = poly[j][1], bx = poly[i][0] * k, by = poly[i][1], px = pt[0] * k, py = pt[1];
+    const dx = bx - ax, dy = by - ay, t = Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy || 1)));
+    best = Math.min(best, Math.hypot(px - ax - t * dx, py - ay - t * dy));
+  }
+  return best;
+}
+/* punto più lontano dai bordi, dentro il poligono e fuori dal mare */
+export function labelPoint(poly, sea = []) {
+  const lons = poly.map(p => p[0]), lats = poly.map(p => p[1]);
+  const x0 = Math.min(...lons), x1 = Math.max(...lons), y0 = Math.min(...lats), y1 = Math.max(...lats);
+  let best = null, bd = -1;
+  for (let x = x0; x <= x1; x += 0.02) for (let y = y0; y <= y1; y += 0.02) {
+    const pt = [x, y];
+    if (!pointInPoly(pt, poly) || sea.some(sp => pointInPoly(pt, sp))) continue;
+    const d = distEdges(pt, poly);
+    if (d > bd) { bd = d; best = pt; }
+  }
+  return best ? best.map(v => Math.round(v * 1000) / 1000) : [(x0 + x1) / 2, (y0 + y1) / 2];
+}
+const ANCORA_MANUALE = {perea: [35.88, 32.1], 'regno-israele': [36.02, 32.4]};
+for (const a of AREE) if (a.poligono) a.ancora = ANCORA_MANUALE[a.id] ?? labelPoint(a.poligono, [MEDITERRANEO]);
+/* riquadro di un livello: racchiude tutte le sue aree */
+export function levelBounds(lv) {
+  const pts = AREE.filter(a => a.livelli.includes(lv) && a.poligono).flatMap(a => a.poligono);
+  const lons = pts.map(p => p[0]), lats = pts.map(p => p[1]);
+  return {x0: Math.min(...lons), x1: Math.max(...lons), y0: Math.min(...lats), y1: Math.max(...lats)};
+}
+/* punti candidati per l'etichetta di un'area: interni, fuori dal mare, distanziati; il primo è il centro migliore */
+export function labelCandidates(poly, sea = [], n = 160) {
+  const lons = poly.map(p => p[0]), lats = poly.map(p => p[1]);
+  const x0 = Math.min(...lons), x1 = Math.max(...lons), y0 = Math.min(...lats), y1 = Math.max(...lats);
+  const cand = [];
+  for (let x = x0; x <= x1; x += 0.02) for (let y = y0; y <= y1; y += 0.02) {
+    const pt = [x, y];
+    if (!pointInPoly(pt, poly) || sea.some(sp => pointInPoly(pt, sp))) continue;
+    cand.push({pt, d: distEdges(pt, poly)});
+  }
+  cand.sort((a, b) => b.d - a.d);
+  const out = [];
+  for (const c of cand) {
+    if (out.length >= n) break;
+    if (out.every(o => Math.hypot(o[0] - c.pt[0], o[1] - c.pt[1]) >= 0.03)) out.push(c.pt.map(v => Math.round(v * 1000) / 1000));
+  }
+  return out.length ? out : [labelPoint(poly, sea)];
 }

@@ -10,7 +10,7 @@
    Esempio:  ctx.router.go('mondo', {luogo: 'betania', from: 'leggi'})
    Dati caricati una sola volta (fetch di data/*.json) e solo quando servono; CSS e mappa in moduli caricati al primo uso. */
 import {registerFeature} from '../core/features.js';
-import {nx, ny, MEDITERRANEO, LAGHI, FIUMI} from './mondo-geo.js';
+import {nx, ny, MEDITERRANEO, LAGHI, FIUMI, LIVELLI} from './mondo-geo.js';
 
 const FEATURE = 'mondo';
 const cache = {};
@@ -65,7 +65,7 @@ registerFeature({
       pv, h('span', {class: 'f-mondo-homebar'}, h('span', {class: 'f-mondo-homet'}, h('small', {class: 'eyebrow', text: 'Esplora'}), h('b', {text: 'Mondo della Bibbia'}), h('i', {text: 'Mappa, luoghi, misure, tempo e personaggi'})), h('span', {class: 'f-mondo-go'}, 'Esplora', ctx.icons.icon('chev', 15, 2.2))));
   }}],
   settings: [{id: 'mondo', section: 'Studio', label: 'Mondo della Bibbia', value: 'Mappa, luoghi, misure, tempo e personaggi', icon: 'grid', order: 10, onTap: ctx => ctx.router.go('mondo', {from: 'impostazioni'})}],
-  screens: [{id: 'mondo', title: 'Mondo della Bibbia', tab: 'oggi', build: buildScreen, show: showScreen}],
+  screens: [{id: 'mondo', title: 'Mondo della Bibbia', tab: 'oggi', build: buildScreen, show: showScreen, hide: hideScreen}],
   onReady() {
     /* a riposo scalda la cache dei dati, così «Mondo» funziona anche senza rete */
     /* non prima di 6 s dall'avvio (e a riposo): su rete lenta non deve contendere la banda al primo capitolo */
@@ -75,7 +75,7 @@ registerFeature({
 });
 
 /* ============================== schermata ============================== */
-const S = {ctx: null, root: null, body: null, title: null, view: 'hub', backTo: 'oggi', leaving: false, map: null, mapLoading: null, filter: {period: 'tutti', tipo: 'tutti'}, places: null, byId: {}, measures: null, people: null, el: {}, pending: null};
+const S = {ctx: null, root: null, body: null, title: null, view: 'hub', backTo: 'oggi', leaving: false, map: null, mapLoading: null, filter: {period: 'tutti', tipo: 'tutti', livello: 'nessuno'}, places: null, byId: {}, measures: null, people: null, el: {}, pending: null, active: false, timers: new Set()};
 
 function buildScreen(root, ctx) {
   ensureCss();
@@ -88,7 +88,7 @@ function buildScreen(root, ctx) {
   S.el.hub = buildHub();
   S.body.append(S.el.hub);
   document.addEventListener('keydown', e => {
-    if (e.key !== 'Escape' || S.root.hidden || S.view === 'hub' || ctx.ui.sheetOpen()) return;
+    if (e.key !== 'Escape' || S.root.hidden || S.view === 'hub' || openSh) return;
     showView('hub');
   });
 }
@@ -106,6 +106,7 @@ function showView(v) {
 }
 
 async function showScreen(params, prev) {
+  S.active = true;
   if (params.from) S.backTo = params.from;
   else if (!S.leaving && prev && prev !== 'mondo') S.backTo = prev;
   S.leaving = false;
@@ -118,15 +119,15 @@ async function showScreen(params, prev) {
     if (params.luogo) {
       await ensureMap();
       const p = S.byId[params.luogo];
-      if (p) { S.map?.flyToPlace(p.id); setTimeout(() => openPlace(p), 60); }
+      if (p) { S.map?.flyToPlace(p.id); later(() => openPlace(p), 60); }
     } else if (params.misura) {
       const ms = await load('measures'); S.measures = ms;
       const m = ms.find(x => x.id === params.misura);
-      if (m) { showView(m.categoria === 'tempo' ? 'tempo' : 'misure'); setTimeout(() => openMeasure(m), 60); }
+      if (m) { showView(m.categoria === 'tempo' ? 'tempo' : 'misure'); later(() => openMeasure(m), 60); }
     } else if (params.personaggio) {
       const ps = await load('people'); S.people = ps;
       const p = ps.find(x => x.id === params.personaggio);
-      if (p) { showView('personaggi'); setTimeout(() => openPerson(p), 60); }
+      if (p) { showView('personaggi'); later(() => openPerson(p), 60); }
     }
   } catch (e) { console.error('mondo', e); }
 }
@@ -135,23 +136,28 @@ async function showScreen(params, prev) {
 function buildHub() {
   const {h} = S.ctx.dom;
   const periods = [['tutti', 'Tutti', 'Tutti i periodi'], ['at', 'Antico T.', 'Antico Testamento'], ['vangeli', 'Vangeli', 'Vangeli'], ['atti', 'Atti e lettere', 'Atti e lettere']];
-  const types = [['tutti', 'Tutti'], ['città', 'Città'], ['monti', 'Monti'], ['acque', 'Acque'], ['regioni', 'Regioni']];
+  const types = [['tutti', 'Tutti'], ['città', 'Città'], ['monti', 'Monti'], ['acque', 'Acque']];
+  const livelli = [['nessuno', 'Nessuno'], ['terra', 'Terra di Gesù'], ['tribu', 'Le 12 tribù'], ['regni', 'Regni divisi'], ['popoli', 'Popoli vicini']];
   const seg = h('div', {class: 'seg f-mondo-seg', role: 'group', 'aria-label': 'Periodo'});
+  const lvRow = h('div', {class: 'f-mondo-chips f-mondo-livelli', role: 'group', 'aria-label': 'Livelli regionali'});
+  for (const [v, l] of livelli) lvRow.append(h('button', {type: 'button', class: 'f-mondo-chip', 'data-v': v, on: {click: () => { S.filter.livello = v; sync(); }}}, h('span', {}, l)));
   const chips = h('div', {class: 'f-mondo-chips', role: 'group', 'aria-label': 'Tipo di luogo'});
   const sync = () => {
     seg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === S.filter.period)));
     chips.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === S.filter.tipo)));
+    lvRow.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === S.filter.livello)));
     S.map?.setFilter(S.filter);
   };
   for (const [v, l, aria] of periods) seg.append(h('button', {type: 'button', 'data-v': v, 'aria-label': aria, text: l, on: {click: () => { S.filter.period = v; sync(); }}}));
-  const DOT = {città: 'var(--accent)', monti: 'var(--d3)', acque: 'var(--d2)', regioni: 'var(--dim)'};
-  for (const [v, l] of types) chips.append(h('button', {type: 'button', class: 'f-mondo-chip', 'data-v': v, on: {click: () => { S.filter.tipo = v; sync(); }}}, h('span', {}, DOT[v] ? h('i', {style: '--pc:' + DOT[v], 'aria-hidden': 'true'}) : null, l)));
+  /* la pillola mostra la stessa forma del simbolo sulla mappa: legenda e filtro in un'unica riga */
+  const DOT = {città: ['var(--accent)', 'g-cit'], monti: ['var(--d3)', 'g-mon'], acque: ['var(--d2)', 'g-acq']};
+  for (const [v, l] of types) chips.append(h('button', {type: 'button', class: 'f-mondo-chip', 'data-v': v, on: {click: () => { S.filter.tipo = v; sync(); }}}, h('span', {}, DOT[v] ? h('i', {class: DOT[v][1], style: '--pc:' + DOT[v][0], 'aria-hidden': 'true'}) : null, l)));
   S.syncFilters = sync;
   S.mapSlot = h('div', {class: 'f-mondo-slot', id: 'mondoMapSlot'}, h('p', {class: 'f-mondo-loading', text: 'Carico la mappa…'}));
   const tile = (view, ic, title, sub) => h('button', {class: 'card f-mondo-tile-btn', type: 'button', 'data-view': view, on: {click: () => showView(view)}},
     h('span', {class: 'f-mondo-tic'}, ico(ic, 20)), h('b', {text: title}), h('small', {text: sub}));
   const el = h('div', {class: 'f-mondo-hub'},
-    h('h1', {class: 'big f-mondo-h1', text: 'Mondo della Bibbia'}), seg, chips, S.mapSlot,
+    h('h1', {class: 'big f-mondo-h1', text: 'Mondo della Bibbia'}), seg, chips, lvRow, S.mapSlot,
     h('div', {class: 'f-mondo-grid'}, tile('luoghi', 'pin', 'Luoghi', 'Città, monti e mari'), tile('misure', 'scale', 'Misure e monete', 'Talento, siclo, cubito'), tile('tempo', 'clock', 'Il tempo', 'Ore del giorno e feste'), tile('personaggi', 'person', 'Personaggi', 'Da Adamo a Paolo')),
     footer());
   sync();
@@ -162,7 +168,7 @@ function footer() {
   const {h} = S.ctx.dom;
   const a = (href, t) => h('a', {href, target: '_blank', rel: 'noopener noreferrer', text: t});
   return h('p', {class: 'f-mondo-attrib'}, 'Dati sui luoghi: ', a('https://www.openbible.info/geo/', 'OpenBible.info (Bible Geocoding Data)'), ', ', a('https://creativecommons.org/licenses/by/4.0/', 'CC BY 4.0'),
-    '. Mappa: disegnata per l’app; con la rete, ', a('https://www.openstreetmap.org/copyright', '© OpenStreetMap contributors'), '.');
+    '. Mappa: disegnata per l’app; con la rete, rilievo ', a('https://www.arcgis.com/home/item.html?id=9c5370d0b54f4de1b48a3792d7dbd62c', 'Esri'), '.');
 }
 
 function ensureMap() {
@@ -174,7 +180,7 @@ async function makeMap() {
   try {
     const [mod, places] = await Promise.all([import('./mondo-mappa.js'), load('places')]);
     S.places = places; S.byId = Object.fromEntries(places.map(p => [p.id, p]));
-    S.map = mod.createMap({places, bible: S.ctx.bible, reduceMotion: S.ctx.dom.reduceMotion(), onSelect: p => openPlace(p)});
+    S.map = mod.createMap({places, bible: S.ctx.bible, reduceMotion: S.ctx.dom.reduceMotion(), onSelect: p => p.tipo === 'regione' ? openRegion(p) : openPlace(p)});
     S.mapSlot.replaceChildren(S.map.el);
     S.map.setFilter(S.filter);
     S.map.resize();
@@ -262,6 +268,45 @@ function measureRow(m) {
 }
 
 /* ============================== schede (fogli) ============================== */
+/* Foglio della schermata Mondo. Non usa i livelli sovrapposti del router (che aggiungono voci alla cronologia):
+   si chiude con il pulsante, con Esc, con un tocco fuori, e quando si lascia la schermata (hideScreen). */
+let openSh = null;
+function openSheet({title, build}) {
+  openSh?.close();
+  const {h} = S.ctx.dom;
+  const opener = document.activeElement;
+  const body = h('div', {class: 'sheet-body'});
+  const titleId = 'mondoSheetT' + Math.random().toString(36).slice(2, 7);
+  const closeBtn = h('button', {class: 'roundbtn', type: 'button', 'aria-label': 'Chiudi'}, S.ctx.icons.icon('close', 16, 2.2));
+  const box = h('div', {class: 'sheet-box', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': titleId},
+    h('div', {class: 'grab'}), h('div', {class: 'sheet-head'}, h('b', {id: titleId, text: title || ''}), closeBtn), body);
+  const el = h('div', {class: 'sheet'}, box);
+  document.body.append(el);
+  let closed = false;
+  const onKey = e => { if (e.key === 'Escape') { e.stopPropagation(); api.close(); } };
+  const api = {el, body, box, close() {
+    if (closed) return; closed = true;
+    el.remove(); document.removeEventListener('keydown', onKey, true);
+    if (openSh === api) openSh = null;
+    if (opener && opener.isConnected) try { opener.focus({preventScroll: true}); } catch { /* ok */ }
+  }};
+  closeBtn.addEventListener('click', () => api.close());
+  el.addEventListener('click', e => { if (e.target === el) api.close(); });
+  document.addEventListener('keydown', onKey, true);
+  openSh = api;
+  build?.(body, api);
+  (body.querySelector('[aria-current],[aria-pressed="true"]') || body.querySelector('button,input') || closeBtn).focus({preventScroll: true});
+  return api;
+}
+/* attese (apertura ritardata di una scheda, volo della mappa): annullate quando si lascia la schermata */
+function later(f, ms) { const t = setTimeout(() => { S.timers.delete(t); if (S.active) f(); }, ms); S.timers.add(t); }
+/* uscita dalla schermata Mondo: niente foglio orfano, niente attese */
+function hideScreen() {
+  S.active = false;
+  for (const t of S.timers) clearTimeout(t);
+  S.timers.clear();
+  openSh?.close();
+}
 function refChips(refs, sh) {
   const {h} = S.ctx.dom;
   const box = h('div', {class: 'f-mondo-refs'});
@@ -274,22 +319,57 @@ function refChips(refs, sh) {
 }
 const kv = (k, v) => { const {h} = S.ctx.dom; return v ? h('div', {class: 'f-mondo-kv'}, h('span', {class: 'eyebrow', text: k}), h('p', {text: v})) : null; };
 
+const CERT = {
+  alta: 'Alta. Confini e sede sono noti nelle linee generali; il disegno resta semplificato.',
+  media: 'Media. I confini sono indicativi: gli studiosi li discutono e la Bibbia non li descrive con precisione ovunque.',
+  discussa: 'Discussa. L’estensione o la posizione non sono confermate dalle fonti.',
+};
+/* foglio di un’area (regione o livello): stessa struttura della scheda luogo, con la riga «Quanto è sicuro» */
+function openRegion(r) {
+  const {h} = S.ctx.dom;
+  const lv = LIVELLI[r.livello];
+  openSheet({title: r.nome_it, build(body, sh) {
+    const [main, ...others] = r.riferimenti_chiave || [];
+    const open = ref => { sh.close(); S.leaving = true; const q = parseRefLoose(S.ctx, ref); if (q) S.ctx.nav.openRef(q.book, q.ch, q.v1 || 1); };
+    const mainPar = main ? parseRefLoose(S.ctx, main) : null;
+    body.append(h('div', {class: 'f-mondo-card', 'data-kind': 'regione', 'data-id': r.id, 'data-cert': r.certezza},
+      h('p', {class: 'eyebrow'}, lv.nome + ' · ' + r.periodo),
+      h('p', {class: 'f-mondo-desc', text: r.descrizione}),
+      main ? h('div', {class: 'f-mondo-refs'}, mainPar
+        ? h('button', {class: 'f-mondo-ref main', type: 'button', 'aria-label': 'Leggi ' + main, text: 'Riferimento: ' + main, on: {click: () => open(main)}})
+        : h('span', {class: 'f-mondo-ref off', text: main})) : null,
+      others.length ? h('p', {class: 'f-mondo-other'}, h('span', {text: 'Altri passi:'}), ...others.map(x => parseRefLoose(S.ctx, x) ? h('button', {type: 'button', 'aria-label': 'Apri ' + x, text: x, on: {click: () => open(x)}}) : h('span', {text: x}))) : null,
+      h('p', {class: 'f-mondo-cert', 'data-cert': r.certezza}, h('b', {text: 'Quanto è sicuro: '}), h('span', {text: CERT[r.certezza]})),
+      r.nomeBiblico === false ? h('p', {class: 'f-mondo-note', text: 'Il nome non compare nella Bibbia.'}) : null,
+      r.nota ? h('p', {class: 'f-mondo-note', text: r.nota}) : null,
+      h('p', {class: 'f-mondo-fonti', text: lv.fonti}),
+      h('div', {class: 'f-mondo-acts'},
+        h('button', {class: 'btn f-mondo-read', type: 'button', disabled: !mainPar, on: {click: () => open(main)}}, 'Leggi'),
+        h('button', {class: 'btn primary f-mondo-showmap', type: 'button', on: {click: () => { sh.close(); S.filter.livello = r.livello; S.syncFilters?.(); showView('hub'); ensureMap().then(() => { S.map?.flyToPlace(r.id); window.scrollTo(0, 0); }); }}}, ico('map', 18), 'Vedi sulla mappa'))));
+  }});
+}
 function openPlace(p) {
   const {h} = S.ctx.dom;
-  S.ctx.ui.sheet({title: p.nome_it, build(body, sh) {
-    const where = S.view === 'hub' && S.map;
+  const reg = p.tipo === 'regione';
+  openSheet({title: p.nome_it, build(body, sh) {
+    const [main, ...others] = p.riferimenti_chiave || [];
+    const open = ref => { sh.close(); S.leaving = true; const q = parseRefLoose(S.ctx, ref); if (q) S.ctx.nav.openRef(q.book, q.ch, q.v1 || 1); };
+    const mainPar = main ? parseRefLoose(S.ctx, main) : null;
     body.append(h('div', {class: 'f-mondo-card', 'data-kind': 'luogo', 'data-id': p.id},
-      h('p', {class: 'eyebrow'}, 'Luogo · ' + TIPO[p.tipo]),
-      p.posizione_approssimata ? h('p', {class: 'f-mondo-apx'}, h('span', {class: 'f-mondo-badge', text: 'Posizione approssimata'}), h('span', {text: ' Il punto sulla mappa è indicativo.'})) : null,
+      h('p', {class: 'eyebrow'}, TIPO[p.tipo] + (!reg && p.posizione_approssimata ? ' · posizione approssimata' : '')),
       h('p', {class: 'f-mondo-desc', text: p.descrizione}),
-      p.forme && p.forme.length > 1 ? kv('Altre forme del nome', p.forme.filter(f => f !== p.nome_it).join(', ')) : null,
-      h('h3', {class: 'f-mondo-h3', text: 'Nella Bibbia'}), refChips(p.riferimenti_chiave, sh),
-      h('div', {class: 'f-mondo-acts'}, h('button', {class: 'btn primary f-mondo-showmap', type: 'button', on: {click: () => { sh.close(); showView('hub'); ensureMap().then(() => { S.map?.flyToPlace(p.id); window.scrollTo(0, 0); }); }}}, ico('map', 18), where ? 'Centra sulla mappa' : 'Mostra sulla mappa'))));
+      main ? h('div', {class: 'f-mondo-refs'}, mainPar
+        ? h('button', {class: 'f-mondo-ref main', type: 'button', 'aria-label': 'Leggi ' + main, text: 'Riferimento: ' + main, on: {click: () => open(main)}})
+        : h('span', {class: 'f-mondo-ref off', text: main})) : null,
+      others.length ? h('p', {class: 'f-mondo-other'}, h('span', {text: 'Altri passi:'}), ...others.map(r => parseRefLoose(S.ctx, r) ? h('button', {type: 'button', 'aria-label': 'Apri ' + r, text: r, on: {click: () => open(r)}}) : h('span', {text: r}))) : null,
+      h('div', {class: 'f-mondo-acts'},
+        h('button', {class: 'btn f-mondo-read', type: 'button', disabled: !mainPar, on: {click: () => open(main)}}, 'Leggi'),
+        h('button', {class: 'btn primary f-mondo-showmap', type: 'button', on: {click: () => { sh.close(); showView('hub'); ensureMap().then(() => { S.map?.flyToPlace(p.id); window.scrollTo(0, 0); }); }}}, ico('map', 18), 'Vedi sulla mappa'))));
   }});
 }
 function openMeasure(m) {
   const {h} = S.ctx.dom;
-  S.ctx.ui.sheet({title: mName(m), build(body, sh) {
+  openSheet({title: mName(m), build(body, sh) {
     body.append(h('div', {class: 'f-mondo-card', 'data-kind': 'misura', 'data-id': m.id},
       h('p', {class: 'eyebrow'}, (m.categoria === 'tempo' ? 'Il tempo' : 'Misura · ' + CAT_ONE[m.categoria])),
       h('p', {class: 'f-mondo-big', text: m.valore}),
@@ -301,7 +381,7 @@ function openMeasure(m) {
 }
 function openPerson(p) {
   const {h} = S.ctx.dom;
-  S.ctx.ui.sheet({title: p.nome, build(body, sh) {
+  openSheet({title: p.nome, build(body, sh) {
     body.append(h('div', {class: 'f-mondo-card', 'data-kind': 'personaggio', 'data-id': p.id},
       h('p', {class: 'eyebrow'}, 'Personaggio · ' + p.ruolo), p.periodo ? h('p', {class: 'f-mondo-sub', text: p.periodo}) : null,
       h('p', {class: 'f-mondo-desc', text: p.sintesi}), kv('Famiglia', p.famiglia),

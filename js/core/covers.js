@@ -1,81 +1,133 @@
-/* Copertine dei libri generate in SVG: colore + simbolo derivano da bible.bookStyle(). Nessuna immagine esterna. */
-import {names, bookStyle} from './bible.js';
+/* Copertine dei libri in SVG, edizione classica: solo tipografia. Niente icone, simboli, scene o ornamenti centrali.
+   Otto tinte profonde, una per genere; ±4% di luminosità per libro. Tela con tessitura fine, doppio filetto, dorso a nervature.
+   Nessuna immagine esterna: tutto il markup è costruito solo da dati interni (nomi dei libri), mai da input utente. */
+import {names, abbr} from './bible.js';
 
-let uid = 0;
+export const GENRES = [
+  {id: 'legge', label: 'Legge', from: 0, to: 4, c: '#1f2c4d'},            // blu notte
+  {id: 'storia', label: 'Storia', from: 5, to: 16, c: '#5e1f2b'},          // bordeaux
+  {id: 'poesia', label: 'Poesia e sapienza', short: 'Poesia', from: 17, to: 21, c: '#1c4a3e'},   // verde bottiglia
+  {id: 'profeti', label: 'Profeti', from: 22, to: 38, c: '#6e5019'},        // ocra scuro
+  {id: 'vangeli', label: 'Vangeli', from: 39, to: 42, c: '#43274b'},       // prugna
+  {id: 'atti', label: 'Atti', from: 43, to: 43, c: '#384450'},             // ardesia
+  {id: 'lettere', label: 'Lettere', from: 44, to: 64, c: '#173f47'},       // petrolio
+  {id: 'apocalisse', label: 'Apocalisse', from: 65, to: 65, c: '#27272c'}, // antracite
+];
+export const genreOf = b => GENRES.find(g => b >= g.from && b <= g.to) || GENRES[0];
+const ACCENT = '#d9bd7e';   // oro opaco: unico accento
+const INK = '#f1e8d4';      // avorio per i titoli
+const SERIF = `Cardo,'Crimson Text',Georgia,serif`;
+const WIDTH = .78;          // larghezza media di una maiuscola con spaziatura, in em
+/* abbreviazioni usate solo quando il titolo intero non sta leggibile sulla copertina */
+const SHORT = {'Deuteronomio': 'Deut.', 'Lamentazioni': 'Lam.', 'Ecclesiaste': 'Eccl.', 'Tessalonicesi': 'Tess.', 'Apocalisse': 'Apoc.', 'Filippesi': 'Filipp.', 'Cantico dei Cantici': 'Cantico'};
+
 const cache = new Map();
+let uid = 0;
+const f1 = n => +n.toFixed(1), f2 = n => +n.toFixed(2);
+export const ROMAN = n => { let r = ''; for (const [v, s] of [[50, 'L'], [40, 'XL'], [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']]) while (n >= v) { r += s; n -= v; } return r; };
 
-function sym(kind, ac) {
-  const s = `stroke="${ac}" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"`;
-  const f = `fill="${ac}"`;
-  switch (kind) {
-    case 'star': {
-      const pts = [];
-      for (let i = 0; i < 16; i++) { const r = i % 4 === 0 ? 34 : (i % 2 === 0 ? 22 : 7), a = -Math.PI / 2 + i * Math.PI / 8; pts.push((50 + r * Math.cos(a)).toFixed(1) + ',' + (46 + r * Math.sin(a)).toFixed(1)); }
-      return `<g ${s}><polygon points="${pts.join(' ')}" fill="${ac}" fill-opacity=".18"/><circle cx="50" cy="46" r="40" stroke-opacity=".35" stroke-width="1.2"/><path d="M22 82 Q50 70 78 82" stroke-opacity=".6"/></g><g ${f}><circle cx="18" cy="22" r="1.6"/><circle cx="84" cy="30" r="1.3"/><circle cx="76" cy="12" r="1.1"/><circle cx="26" cy="70" r="1.2"/><circle cx="80" cy="66" r="1.5"/></g>`;
-    }
-    case 'waves': {
-      let w = '';
-      [44, 55, 66, 77].forEach((y, i) => { w += `<path d="M6 ${y} q11.5 -13 23 0 t23 0 t23 0 t23 0" stroke-opacity="${(1 - i * .17).toFixed(2)}"/>`; });
-      return `<g ${s}>${w}</g><circle cx="50" cy="30" r="12" ${f} fill-opacity=".9"/><g stroke="${ac}" stroke-width="1.4" stroke-opacity=".5" stroke-linecap="round"><path d="M50 10v-4M34 16l-3-3M66 16l3-3M26 30h-5M74 30h5"/></g>`;
-    }
-    case 'lyre': return `<g ${s}><path d="M33 22 C20 32 20 62 36 76 L64 76 C80 62 80 32 67 22"/><path d="M30 22 H70"/><path d="M40 22V74M50 22V74M60 22V74" stroke-width="1.5"/><path d="M33 82H67"/><circle cx="32" cy="20" r="4"/><circle cx="68" cy="20" r="4"/></g>`;
-    case 'scroll': return `<g ${s}><rect x="27" y="28" width="46" height="44" rx="2" fill="${ac}" fill-opacity=".12"/><rect x="20" y="23" width="11" height="54" rx="5.5"/><rect x="69" y="23" width="11" height="54" rx="5.5"/><path d="M36 40H64M36 48H60M36 56H64M36 64H54" stroke-width="1.6"/></g>`;
-    case 'flame': {
-      let rays = '';
-      for (let i = 0; i < 20; i++) { const a = i * Math.PI / 10; rays += `<path d="M${(50 + 44 * Math.cos(a)).toFixed(1)} ${(50 + 44 * Math.sin(a)).toFixed(1)}L${(50 + 49 * Math.cos(a)).toFixed(1)} ${(50 + 49 * Math.sin(a)).toFixed(1)}"/>`; }
-      return `<g ${s}><path d="M50 14 C58 30 74 40 74 58 C74 72 63 84 50 84 C37 84 26 72 26 58 C26 48 32 42 38 36 C38 44 42 48 46 48 C42 38 44 26 50 14 Z" fill="${ac}" fill-opacity=".16"/><path d="M50 52 C56 60 62 64 62 70 C62 77 56 80 50 80 C44 80 38 77 38 70 C38 64 46 60 50 52 Z" fill="${ac}" fill-opacity=".7" stroke="none"/><g stroke-opacity=".3" stroke-width="1.2">${rays}</g></g>`;
-    }
-    case 'column': return `<g ${s}><rect x="27" y="19" width="46" height="6" rx="1"/><path d="M32 25H68Q64 35 56 35H44Q36 35 32 25Z"/><circle cx="32" cy="31" r="4"/><circle cx="68" cy="31" r="4"/><rect x="40" y="35" width="20" height="40" fill="${ac}" fill-opacity=".12"/><path d="M45 38V74M50 38V74M55 38V74" stroke-width="1.2"/><rect x="34" y="75" width="32" height="5"/><rect x="29" y="80" width="42" height="6"/></g>`;
-    case 'crown': {
-      let rays = '';
-      for (let i = 0; i < 12; i++) { const a = i * Math.PI / 6; rays += `<path d="M${(50 + 17 * Math.cos(a)).toFixed(1)} ${(33 + 17 * Math.sin(a)).toFixed(1)}L${(50 + 25 * Math.cos(a)).toFixed(1)} ${(33 + 25 * Math.sin(a)).toFixed(1)}"/>`; }
-      return `<g ${s}><circle cx="50" cy="33" r="10" fill="${ac}" fill-opacity=".85"/>${rays}<path d="M28 88 L32 68 L41 78 L50 63 L59 78 L68 68 L72 88 Z" fill="${ac}" fill-opacity=".14"/><path d="M29 88H71"/></g><g ${f}><circle cx="32" cy="67" r="2.4"/><circle cx="68" cy="67" r="2.4"/><circle cx="50" cy="62" r="2.6"/></g>`;
-    }
-    case 'scales': return `<g ${s}><path d="M50 22V78"/><path d="M24 32H76"/><path d="M24 32L14 56M24 32L34 56M76 32L66 56M76 32L86 56" stroke-width="1.4"/><path d="M12 56H36Q24 70 12 56Z" fill="${ac}" fill-opacity=".2"/><path d="M64 56H88Q76 70 64 56Z" fill="${ac}" fill-opacity=".2"/><path d="M38 80H62"/><circle cx="50" cy="20" r="3"/></g>`;
-    case 'tablets': return `<g ${s}><path d="M23 80V40Q23 22 36 22Q49 22 49 40V80Z" fill="${ac}" fill-opacity=".14"/><path d="M51 80V40Q51 22 64 22Q77 22 77 40V80Z" fill="${ac}" fill-opacity=".14"/><path d="M30 42H42M30 50H42M30 58H38M58 42H70M58 50H70M58 58H66" stroke-width="1.5"/></g>`;
-    case 'tree': return `<g ${s}><path d="M50 82V54"/><ellipse cx="50" cy="38" rx="23" ry="21" fill="${ac}" fill-opacity=".14"/><path d="M50 62L38 48M50 56L62 44M50 46V30" stroke-width="1.6"/><path d="M30 82H70"/></g><g ${f}><circle cx="40" cy="32" r="2"/><circle cx="60" cy="30" r="2"/><circle cx="50" cy="22" r="2"/><circle cx="62" cy="44" r="2"/></g>`;
-    case 'tent': return `<g ${s}><path d="M18 78L50 26L82 78Z" fill="${ac}" fill-opacity=".14"/><path d="M50 78V52L40 78"/><path d="M50 26V16"/><path d="M12 78H88"/></g>`;
-    case 'dove': return `<g ${s}><path d="M20 58 C30 48 42 52 50 58 C52 42 66 30 82 30 C80 44 72 54 62 60 C68 68 64 76 52 76 C38 76 28 70 20 58Z" fill="${ac}" fill-opacity=".16"/><path d="M62 60C60 52 58 46 54 42" stroke-width="1.4"/><circle cx="76" cy="36" r="1.4" fill="${ac}"/><path d="M82 30L90 28"/><path d="M30 84 Q52 74 74 84" stroke-opacity=".5"/></g>`;
-    default: return '';
+/* k da -.04 a +.04: schiarisce (k>0) o scurisce (k<0) il colore esadecimale */
+function tone(hex, k) {
+  const n = parseInt(hex.slice(1), 16);
+  const ch = sh => { const c = (n >> sh) & 255; return Math.round(k >= 0 ? c + (255 - c) * k : c * (1 + k)); };
+  return '#' + [16, 8, 0].map(sh => Math.max(0, Math.min(255, ch(sh))).toString(16).padStart(2, '0')).join('');
+}
+const variant = b => ((b * 7) % 9 - 4) / 100;   // ±4% per libro, deterministico
+
+/* colore di fondo del libro, usato anche da barre e indicatori fuori dalla copertina */
+export const tintOf = b => tone(genreOf(b).c, variant(b));
+
+/* righe del titolo: maiuscole, spezzate in due solo se lunghe e con una parola di separazione */
+function splitLines(name) {
+  const up = name.toUpperCase(), words = up.split(' ');
+  if (up.length <= 10 || words.length < 2) return [up];
+  let best = null;
+  for (let i = 1; i < words.length; i++) {
+    const a = words.slice(0, i).join(' '), z = words.slice(i).join(' ');
+    const m = Math.max(a.length, z.length);
+    if (!best || m < best.m) best = {m, lines: [a, z]};
   }
+  return best.lines;
+}
+/* dimensione e righe: se il titolo intero resta sotto la soglia, usa l'abbreviazione */
+function layoutTitle(b, avail, maxSize, minSize) {
+  let name = names[b], prefix = '';
+  const m = name.match(/^([123]) (.+)$/);
+  if (m) { prefix = ROMAN(+m[1]) + ' '; name = m[2]; }
+  /* con il prefisso («I RE», «II CORINZI») il titolo sta su una sola riga, anche abbreviato */
+  const fit = lines => avail / (Math.max(...lines.map(l => l.length)) * WIDTH);
+  let lines = prefix ? [(prefix + name).toUpperCase()] : splitLines(name), size = Math.min(maxSize, fit(lines));
+  if (size < minSize && SHORT[name]) { lines = [prefix + SHORT[name].toUpperCase()]; size = Math.min(maxSize, fit(lines)); }
+  return {prefix: '', lines, size};
 }
 
-/* opts: {w,h,title:true,r:radius,hero:false (immagine larga senza cornice),tsize} → stringa SVG */
-export function coverSvg(b, {w = 76, h = 108, title = true, r = 4, hero = false, tsize, symx, symy, syms} = {}) {
-  const key = [b, w, h, title, r, hero, tsize, symx, symy, syms].join('|');
+/* opts: {w,h,title,r,hero,symx,symy,syms} → stringa SVG. Il titolo appare sempre; il genere solo da 100 px in su. */
+export function coverSvg(b, {w = 76, h = 108, title = true, r = 4, hero = false, symx, symy, syms} = {}) {
+  const mini = title === 'arabic';   // copertina piccola: solo il numero arabo grande
+  const key = [b, w, h, title, r, hero, symx, symy, syms].join('|');
   if (cache.has(key)) return cache.get(key).replace(/__U__/g, 'c' + (++uid));
-  const st = bookStyle(b), m = Math.min(w, h);
-  const S = syms ?? m * (hero ? 0.95 : 0.5), X = symx ?? (hero ? w * 0.74 : w / 2), Y = symy ?? h * 0.4, sc = S / 100;
-  const frame = w >= 60 && !hero;
+  const g = genreOf(b), c1 = tintOf(b), c2 = tone(g.c, variant(b) - .16), num = ROMAN(b + 1);
   let o = `<svg xmlns="http://www.w3.org/2000/svg" class="cover-svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false" style="display:block;border-radius:${r}px">`;
-  o += `<defs><linearGradient id="g__U__" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="${st.c1}"/><stop offset="1" stop-color="${st.c2}"/></linearGradient>`;
-  o += `<radialGradient id="r__U__" cx="${(X / w).toFixed(2)}" cy="${(Y / h).toFixed(2)}" r=".6"><stop offset="0" stop-color="${st.ac}" stop-opacity=".30"/><stop offset="1" stop-color="${st.ac}" stop-opacity="0"/></radialGradient>`;
-  o += `<pattern id="p__U__" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="4" height="1" fill="#fff" fill-opacity=".05"/></pattern>`;
-  if (w >= 160) o += `<filter id="n__U__" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="4"/><feColorMatrix type="saturate" values="0"/></filter>`;
-  o += `</defs><rect width="${w}" height="${h}" fill="url(#g__U__)"/><rect width="${w}" height="${h}" fill="url(#p__U__)"/><rect width="${w}" height="${h}" fill="url(#r__U__)"/>`;
-  if (w >= 160) o += `<rect width="${w}" height="${h}" filter="url(#n__U__)" opacity=".16" style="mix-blend-mode:overlay"/>`;
-  o += `<g transform="translate(${(X - S / 2).toFixed(1)},${(Y - S / 2).toFixed(1)}) scale(${sc.toFixed(3)})" opacity="${hero ? 0.55 : 0.9}">${sym(st.sym, st.ac)}</g>`;
-  if (frame) {
-    const p = Math.max(4, w * 0.055);
-    o += `<rect x="${p.toFixed(1)}" y="${p.toFixed(1)}" width="${(w - 2 * p).toFixed(1)}" height="${(h - 2 * p).toFixed(1)}" rx="${Math.max(1, r / 3).toFixed(1)}" fill="none" stroke="${st.ac}" stroke-opacity=".42" stroke-width="${Math.max(.6, w / 160).toFixed(2)}"/>`;
-    o += `<rect x="${(p + 3).toFixed(1)}" y="${(p + 3).toFixed(1)}" width="${(w - 2 * p - 6).toFixed(1)}" height="${(h - 2 * p - 6).toFixed(1)}" rx="${Math.max(1, r / 4).toFixed(1)}" fill="none" stroke="${st.ac}" stroke-opacity=".18" stroke-width="${Math.max(.5, w / 220).toFixed(2)}"/>`;
+  o += `<defs><linearGradient id="g__U__" x1="0" y1="0" x2=".3" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient>`;
+  o += `<pattern id="t__U__" width="3" height="3" patternUnits="userSpaceOnUse"><path d="M0 .5H3M.5 0V3" stroke="#fff" stroke-opacity=".035" stroke-width=".5" fill="none"/></pattern>`;
+  o += `<linearGradient id="v__U__" x1="0" y1="0" x2="0" y2="1"><stop offset=".62" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".24"/></linearGradient>`;
+  o += `<linearGradient id="s__U__" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".38"/><stop offset=".72" stop-color="#000" stop-opacity=".08"/><stop offset=".93" stop-color="#fff" stop-opacity=".1"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient>`;
+  o += `</defs><rect width="${w}" height="${h}" fill="url(#g__U__)"/><rect width="${w}" height="${h}" fill="url(#t__U__)"/><rect width="${w}" height="${h}" fill="url(#v__U__)"/>`;
+
+  if (hero) {   // sfondo largo: solo il numero romano, grande e tenue, a destra
+    const S = Math.min(syms ?? 1e9, w * .8, h * 1.2), X = Math.min(symx ?? w * .72, w - S / 2 - 6), Y = Math.max(symy ?? h * .45, S * .3);
+    o += `<text x="${f2(X)}" y="${f2(Y + S * .2)}" text-anchor="middle" font-family="${SERIF}" font-size="${f2(S * .62)}" fill="${ACCENT}" fill-opacity=".14">${num}</text>`;
+    o += '</svg>';
+    cache.set(key, o);
+    return o.replace(/__U__/g, 'c' + (++uid));
   }
-  if (title && !hero) {
-    const fs = tsize || w * 0.092, ty = h - Math.max(10, h * 0.115);
-    const name = names[b].toUpperCase().replace(/&/g, '&amp;');
-    const long = name.length > 10, size = long ? fs * (10 / name.length) * 1.05 : fs;
-    o += `<text x="${w / 2}" y="${ty.toFixed(1)}" text-anchor="middle" font-family="Cardo,'Crimson Text',Georgia,serif" font-size="${size.toFixed(1)}" letter-spacing="${(size * 0.16).toFixed(1)}" fill="${st.ac}" fill-opacity=".95">${name}</text>`;
-    const ly = ty - fs * 1.5;
-    o += `<g stroke="${st.ac}" stroke-opacity=".6" stroke-width=".7"><path d="M${(w * .36).toFixed(1)} ${ly.toFixed(1)}H${(w * .46).toFixed(1)}M${(w * .54).toFixed(1)} ${ly.toFixed(1)}H${(w * .64).toFixed(1)}"/></g><path d="M${w / 2} ${(ly - 2.2).toFixed(1)}l2.2 2.2l-2.2 2.2l-2.2 -2.2z" fill="${st.ac}" fill-opacity=".8"/>`;
+
+  const spw = f1(Math.max(5, w * .12)), fw = w - spw, cx = spw + fw / 2, lw = Math.max(.4, w / 200);
+  /* fronte: doppio filetto */
+  const p = f1(fw * .085), gi = f1(Math.max(1.6, fw * .03));
+  o += `<rect x="${f1(spw + p)}" y="${p}" width="${f1(fw - 2 * p)}" height="${f1(h - 2 * p)}" fill="none" stroke="${ACCENT}" stroke-opacity=".85" stroke-width="${f2(lw)}"/>`;
+  o += `<rect x="${f1(spw + p + gi)}" y="${f1(p + gi)}" width="${f1(fw - 2 * (p + gi))}" height="${f1(h - 2 * (p + gi))}" fill="none" stroke="${ACCENT}" stroke-opacity=".5" stroke-width="${f2(lw * .6)}"/>`;
+  if (mini) {   // numero arabo grande al centro della fronte
+    const ms = fw * .5;
+    o += `<text x="${f2(cx)}" y="${f2(h * .5 + ms * .34)}" text-anchor="middle" font-family="${SERIF}" font-weight="700" font-size="${f2(ms)}" fill="${INK}">${b + 1}</text>`;
   }
+  if (title === true) {
+    const inner = fw - 2 * (p + gi), avail = inner - fw * .1;
+    const ns = Math.min(fw * .11, 10), ny = h * .2;
+    o += `<text x="${f2(cx)}" y="${f2(ny)}" text-anchor="middle" font-family="${SERIF}" font-size="${f2(ns)}" letter-spacing="${f2(ns * .15)}" fill="${ACCENT}" fill-opacity=".95">${num}</text>`;
+    o += `<rect x="${f2(cx - fw * .1)}" y="${f2(h * .25)}" width="${f2(fw * .2)}" height="${f2(Math.max(.4, lw * .6))}" fill="${ACCENT}" fill-opacity=".7"/>`;
+    const L = layoutTitle(b, avail, fw * .22, w * .08);
+    const lines = (L.prefix ? [{t: L.prefix, s: L.size * .7}] : []).concat(L.lines.map(t => ({t, s: L.size})));
+    const total = lines.reduce((x, l) => x + l.s * 1.22, 0);
+    let y = h * .5 - total / 2;
+    for (const l of lines) {
+      const base = y + l.s * 1.22 * .78;
+      o += `<text x="${f2(cx)}" y="${f2(base)}" text-anchor="middle" font-family="${SERIF}" font-weight="700" font-size="${f2(l.s)}" letter-spacing="${f2(l.s * .06)}" fill="${INK}">${l.t}</text>`;
+      y += l.s * 1.22;
+    }
+    if (w >= 100) {   // genere in piccole maiuscole, solo sulle copertine grandi
+      const gl = (g.short || g.label).toUpperCase(), gs = w * .05;
+      o += `<rect x="${f2(cx - fw * .12)}" y="${f2(h * .8)}" width="${f2(fw * .24)}" height="${f2(Math.max(.4, lw * .5))}" fill="${ACCENT}" fill-opacity=".6"/>`;
+      o += `<text x="${f2(cx)}" y="${f2(h * .8 + gs * 2.1)}" text-anchor="middle" font-family="${SERIF}" font-weight="700" font-size="${f2(gs)}" letter-spacing="${f2(gs * .2)}" fill="${ACCENT}">${gl}</text>`;
+    }
+  }
+
+  /* dorso: nervature a coppie, sigla in verticale, cerniera */
+  o += `<rect width="${spw}" height="${h}" fill="url(#s__U__)"/>`;
+  for (const y of [.1, .16, .84, .9]) o += `<rect x="${f1(spw * .18)}" y="${f1(h * y)}" width="${f1(spw * .64)}" height="${f2(lw * .8)}" fill="${ACCENT}" fill-opacity=".75"/>`;
+  const sg = (abbr[b] || '').toUpperCase(), fs = Math.min(spw * .55, h * .5 / (sg.length * .8));
+  o += `<text transform="translate(${f1(spw * .5)} ${f1(h * .5)}) rotate(-90)" x="0" y="${f2(fs * .34)}" text-anchor="middle" font-family="${SERIF}" font-weight="700" font-size="${f2(fs)}" letter-spacing="${f2(fs * .1)}" fill="${ACCENT}" fill-opacity=".9">${sg}</text>`;
+  o += `<rect x="${f2(spw - .6)}" width=".6" height="${h}" fill="#000" fill-opacity=".35"/><rect x="${spw}" width=".5" height="${h}" fill="#fff" fill-opacity=".12"/>`;
   o += '</svg>';
   cache.set(key, o);
   return o.replace(/__U__/g, 'c' + (++uid));
 }
-/* Elemento <span class="cover"> pronto da inserire */
+
+/* Elemento <span class="cover"> pronto da inserire (ombra e bordo chiaro li dà il CSS) */
 export function cover(b, opts = {}) {
   const el = document.createElement('span');
   el.className = 'cover' + (opts.className ? ' ' + opts.className : '');
-  el.innerHTML = coverSvg(b, opts);   // l'SVG è costruito solo da dati interni (nomi dei libri), mai da input utente
+  el.style.borderRadius = (opts.r ?? 4) + 'px';
+  el.innerHTML = coverSvg(b, opts);
   return el;
 }

@@ -121,7 +121,7 @@ def mondo_etichette_gerarchia_e_fuori_dalla_mappa(env, dev):
     go_mondo(pg); pg.wait_for_selector('.f-mondo-tile.ok', state='attached'); pg.wait_for_timeout(600)
     fs = lambda sel: float(pg.eval_on_selector(sel, 'e=>parseFloat(getComputedStyle(e).fontSize)'))
     check(fs('[data-id=gerusalemme] .f-mondo-lbl') > fs('[data-id=nazaret] .f-mondo-lbl') > 0, 'gerarchia')
-    check(pg.eval_on_selector('[data-id=galilea] .f-mondo-lbl', 'e=>getComputedStyle(e).fontStyle') == 'italic')
+    check(pg.eval_on_selector('[data-id=galilea] .f-mondo-lbl', 'e=>getComputedStyle(e).textTransform') == 'uppercase', 'regione in maiuscoletto')
     check(pg.eval_on_selector('[data-id=mar-morto] .f-mondo-lbl', 'e=>getComputedStyle(e).fontStyle') == 'italic')
     txt = pg.eval_on_selector_all('.f-mondo-pt:not([hidden]) .f-mondo-lbl', 'e=>e.map(x=>x.textContent)')
     check('Mar Mediterraneo\n(Mar Grande)' in txt and 'Mar Morto\n(Mar Salato)' in txt and 'Gerusalemme' in txt, str(txt))
@@ -144,3 +144,67 @@ def mondo_card_hub_testo_visibile(env, dev):
         r = pg.eval_on_selector_all('.f-mondo-tile-btn', "els=>els.map(e=>{const b=e.querySelector('b'),s=e.querySelector('small');const cs=x=>getComputedStyle(x);return [b.textContent,s.textContent,cs(b).color,cs(e).backgroundColor,b.getBoundingClientRect().width,s.getBoundingClientRect().height]})")
         eq(len(r), 4)
         for t, sub, col, bg, w, hh in r: check(t and sub and col != bg and w > 20 and hh > 8, str((t, col, bg)))
+
+def _center(pg, sel):
+    return pg.eval_on_selector(sel, 'e=>{const r=e.getBoundingClientRect();return [r.left+r.width/2,r.top+r.height/2]}')
+
+@test('phone')
+def mondo_livelli_selettore(env, dev):
+    pg = env.new(dev); go_mondo(pg); pg.wait_for_selector('.f-mondo-livelli')
+    eq(pg.eval_on_selector_all('.f-mondo-livelli button', 'els=>els.map(e=>e.textContent)'), ['Nessuno', 'Terra di Gesù', 'Le 12 tribù', 'Regni divisi', 'Popoli vicini'])
+    eq(pg.get_attribute('.f-mondo-livelli button[aria-pressed=true]', 'data-v'), 'nessuno')
+    pg.click('.f-mondo-livelli [data-v=tribu]'); pg.wait_for_timeout(700)
+    eq(pg.get_attribute('.f-mondo-map', 'data-livello'), 'tribu'); eq(pg.locator('.f-mondo-livelli button[aria-pressed=true]').count(), 1)
+    check(pg.eval_on_selector('[data-area=efraim]', 'e=>getComputedStyle(e).display') != 'none', 'tribù visibili')
+    check(pg.eval_on_selector('[data-area=galilea]', 'e=>getComputedStyle(e).display') == 'none', 'galilea nascosta fuori livello')
+    txt = pg.eval_on_selector_all('.f-mondo-pt:not([hidden]) .f-mondo-lbl', 'e=>e.map(x=>x.textContent)')
+    check('Efraim' in txt, str(txt))
+    check('Galilea' not in txt, 'etichette di un altro livello visibili')
+    pg.click('.f-mondo-livelli [data-v=nessuno]'); pg.wait_for_timeout(300)
+    eq(pg.get_attribute('.f-mondo-map', 'data-livello'), 'nessuno')
+    txt = pg.eval_on_selector_all('.f-mondo-pt:not([hidden]) .f-mondo-lbl', 'e=>e.map(x=>x.textContent)')
+    check('Efraim' not in txt and 'Galilea' not in txt, 'regioni visibili con «Nessuno»')
+
+@test('phone')
+def mondo_regione_tocco_e_certezza(env, dev):
+    pg = env.new(dev); go_mondo(pg); pg.wait_for_selector('.f-mondo-map'); pg.wait_for_timeout(500)
+    pg.click('.f-mondo-livelli [data-v=terra]'); pg.wait_for_timeout(700)
+    # certezza visibile: alta = bordo pieno; media/discussa = tratteggiato
+    eq(pg.eval_on_selector('[data-area=galilea]', 'e=>getComputedStyle(e).strokeDasharray'), 'none')
+    check(pg.eval_on_selector('[data-area=perea]', 'e=>getComputedStyle(e).strokeDasharray') != 'none', 'perea tratteggiata')
+    x, y = _center(pg, '[data-id=galilea] .f-mondo-lbl'); pg.mouse.click(x, y)
+    pg.wait_for_selector('.sheet [data-kind=regione]'); eq(pg.get_attribute('.sheet [data-kind=regione]', 'data-cert'), 'alta')
+    body = pg.inner_text('.sheet')
+    check('Quanto è sicuro' in body and 'Alta' in body and 'Fonti' in body, 'scheda galilea')
+    check('Mt 4,15' in body, 'riferimento biblico')
+    pg.keyboard.press('Escape'); pg.wait_for_timeout(300)
+    x, y = _center(pg, '[data-id=perea] .f-mondo-lbl'); pg.mouse.click(x, y)
+    pg.wait_for_selector('.sheet [data-kind=regione]'); eq(pg.get_attribute('.sheet [data-kind=regione]', 'data-cert'), 'discussa')
+    body = pg.inner_text('.sheet')
+    check('Il nome non compare nella Bibbia' in body, 'perea: nome non biblico')
+    pg.keyboard.press('Escape'); pg.wait_for_timeout(300)
+    pg.click('.f-mondo-livelli [data-v=tribu]'); pg.wait_for_timeout(700)
+    x, y = _center(pg, '[data-id=efraim] .f-mondo-lbl'); pg.mouse.click(x, y)
+    pg.wait_for_selector('.sheet [data-kind=regione]'); eq(pg.get_attribute('.sheet [data-kind=regione]', 'data-cert'), 'media')
+    check('Media' in pg.inner_text('.sheet') and 'Fonti' in pg.inner_text('.sheet'), 'scheda efraim')
+    pg.keyboard.press('Escape'); pg.wait_for_timeout(300)
+    pg.click('.f-mondo-livelli [data-v=nessuno]'); pg.wait_for_timeout(300)
+    no_hscroll(pg)
+
+@test('phone')
+def mondo_aree_etichetta_dentro_e_non_in_mare(env, dev):
+    pg = env.new(dev); go_mondo(pg); pg.wait_for_selector('.f-mondo-map')
+    res = pg.evaluate("""()=>import('/js/features/mondo-geo.js').then(m=>{
+        const sea=[m.MEDITERRANEO,m.MARE_NERO,m.MAR_ROSSO,m.GOLFO_PERSICO];
+        return m.AREE.filter(a=>a.poligono).map(a=>({id:a.id, lv:a.livelli, ok: m.pointInPoly(a.ancora,a.poligono) && !sea.some(sp=>m.pointInPoly(a.ancora,sp))}));
+    })""")
+    bad = [r for r in res if not r['ok']]
+    check(not bad, 'etichette fuori area o in mare: ' + str([(b['id'], b['lv']) for b in bad]))
+    levels = {lv for r in res for lv in r['lv']}
+    eq(levels, {'terra', 'tribu', 'regni', 'popoli'})
+    # ogni livello, nella mappa: le etichette visibili delle sue aree sono nel proprio livello
+    for lv in ['terra', 'tribu', 'regni', 'popoli']:
+        pg.click(f'.f-mondo-livelli [data-v={lv}]'); pg.wait_for_timeout(600)
+        n = pg.eval_on_selector_all(f'.f-mondo-pt.lv-{lv}:not([hidden])', 'e=>e.length')
+        check(n >= 1, f'nessuna etichetta visibile nel livello {lv}')
+    pg.click('.f-mondo-livelli [data-v=nessuno]'); pg.wait_for_timeout(300)

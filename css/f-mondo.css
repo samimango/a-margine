@@ -1,58 +1,92 @@
-/* Feature «mondo»: Mondo della Bibbia (mappa, elenchi, schede). Prefisso .f-mondo-; solo token di tokens.css. */
+/* Feature «mondo»: Mondo della Bibbia (mappa, elenchi, schede). Prefisso .f-mondo-; solo token di tokens.css.
+   La mappa usa variabili proprie (--m-*) per tema: carta/pergamena (predefinito), notte grigio-blu (scuro). */
 .f-mondo-col { padding-bottom: 24px; }
 .f-mondo-h1 { margin: 2px 0 10px; font-size: 32px; }
 .f-mondo-seg { margin: 6px 0 2px; }
 .f-mondo-seg button { min-height: 44px; font-size: 12.5px; }
-.f-mondo-chips { display: flex; flex-wrap: wrap; gap: 0; margin: 2px -4px 4px; }
-.f-mondo-chip { position: relative; min-height: 44px; padding: 0 9px; color: var(--ink); font: 500 13px var(--sans); display: inline-flex; align-items: center; }
-.f-mondo-chip::before { content: ''; position: absolute; inset: 6px 0; border-radius: var(--r-pill); background: var(--chip); }
+/* filtro per tipo: una sola riga di pillole, scorribile in orizzontale se non ci sta */
+.f-mondo-chips { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 2px -4px 4px; }
+.f-mondo-chips::-webkit-scrollbar { display: none; }
+.f-mondo-chip { position: relative; flex: none; min-height: 44px; padding: 0 9px; color: var(--ink); font: 500 13px var(--sans); display: inline-flex; align-items: center; }
+.f-mondo-chip::before { content: ''; position: absolute; inset: 7px 0; border-radius: var(--r-pill); background: var(--chip); }
 .f-mondo-chip span { position: relative; display: inline-flex; align-items: center; gap: 6px; }
-.f-mondo-chip i { width: 9px; height: 9px; border-radius: 50%; background: var(--pc, var(--dim)); flex: none; box-shadow: 0 0 0 1.5px var(--chip); }
-.f-mondo-chip[aria-pressed="true"] i { box-shadow: 0 0 0 1.5px var(--ink); }
-.f-mondo-legend { margin: 10px 2px 0; font: 600 11px/1.2 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+/* la forma della pillola è la stessa del simbolo sulla mappa */
+.f-mondo-chip i { display: block; width: 9px; height: 9px; background: var(--pc, var(--dim)); flex: none; }
+.f-mondo-chip i.g-cit { border-radius: 50%; }
+.f-mondo-chip i.g-mon { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.f-mondo-chip i.g-acq { border-radius: 50% 50% 50% 0; transform: rotate(-45deg) scale(.95); }
+.f-mondo-chip i.g-reg { background: transparent; border: 1.2px dashed var(--dim); border-radius: 2px; width: 10px; height: 10px; }
 .f-mondo-chip[aria-pressed="true"]::before { background: var(--ink); }
 .f-mondo-chip[aria-pressed="true"] { color: var(--bg); }
+.f-mondo-chip[aria-pressed="true"] i.g-reg { border-color: var(--bg); }
 
-/* mappa */
+/* mappa: colori da atlante. Carta (predefinito) e notte (scuro) */
+.f-mondo-map {
+  --m-land: #efe7d3; --m-stip: rgba(96, 74, 40, .13); --m-sea: #c4cfcf; --m-sea-line: #7f8c8c; --m-lake: #b6c6c6; --m-isle: #e4dac3; --m-coast: #7f8c8c;
+  --m-river: #6d8c95; --m-ink: #2a2217; --m-ink2: #5d5143; --m-halo: #f4eee0; --m-vig: rgba(110, 84, 46, .16); --m-ctl: #fffdf8;
+  position: relative; height: clamp(300px, 44dvh, 520px); overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; background: var(--m-land); outline-offset: -3px;
+}
+:root[data-theme="dark"] .f-mondo-map {
+  --m-land: #262b31; --m-stip: rgba(214, 224, 236, .075); --m-sea: #1c2631; --m-sea-line: #4a5b69; --m-lake: #23303c; --m-isle: #2d333b; --m-coast: #4a5b69;
+  --m-river: #6283a0;
+  --m-ink: #e8e4dc; --m-ink2: #a7aeb6; --m-halo: #262b31; --m-vig: rgba(0, 0, 0, .28); --m-ctl: #303640;
+}
 .f-mondo-slot { margin-top: 6px; }
 .f-mondo-loading { color: var(--dim); font: 400 14px/1.4 var(--sans); padding: 40px 12px; text-align: center; margin: 0; }
 .f-mondo-wrap { border-radius: var(--r-card); overflow: hidden; box-shadow: var(--shadow-card); background: var(--card); }
-.f-mondo-map { position: relative; height: clamp(280px, 42dvh, 500px); overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; background: var(--chip); outline-offset: -3px; }
 .f-mondo-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 26px; padding: 3px 10px; background: var(--card); box-shadow: 0 -.6px 0 var(--line); font: 500 11px/1.3 var(--sans); color: var(--dim); }
 .f-mondo-foot[hidden] { display: none; }
 .f-mondo-draw { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.f-mondo-land { fill: color-mix(in srgb, var(--chip) 72%, var(--bg)); }
-.f-mondo-hatchline { stroke: var(--line); stroke-width: 1; fill: none; }
-.f-mondo-sea, .f-mondo-lake { fill: color-mix(in srgb, var(--d2) 32%, var(--bg)); stroke: color-mix(in srgb, var(--d2) 55%, var(--dim)); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
-.f-mondo-isle { fill: color-mix(in srgb, var(--chip) 72%, var(--bg)); stroke: color-mix(in srgb, var(--d2) 55%, var(--dim)); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
-.f-mondo-river { fill: none; stroke: color-mix(in srgb, var(--d2) 60%, var(--bg)); stroke-width: 2; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+.f-mondo-land { fill: var(--m-land); }
+.f-mondo-stipdot { fill: var(--m-stip); }
+.f-mondo-sea { fill: var(--m-sea); stroke: var(--m-sea-line); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.f-mondo-lake { fill: var(--m-lake); stroke: var(--m-sea-line); stroke-width: .8; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.f-mondo-isle { fill: var(--m-isle); stroke: var(--m-coast); stroke-width: .8; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.f-mondo-river { fill: none; stroke: var(--m-river); stroke-width: 1.1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
 .f-mondo-tiles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 .f-mondo-tile { position: absolute; left: 0; top: 0; max-width: none; opacity: 0; transition: opacity .2s; pointer-events: none; user-select: none; }
 .f-mondo-tile.ok { opacity: 1; }
-:root[data-theme="light"] .f-mondo-tile { filter: contrast(1.12) saturate(1.1); }
-:root[data-theme="paper"] .f-mondo-tile { filter: sepia(.35) contrast(1.12); }
-:root[data-theme="dark"] .f-mondo-tile { filter: invert(1) hue-rotate(180deg) brightness(.72) contrast(1.15) saturate(.9); }
+:root[data-theme="light"] .f-mondo-tile { filter: contrast(1.08) saturate(.7); }
+:root[data-theme="paper"] .f-mondo-tile { filter: sepia(.35) contrast(1.06) saturate(.6); }
+:root[data-theme="dark"] .f-mondo-tile { filter: invert(1) hue-rotate(180deg) brightness(.66) contrast(1.05) saturate(.5); }
+.f-mondo-vig { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 45%, transparent 58%, var(--m-vig) 100%); }
 .f-mondo-pts { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .f-mondo-pt { position: absolute; left: 0; top: 0; width: 0; height: 0; will-change: transform; }
 .f-mondo-pt.sel { z-index: 3; }
-.f-mondo-dot { position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%; background: var(--pc); box-shadow: 0 0 0 1.5px var(--bg); }
+
+/* simboli: città cerchio pieno con alone chiaro; monte triangolo; acqua goccia; luogo anello; isola rombo */
+.f-mondo-dot { position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%; background: var(--pc); box-shadow: 0 0 0 1.5px var(--m-halo); box-sizing: border-box; }
 .t2 > .f-mondo-dot { left: -5px; top: -5px; width: 10px; height: 10px; }
-.t1 > .f-mondo-dot { left: -7px; top: -7px; width: 14px; height: 14px; box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px color-mix(in srgb, var(--pc) 40%, transparent); }
-.f-mondo-dot.apx { background: var(--bg); border: 2px solid var(--pc); }
-.sel .f-mondo-dot { width: 14px; height: 14px; left: -7px; top: -7px; box-shadow: 0 0 0 2px var(--bg), 0 0 0 6px color-mix(in srgb, var(--pc) 38%, transparent); }
-/* nomi: solo i nostri, in italiano; alone dello stesso colore dello sfondo per la leggibilità sulle piastrelle */
-.f-mondo-lbl { --halo: var(--bg); position: absolute; left: 9px; top: -9px; white-space: pre; font: 600 12px/18px var(--serif-head); color: var(--ink); letter-spacing: .005em;
-  text-shadow: -1.5px 0 var(--halo), 1.5px 0 var(--halo), 0 -1.5px var(--halo), 0 1.5px var(--halo), -1px -1px var(--halo), 1px 1px var(--halo), -1px 1px var(--halo), 1px -1px var(--halo), 0 0 6px var(--halo), 0 0 6px var(--halo); }
+.t1 > .f-mondo-dot { left: -6.5px; top: -6.5px; width: 13px; height: 13px; box-shadow: 0 0 0 2px var(--m-halo); }
+.k-mon > .f-mondo-dot { left: -5px; top: -5px; width: 10px; height: 9px; border-radius: 0; clip-path: polygon(50% 0, 100% 100%, 0 100%); box-shadow: none; filter: drop-shadow(0 0 .7px var(--m-halo)) drop-shadow(0 0 .7px var(--m-halo)); }
+.k-acq > .f-mondo-dot { left: -4px; top: -5px; width: 8px; height: 8px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); box-shadow: 0 0 0 1.2px var(--m-halo); }
+.k-luo > .f-mondo-dot, .k-val > .f-mondo-dot { background: var(--m-halo); border: 2px solid var(--pc); box-shadow: none; }
+.k-iso > .f-mondo-dot { clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); box-shadow: none; filter: drop-shadow(0 0 .7px var(--m-halo)) drop-shadow(0 0 .7px var(--m-halo)); }
+.f-mondo-dot.apx { background: var(--m-halo); border: 2px solid var(--pc); box-shadow: none; }
+.sel > .f-mondo-dot { box-shadow: 0 0 0 1.5px var(--m-halo), 0 0 0 3px var(--m-ink); }
+.sel > .k-mon.f-mondo-dot, .sel > .k-iso.f-mondo-dot { box-shadow: none; }
+
+/* nomi: solo i nostri, in italiano; alone sottile dello stesso colore dello sfondo, senza bagliore */
+.f-mondo-lbl { position: absolute; left: 9px; top: -9px; white-space: pre; font: 600 12px/18px var(--serif-head); color: var(--m-ink); letter-spacing: .005em;
+  text-shadow: 0 0 1px var(--m-halo), 0 0 1px var(--m-halo), 0 0 2px var(--m-halo), 1px 0 0 var(--m-halo), -1px 0 0 var(--m-halo), 0 1px 0 var(--m-halo), 0 -1px 0 var(--m-halo); }
 .t2 > .f-mondo-lbl { left: 11px; top: -10px; font-size: 13.5px; font-weight: 700; line-height: 20px; }
 .t1 > .f-mondo-lbl { left: 14px; top: -12px; font-size: 18px; font-weight: 800; line-height: 24px; }
-.reg > .f-mondo-lbl { left: 0; top: -9px; transform: translateX(-50%); text-align: center; font: italic 500 11.5px/18px var(--serif-read); font-variant-caps: all-small-caps; letter-spacing: .22em; color: color-mix(in srgb, var(--ink) 62%, var(--bg)); }
-.wat > .f-mondo-lbl { left: 0; top: -9px; transform: translateX(-50%); text-align: center; font: italic 500 12.5px/16px var(--serif-read); letter-spacing: .02em; color: color-mix(in srgb, var(--d2) 60%, var(--ink)); }
+/* regioni: maiuscoletto spaziato, senza punto */
+.reg > .f-mondo-lbl { left: 0; top: -9px; transform: translateX(-50%); text-align: center; font: 600 10px/14px var(--serif-head); text-transform: uppercase; letter-spacing: .16em; color: var(--m-ink2); }
+/* acque: corsivo */
+.wat > .f-mondo-lbl { left: 0; top: -9px; transform: translateX(-50%); text-align: center; font: italic 500 12.5px/16px var(--serif-read); letter-spacing: .02em; color: color-mix(in srgb, var(--m-river) 62%, var(--m-ink)); }
 .wat.al > .f-mondo-lbl { left: 6px; transform: none; text-align: left; }
-.f-mondo-pt.sel > .f-mondo-lbl { color: var(--ink); }
+.f-mondo-pt.sel > .f-mondo-lbl { color: var(--m-ink); }
 .nolbl > .f-mondo-lbl { display: none; }
-.f-mondo-ctl { position: absolute; right: 10px; bottom: 10px; display: flex; flex-direction: column; gap: 8px; z-index: 5; }
-.f-mondo-btn { width: 44px; height: 44px; border-radius: 50%; background: var(--card); color: var(--ink); box-shadow: var(--shadow-card); font: 500 24px/1 var(--sans); text-align: center; display: inline-flex; align-items: center; justify-content: center; }
-.f-mondo-btn:active { background: var(--chip); }
+
+/* controlli: piccoli visivamente (disco da 34 px) ma con area di tocco di 44 px */
+.f-mondo-ctl { position: absolute; right: 8px; bottom: 8px; display: flex; z-index: 5; }
+.f-mondo-btn { position: relative; isolation: isolate; width: 44px; height: 44px; padding: 0; background: transparent; color: var(--m-ink); font: 500 19px/1 var(--sans); text-align: center; display: inline-flex; align-items: center; justify-content: center; }
+.f-mondo-btn::before { content: ''; position: absolute; inset: 5px; border-radius: 50%; background: var(--m-ctl); box-shadow: 0 0 0 .6px var(--line), 0 1px 2px rgba(0, 0, 0, .12); z-index: -1; }
+.f-mondo-btn:active::before { background: var(--chip); }
+.f-mondo-btn.home { font-size: 17px; }
+.f-mondo-scale { position: absolute; left: 12px; bottom: 12px; z-index: 4; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; pointer-events: none; font: 600 10.5px/1 var(--sans); color: var(--m-ink); text-shadow: 0 0 2px var(--m-halo), 0 0 2px var(--m-halo), 0 0 1px var(--m-halo); }
+.f-mondo-scale i { display: block; height: 5px; width: 60px; border: 1.2px solid var(--m-ink); border-top: 0; box-shadow: 0 0 0 1.5px var(--m-halo); }
 .f-mondo-attr { position: relative; color: var(--dim); text-decoration: none; }
 .f-mondo-attr::after { content: ''; position: absolute; inset: -9px -6px; }
 .f-mondo-offline { color: var(--dim); }
@@ -83,10 +117,10 @@
 .f-mondo-homet .eyebrow { color: var(--accent); }
 .f-mondo-go { display: inline-flex; align-items: center; gap: 3px; color: var(--accent); font: 600 14px var(--sans); flex: none; }
 
-/* schede (fogli) */
+/* scheda del luogo (foglio): nome, riferimento principale, due righe, due pulsanti */
 .f-mondo-card { display: flex; flex-direction: column; gap: 10px; padding-bottom: 6px; }
 .f-mondo-card p { margin: 0; }
-.f-mondo-desc { font: 400 17.5px/1.5 var(--serif-read); }
+.f-mondo-desc { font: 400 16.5px/1.5 var(--serif-read); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .f-mondo-big { font: 600 21px/1.25 var(--serif-head); }
 .f-mondo-sub { font: 500 13.5px/1.4 var(--sans); color: var(--dim); }
 .f-mondo-h3 { font: 600 15px var(--serif-head); margin: 6px 0 0; }
@@ -97,6 +131,26 @@
 .f-mondo-refs { display: flex; flex-wrap: wrap; gap: 8px; }
 .f-mondo-ref { min-height: 44px; padding: 0 16px; border-radius: 22px; background: var(--chip); color: var(--accent); font: 600 14px var(--sans); display: inline-flex; align-items: center; }
 .f-mondo-ref.off { color: var(--dim); }
-.f-mondo-acts { margin-top: 8px; display: flex; }
-.f-mondo-acts .btn { flex: 1; min-height: 46px; }
+.f-mondo-ref.main { min-height: 44px; padding: 0 2px; border-radius: 0; background: none; color: var(--accent); font: 600 15px var(--sans); text-decoration: underline; text-underline-offset: 3px; }
+.f-mondo-ref:focus:not(:focus-visible), .f-mondo-other button:focus:not(:focus-visible), .f-mondo-btn:focus:not(:focus-visible) { outline: none; }
+.f-mondo-other { font: 400 13.5px/1.4 var(--sans); color: var(--dim); display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: center; }
+.f-mondo-other button { min-height: 36px; padding: 0 2px; color: var(--accent); font: 600 13.5px var(--sans); text-decoration: underline; text-underline-offset: 2px; }
+.f-mondo-acts { margin-top: 8px; display: grid; grid-template-columns: 1fr 1.4fr; gap: 8px; }
+.f-mondo-acts .btn.primary { order: 2; }
+.f-mondo-acts .btn { min-height: 46px; }
 @media (min-width: 700px) { .f-mondo-map { height: 440px; } }
+
+/* livelli regionali: aree morbide a bassa opacità; certezza alta = bordo pieno, media/discussa = tratteggiato */
+.f-mondo-area { fill: var(--ac); fill-opacity: .17; stroke: var(--ac); stroke-opacity: .9; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.f-mondo-area.certezza-media, .f-mondo-area.certezza-discussa { stroke-dasharray: 4 3; }
+.f-mondo-map:not([data-livello="terra"]) .lv-terra, .f-mondo-map:not([data-livello="tribu"]) .lv-tribu,
+.f-mondo-map:not([data-livello="regni"]) .lv-regni, .f-mondo-map:not([data-livello="popoli"]) .lv-popoli { display: none; }
+.f-mondo-map:not([data-livello="terra"]) .f-mondo-area.lv-terra,
+.f-mondo-map:not([data-livello="tribu"]) .f-mondo-area.lv-tribu,
+.f-mondo-map:not([data-livello="regni"]) .f-mondo-area.lv-regni,
+.f-mondo-map:not([data-livello="popoli"]) .f-mondo-area.lv-popoli { display: none; }
+.f-mondo-livelli { margin-top: 2px; }
+.f-mondo-cert { font: 400 14px/1.45 var(--sans); color: var(--ink); }
+.f-mondo-cert b { font-weight: 600; }
+.f-mondo-note { font: 400 13px/1.45 var(--sans); color: var(--dim); }
+.f-mondo-fonti { font: 400 12px/1.5 var(--sans); color: var(--dim); border-top: .6px solid var(--line); padding-top: 8px; }

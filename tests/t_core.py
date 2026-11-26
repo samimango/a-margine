@@ -58,7 +58,7 @@ def avvio_e_schede(env, dev):
 
 @test()
 def libreria_e_vai_a(env, dev):
-    pg = env.new(dev)
+    pg = env.new(dev, storage={'margine.libview': 'shelf'})
     tab(pg, 'libreria')
     eq(pg.locator('.book').count(), 66)
     eq(pg.locator('.shelves .sh .eyebrow').count(), 10)
@@ -67,6 +67,15 @@ def libreria_e_vai_a(env, dev):
     eq(names[0], 'Pentateuco'); eq(names[-1], 'Apocalisse')
     check(pg.evaluate("document.querySelectorAll('.book svg').length") == 66)
     shot(pg, f'libreria_{dev}')
+    # griglia per genere (predefinita): stessi 66 libri, filtri, indice rapido, scelta ricordata
+    pg.click('#libView [data-t=grid]'); pg.wait_for_selector('.gbook')
+    eq(pg.locator('.book').count(), 66); eq(ls(pg, 'margine.libview'), 'grid')
+    pg.click('#libFilters [data-t=nt]'); eq(pg.locator('.book').count(), 27)
+    pg.click('#libFilters [data-t=at]'); eq(pg.locator('.book').count(), 39)
+    pg.click('#libFilters [data-t=all]')
+    if dev == 'phone':
+        pg.click('.lib-idx [data-jump="42"]'); check(pg.evaluate("document.querySelector('.gbook[data-book=\"42\"]').getBoundingClientRect().top") < 200)
+    pg.click('#libView [data-t=shelf]'); pg.wait_for_selector('.shelf')
     # parser «Vai a»
     pg.fill('#goto', 'gv 3,16'); pg.press('#goto', 'Enter')
     pg.wait_for_selector('#scr-leggi:not([hidden]) .verse'); eq(lsj(pg, 'margine.pos'), [42, 3, 16])
@@ -296,3 +305,22 @@ def capitolo_lungo_a_pezzi(env, dev):
     pg2 = env.new(dev, storage={'margine.pos': json.dumps([18, 119, 170])}); pg2.wait_for_selector('#resGo'); pg2.click('#resGo')
     pg2.wait_for_selector('#scr-leggi:not([hidden]) #v170'); pg2.wait_for_timeout(600)
     check(pg2.evaluate("document.getElementById('v170').getBoundingClientRect().top < innerHeight"), 'v170 in vista')
+
+def roman_py(n):
+    out = ''
+    for v, sym in [(1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'), (100, 'C'), (90, 'XC'), (50, 'L'), (40, 'XL'), (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'), (1, 'I')]:
+        while n >= v: out += sym; n -= v
+    return out
+
+@test()
+def numeri_romani(env, dev):
+    """Numeri romani con sottrazione (XL, XLIV, LXVI) per i 66 libri; titoli con prefisso («I RE») su una riga"""
+    pg = env.new(dev)
+    got = pg.evaluate("import('/js/core/covers.js').then(m=>{const o=[];for(let n=1;n<=66;n++)o.push(m.ROMAN(n));return o})")
+    eq(got, [roman_py(n) for n in range(1, 67)])
+    for n, want in {4: 'IV', 9: 'IX', 14: 'XIV', 19: 'XIX', 24: 'XXIV', 40: 'XL', 44: 'XLIV', 49: 'XLIX', 66: 'LXVI'}.items():
+        eq(got[n - 1], want)
+    check(pg.evaluate("import('/js/core/covers.js').then(m=>m.coverSvg(10,{w:88,h:126}).includes('>I RE<'))"), 'I RE su una riga')
+    check(pg.evaluate("import('/js/core/covers.js').then(m=>m.coverSvg(11,{w:88,h:126}).includes('>II RE<'))"), 'II RE su una riga')
+    check(pg.evaluate("import('/js/core/covers.js').then(m=>m.coverSvg(42,{w:44,h:62,title:'arabic'}).includes('>43<'))"), 'numero arabo nella copertina piccola')
+
