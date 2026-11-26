@@ -88,6 +88,7 @@ function renderBookmarks() {
   const list = notes.bookmarks().slice(0, 4);
   if (!list.length) { box.append(text('p', 'Nessun segnalibro. Toccando un versetto puoi aggiungerne uno.', 'empty')); return; }
   for (const m of list) { const t = chapters.textOf(m.slice(0, 3).join('.')); box.append(row(bmRef(m), () => openRef(m[0], m[1], m[2]), t ? shortText(t, 70) : '')); }
+  if (notes.bookmarks().length > list.length) box.append(row('Tutti i segnalibri', () => router.go('quaderno', {tab: 'marks'})));
 }
 
 function renderLastMed() {

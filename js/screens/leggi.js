@@ -183,7 +183,7 @@ document.addEventListener('visibilitychange', () => { if (document.hidden) flush
 addEventListener('pagehide', flushPos);
 
 /* ---------- Caricamento del capitolo ---------- */
-function setLoad(msg, retry = false, link = false) { D.loadState.textContent = msg; D.retry.hidden = !retry; D.setupLink.hidden = !link; }
+function setLoad(msg, retry = false, link = false, imp = false) { D.loadState.textContent = msg; D.retry.hidden = !retry; D.setupLink.hidden = !link; D.importLink.hidden = !imp; }
 async function loadChapter() {
   const book = S.b, ch = S.c, section = book + '.' + ch;
   if (requested === section) return;
@@ -196,7 +196,11 @@ async function loadChapter() {
     refresh(); emit('chapter:loaded', {book, ch, text: chapterText});
   }
   if (!api.isConfigured()) {
-    if (!cached) setLoad('Questo capitolo non è ancora sul dispositivo. Collega il tuo Google per leggere da LaParola.net.', false, true);
+    if (!cached) {
+      const trial = book === 42 && ch === 1;   // il solo capitolo di prova sul dispositivo
+      if (trial) setLoad('Capitolo di prova: due versetti. Per leggere il testo completo importa la Riveduta 2020 da Impostazioni → Dati, oppure collega il tuo Google.', false, true, true);
+      else setLoad('Questo capitolo non è ancora sul dispositivo. Collega il tuo Google per leggere da LaParola.net.', false, true);
+    }
     else chapters.prefetchAround(book, ch);
     return;
   }
@@ -240,8 +244,13 @@ function setSelection(a, b) {
   paintSel(); paletteSel(); updateActions(); keepSelVisible();
   emit('selection:changed', {sel: selection()});
 }
+const SEL_HINT_KEY = 'margine.hint.sel';
+function selHintOnce() {
+  try { if (localStorage.getItem(SEL_HINT_KEY)) return; localStorage.setItem(SEL_HINT_KEY, '1'); } catch { /* senza memoria locale il suggerimento può ripetersi */ }
+  ui.toast('Tocca un altro versetto per scegliere un intervallo. Tieni premuto per trascinare.');
+}
 function tapVerse(n) {
-  if (selA === null) setSelection(n, n);
+  if (selA === null) { setSelection(n, n); selHintOnce(); }
   else if (selA === selB && n === selA) setSelection(null, null);
   else if (selA === selB) setSelection(Math.min(n, selA), Math.max(n, selA));
   else setSelection(n, n);
@@ -393,11 +402,12 @@ export default {
       h('button', {class: 'ic', id: 'readBack', type: 'button', 'aria-label': 'Indietro', on: {click: () => router.back(router.previousId() && router.previousId() !== 'leggi' ? router.previousId() : 'libreria')}}, icon('back', 20, 2)),
       D.title, h('span', {class: 'grow'}), D.topX = h('span', {class: 'rtop-x'}),
       h('button', {class: 'ic aa', id: 'typoBtn', type: 'button', 'aria-label': 'Aspetto della lettura', on: {click: openTypoSheet}}, icon('text', 20, 1.8)),
-      h('button', {class: 'ic', id: 'goVerse', type: 'button', 'aria-label': 'Vai al versetto', on: {click: openVerseSheet}}, icon('grid', 19, 1.8)),
+      h('button', {class: 'ic-txt', id: 'goVerse', type: 'button', 'aria-label': 'Vai al versetto', on: {click: openVerseSheet}}, 'Vai a'),
       D.bmBtn);
     D.loadState = h('p', {class: 'hint', id: 'loadState', role: 'status'});
     D.retry = h('button', {class: 'btn', id: 'retry', type: 'button', hidden: true, text: 'Riprova a caricare', on: {click: () => { requested = ''; loadChapter(); }}});
     D.setupLink = h('button', {class: 'btn', id: 'setupLink', type: 'button', hidden: true, text: 'Collega il tuo Google', on: {click: () => router.go('collega')}});
+    D.importLink = h('button', {class: 'btn', id: 'importLink', type: 'button', hidden: true, text: 'Importa il testo', on: {click: () => router.go('impostazioni')}});
     D.chapHead = h('header', {class: 'chap-head', id: 'chapHead'});
     D.verses = h('div', {class: 'text', id: 'verses'});
     D.footerSlots = h('div', {class: 'chap-footer'});
@@ -412,7 +422,7 @@ export default {
     D.actions = h('div', {class: 'actions glass', id: 'actions', hidden: true},
       h('div', {class: 'aTop'}, D.aref, h('button', {class: 'roundbtn', id: 'aclose', type: 'button', 'aria-label': 'Deseleziona', on: {click: () => { setSelection(null, null); }}}, icon('close', 16, 2.2))), D.palette, D.cname, D.abtns);
     D.turn = h('div', {class: 'turn'}, D.bottomPrev, D.bottomNext);
-    root.append(D.top, h('div', {class: 'col reader'}, D.loadState, D.retry, D.setupLink, D.chapHead, D.verses, D.footerSlots, D.turn, D.availability), D.actions);
+    root.append(D.top, h('div', {class: 'col reader'}, D.loadState, D.retry, D.setupLink, D.importLink, D.chapHead, D.verses, D.footerSlots, D.turn, D.availability), D.actions);
     bindGestures();
     root.addEventListener('click', onReaderClick);
     /* un capitolo si considera letto quando si arriva in fondo */

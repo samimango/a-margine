@@ -97,5 +97,5 @@ export default {
     root.append(h('div', {class: 'col'}, h('div', {class: 'head'}, h('h1', {class: 'big'}, 'Quaderno'), D.compose), D.search, D.nbSeg, D.grpSeg, D.entries));
     for (const evt of ['notes:changed', 'data:changed']) on(evt, () => { if (!el.hidden) render(); });
   },
-  show() { render(); },
+  show(params = {}) { if (params.tab === 'marks' || params.tab === 'notes') tab = params.tab; render(); },
 };

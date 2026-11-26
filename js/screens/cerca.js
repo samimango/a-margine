@@ -12,6 +12,17 @@ import {on} from '../core/bus.js';
 
 let el, D = {}, srTab = 'bible', searchRun = 0, searchTerm = '', nextStart = 1;
 
+/* stato vuoto: spiega dove si cerca e propone qualche parola */
+function renderHelp() {
+  const empty = !D.word.value.trim(), box = D.help;
+  box.hidden = !empty; box.replaceChildren();
+  if (!empty) return;
+  const bible = srTab === 'bible';
+  const what = bible ? (api.isConfigured() ? 'Cerca una parola o un riferimento nel testo della Bibbia (Riveduta 2020).' : 'Cerca nel testo della Bibbia: serve il collegamento a Google.')
+    : 'Cerca nelle tue meditazioni: trova una parola nel testo delle note e nei riferimenti.';
+  box.append(h('p', {class: 'search-what', text: what}), h('div', {class: 'chips'}, ...['luce', 'amore', 'gv 3,16'].map(term => h('button', {class: 'chip', type: 'button', text: term, on: {click: () => { D.word.value = term; D.form.requestSubmit(); }}}))));
+}
+
 function renderRecent() {
   const list = notes.recentSearches(), show = !D.word.value.trim() && list.length > 0;
   D.recentBox.hidden = !show;
@@ -26,7 +37,7 @@ function refShortcut() {
 }
 function renderNoteSearch() {
   const q = D.word.value.trim().toLocaleLowerCase('it'), box = D.hits; box.replaceChildren(); D.more.hidden = true;
-  if (!q) { D.status.textContent = 'Scrivi una parola per cercare nelle tue note.'; return; }
+  if (!q) { D.status.textContent = ''; return; }
   const ids = notes.annotated().filter(id => notes.record(id).note && (notes.ref(id) + ' ' + notes.record(id).note).toLocaleLowerCase('it').includes(q)).sort((a, z) => a.localeCompare(z, 'it', {numeric: true}));
   D.status.textContent = ids.length ? ids.length + ' trovate' : 'Nessuna nota trovata.';
   for (const id of ids) box.append(entryRow(id, () => openNote(id, 'cerca'), {showQuote: false}));
@@ -66,6 +77,7 @@ function draw() {
   segmented(D.seg, [{value: 'bible', label: 'Bibbia'}, {value: 'notes', label: 'Le mie note'}], srTab, v => {
     srTab = v; searchRun++; D.hits.replaceChildren(); D.more.hidden = true; D.status.textContent = '';
     draw(); if (srTab === 'notes') renderNoteSearch(); else if (D.word.value.trim()) searchBible(false);
+    renderHelp();
   }, 'Dove cercare');
 }
 
@@ -74,15 +86,16 @@ export default {
   build(root) {
     el = root;
     D.word = noAutofill(h('input', {id: 'word', required: true, maxlength: '100', type: 'search', enterkeyhint: 'search', autocomplete: 'off', autocapitalize: 'none', spellcheck: 'false', placeholder: 'Una parola, per esempio luce', 'aria-label': 'Cerca',
-      on: {input: () => { if (srTab === 'notes') renderNoteSearch(); renderRecent(); refShortcut(); }}}), 'ricerca-parola');
+      on: {input: () => { if (srTab === 'notes') renderNoteSearch(); renderRecent(); refShortcut(); renderHelp(); }}}), 'ricerca-parola');
     D.form = h('form', {class: 'searchbox', id: 'wordForm', autocomplete: 'off', on: {submit: e => { e.preventDefault(); notes.rememberSearch(D.word.value); if (srTab === 'bible') searchBible(false); else renderNoteSearch(); renderRecent(); }}}, icon('search', 18, 1.8), D.word);
+    D.help = h('div', {id: 'searchHelp', class: 'search-help'});
     D.seg = h('div', {id: 'srSeg'}); D.status = h('p', {class: 'hint', id: 'resultStatus', role: 'status'}); D.hits = h('div', {id: 'hits'}); D.jump = h('div', {id: 'jump'});
     D.more = h('button', {class: 'link', id: 'moreHits', type: 'button', hidden: true, text: 'Altri risultati', on: {click: () => searchBible(true)}});
     D.recentChips = h('div', {class: 'chips', id: 'recentChips'});
     D.recentBox = h('div', {id: 'recentS', hidden: true}, text('h2', 'Ricerche recenti', 'sec'), D.recentChips);
-    root.append(h('div', {class: 'col'}, h('h1', {class: 'big'}, 'Cerca'), D.form, D.jump, D.recentBox, D.seg, D.status, D.hits, D.more));
+    root.append(h('div', {class: 'col'}, h('h1', {class: 'big'}, 'Cerca'), D.form, D.jump, D.recentBox, D.seg, D.help, D.status, D.hits, D.more));
     draw();
     for (const evt of ['notes:changed', 'data:changed']) on(evt, () => { if (!el.hidden && srTab === 'notes') renderNoteSearch(); });
   },
-  show() { renderRecent(); refShortcut(); if (srTab === 'notes') renderNoteSearch(); },
+  show() { renderRecent(); refShortcut(); if (srTab === 'notes') renderNoteSearch(); renderHelp(); },
 };
