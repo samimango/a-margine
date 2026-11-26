@@ -28,7 +28,7 @@ def mondo_offline_mappa_disegnata(env, dev):
 
 @test()
 def mondo_online_piastrelle(env, dev):
-    pg = env.new(dev); mock_tiles(pg)
+    pg = env.new(dev, storage={'margine.mondo.rilievo': '1'}); mock_tiles(pg)
     go_mondo(pg); pg.wait_for_selector('.f-mondo-tile.ok', state='attached'); pg.wait_for_timeout(500)
     check(len(pg.tile_reqs) >= 1 and len(pg.tile_reqs) <= 40, len(pg.tile_reqs))
     check(all(u.startswith('https://server.arcgisonline.com/') for u in pg.tile_reqs), pg.tile_reqs[:2])
@@ -40,7 +40,7 @@ def mondo_online_piastrelle(env, dev):
 
 @test('phone')
 def mondo_tile_falliscono(env, dev):
-    pg = env.new(dev); mock_tiles(pg, fail=True)
+    pg = env.new(dev, storage={'margine.mondo.rilievo': '1'}); mock_tiles(pg, fail=True)
     go_mondo(pg); pg.wait_for_timeout(1200)
     check(pg.is_visible('.f-mondo-draw')); check(not pg.is_visible('.f-mondo-attr')); check(pg.is_visible('.f-mondo-offline'))
     check(pg.locator('.f-mondo-pt:not([hidden])').count() >= 5)
@@ -107,7 +107,7 @@ def mondo_parametri_e_ingressi(env, dev):
 @test('phone')
 def mondo_carto_con_chiave_e_attribuzione(env, dev):
     for th in ('paper', 'dark'):
-        pg = env.new(dev, storage={'margine.theme': th, 'margine.mondo.cartokey': 'K123'}); mock_tiles(pg)
+        pg = env.new(dev, storage={'margine.theme': th, 'margine.mondo.cartokey': 'K123', 'margine.mondo.rilievo': '1'}); mock_tiles(pg)
         go_mondo(pg); pg.wait_for_selector('.f-mondo-tile.ok', state='attached'); pg.wait_for_timeout(400)
         carto = [u for u in pg.tile_reqs if 'cartocdn' in u]
         check(carto and all('/rastertiles/' + ('dark_nolabels' if th == 'dark' else 'voyager_nolabels') + '/' in u and 'key=K123' in u for u in carto), carto[:2])
@@ -117,7 +117,7 @@ def mondo_carto_con_chiave_e_attribuzione(env, dev):
 
 @test('phone')
 def mondo_etichette_gerarchia_e_fuori_dalla_mappa(env, dev):
-    pg = env.new(dev, storage={'margine.theme': 'dark'}); mock_tiles(pg)
+    pg = env.new(dev, storage={'margine.theme': 'dark', 'margine.mondo.rilievo': '1'}); mock_tiles(pg)
     go_mondo(pg); pg.wait_for_selector('.f-mondo-tile.ok', state='attached'); pg.wait_for_timeout(600)
     fs = lambda sel: float(pg.eval_on_selector(sel, 'e=>parseFloat(getComputedStyle(e).fontSize)'))
     check(fs('[data-id=gerusalemme] .f-mondo-lbl') > fs('[data-id=nazaret] .f-mondo-lbl') > 0, 'gerarchia')
@@ -208,3 +208,50 @@ def mondo_aree_etichetta_dentro_e_non_in_mare(env, dev):
         n = pg.eval_on_selector_all(f'.f-mondo-pt.lv-{lv}:not([hidden])', 'e=>e.length')
         check(n >= 1, f'nessuna etichetta visibile nel livello {lv}')
     pg.click('.f-mondo-livelli [data-v=nessuno]'); pg.wait_for_timeout(300)
+
+
+@test('phone')
+def mondo_rilievo_spento_di_default_e_sopra_le_aree(env, dev):
+    # di default niente piastrelle: la mappa disegnata è il fondo
+    pg = env.new(dev); mock_tiles(pg); go_mondo(pg); pg.wait_for_selector('.f-mondo-map'); pg.wait_for_timeout(700)
+    eq(len(pg.tile_reqs), 0, 'piastrelle richieste senza rilievo')
+    eq(pg.get_attribute('.f-mondo-rel', 'aria-pressed'), 'false')
+    pg.close()
+    # con il rilievo: le aree restano visibili sopra le piastrelle, in entrambi i temi e per tutti i livelli
+    for th in ['dark', 'paper']:
+        pg = env.new(dev, storage={'margine.theme': th, 'margine.mondo.rilievo': '1'}); mock_tiles(pg)
+        go_mondo(pg); pg.wait_for_selector('.f-mondo-tile.ok', state='attached'); pg.wait_for_timeout(400)
+        # ordine di sovrapposizione: base, piastrelle, livello superiore (mari, aree), punti
+        order = pg.evaluate("()=>{const r=document.querySelector('.f-mondo-map');const k=[...r.children];return ['f-mondo-base','f-mondo-tiles','f-mondo-top','f-mondo-pts'].map(c=>k.findIndex(e=>e.classList.contains(c)))}")
+        check(order == sorted(order) and min(order) >= 0, f'ordine di sovrapposizione {order}')
+        op = pg.eval_on_selector('.f-mondo-tile.ok', 'e=>parseFloat(getComputedStyle(e).opacity)')
+        check(0.3 <= op <= 0.5, f'opacità delle piastrelle {op}')
+        for lv in ['terra', 'tribu', 'regni', 'popoli']:
+            pg.click(f'.f-mondo-livelli [data-v={lv}]'); pg.wait_for_timeout(700)
+            vis = pg.evaluate("(lv)=>[...document.querySelectorAll('.f-mondo-area.lv-'+lv)].map(e=>getComputedStyle(e).display!=='none' && parseFloat(getComputedStyle(e).fillOpacity)>0)", lv)
+            check(vis and all(vis), f'{th}/{lv}: aree non visibili sopra le piastrelle')
+        pg.click('.f-mondo-livelli [data-v=nessuno]'); pg.wait_for_timeout(200)
+        pg.close()
+    # l'interruttore accende e spegne le piastrelle e ricorda la scelta
+    pg = env.new(dev); mock_tiles(pg); go_mondo(pg); pg.wait_for_selector('.f-mondo-map'); pg.wait_for_timeout(300)
+    pg.click('.f-mondo-rel'); pg.wait_for_selector('.f-mondo-tile.ok', state='attached', timeout=8000)
+    eq(pg.get_attribute('.f-mondo-rel', 'aria-pressed'), 'true'); eq(ls(pg, 'margine.mondo.rilievo'), '1')
+    pg.click('.f-mondo-rel'); pg.wait_for_timeout(300)
+    eq(pg.get_attribute('.f-mondo-rel', 'aria-pressed'), 'false'); eq(ls(pg, 'margine.mondo.rilievo'), '0')
+    check(not pg.is_visible('.f-mondo-tiles'), 'piastrelle ancora visibili dopo lo spegnimento')
+
+@test('phone')
+def mondo_livelli_citta_discrete(env, dev):
+    pg = env.new(dev); go_mondo(pg); pg.wait_for_selector('.f-mondo-map'); pg.wait_for_timeout(500)
+    for lv in ['terra', 'tribu', 'regni', 'popoli']:
+        pg.click(f'.f-mondo-livelli [data-v={lv}]'); pg.wait_for_timeout(800)
+        n = pg.eval_on_selector_all('.k-cit:not(.t1):not([hidden])', 'e=>e.length')
+        check(n <= 8, f'{lv}: troppe città visibili ({n})')
+        check(pg.eval_on_selector('[data-id=gerusalemme]', 'e=>!e.hidden'), f'{lv}: Gerusalemme nascosta')
+        w = pg.eval_on_selector_all('.k-cit:not(.t1):not([hidden]) > .f-mondo-dot', 'e=>e.map(x=>parseFloat(getComputedStyle(x).width))')
+        check(all(v <= 6 for v in w), f'{lv}: punti città grandi {w}')
+        regs = pg.eval_on_selector_all('.reg:not([hidden]) > .f-mondo-lbl', 'e=>e.map(x=>parseFloat(getComputedStyle(x).fontSize))')
+        check(not regs or min(regs) >= 11, f'{lv}: nomi di regione piccoli {regs}')
+    pg.click('.f-mondo-livelli [data-v=nessuno]'); pg.wait_for_timeout(300)
+    w = pg.eval_on_selector('.k-cit:not(.t1) > .f-mondo-dot', 'e=>parseFloat(getComputedStyle(e).width)')
+    check(w <= 7, f'nessuno: punti città {w}')

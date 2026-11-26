@@ -23,13 +23,24 @@ const TILE_URL = (z, x, y) => cartoKey()
   : `https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/${z}/${y}/${x}`;
 const ATTRIBUTION = () => cartoKey() ? '© OpenStreetMap contributors © CARTO' : 'Rilievo: Esri, USGS, NOAA';
 const Z_MIN = 3.4, Z_MAX = 11, TILE_ZMIN = 5, TILE_ZMAX = 10, TILE_SHOW_FROM = 4.5;
+/* rilievo: spento di default; la scelta resta in localStorage */
+const RELIEF_KEY = 'margine.mondo.rilievo';
+const reliefSaved = () => { try { return localStorage.getItem(RELIEF_KEY) === '1'; } catch { return false; } };
 /* inquadratura iniziale: Israele antico (lon/lat del centro); lo zoom dipende dalla larghezza */
 const HOME = {lon: 35.3, lat: 31.5};
 const homeZ = w => w < 500 ? 6.6 : 7.1;
 const KM_STEPS = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000];
+/* con un livello regionale attivo solo queste città si vedono (più Gerusalemme); le altre compaiono da zoom 8,2 */
+const MAIN_CITIES = {
+  terra: ['nazaret', 'cafarnao', 'tiro', 'sidone', 'cesarea', 'betlemme'],
+  tribu: ['sichem', 'silo', 'betel', 'gerico', 'ebron', 'bersabea'],
+  regni: ['samaria-citta', 'sichem', 'betel', 'dan', 'ebron', 'damasco'],
+  popoli: ['damasco', 'gaza', 'rabba-degli-ammoniti', 'tiro', 'sidone', 'cesarea'],
+};
+const CITY_ZOOM_FULL = 8.2;
 /* nomi e posizioni dell'etichetta scritti a mano (le piastrelle non hanno testo); anchor 'l' = etichetta a destra del punto */
 const NAME = {'mar-mediterraneo': 'Mar Mediterraneo\n(Mar Grande)', 'mar-morto': 'Mar Morto\n(Mar Salato)', iturea: 'Iturea e\nTraconitide', 'manasse-est': 'Manasse\n(est)', 'manasse-ovest': 'Manasse\n(ovest)', 'dan-nord': 'Dan\n(nord)', 'regno-israele': 'Regno di\nIsraele', 'regno-giuda': 'Regno di\nGiuda', 'aram': 'Aram\n(Damasco)'};
-const LABEL_AT = {giudea: {lat: 31.82, lon: 34.72}, canaan: {lat: 32.15, lon: 35.1}, 'mar-mediterraneo': {lat: 32.5, lon: 34.1}, giordano: {lat: 32.3, lon: 35.64, anchor: 'l'}, 'mar-morto': {lat: 31.2, lon: 35.95, anchor: 'l'}, 'mar-di-galilea': {lat: 32.62, lon: 35.62, anchor: 'l'}, galilea: {lat: 33.05, lon: 35.3}, filistia: {lat: 31.55, lon: 34.45}, negheb: {lat: 30.95, lon: 34.85}, moab: {lat: 31.3, lon: 35.85}, galaad: {lat: 32.2, lon: 35.82}, ammon: {lat: 31.85, lon: 36.05}, basan: {lat: 32.75, lon: 36.0}, decapoli: {lat: 32.45, lon: 35.75}};
+const LABEL_AT = {giudea: {lat: 31.82, lon: 34.72}, canaan: {lat: 32.15, lon: 35.1}, 'mar-mediterraneo': {lat: 32.5, lon: 34.1}, giordano: {lat: 32.3, lon: 35.64, anchor: 'l'}, 'mar-morto': {lat: 30.9, lon: 35.62, anchor: 'l'}, 'mar-di-galilea': {lat: 32.62, lon: 35.62, anchor: 'l'}, galilea: {lat: 33.05, lon: 35.3}, filistia: {lat: 31.55, lon: 34.45}, negheb: {lat: 30.95, lon: 34.85}, moab: {lat: 31.3, lon: 35.85}, galaad: {lat: 32.2, lon: 35.82}, ammon: {lat: 31.85, lon: 36.05}, basan: {lat: 32.75, lon: 36.0}, decapoli: {lat: 32.45, lon: 35.75}};
 const TIER1 = new Set(['gerusalemme']);
 const TIER2 = new Set(['nazaret', 'betlemme', 'cafarnao', 'roma', 'damasco', 'antiochia-di-siria', 'efeso', 'corinto', 'atene', 'babilonia', 'ninive', 'menfi', 'alessandria', 'gerico', 'sichem', 'ebron', 'tiro', 'sidone', 'cesarea', 'betania', 'bersabea', 'giaffa', 'tarso', 'filippi', 'tessalonica', 'tiberiade', 'betel', 'silo', 'cana', 'ur-dei-caldei', 'caran']);
 const BOUNDS = {x0: nx(-14), x1: nx(64), y0: ny(50), y1: ny(8)};
@@ -81,7 +92,9 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
     ...areaEls,
     ...Object.values(FIUMI).map(pts => svg('path', {d: pathOf(pts, false, true), class: 'f-mondo-river'})),
     ...Object.values(LAGHI).map(pts => svg('path', {d: pathOf(pts, true, true), class: 'f-mondo-lake'})));
-  const draw = svg('svg', {class: 'f-mondo-draw', 'aria-hidden': 'true', focusable: 'false'}, defs, land, stip, world);
+  /* livelli: base (terra e puntinatura) sotto le piastrelle; sopra, mari, fiumi, laghi e aree, sempre visibili */
+  const drawBase = svg('svg', {class: 'f-mondo-draw f-mondo-base', 'aria-hidden': 'true', focusable: 'false'}, defs, land, stip);
+  const drawTop = svg('svg', {class: 'f-mondo-draw f-mondo-top', 'aria-hidden': 'true', focusable: 'false'}, world);
   const tileBox = el('div', 'f-mondo-tiles', {'aria-hidden': 'true'});
   const ptsBox = el('div', 'f-mondo-pts');
   const vig = el('div', 'f-mondo-vig', {'aria-hidden': 'true'});
@@ -96,7 +109,10 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
   const hint = el('span', 'f-mondo-offline', {hidden: '', role: 'status'}); hint.textContent = 'Mappa disegnata (senza rete)';
   const foot = el('div', 'f-mondo-foot', {hidden: ''}); foot.append(attr, hint);
   const wrap = el('div', 'f-mondo-wrap'); wrap.append(root, foot);
-  root.append(draw, tileBox, vig, ptsBox, scale, ctl);
+  let relief = reliefSaved();
+  const bRel = el('button', 'f-mondo-rel', {type: 'button', 'aria-pressed': String(relief), 'aria-label': 'Mostra il rilievo', title: 'Rilievo'}); bRel.textContent = 'Rilievo';
+  root.classList.toggle('rilievo', relief);
+  root.append(drawBase, tileBox, drawTop, vig, ptsBox, scale, ctl, bRel);
   root.dataset.livello = 'nessuno';
 
   /* ---------- punti ---------- */
@@ -115,7 +131,7 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
     if (dot) node.append(dot); node.append(lbl);
     ptsBox.append(node);
     const minZ = labelOnly ? 0 : BOOST.has(p.id) ? 0 : (p.riferimenti_chiave?.length || 0) >= 4 ? 7.6 : 8.6;
-    const cw = p.tipo === 'regione' ? 9.4 : labelOnly ? 7 : tier === 1 ? 9.6 : tier === 2 ? 7.6 : 6.6;
+    const cw = p.tipo === 'regione' ? 10 : labelOnly ? 7 : tier === 1 ? 9.6 : tier === 2 ? 7.6 : 6.6;
     const maxLen = Math.max(...lines.map(l => l.length));
     /* prima l'ancora dell'area (di norma il centro migliore), poi gli altri punti interni */
     const cands = p.livello ? [[p.lon, p.lat], ...(AREA_POLY[p.areaId] ? labelCandidates(AREA_POLY[p.areaId], SEA) : [])] : null;
@@ -123,14 +139,15 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
       wx: nx(at?.lon ?? p.lon), wy: ny(at?.lat ?? p.lat), px: nx(p.lon), py: ny(p.lat), w: maxLen * cw + 10, vis: false});
   });
   const order = [...meta.values()].sort((a, b) => b.prio - a.prio);
-  const allowed = m => m.p.livello ? m.p.livello === filter.livello : (filter.period === 'tutti' || m.per.has(filter.period)) && (filter.tipo === 'tutti' || (filter.tipo === 'città' ? m.p.tipo === 'città' : filter.tipo === 'monti' ? m.p.tipo === 'monte' : filter.tipo === 'acque' ? m.p.tipo === 'acqua' : true));
+  const cityShown = m => filter.livello === 'nessuno' || m.p.tipo !== 'città' || view.z >= CITY_ZOOM_FULL || m.p.id === 'gerusalemme' || (MAIN_CITIES[filter.livello] || []).includes(m.p.id);
+  const allowed = m => m.p.livello ? m.p.livello === filter.livello : (filter.period === 'tutti' || m.per.has(filter.period)) && (filter.tipo === 'tutti' || (filter.tipo === 'città' ? m.p.tipo === 'città' : filter.tipo === 'monti' ? m.p.tipo === 'monte' : filter.tipo === 'acque' ? m.p.tipo === 'acqua' : true)) && cityShown(m);
 
   /* ---------- rendering ---------- */
   const Wz = () => WORLD * 2 ** view.z;
   const toScreen = (wx, wy) => { const s = Wz(); return [(wx - view.x) * s + W / 2, (wy - view.y) * s + H / 2]; };
   const invalidate = () => { dirty = true; if (!raf) raf = requestAnimationFrame(frame); };
   /* zone occupate dai controlli: le etichette non ci finiscono sopra */
-  const reserved = () => W ? [[W - 8 - 132, H - 8 - 44, W - 8, H - 8], [12, H - 12 - 26, 162, H - 12]] : [];
+  const reserved = () => W ? [[W - 8 - 132, H - 8 - 44, W - 8, H - 8], [12, H - 12 - 26, 162, H - 12], [8, 8, 90, 40]] : [];
 
   function frame() {
     raf = 0; if (!dirty) return; dirty = false;
@@ -149,7 +166,7 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
     layout = []; let shown = 0;
     const rectHit = (r) => placed.some(q => r[0] < q[2] && r[2] > q[0] && r[1] < q[3] && r[3] > q[1]);
     /* con pochi nomi (Terra, Regni, Popoli) le aree prevalgono sulle città minori; con le tribù, molte, prevalgono le città */
-    const areasFirst = filter.livello !== 'tribu';
+    const areasFirst = true;
     const base = areasFirst
       ? [...order.filter(m => m.p.id === 'gerusalemme'), ...order.filter(m => m.p.livello), ...order.filter(m => !m.p.livello && m.p.id !== 'gerusalemme')]
       : [...order.filter(m => m.p.id === 'gerusalemme'), ...order.filter(m => !m.p.livello && m.p.id !== 'gerusalemme'), ...order.filter(m => m.p.livello)];
@@ -217,7 +234,7 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
   /* ---------- piastrelle (Esri senza nomi, o CARTO con chiave) ---------- */
   const online = () => navigator.onLine !== false && !tileState.failed;
   const tileZ = () => clamp(Math.round(view.z), TILE_ZMIN, TILE_ZMAX);
-  const tilesWanted = () => view.z >= TILE_SHOW_FROM && online();
+  const tilesWanted = () => relief && view.z >= TILE_SHOW_FROM && online();
 
   function positionTiles(s) {
     const tx = W / 2 - view.x * s, ty = H / 2 - view.y * s;
@@ -262,7 +279,7 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
   }
   /* a riposo, scalda la cache delle piastrelle dell'area biblica a zoom 5 e 7 (le due scale più usate) */
   function warmTiles() {
-    if (!online() || cartoKey()) return;
+    if (!relief || !online() || cartoKey()) return;
     const idle = window.requestIdleCallback || (f => setTimeout(f, 300));
     idle(() => {
       for (const z of [5, 7]) {
@@ -320,7 +337,7 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
   /* ---------- gesti ---------- */
   const pos = e => { const r = root.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
   root.addEventListener('pointerdown', e => {
-    if (e.target.closest('.f-mondo-ctl, .f-mondo-attr')) return;
+    if (e.target.closest('.f-mondo-ctl, .f-mondo-attr, .f-mondo-rel')) return;
     cancelAnimationFrame(anim);
     try { root.setPointerCapture(e.pointerId); } catch { /* ok */ }
     pointers.set(e.pointerId, pos(e));
@@ -362,6 +379,18 @@ export function createMap({places, bible, onSelect, reduceMotion = false}) {
   bPlus.addEventListener('click', () => flyTo(...centerLL(), view.z + 1));
   bMinus.addEventListener('click', () => flyTo(...centerLL(), view.z - 1));
   bHome.addEventListener('click', home);
+  /* interruttore del rilievo: spento, le piastrelle non vengono richieste affatto */
+  bRel.addEventListener('click', () => {
+    relief = !relief;
+    try { localStorage.setItem(RELIEF_KEY, relief ? '1' : '0'); } catch { /* ok */ }
+    bRel.setAttribute('aria-pressed', String(relief));
+    root.classList.toggle('rilievo', relief);
+    tileState.failed = false; tileState.errors = 0; tileState.loaded = 0;
+    for (const img of tiles.values()) img.remove();
+    tiles.clear();
+    if (relief) warmTiles();
+    syncTiles(); invalidate();
+  });
   function centerLL() { return [view.x * 360 - 180, Math.atan(Math.sinh(Math.PI * (1 - 2 * view.y))) * 180 / Math.PI]; }
 
   /* tocco: il punto o l'etichetta più vicini */
