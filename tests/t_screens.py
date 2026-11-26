@@ -98,7 +98,7 @@ def esporta_copia_importa(env, dev):
     with pg.expect_download() as dl: pg.click('.settings .row:has-text("Esporta le meditazioni")')
     d = dl.value; check(d.suggested_filename.startswith('meditazioni-') and d.suggested_filename.endswith('.txt'), d.suggested_filename)
     body = open(d.path(), encoding='utf-8').read()
-    check('A margine · Meditazioni' in body and 'amore gratuito' in body and 'Giovanni 3,16' in body and 'Colore: Giallo' in body, body[:300])
+    check('Bibbia Studio · Meditazioni' in body and 'amore gratuito' in body and 'Giovanni 3,16' in body and 'Colore: Giallo' in body, body[:300])
     check('Testo: Giovanni 3 versetto 16' in body, 'il testo del passo, dalla cache dei capitoli letti')
     pg.click('.settings .row:has-text("Copia negli appunti")'); pg.wait_for_timeout(300)
     check('Meditazione:\namore gratuito' in pg.evaluate('navigator.clipboard.readText()'))

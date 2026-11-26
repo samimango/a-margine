@@ -17,7 +17,7 @@ def manifest_icone_meta(env, dev):
     html = (ROOT / 'index.html').read_text()
     for frag in ['apple-mobile-web-app-capable', 'apple-mobile-web-app-status-bar-style', 'apple-mobile-web-app-title', 'apple-touch-icon', 'rel="manifest"', 'viewport-fit=cover', 'theme-color', 'lang="it"']: check(frag in html, frag)
     check('http://' not in re.sub(r'http://www\.w3\.org/[\w/]+', '', html), 'nessun riferimento http non cifrato')
-    pg = env.new(dev); eq(pg.evaluate("document.documentElement.lang"), 'it'); check(pg.evaluate("document.title") == 'A margine')
+    pg = env.new(dev); eq(pg.evaluate("document.documentElement.lang"), 'it'); check(pg.evaluate("document.title") == 'Bibbia Studio')
 
 @test('phone')
 def service_worker_offline(env, dev):

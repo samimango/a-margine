@@ -1,5 +1,5 @@
 'use strict';
-/* Service worker di A margine.
+/* Service worker di Bibbia Studio.
    - Guscio dell'app (HTML, CSS, moduli JS, icone): prima la rete, così un file cambiato arriva subito; la copia salvata serve solo se la rete manca o è lenta.
    - Versione automatica: il nome della cache deriva dall'hash del contenuto di questo stesso file (cambia sw.js → nuova versione, vecchie cache cancellate).
    - Le richieste verso script.google.com (POST dell'API) e ogni altra origine non passano da qui, tranne i font di Google (cache per lavorare offline). */

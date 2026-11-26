@@ -16,7 +16,7 @@ function notesText(ids) {
     lines.push('Meditazione:', r.note, '');
     return lines.join('\n');
   });
-  return ['A margine · Meditazioni', 'Esportate il ' + isoDay(), '', ...blocks].join('\n');
+  return ['Bibbia Studio · Meditazioni', 'Esportate il ' + isoDay(), '', ...blocks].join('\n');
 }
 /* Prima di esportare si recupera dalla cache il testo dei capitoli delle note */
 const sectionsOf = ids => ids.filter(id => !id.startsWith('free.') && Number(id.split('.')[2]) >= 1).map(id => id.split('.').slice(0, 2).join('.'));
